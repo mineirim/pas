@@ -1,0 +1,78 @@
+<?php echo $this->doctype('XHTML1_TRANSITIONAL'); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<?php
+$this->jQuery()->enable(); 
+if ($this->jquery()->isEnabled()){  
+	$this->JQuery()->setLocalPath($this->baseUrl().'/js/jquery.js')->setUiLocalPath($this->baseUrl().'/js/jquery-ui.js')->addStylesheet($this->baseUrl().'/css/smoothness/jquery-ui-1.7.2.custom.css');  
+}
+/**
+ * ZendX_JQuery_View_Helper_JQuery_Container $this->JQuery()
+ */  
+$this->JQuery()
+->addJavascriptFile($this->baseUrl().'/js/jquery.bgiframe.js')
+->addJavascriptFile($this->baseUrl().'/js/jquery.dimensions.js')
+->addJavascriptFile($this->baseUrl().'/js/jquery.positionBy.js')
+->addJavascriptFile($this->baseUrl().'/js/jquery.corner.js')
+->addJavascriptFile($this->baseUrl().'/js/myscripts.js')
+->addStylesheet($this->baseUrl().'/css/jquery.jdMenu.css');
+
+echo $this->JQuery();
+
+
+?> 
+<?php echo $this->headMeta(); ?>
+<?php echo $this->headTitle(); ?>
+<?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/site.css'); ?>
+
+
+
+<!--[if IE]>
+<style type="text/css" media="screen">
+body {
+behavior: url(public/styles/csshover.htc); /* call hover behaviour file */
+font-size: 100%; /* enable IE to resize em fonts */
+} 
+#menu{
+	background-image:url();
+}
+#menu ul li {
+float: left; /* cure IE5.x "whitespace in lists" problem */
+width: 100%;
+}
+#menu ul li a {
+height: 1%; /* make links honour display: block; properly */
+} 
+ 
+#menu a, #menu h2 {
+font: bold 0.7em/1.4em arial, helvetica, sans-serif; 
+/* if required use em's for IE as it won't resize pixels */
+} 
+</style>
+<![endif]--> 
+
+
+
+</head>
+<body>
+<div id="topo">MonitoraSUS
+<br></br>
+<?php echo $this->navigation()->breadcrumbs()->setMinDepth(0)->setLinkLast(true)->setSeparator(" : ");?>
+</div>
+
+<div id="corpo">
+<h1><?php echo $this->escape($this->title); ?></h1>
+<?php echo $this->layout()->content; ?>
+<div id="menu">
+	<div id="barra" style="float: left;"><img
+		src="<?php echo $this->baseUrl();?>/images/menu1.jpg">
+	</div>
+	<div style="float: left;">
+	<ul>
+		<?php echo $this->navigation()->menu()->setUlClass('esconder'); ?>
+	</ul>
+	</div>
+</div>
+</div>
+</body>
+</html>

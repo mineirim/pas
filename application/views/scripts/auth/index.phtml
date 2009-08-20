@@ -1,0 +1,11 @@
+
+<?php if(!$this->auth): ?>  
+<form action="<?php echo $this->url(array('controller'=>'auth', 'action'=>'login'));?>" method="post">  
+<input type="text" name="username" />  
+<input type="password" name="password" />  
+<input type="submit" name="submit" value="Login" />  
+</form>  
+<?php else: ?>  
+Logado.<br />  
+<a href="/monitorasus-zf/public/auth/logout">Logout</a>  
+<?php endif; ?>  

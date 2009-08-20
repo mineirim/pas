@@ -1,0 +1,19 @@
+<p><a href="<?php echo $this->url(array('action'=>'add'));?>">Adicionar Função</a></p>
+<table>
+<tr>
+<th>Pagina/acao</th>
+<th>Descricao</th>
+
+<th>&nbsp;</th>
+</tr>
+<?php foreach($this->paginas as $pagina) : ?>
+<tr>
+<td><?php echo $this->escape($pagina->pagina);?>/<?php echo $this->escape($pagina->acao);?></td>
+<td><?php echo $this->escape($pagina->descricao);?></td>
+<td>
+<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$pagina->id));?>">Editar</a>
+
+</td>
+</tr>
+<?php endforeach; ?>
+</table>

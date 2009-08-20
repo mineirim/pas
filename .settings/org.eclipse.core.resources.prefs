@@ -1,0 +1,8 @@
+#Thu Jul 23 15:15:12 GMT-03:00 2009
+eclipse.preferences.version=1
+encoding//application/Bootstrap.php=UTF-8
+encoding//application/controllers/IndexController.php=UTF-8
+encoding//application/controllers/UsuariosController.php=UTF-8
+encoding//application/views/scripts/index/index.phtml=UTF-8
+encoding//application/views/scripts/usuarios/index.phtml=UTF-8
+encoding/<project>=UTF-8

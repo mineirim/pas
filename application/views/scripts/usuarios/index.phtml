@@ -1,0 +1,18 @@
+<p><a href="<?php echo $this->url(array('action'=>'add'));?>">Adicionar Usuário</a></p>
+<table>
+<tr>
+<th>Usuario</th>
+<th>E-mail</th>
+<th>&nbsp;</th>
+</tr>
+<?php foreach($this->usuarios as $pagina) : ?>
+<tr>
+<td><?php echo $this->escape($pagina->nome);?></td>
+<td><?php echo $this->escape($pagina->email);?></td>
+<td>
+<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$pagina->id));?>">Editar</a>
+<a href="<?php echo $this->url(array('action'=>'delete', 'id'=>$pagina->id));?>">Apagar</a>
+</td>
+</tr>
+<?php endforeach; ?>
+</table>

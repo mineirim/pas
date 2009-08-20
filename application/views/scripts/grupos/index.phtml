@@ -1,0 +1,18 @@
+<p><a href="<?php echo $this->url(array('action'=>'add'));?>">Adicionar Grupo</a></p>
+<table>
+<tr>
+<th>Grupo</th>
+<th>Descricao</th>
+<th>&nbsp;</th>
+</tr>
+<?php foreach($this->grupos as $pagina) : ?>
+<tr>
+<td><?php echo $this->escape($pagina->grupo);?></td>
+<td><?php echo $this->escape($pagina->descricao);?></td>
+<td>
+<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$pagina->id));?>">Editar</a>
+
+</td>
+</tr>
+<?php endforeach; ?>
+</table>

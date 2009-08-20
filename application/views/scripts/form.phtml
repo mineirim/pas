@@ -1,0 +1,28 @@
+<div style="width: 800px">
+<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>' 
+	action='<?php echo $this->form->getAction() ;?>' 
+	method="post">
+	<?php echo $this->form->id;?>
+	<?php echo $this->form->descricao;?>
+	
+	<?php echo $this->form->desc_menu;?>
+	<br></br>
+	
+	<fieldset style="width: 100%; padding: 0">
+		<legend>Objetivos</legend>
+		<?php 
+		$x=1;
+		foreach ($this->objetivos as $objetivo)
+			echo $this->form->getSubForm("objetivo_".$x++);
+			
+		echo $this->form->getSubForm('objetivo_0');
+		?>
+	</fieldset>
+	<?php echo $this->form->meta;?>
+	<?php echo $this->form->interfaces;?>
+	<?php echo $this->form->responsavel_id;?>
+	<?php echo $this->form->submit;?>
+</form>
+</div>
+<br></br>
+<p></p>

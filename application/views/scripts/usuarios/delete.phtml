@@ -1,0 +1,12 @@
+<p>Apagar usuário
+'<?php echo $this->escape($this->usuario['username']); ?>  
+(<?php echo $this->escape($this->usuario['nome']); ?>)'?
+</p>
+<form action="<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'delete')); ?>" method="post">
+<div>
+<input type="hidden" name="id" value="<?php echo $this->usuario['id']; ?>" />
+<input type="submit" name="del" value="Sim" />
+<input type="submit" name="del" value="Não" />
+
+</div>
+</form>
