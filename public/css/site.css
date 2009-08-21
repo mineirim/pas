@@ -23,7 +23,7 @@ td{
 	width:100%;
 	margin: 0;
 	padding: 0;
-	padding-left: 38px;
+	margin-left: 38px;
 	
 }
 #topo{
@@ -36,22 +36,17 @@ td{
 }
 
 #menu{
-	
-	
 	float:left;
 	width:220px;
 	left:-190px;
     position: absolute;
-	
-    position: fixed !important;
 	top:200px;
-	display:block  !important;
 	background-color:#ffffff;
 	background-image:url(../../public/images/menu1.jpg);
 	background-position: top right;
 	background-repeat:no-repeat;
 	float:inherit;
-	
+
 
 }
 div#menu:hover{

@@ -17,6 +17,7 @@ $this->JQuery()
 ->addJavascriptFile($this->baseUrl().'/js/myscripts.js')
 ->addStylesheet($this->baseUrl().'/css/jquery.jdMenu.css');
 
+
 echo $this->JQuery();
 
 
@@ -26,15 +27,14 @@ echo $this->JQuery();
 <?php echo $this->headLink()->prependStylesheet($this->baseUrl().'/css/site.css'); ?>
 
 
-
 <!--[if IE]>
 <style type="text/css" media="screen">
 body {
-behavior: url(public/styles/csshover.htc); /* call hover behaviour file */
+behavior: url(<?php echo $this->baseUrl();?>/css/csshover.htc); /* call hover behaviour file */
 font-size: 100%; /* enable IE to resize em fonts */
 } 
 #menu{
-	background-image:url();
+	background-image:url(<?php echo $this->baseUrl();?>/images/menu1.jpg);
 }
 #menu ul li {
 float: left; /* cure IE5.x "whitespace in lists" problem */
@@ -49,10 +49,12 @@ font: bold 0.7em/1.4em arial, helvetica, sans-serif;
 /* if required use em's for IE as it won't resize pixels */
 } 
 </style>
-<![endif]--> 
+<![endif]-->
 
 
-
+<style type="text/css">
+   @import url("<?php echo $this->baseUrl();?>/css/nao-ie.css") all;
+</style>
 </head>
 <body>
 <div id="topo">MonitoraSUS
@@ -61,8 +63,10 @@ font: bold 0.7em/1.4em arial, helvetica, sans-serif;
 </div>
 
 <div id="corpo">
-<h1><?php echo $this->escape($this->title); ?></h1>
-<?php echo $this->layout()->content; ?>
+	<h1><?php echo $this->escape($this->title); ?></h1>
+	<?php echo $this->layout()->content; ?>
+
+</div>
 <div id="menu">
 	<div id="barra" style="float: left;"><img
 		src="<?php echo $this->baseUrl();?>/images/menu1.jpg">
@@ -73,6 +77,6 @@ font: bold 0.7em/1.4em arial, helvetica, sans-serif;
 	</ul>
 	</div>
 </div>
-</div>
+
 </body>
 </html>

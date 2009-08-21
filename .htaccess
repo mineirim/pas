@@ -1,2 +1,3 @@
+AddType text/x-component .htc
 RewriteEngine on
-RewriteRule !\.(js|ico|gif|jpg|png|css)$ public
+RewriteRule !\.(js|ico|gif|jpg|png|css|htc)$ public

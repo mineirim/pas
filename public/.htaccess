@@ -1,3 +1,5 @@
+AddType text/x-component .htc
+
 SetEnv APPLICATION_ENV development
 
 RewriteEngine On
