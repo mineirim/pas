@@ -37,6 +37,9 @@
           <actionMethod actionName="programas"/>
           <actionMethod actionName="projetos"/>
         </controllerFile>
+        <controllerFile controllerName="tema">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory/>
@@ -97,6 +100,9 @@
           <viewControllerScriptsDirectory forControllerName="plano">
             <viewScriptFile forActionName="projetos"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="tema">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -128,6 +134,7 @@
       <testApplicationDirectory>
         <testApplicationBootstrapFile/>
         <testApplicationControllerDirectory>
+          <testApplicationControllerFile/>
           <testApplicationControllerFile/>
           <testApplicationControllerFile/>
           <testApplicationControllerFile/>

@@ -12,10 +12,22 @@
 		<legend>Objetivos</legend>
 		<?php 
 		$x=1;
+
 		foreach ($this->objetivos as $objetivo)
 			echo $this->form->getSubForm("objetivo_".$x++);
 			
 		echo $this->form->getSubForm('objetivo_0');
+		?>
+	</fieldset>
+
+	<fieldset style="width: 100%; padding: 0">
+		<legend>Metas</legend>
+		<?php 
+		$x=1;
+		foreach ($this->metas as $meta)
+			echo $this->form->getSubForm("meta_".$x++);
+			
+		echo $this->form->getSubForm('meta_0');
 		?>
 	</fieldset>
 	<?php echo $this->form->meta;?>

@@ -13,27 +13,30 @@ class ProgramasController extends Zend_Controller_Action {
 	}
 	
 	public function addAction() {
+		$subformularios = new Form_ObjetivosEMetas($this->getRequest());
 		$this->form = new Form_Geral ( );
 		
 		$this->form->submit->setLabel ( 'Adicionar' );
 		
+		
+		
+		$this->form->addSubForm(new Form_Descritivo(),"objetivo_0");
+		$this->form->addSubForm(new Form_Descritivo(),"meta_0");
 		$this->view->form = $this->form;
-		$subform= new Form_Objetivos();
-		$this->form->addSubForm($subform,"novo");
-
+		$this->view->objetivos = array();
+		$this->view->metas = array();
+		
 		if ($this->getRequest ()->isPost ()) {
 			
 			$formData = $this->getRequest ()->getPost ();
-			
 			if ($this->form->isValid ( $formData )) {
-				
 				$dados = $this->form->getDados();
-				
 				$programas = new Model_Programas ( );
+				$id = $programas->insert ( $dados );
+				$programa = $programas->fetchRow('id='.$id);
+				$subformularios->gravaObjetivos_e_Metas($programa,$formData);
 				
-				$programas->insert ( $dados );
-				
-				$this->_redirect ( 'programas' );
+				$this->_redirect ( 'plano/programas' );
 			
 			} else {
 				
@@ -43,12 +46,15 @@ class ProgramasController extends Zend_Controller_Action {
 		
 		}
 		
-		$this->renderScript('formulario.phtml');
+		$this->renderScript('form.phtml');
 	}
 	
-	
+	/**
+	 * Edita o programa
+	 * 
+	 */
 	public function editAction() {
-		
+		$subformularios = new Form_ObjetivosEMetas($this->getRequest());
 	    $this->view->title = "Editar";
 	    
 		$this->view->headTitle($this->view->title, 'PREPEND') ;
@@ -67,29 +73,20 @@ class ProgramasController extends Zend_Controller_Action {
 				$programas = new Model_Programas ( );;
 				$programas->update($dados, 'id='.$id );
 				
-				$f = new Form_Descritivo();
-				$obj_programa = new Model_ObjetivosPrograma();
-				foreach ($formData as $key=>$value){
-					if(substr($key,0,8)=='objetivo'){
-						$subpost = $this->getRequest()->getPost($key, false);
-						if($f->isValid($subpost) || $subpost['remover']){
-							$dados = $f->getDados();
-							$dados['programa_id']=$id;
-							if($f->getValue("id") && $subpost['remover'] ){
-								$obj_programa->delete('id='.$f->getValue("id"));
-							}elseif($f->getValue("id")){
-								$obj_programa->update($dados,'id='.$f->getValue("id"));
-							}elseif($f->isValid($subpost)){
-								$obj_programa->insert($dados);
-							}
-							
-						}
-					}
-				}
+				$programa = $programas->fetchRow('id='.$id );
+				
+				$subformularios->gravaObjetivos_e_Metas($programa,$formData);
+				
+				
+				/**
+				$objetivos =$programa->findDependentRowset('Model_ObjetivosPrograma');
+				$metas  = $programa->findDependentRowset('Model_MetasPrograma');
 				$this->form->populate($formData);
-				$this->addSubForms($programas->fetchRow('id='.$id ));
-			
-				//$this->_redirect('plano/programas');
+				$this->form->addSubForms($subformularios->getSubForms($objetivos,$metas));
+				$this->view->objetivos = $objetivos;
+				$this->view->metas = $metas;
+			*/
+				$this->_redirect('plano/programas');
 			} else {
 				
 				$this->form->populate($formData);
@@ -101,31 +98,53 @@ class ProgramasController extends Zend_Controller_Action {
 				$programa = $programas->fetchRow('id='.$id);
 				
 				$this->form->populate($programa->toArray());
-				$this->addSubForms($programa);
+				
+				$objetivos =$programa->findDependentRowset('Model_ObjetivosPrograma');
+				$metas  = $programa->findDependentRowset('Model_MetasPrograma');
+
+				$this->view->objetivos = $objetivos;
+				$this->view->metas = $metas;
+				
+				$this->form->addSubForms($subformularios->getSubForms($objetivos,$metas));
+				
+				
 				
 			}
 		}
 
 		$this->renderScript('form.phtml');
 	}
-	private function addSubForms($programa){
-		$objetivos = $programa->findDependentRowset('Model_ObjetivosPrograma');
-		$order = 2;
-		$i=1;
-		foreach ($objetivos  as $objetivo){
-			$subform= new Form_Descritivo();
-			$subform->populate($objetivo->toArray());
-			$subform->removeDecorator('label');
-			$this->form->addSubForm($subform,"objetivo_$i",$order++);
-			$i++;
+	public function deleteAction(){
+		$this->view->title = "Excluir";
+	    
+		$this->view->headTitle($this->view->title, 'PREPEND') ;
+		
+		
+		$id = $this->_getParam('id', 0);
+		
+		$form = new Zend_Form();
+		$form->addElement('hidden','id');
+		$form->addElement('submit','ok');
+		
+		$programas = new Model_Programas();
+		
+		if ($this->getRequest()->isPost()) {
+			if ($form->isValid($this->getRequest()->getPost())) {
+				$id = $form->getValue('id');
+				$programa = $programas->fetchRow('id='.$id);
+				$programa->situacao_id=2;
+				$programa->save();
+			}
+			$this->_redirect('plano/programas');
+		}elseif ($id > 0) {
+			
+			$programa = $programas->fetchRow('id='.$id);
+			$this->view->programa = $programa;
 		}
 		
-		$this->view->objetivos = $objetivos;
-		$subform= new Form_Descritivo();
-		$this->form->addSubForm($subform,"objetivo_0", $order++);
-		
+		$form->populate($programa->toArray());
+		$this->view->form = $form;
 	}
-
 }
 
 

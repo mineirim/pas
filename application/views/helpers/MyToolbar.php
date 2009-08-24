@@ -53,12 +53,40 @@ class Zend_View_Helper_MyToolbar {
 	}
 	
 	private function getTopBar(){
-		$toolbar = "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add'))."'>Adicionar</a>";
-		return $toolbar;
+		$divsini = '	<div class="fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix">
+							<div class="fg-buttonset ui-helper-clearfix">';
+		$divsfim ='			</div>
+						</div>';
+		$toolbar = "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add'))."'
+					title='Novo' 
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					<span class='ui-icon ui-icon-document'>Novo</span>Novo</a>";
+		
+		
+		
+		$ret = $divsini.$toolbar.$divsfim;
+		return $ret;
 	}
 	private function getLineBar(){
 		
-		$toolbar = "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit','id'=>$this->_id))."'>Editar</a>";
+		$toolbar = "
+		<div style='width:55px;'>
+		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit','id'=>$this->_id))."'
+					class='my-button ui-state-default ui-corner-all '
+					title='Editar' 
+					
+					>
+					<span class='ui-icon ui-icon-pencil '>ssss</span>
+					</a>
+		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','id'=>$this->_id))."'
+		class='my-button ui-state-default ui-corner-all '
+		title='Excluir' 
+		
+		>
+		<span class='ui-icon ui-icon-trash '>ssss</span>
+		</a>
+		</div>
+		";
 		return $toolbar ;
 		
 	}

@@ -38,11 +38,11 @@ class Zend_View_Helper_PlanoNavegacao {
 			$arr_nav[$this->niveis[$i]]=$obj->findParentRow($this->niveis[$i]->descricao);
 		}
 		
-		$ret = "<table>";
+		$ret = "<table class='ui-widget-header ui-state-highlight'> ";
 		foreach ($arr_nav as $key=>$value)
 		{
 			$key = substr($key,0,strlen($key)-1);
-			$ret.= "<tr><td class='titulo-nav'> $key</td><td class='celula-nav'>$value</td></tr>";
+			$ret.= "<tr><th class='ui-widget-header ' width='180px'> $key</th><td >$value</td></tr>";
 		}
 		$ret .= "</table>";
 		

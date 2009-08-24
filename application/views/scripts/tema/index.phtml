@@ -1,0 +1,5 @@
+<h3>Selecione o tema</h3>
+<?php foreach($this->temas as $tema){ ?>
+<br></br>
+<?php echo '<a href="'.$this->url(array('controller'=>tema,'action'=>'index', 'tema'=>$tema)).'">'.$tema.'</a>';?>
+<?php }?>

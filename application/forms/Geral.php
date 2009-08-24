@@ -70,8 +70,6 @@ class Form_Geral extends Zend_Form
 		
 		$dados = array ('descricao' 	=> $this->getValue('descricao'), 
 					'desc_menu' 				=> $this->getValue('desc_menu'),
-					'objetivo' 			=> $this->getValue('objetivo'), 
-					'meta' 				=> $this->getValue('meta'), 
 					'interfaces' 		=> $this->getValue('interfaces'), 
 					'responsavel_id' 	=> $this->getValue('responsavel_id')
 				);

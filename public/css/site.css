@@ -1,5 +1,6 @@
 body {
 	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size:70%;
 	margin-left: 0px;
 	margin-top: 0px;
 	margin-right: 0px;
@@ -7,6 +8,7 @@ body {
 
 	margin: 0;
 	padding: 0;
+	
 	
 }
 
@@ -20,16 +22,18 @@ td{
 }
 
 #corpo{
-	width:100%;
+
 	margin: 0;
 	padding: 0;
 	margin-left: 38px;
+	overflow:   auto;
 	
 }
 #topo{
 	margin: 0;
 	padding: 0;
-	background-color: #ece9d8;
+	/**background-color: #ece9d8;*/
+	height: 80px;
 }
 #barra{
 	float:left;
@@ -80,51 +84,51 @@ div#menu:hover .esconder{
 
 
 #menu ul {
-list-style: none;
-width: 180px;
-margin: 0;
-padding: 0;
+	list-style: none;
+	width: 180px;
+	margin: 0;
+	padding: 0;
 
 }
 
 #menu a, #menu h2 {
-font: bold 11px/16px arial, helvetica, sans-serif;
-display: block;
-border-width: 1px;
-border-style: solid;
-border-color: #ccc #888 #555 #bbb;
-margin: 0;
-padding: 2px 3px ;
+	font: bold 11px/16px arial, helvetica, sans-serif;
+	display: block;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ccc #888 #555 #bbb;
+	margin: 0;
+	padding: 2px 3px ;
 }
 
 #menu h2 {
-color: #fff;
-background: #000;
-text-transform: uppercase;
+	color: #fff;
+	background: #000;
+	text-transform: uppercase;
 }
 
 #menu a {
-color: #000;
-background: #d6d6d6;
-text-decoration: none;
+	color: #000;
+	background: #d6d6d6;
+	text-decoration: none;
 }
 
 #menu a:hover {
-color: #a00;
-background: #d6d6d6;
+	color: #a00;
+	background: #d6d6d6;
 }
 
 
 #menu li {
-position: relative;
-width:130px;
+	position: relative;
+	width:130px;
 }
 
 #menu ul ul ul{
-position: absolute;
-top: 0;
-left: 100%;
-width: 100%;
+	position: absolute;
+	top: 0;
+	left: 100%;
+	width: 100%;
 }
 
 div#menu ul ul ul,
@@ -167,12 +171,12 @@ form #submitbutton {
 
 /* ADAPTADO DO MONITORA*/
 .titulos-tabela {
-background-color:#FFFFFF;
-color:#444242;
-font-family:"Trebuchet MS",Verdana,Arial;
-font-size:12px;
-font-weight:bold;
-text-align:center;
+	background-color:#FFFFFF;
+	color:#444242;
+	font-family:"Trebuchet MS",Verdana,Arial;
+	font-size:12px;
+	font-weight:bold;
+	text-align:center;
 }
 
 
@@ -197,7 +201,7 @@ div.outer {
 	width:90%;
 }
 div.inner {
-	background:#FFFFCC none repeat scroll 0 0;
+	background:#fff none repeat scroll 0 0;
 	border:0 none;
 	margin:0;
 	padding:10px;
@@ -212,4 +216,46 @@ div.inner {
 }
 
 
+
+
+.my-button{
+	display: block;
+	outline: 0; 
+	margin:0 4px 0 0; 
+	padding: .1em .1em; 
+	text-decoration:none !important; 
+	cursor:pointer; 
+	position: relative; 
+	text-align: center; 
+	zoom: 1;
+	float:left;
+}
+
+
+.fg-button { outline: 0; margin:0 4px 0 0; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; }
+	.fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
+	
+	a.fg-button { float:left; }
+	
+	/* remove extra button width in IE */
+	button.fg-button { width:auto; overflow:visible; }
+	
+	.fg-button-icon-left { padding-left: 2.1em; }
+	.fg-button-icon-right { padding-right: 2.1em; }
+	.fg-button-icon-left .ui-icon { right: auto; left: .2em; margin-left: 0; }
+	.fg-button-icon-right .ui-icon { left: auto; right: .2em; margin-left: 0; }
+	
+	.fg-button-icon-solo { display:block; width:8px; text-indent: -9999px; }	 /* solo icon buttons must have block properties for the text-indent to work */	
+	
+	.fg-buttonset { float:left; }
+	.fg-buttonset .fg-button { float: left; }
+	.fg-buttonset-single .fg-button, 
+	.fg-buttonset-multi .fg-button { margin-right: -1px;}
+	
+	.fg-toolbar { padding: .1em; margin: 0;  }
+	.fg-toolbar .fg-buttonset { margin-right:1.5em; padding-left: 1px; }
+	.fg-toolbar .fg-button { font-size: .7em;  }
+
+	/*demo page css*/
+	.strike { text-decoration: line-through; }
 

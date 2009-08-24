@@ -16,6 +16,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		 */
 		
 		Zend_Session::start ();
+		$mysession = new Zend_Session_Namespace ( 'mysession' );
+		if (! isset ( $mysession->tema )) {
+			
+			$mysession->tema = 'smoothness';
+		}
 	
 	}
 	function _initViewHelpers() {
