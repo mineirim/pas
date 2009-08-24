@@ -35,28 +35,33 @@ td{
 	/**background-color: #ece9d8;*/
 	height: 80px;
 }
-#barra{
-	float:left;
-}
-
 #menu{
 	float:left;
 	width:220px;
-	left:-190px;
+	left:-200px;
     position: absolute;
 	top:200px;
-	background-color:#ffffff;
-	background-image:url(../../public/images/menu1.jpg);
-	background-position: top right;
-	background-repeat:no-repeat;
 	float:inherit;
 
 
 }
+#barra{
+	float: right; 
+	position:absolute;
+	right: -2px;
+	height: auto;
+	width: 20px;
+}
+div#menu:hover .menu-barra{
+	float:left;
+	left:0;
+}
+
 div#menu:hover{
 	left:0;
 	background-position: top left;
 	background:none;
+	padding-left: 20px;
 }
 .esconder{
 	visibility:hidden;
@@ -92,30 +97,25 @@ div#menu:hover .esconder{
 }
 
 #menu a, #menu h2 {
-	font: bold 11px/16px arial, helvetica, sans-serif;
 	display: block;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #ccc #888 #555 #bbb;
 	margin: 0;
 	padding: 2px 3px ;
 }
 
 #menu h2 {
 	color: #fff;
-	background: #000;
 	text-transform: uppercase;
 }
 
 #menu a {
 	color: #000;
-	background: #d6d6d6;
 	text-decoration: none;
 }
 
 #menu a:hover {
 	color: #a00;
-	background: #d6d6d6;
 }
 
 

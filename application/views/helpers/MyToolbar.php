@@ -76,14 +76,14 @@ class Zend_View_Helper_MyToolbar {
 					title='Editar' 
 					
 					>
-					<span class='ui-icon ui-icon-pencil '>ssss</span>
+					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','id'=>$this->_id))."'
 		class='my-button ui-state-default ui-corner-all '
 		title='Excluir' 
 		
 		>
-		<span class='ui-icon ui-icon-trash '>ssss</span>
+		<span class='ui-icon ui-icon-trash '></span>
 		</a>
 		</div>
 		";

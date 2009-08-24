@@ -41,9 +41,7 @@ echo $this->baseUrl ();
 font-size: 100%; /* enable IE to resize em fonts */
 } 
 #menu{
-	background-image:url(<?php
-	echo $this->baseUrl ();
-	?>/images/menu1.jpg);
+	background-image:url();
 }
 #menu ul li {
 float: left; /* cure IE5.x "whitespace in lists" problem */
@@ -87,10 +85,13 @@ echo $this->baseUrl ();
 	
 	</div>
 	<div id="menu">
-	<div id="barra" style="float: left;"><img
-		src="<?php
-		echo $this->baseUrl ();
-		?>/images/menu1.jpg"></div>
+	
+	<div id="barra" class='menu-barra ui-widget ui-widget-header '>
+		<div class="ui-state-default ui-corner-all" style="text-align:center">
+			<span class="ui-icon ui-icon-home">menu</span>
+			M<br>E<br>N<br>U
+		</div> 
+	</div>
 	<div style="float: left;">
 	<ul>
 			<?php

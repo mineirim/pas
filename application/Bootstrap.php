@@ -78,31 +78,36 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					'module' => 'default',
 					'controller' => 'index',
 					'action' => 'index',
-					'order' => -100, // make sure home is the first page
+					'order' => -100, // make sure home is the first page,
+					'class'=>'ui-widget ui-widget-header'
 					),
 					array(
 					'label' => 'Administração',
 					'module' => 'default',
 					'controller' => 'index',
 					'action' => 'index',
+					'class'=>'ui-widget ui-widget-header',
 					'pages' => array(
 									array(
 										'label' => 'Usuários',
 										'module' => 'default',
 										'controller' => 'usuarios',
 										'action' => 'index',
+										'class'=>'ui-widget ui-widget-header',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
 															'module' => 'default',
 															'controller' => 'usuarios',
 															'action' => 'index',
+															'class'=>'ui-widget ui-widget-header'
 														),
 														array(
 															'label' => 'Adicionar',
 															'module' => 'default',
 															'controller' => 'usuarios',
-															'action' => 'add'
+															'action' => 'add',
+															'class'=>'ui-widget ui-widget-header'
 														)
 														
 													)
@@ -112,18 +117,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 										'module' => 'default',
 										'controller' => 'grupos',
 										'action' => 'index',
+										'class'=>'ui-widget ui-widget-header',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
 															'module' => 'default',
 															'controller' => 'grupos',
 															'action' => 'index',
+															'class'=>'ui-widget ui-widget-header'
 														),
 														array(
 															'label' => 'Adicionar',
 															'module' => 'default',
 															'controller' => 'grupos',
-															'action' => 'add'
+															'action' => 'add',
+															'class'=>'ui-widget ui-widget-header'
 														)
 												   )
 									)
@@ -139,7 +147,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'title' => 'Plano',
 							'module' => 'default',
 							'controller' => 'plano',
-							'action' => 'programas'
+							'action' => 'programas',
+							'class'=>'ui-widget ui-widget-header'
 						);
 					
 		$pages_din['pages']=array();
@@ -149,7 +158,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'module'=>'default',
 							'controller'=>'plano',
 							'action'=>'projetos',
-							'params'=>array('programa_id'=>$programa->id)
+							'params'=>array('programa_id'=>$programa->id),
+							'class'=>'ui-widget ui-widget-header'
 							);
 		}
 		
