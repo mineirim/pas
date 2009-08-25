@@ -79,35 +79,35 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					'controller' => 'index',
 					'action' => 'index',
 					'order' => -100, // make sure home is the first page,
-					'class'=>'ui-widget ui-widget-header'
+					'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 					),
 					array(
 					'label' => 'Administração',
 					'module' => 'default',
 					'controller' => 'index',
 					'action' => 'index',
-					'class'=>'ui-widget ui-widget-header',
+					'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu',
 					'pages' => array(
 									array(
 										'label' => 'Usuários',
 										'module' => 'default',
 										'controller' => 'usuarios',
 										'action' => 'index',
-										'class'=>'ui-widget ui-widget-header',
+										'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
 															'module' => 'default',
 															'controller' => 'usuarios',
 															'action' => 'index',
-															'class'=>'ui-widget ui-widget-header'
+															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 														),
 														array(
 															'label' => 'Adicionar',
 															'module' => 'default',
 															'controller' => 'usuarios',
 															'action' => 'add',
-															'class'=>'ui-widget ui-widget-header'
+															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 														)
 														
 													)
@@ -117,21 +117,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 										'module' => 'default',
 										'controller' => 'grupos',
 										'action' => 'index',
-										'class'=>'ui-widget ui-widget-header',
+										'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
 															'module' => 'default',
 															'controller' => 'grupos',
 															'action' => 'index',
-															'class'=>'ui-widget ui-widget-header'
+															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 														),
 														array(
 															'label' => 'Adicionar',
 															'module' => 'default',
 															'controller' => 'grupos',
 															'action' => 'add',
-															'class'=>'ui-widget ui-widget-header'
+															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 														)
 												   )
 									)
@@ -148,18 +148,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'module' => 'default',
 							'controller' => 'plano',
 							'action' => 'programas',
-							'class'=>'ui-widget ui-widget-header'
+							'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 						);
 					
 		$pages_din['pages']=array();
 		        					
-		foreach($programas->fetchAll("situacao_id=1") as $programa){
+		foreach($programas->fetchAll('situacao_id=1','id') as $programa){
 			$pages_din['pages'][]=array('label'=>$programa->desc_menu,
 							'module'=>'default',
 							'controller'=>'plano',
 							'action'=>'projetos',
 							'params'=>array('programa_id'=>$programa->id),
-							'class'=>'ui-widget ui-widget-header'
+							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
 							);
 		}
 		

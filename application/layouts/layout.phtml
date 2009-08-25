@@ -35,14 +35,9 @@ echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/site.css'
 <!--[if IE]>
 <style type="text/css" media="screen">
 body {
-behavior: url(<?php
-echo $this->baseUrl ();
-?>/css/csshover.htc); /* call hover behaviour file */
+behavior: url(<?php echo $this->baseUrl ();?>/css/csshover.htc); /* call hover behaviour file */
 font-size: 100%; /* enable IE to resize em fonts */
 } 
-#menu{
-	background-image:url();
-}
 #menu ul li {
 float: left; /* cure IE5.x "whitespace in lists" problem */
 width: 100%;
