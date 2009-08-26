@@ -4,11 +4,14 @@ echo $this->doctype ( 'XHTML1_TRANSITIONAL' );
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <?php
-$mysession = new Zend_Session_Namespace ( 'mysession' );
-$tema=	$mysession->tema ;
+$mysession = new Zend_Session_Namespace ( 'temas' );
+$tema =	$mysession->temax ;
+echo $tema;
 $this->jQuery ()->enable ();
-if ($this->jquery ()->isEnabled ()) {
-	$this->JQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.7.2.custom.css' );
+
+if ($this->jQuery ()->isEnabled ()) {
+	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
+	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.7.2.custom.css' );
 
 }
 /**
