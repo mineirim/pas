@@ -7,11 +7,15 @@
 			<td class='ui-widget-header '>Programa</td>
 			<td class='ui-state-highlight' style='padding-left:15px'><?php echo $this->programa->descricao?></td>
 		</tr>
+		<tr>
+			<td class='ui-widget-header '>Projeto</td>
+			<td class='ui-state-highlight' style='padding-left:15px'><?php echo $this->projeto->descricao?></td>
+		</tr>		
 		<tr>	
-			<td class='ui-widget-header' >Objetivos do programa</td>
+			<td class='ui-widget-header' >Objetivos do Projeto</td>
 			<td class='ui-state-highlight' style='padding-left:15px'>
 			<?php 
-				foreach($this->programa->findDependentRowset('Model_ObjetivosPrograma') as $objetivo){
+				foreach($this->projeto->findDependentRowset('Model_ObjetivosProjeto') as $objetivo){
 					echo '<li>'.$objetivo->descricao.'</li>';
 				}
 			?>
@@ -22,7 +26,7 @@
 			<td class='ui-widget-header' >Metas do programa</td>
 			<td class='ui-state-highlight' style='padding-left:15px'>
 			<?php 
-				foreach($this->programa->findDependentRowset('Model_MetasPrograma') as $meta){
+				foreach($this->projeto->findDependentRowset('Model_MetasProjeto') as $meta){
 					echo '<li>'.$meta->descricao.'</li>';
 				}
 			?>
@@ -31,6 +35,10 @@
 		</tr>
 	</table>
 	<br></br>
+	<?php
+		$this->projetos = $this->projeto->findDependentRowset('Model_Projetos');
+		if($this->projetos){ 
+	?>
 	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'>
 		
 		<table width="100%">
@@ -60,4 +68,5 @@
 		</table>
 		<br></br>
 	</div>
+	<?php }?>
 </div>

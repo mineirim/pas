@@ -29,7 +29,18 @@ class PlanoController extends Zend_Controller_Action
 		$this->view->projetos = $projetos->fetchAll ( 'programa_id=' . $programa_id. 'and situacao_id=1', 'id' );
 		$this->view->programa = $programas->fetchRow("id=".$programa_id);
     }
-
+    public function projetoAction()
+    {
+      	$id = $this->_getParam ( 'id', 0 );
+      	
+		$projetos = new Model_Projetos ( );
+		$projeto = $projetos->find($id);
+		
+		$this->view->projeto = $projeto->current() ;
+		$this->view->programa = $projeto->current()->findParentRow('Model_Programas');
+		
+    }
+    
 
 }
 

@@ -45,7 +45,12 @@ class Zend_View_Helper_MyToolbar {
 					!$resource){ 
 			if($type=='top'){
 				$toolbar= $this->getTopBar();
-			}else{
+			}
+			elseif($type=='toptable')
+			{
+				$toolbar = $this->getTopTableBar();
+			}
+			else{
 				$toolbar= $this->getLineBar();
 			}
 		}
@@ -53,7 +58,7 @@ class Zend_View_Helper_MyToolbar {
 	}
 	
 	private function getTopBar(){
-		$divsini = '	<div class="fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix">
+		$divsini = '	<div class="fg-toolbar ui-widget ui-widget-header ui-corner-all ui-helper-clearfix">
 							<div class="fg-buttonset ui-helper-clearfix">';
 		$divsfim ='			</div>
 						</div>';
@@ -67,6 +72,20 @@ class Zend_View_Helper_MyToolbar {
 		$ret = $divsini.$toolbar.$divsfim;
 		return $ret;
 	}
+	private function getTopTableBar(){
+		$divsini = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix" style="text-align:center">';
+		$divsfim ='	</div>';
+		$toolbar = "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add'))."'
+					title='Novo' 
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					<span class='ui-icon ui-icon-document'>Novo</span>Novo</a>";
+		
+		
+		
+		$ret = $divsini.$toolbar.$divsfim;
+		return $ret;
+	}
+	
 	private function getLineBar(){
 		
 		$toolbar = "
