@@ -1,12 +1,9 @@
-<?php
-echo $this->doctype ( 'XHTML1_TRANSITIONAL' );
-?>
+<?php echo $this->doctype ( 'XHTML1_TRANSITIONAL' );?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <?php
 $mysession = new Zend_Session_Namespace ( 'temas' );
 $tema =	$mysession->temax ;
-echo $tema;
 $this->jQuery ()->enable ();
 
 if ($this->jQuery ()->isEnabled ()) {
@@ -22,17 +19,9 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery.bgiframe.j
 echo $this->JQuery ();
 
 ?> 
-<?php
-echo $this->headMeta ();
-?>
-<?php
-
-echo $this->headTitle ();
-?>
-<?php
-
-echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/site.css' );
-?>
+<?php echo $this->headMeta ();?>
+<?php echo $this->headTitle ();?>
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/site.css' );?>
 
 
 <!--[if IE]>
