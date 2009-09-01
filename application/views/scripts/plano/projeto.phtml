@@ -2,52 +2,34 @@
 
 <div class="ui-overlay ui-corner-all">
 	<?php// echo $this->planoNavegacao($this->programa) ;?>
-	<table class='ui-widget-header ui-state-highlight'>
+	<table  class='ui-widget-header ui-state-highlight'>
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
+													 'nome'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
 		<tr>
-			<td class='ui-widget-header '>Programa</td>
-			<td class='ui-state-highlight' style='padding-left:15px'><?php echo $this->programa->descricao?></td>
+		<td colspan="2" height="2px" style="background-color:black"></td>
 		</tr>
-		<tr>
-			<td class='ui-widget-header '>Projeto</td>
-			<td class='ui-state-highlight' style='padding-left:15px'><?php echo $this->projeto->descricao?></td>
-		</tr>		
-		<tr>	
-			<td class='ui-widget-header' >Objetivos do Projeto</td>
-			<td class='ui-state-highlight' style='padding-left:15px'>
-			<?php 
-				foreach($this->projeto->findDependentRowset('Model_ObjetivosProjeto') as $objetivo){
-					echo '<li>'.$objetivo->descricao.'</li>';
-				}
-			?>
-			
-			</td>
-		</tr>
-		<tr>	
-			<td class='ui-widget-header' >Metas do programa</td>
-			<td class='ui-state-highlight' style='padding-left:15px'>
-			<?php 
-				foreach($this->projeto->findDependentRowset('Model_MetasProjeto') as $meta){
-					echo '<li>'.$meta->descricao.'</li>';
-				}
-			?>
-			
-			</td>
-		</tr>
+		
+		<?php
+			if($this->nivel=='Projeto') 
+				echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->projeto,
+													 'nome'=>'Projeto', 'detalhar'=>true));
+		?>
+		
 	</table>
+	
 	<br></br>
-	<?php
-		$this->projetos = $this->projeto->findDependentRowset('Model_Projetos');
-		if($this->projetos){ 
-	?>
+	<?php if(count($this->projetos)){?>
 	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'>
 		
 		<table width="100%">
-			<caption class="text-caption ui-widget ui-widget-header">PROJETOS</caption>
+			<caption class="text-caption ui-widget ui-widget-header"><?php echo strtoupper($this->tableheader);?></caption>
 			<thead class="ui-widget ui-widget-header">
-				<td width="40px"><?php echo $this->myToolbar('projetos','toptable');?></td>
-				<td class="ui-widget ui-widget-header">Descrição</td>
-				<td>Realiz.</td>
-				<td></td>
+				<tr>
+					<td width="40px"><?php echo $this->myToolbar('projetos','toptable');?></td>
+					<td class="ui-widget ui-widget-header">Descrição</td>
+					<td>Realiz.</td>
+					<td></td>
+				</tr>
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php foreach ($this->projetos as $projeto){?>
@@ -55,9 +37,14 @@
 					<td class="texto">
 						<?php echo $this->myToolbar ( 'projetos' , 'line', $projeto->id  );?>
 					</td>
-					<td class="texto"><?php echo $projeto->descricao;?></td>
-					<td></td>
-					<td>
+					<td class="texto">
+						<a href=
+							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'projeto', 'projeto_id' => $projeto->id ) );?>'>
+							<?php echo $projeto->descricao;?>
+						</a>
+					</td>
+					<td width='10px'></td>
+					<td width='10px'>
 						<a href="#" class="my-button ui-state-default ui-corner-all">
 							<span class="ui-icon ui-icon-print">relatório</span>
 						</a>

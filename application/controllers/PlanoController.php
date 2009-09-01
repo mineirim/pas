@@ -18,9 +18,21 @@ class PlanoController extends Zend_Controller_Action
         $programas = new Model_Programas ( );
         
         $this->view->programas = $programas->fetchAll( "situacao_id=1", 'id' );
+        $this->view->nivel = 'Programas';
     }
-
-    public function projetosAction()
+	public function programaAction(){
+		$projetos = new Model_Projetos ( );
+		if($this->_hasParam('programa_id')){
+      		$programas = new Model_Programas();
+      		$programa_id = $this->_getParam ( 'programa_id', 0 );
+      		$this->view->projetos = $projetos->fetchAll ( 'programa_id=' . $programa_id. 'and situacao_id=1', 'id' );
+			$this->view->programa = $programas->fetchRow("id=".$programa_id);
+			$this->view->nivel = 'Programa';
+			$this->view->tableheader = 'Projetos';
+      	}
+      	$this->renderScript ( 'plano/projeto.phtml' );
+	}
+    public function projetoAction()
     {
       	$projetos = new Model_Projetos ( );
       	if($this->_hasParam('projeto_id')){
@@ -31,29 +43,7 @@ class PlanoController extends Zend_Controller_Action
 			$this->view->nivel = 'Projeto';
 			$this->view->tableheader = 'Subprojetos';
       		
-      	}elseif($this->_hasParam('programa_id')){
-      		$programas = new Model_Programas();
-      		$programa_id = $this->_getParam ( 'programa_id', 0 );
-      		$this->view->projetos = $projetos->fetchAll ( 'programa_id=' . $programa_id. 'and situacao_id=1', 'id' );
-			$this->view->programa = $programas->fetchRow("id=".$programa_id);
-			$this->view->nivel = 'Programa';
-			$this->view->tableheader = 'Projetos';
       	}
-      	
-		
-		
-		
-    }
-    public function projetoAction()
-    {
-      	$id = $this->_getParam ( 'id', 0 );
-      	
-		$projetos = new Model_Projetos ( );
-		$projeto = $projetos->find($id);
-		
-		$this->view->projeto = $projeto->current() ;
-		$this->view->programa = $projeto->current()->findParentRow('Model_Programas');
-		
     }
     
 

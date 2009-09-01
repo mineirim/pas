@@ -3,10 +3,12 @@
 	<h3>PROGRAMAS</h3>
 	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'><br></br>
 		<table width="100%" >
-			<caption class="titulos-tabela"><?php echo $this->myToolbar ( 'programas', 'top' );?></caption>
+			
 			<thead class="ui-widget ui-widget-header">
 				<tr>
-					<th nowrap="nowrap"></th>
+					<th nowrap="nowrap">
+						<?php echo $this->myToolbar ( 'programas', 'toptable' );?>
+					</th>
 					<th>Descrição</th>
 					<th>Realiz.</th>
 					<th>Relatório</th>
@@ -25,7 +27,7 @@
 					<td class="texto">
 						<a
 							href=
-							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'projetos', 'programa_id' => $programa->id ) );?>'>
+							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'programa', 'programa_id' => $programa->id ) );?>'>
 							<?php echo $programa->descricao;?>
 						</a>
 					</td>
@@ -45,4 +47,3 @@
 	</div>
 </div>
 
-</div>

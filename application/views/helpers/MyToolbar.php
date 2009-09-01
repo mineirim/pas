@@ -58,16 +58,30 @@ class Zend_View_Helper_MyToolbar {
 	}
 	
 	private function getTopBar(){
+		
 		$divsini = '	<div class="fg-toolbar ui-widget ui-widget-header ui-corner-all ui-helper-clearfix">
 							<div class="fg-buttonset ui-helper-clearfix">';
 		$divsfim ='			</div>
 						</div>';
-		$toolbar = "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add'))."'
-					title='Novo' 
+		$toolbar = '';
+		
+		
+		if($this->_controller=='programas'){
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'add'))."'
+					title='Adicionar Projeto' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-					<span class='ui-icon ui-icon-document'>Novo</span>Novo</a>";
-		
-		
+					<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Projeto</a>";
+			
+		}elseif($this->_controller=='projetos'){
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'acoes','action'=>'add'))."'
+					title='Adicionar Ação' 
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					<span class='ui-icon ui-icon-plus'>Adicionar Ação</span>Adicionar Ação</a>";
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add', 'projeto_id'=>$this->_id ))."'
+					title='Adicionar Subprojeto' 
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					<span class='ui-icon ui-icon-plus'>Adicionar Subprojeto</span>Adicionar Subprojeto</a>";
+		}
 		
 		$ret = $divsini.$toolbar.$divsfim;
 		return $ret;
@@ -107,6 +121,9 @@ class Zend_View_Helper_MyToolbar {
 		</div>
 		";
 		return $toolbar ;
+		
+	}
+	private function getBarProjetos(){
 		
 	}
 	/**

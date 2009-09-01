@@ -2,11 +2,11 @@
 
 class Form_Geral extends Zend_Form
 {
-	public function __construct($options = null )
+	public function __construct($options = null,$name='programa' )
 	{
 		parent::__construct($options);
 		
-		$this->setName('programa');
+		$this->setName($name);
 		$id = new Zend_Form_Element_Hidden('id');
 		
 		$descricao = new Zend_Form_Element_Textarea('descricao');
@@ -22,17 +22,6 @@ class Form_Geral extends Zend_Form
 			->addFilter('StripTags')	
 			->addFilter('StringTrim')
 			->setAttrib('size',20);
-		$objetivo = new Zend_Form_Element_Textarea('objetivos_x');
-		$objetivo->setLabel('Objetivo')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->setAttrib('rows',4);
-		
-		$meta = new Zend_Form_Element_Textarea('meta');
-		$meta->setLabel('Meta')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->setAttrib('rows',6);
 
 		$interfaces = new Zend_Form_Element_Textarea('interfaces');
 		$interfaces->setLabel('Interfaces')
@@ -45,7 +34,7 @@ class Form_Geral extends Zend_Form
 			
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton');
-		$this->addElements(array($id, $descricao, $desc_menu, $objetivo,$meta,$interfaces, $this->getResponsaveis(), $submit));
+		$this->addElements(array($id, $descricao, $desc_menu, $interfaces, $this->getResponsaveis(), $submit));
 	}
 	public function getResponsaveis() {
 

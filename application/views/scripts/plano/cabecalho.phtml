@@ -3,28 +3,37 @@
 			<td class='ui-widget-header '><?php echo $this->nome?></td>
 			<td class='ui-state-highlight' style='padding-left:15px'><?php echo $this->objeto->descricao?></td>
 		</tr>
-		<?php if($this->detalhar){?>
-		<tr>	
-			<td class='ui-widget-header' >Objetivos do <?php echo $this->nome?></td>
-			<td class='ui-state-highlight' style='padding-left:15px'>
-			<?php 
-				foreach($this->objeto->findDependentRowset('Model_Objetivos'.$this->nome) as $objetivo){
-					echo '<li>'.$objetivo->descricao.'</li>';
-				}
-			?>
+		<?php 
+		 if($this->detalhar){?>
+			<tr>	
+				<td class='ui-widget-header' >Objetivos do <?php echo $this->nome?></td>
+				<td class='ui-state-highlight' style='padding-left:15px'>
+				<?php 
+					foreach($this->objeto->findDependentRowset('Model_Objetivos'.$this->nome) as $objetivo){
+						echo '<li>'.$objetivo->descricao.'</li>';
+					}
+				?>
+				
+				</td>
+			</tr>
+			<tr>	
+				<td class='ui-widget-header' >Metas do <?php echo $this->nome?></td>
+				<td class='ui-state-highlight' style='padding-left:15px'>
+				<?php 
+					foreach($this->objeto->findDependentRowset('Model_Metas'.$this->nome) as $meta){
+						echo '<li>'.$meta->descricao.'</li>';
+					}
+				?>
+				
+				</td>
+			</tr>
 			
-			</td>
-		</tr>
-		<tr>	
-			<td class='ui-widget-header' >Metas do programa</td>
-			<td class='ui-state-highlight' style='padding-left:15px'>
-			<?php 
-				foreach($this->objeto->findDependentRowset('Model_Metas'.$this->nome) as $meta){
-					echo '<li>'.$meta->descricao.'</li>';
-				}
-			?>
-			
-			</td>
-		</tr>
-		<?php }?>
+			 <tr>
+				 <td colspan="2">
+				 <?php echo $this->myToolbar(strtolower($this->nome).'s','top',$this->objeto->id);?>
+				 </td>
+			 </tr>
+		 <?php
+		}
+		?>
 	
