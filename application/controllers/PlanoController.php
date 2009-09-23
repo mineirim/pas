@@ -35,10 +35,14 @@ class PlanoController extends Zend_Controller_Action
     public function projetoAction()
     {
       	$projetos = new Model_Projetos ( );
+      	$acoes = new Model_Acoes();
       	if($this->_hasParam('projeto_id')){
       		$projeto_id = $this->_getParam ( 'projeto_id', 0 );
       		$this->view->projeto = $projetos->fetchRow ( 'id=' . $projeto_id, 'id' );
       		$this->view->projetos = $projetos->fetchAll ( 'projeto_id=' . $projeto_id. 'and situacao_id=1', 'id' );
+      		
+      		$this->view->acoes	=	$acoes->fetchAll('projeto_id='. $projeto_id. 'and situacao_id=1', 'id' );
+      		 
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
 			$this->view->nivel = 'Projeto';
 			$this->view->tableheader = 'Subprojetos';
@@ -46,7 +50,25 @@ class PlanoController extends Zend_Controller_Action
       	}
     }
     
-
+    public function acaoAction()
+    {
+      	
+      	$acoes = new Model_Acoes();
+      	if($this->_hasParam('acao_id')){
+      		$acao_id = $this->_getParam ( 'acao_id', 0 );
+      		$this->view->acao = $acoes->fetchRow ( 'id=' . $acao_id, 'id' );
+      		
+      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
+			$this->view->nivel = 'Acao';
+			$this->view->tableheader = 'Acoes';
+      		
+      	}else{
+      		
+      		echo $this->dispatch('programasAction');
+      		
+      	}
+    }
 }
 
 

@@ -5,6 +5,7 @@ class Form_Descritivo extends Zend_Form_SubForm
 	public function __construct($options = null )
 	{
 		parent::__construct($options);
+		
 		$this->setDisableLoadDefaultDecorators(true);
 		$this->removeDecorator('label');
 		$this->getDecorator('HtmlTag')->clearOptions();
@@ -23,7 +24,14 @@ class Form_Descritivo extends Zend_Form_SubForm
 		$remover = new Zend_Form_Element_Checkbox('remover');
 		$remover->removeDecorator('label');
 		$remover->addDecorator ('HtmlTag',array('tag'=>'div','style'=>'padding:0;border:none;margin:0;float:left;'));
-		$this->addElements(array($id, $descricao, $remover ));
+
+		$submit = new Zend_Form_Element_Submit('submit');
+		$submit->setAttrib('id', 'submit_descritivo')
+				->setLabel('Adicionar')
+				->setAttrib('class','submit_descritivo');
+		
+		
+		$this->addElements(array($id, $descricao, $remover,$submit ));
 		 /*
 		 $this->setDecorators(array('ViewHelper','FormElements',
                     array('HtmlTag',array('tag'=>'div', 'style'=>'width:50%;'))

@@ -14,7 +14,14 @@ if ($this->jQuery ()->isEnabled ()) {
 /**
  * ZendX_JQuery_View_Helper_JQuery_Container $this->JQuery()
  */
-$this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery.bgiframe.js' )->addJavascriptFile ( $this->baseUrl () . '/js/jquery.dimensions.js' )->addJavascriptFile ( $this->baseUrl () . '/js/jquery.positionBy.js' )->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
+$this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.bgiframe.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.dimensions.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.positionBy.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.form.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
+				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
 
 echo $this->JQuery ();
 

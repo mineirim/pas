@@ -42,6 +42,7 @@ class Zend_View_Helper_PlanoNavegacao {
 		foreach ($arr_nav as $key=>$value)
 		{
 			$key = substr($key,0,strlen($key)-1);
+			
 			$ret.= "<tr><th class='ui-widget-header ' width='180px'> $key</th><td >$value</td></tr>";
 		}
 		$ret .= "</table>";

@@ -1,5 +1,5 @@
 body {
-	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-family: "Courier new",Verdana,Arial,Helvetica,sans-serif;
 	font-size:70%;
 	margin-left: 0px;
 	margin-top: 0px;
@@ -181,15 +181,7 @@ form #submitbutton {
 
 
 
-.texto {
-	color:#555252;
-	font-family:Verdana,Arial,Helvetica,sans-serif;
-	font-size:11px;
-	font-weight:normal;
-	line-height:16px;
-	text-align:left;
-	text-decoration:none;
-}
+
 /**
  * cria efeito de arredondamento 
  */
@@ -263,3 +255,18 @@ div.inner {
 	/*demo page css*/
 	.strike { text-decoration: line-through; }
 
+.progressbar{
+	height:0.8em;
+	text-align: center;
+}
+
+
+.ui-widget-header { font-family: "Courier new",Verdana,Arial,Helvetica,sans-serif; }
+.ui-widget { font-family: "Courier new",Verdana,Arial,Helvetica,sans-serif; }
+
+.odd{
+	background-color:  #F6F6F6;
+}
+.even{
+	background-color:  #F2F0FF;
+}

@@ -9,19 +9,18 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Projetos extends Zend_Db_Table_Abstract {
+class Model_MetasAcao extends Zend_Db_Table_Abstract {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'projetos';
-	protected $_dependentTables = array('Model_Projetos','Model_ObjetivosProjeto', 'Model_MetasProjeto');
+	protected $_name = 'metas_acao';
 	protected $_referenceMap = array (
-	                     		'Programas' => array ( 'columns' => 'programa_id', 
-	                     							  'refTableClass' => 'Model_Programas', 
-	                     							  'refColumns' => 'id' ) ,
-								'SubProjetos' => array ( 'columns' => 'projeto_id', 
-	                     							  'refTableClass' => 'Model_Projetos', 
-	                     							  'refColumns' => 'id' ) 							
+	                     		'Acoes' => array ( 'columns' => 'acao_id', 
+	                     							  'refTableClass' => 'Model_Acoes', 
+	                     							  'refColumns' => 'id' ),
+	 							'ObjetivosAcao' => array ( 'columns' => 'objetivo_id', 
+	                     							  'refTableClass' => 'Model_ObjetivosAcao', 
+	                     							  'refColumns' => 'id' )
 								);	
 
 	public function update($dados, $where){

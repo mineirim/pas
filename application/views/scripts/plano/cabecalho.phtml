@@ -1,7 +1,13 @@
-	
+	<?php 
+	$href = $this->url(array('controller'=>'plano',
+												'action'=>strtolower($this->nome) ,
+												strtolower($this->nome).'_id'=>$this->objeto->id));
+	?>
 		<tr>
 			<td class='ui-widget-header '><?php echo $this->nome?></td>
-			<td class='ui-state-highlight' style='padding-left:15px'><?php echo $this->objeto->descricao?></td>
+			<td class='ui-state-highlight' style='padding-left:15px'>
+				<a href='<?php echo $href?>'> <?php echo $this->objeto->descricao?></a>
+			</td>
 		</tr>
 		<?php 
 		 if($this->detalhar){?>

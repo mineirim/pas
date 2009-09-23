@@ -27,13 +27,15 @@
 				<tr>
 					<td width="40px"><?php echo $this->myToolbar('projetos','toptable');?></td>
 					<td class="ui-widget ui-widget-header">Descrição</td>
-					<td>Realiz.</td>
-					<td></td>
+					<td width="100px;">Realiz.</td>
+					<td align="center">Rel</td>
 				</tr>
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
-				<?php foreach ($this->projetos as $projeto){?>
-				<tr >
+				<?php
+				$loopCount=0; 
+				foreach ($this->projetos as $projeto){?>
+				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>" >
 					<td class="texto">
 						<?php echo $this->myToolbar ( 'projetos' , 'line', $projeto->id  );?>
 					</td>
@@ -43,17 +45,73 @@
 							<?php echo $projeto->descricao;?>
 						</a>
 					</td>
-					<td width='10px'></td>
+					<td width='10px'>
+					<div id="pb-projeto-<?php echo $projeto->id;?>" class="progressbar"></div>
+					</td>
 					<td width='10px'>
 						<a href="#" class="my-button ui-state-default ui-corner-all">
 							<span class="ui-icon ui-icon-print">relatório</span>
 						</a>
 					</td>
 				</tr>
-				<?php }?>
+				<?php
+				$loopCount++; 
+				}?>
 			</tbody>
 		</table>
 		<br></br>
 	</div>
 	<?php }?>
+
+
+
+
+
+	<br></br>
+	<?php if(count($this->acoes)){?>
+	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'>
+		
+		<table width="100%">
+			<caption class="text-caption ui-widget ui-widget-header">Ações</caption>
+			<thead class="ui-widget ui-widget-header">
+				<tr>
+					<td width="40px"><?php echo $this->myToolbar('acoes','toptable');?></td>
+					<td class="ui-widget ui-widget-header">Descrição</td>
+					<td width="100px;">Realiz.</td>
+					<td>Relat.</td>
+				</tr>
+			</thead>
+			<tbody class="ui-widget ui-widget-content ">
+				<?php
+				$loopCount=0; 
+				foreach ($this->acoes as $acao){?>
+				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
+					<td class="texto">
+						<?php echo $this->myToolbar ( 'acoes' , 'line', $acao->id  );?>
+					</td>
+					<td class="texto">
+						<a href=
+							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'acao', 'acao_id' => $acao->id ) );?>'>
+							<?php echo $acao->descricao;?>
+						</a>
+					</td>
+					<td width='10px'><div id="pb-acao-<?php echo $acao->id;?>" class="progressbar"></div></td>
+					<td width='10px'>
+						<a href="#" class="my-button ui-state-default ui-corner-all">
+							<span class="ui-icon ui-icon-print">relatório</span>
+						</a>
+					</td>
+				</tr>
+				<?php
+				$loopCount++; 
+				}?>
+			</tbody>
+		</table>
+		<br></br>
+	</div>
+	<?php }?>
+
+
+
+
 </div>

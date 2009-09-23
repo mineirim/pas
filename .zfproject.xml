@@ -40,6 +40,9 @@
         <controllerFile controllerName="tema">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Acoes">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory/>
@@ -103,6 +106,12 @@
           <viewControllerScriptsDirectory forControllerName="tema">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Acoes">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="acoes">
+            <viewScriptFile forActionName="edit"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -134,6 +143,7 @@
       <testApplicationDirectory>
         <testApplicationBootstrapFile/>
         <testApplicationControllerDirectory>
+          <testApplicationControllerFile/>
           <testApplicationControllerFile/>
           <testApplicationControllerFile/>
           <testApplicationControllerFile/>

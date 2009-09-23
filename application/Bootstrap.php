@@ -163,7 +163,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			$pages_din['pages'][]=array('label'=>$programa->desc_menu,
 							'module'=>'default',
 							'controller'=>'plano',
-							'action'=>'projetos',
+							'action'=>'programa',
 							'params'=>array('programa_id'=>$programa->id),
 							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
 							);

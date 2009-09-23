@@ -16,9 +16,10 @@
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
+				$loopCount=0;
 				foreach ( $this->programas as $programa ) {
 					?>
-				<tr>
+				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
 					<td >
 						<?php
 						echo $this->myToolbar ( 'programas', 'line', $programa->id );
@@ -31,7 +32,11 @@
 							<?php echo $programa->descricao;?>
 						</a>
 					</td>
-					<td></td>
+					<td>
+					<div id="pb-programa-<?php echo $programa->id;?>" class="progressbar">
+					
+					</div>
+					</td>
 					<td>
 						<a href="#" class="my-button ui-state-default ui-corner-all">
 							<span class="ui-icon ui-icon-print">relatório</span>
@@ -39,6 +44,7 @@
 					</td>
 					</tr>
 				<?php
+				$loopCount++;
 				}
 				?>
 			</tbody>
