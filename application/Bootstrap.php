@@ -160,7 +160,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$pages_din['pages']=array();
 		        					
 		foreach($programas->fetchAll('situacao_id=1','id') as $programa){
-			$pages_din['pages'][]=array('label'=>$programa->desc_menu,
+			$pages_din['pages'][]=array('label'=>$programa->menu,
 							'module'=>'default',
 							'controller'=>'plano',
 							'action'=>'programa',

@@ -17,8 +17,8 @@ class Form_Geral extends Zend_Form
 			->addValidator('NotEmpty')
 			->setAttrib('rows',4);
 		
-		$desc_menu = new Zend_Form_Element_Text('desc_menu');
-		$desc_menu->setLabel('Descrição no menu')
+		$menu = new Zend_Form_Element_Text('menu');
+		$menu->setLabel('Descrição no menu')
 			->addFilter('StripTags')	
 			->addFilter('StringTrim')
 			->setAttrib('size',20);
@@ -34,7 +34,7 @@ class Form_Geral extends Zend_Form
 			
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton');
-		$this->addElements(array($id, $descricao, $desc_menu, $interfaces, $this->getResponsaveis(), $submit));
+		$this->addElements(array($id, $descricao, $menu, $interfaces, $this->getResponsaveis(), $submit));
 	}
 	public function getResponsaveis() {
 
@@ -58,21 +58,11 @@ class Form_Geral extends Zend_Form
 	public function getDados($array_add=false) {
 		
 		$dados = array ('descricao' 	=> $this->getValue('descricao'), 
-					'desc_menu' 				=> $this->getValue('desc_menu'),
+					'menu' 				=> $this->getValue('menu'),
 					'interfaces' 		=> $this->getValue('interfaces'), 
 					'responsavel_id' 	=> $this->getValue('responsavel_id')
 				);
 		
 		return $dados;
-		/*
-		$usuario_id = Zend_Auth::getInstance ()->getIdentity ()->id;
-		$descricao = $form->getValue ( 'descricao' );
-		$objetivo = $form->getValue ( 'objetivo' );
-		$meta = $form->getValue ( 'meta' );
-		$interfaces = $form->getValue ( 'interfaces' );
-		$responsavel_id = $form->getValue ( 'responsavel_id' );
-		$inclusao_usuario_id = $usuario_id;
-		$alteracao_usuario_id = $usuario_id;
-		*/
 	}
 }

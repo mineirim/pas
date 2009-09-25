@@ -15,7 +15,7 @@ class AcoesController extends Zend_Controller_Action
                     ->initContext();    	
         /* Initialize action controller here */
     	$this->form = new Form_Acoes();
-    	$this->formObjetivos = new Form_ObjetivosAcao();
+    	
     	$this->formDescritivo = new Form_Descritivo();
     	
     	
@@ -23,7 +23,6 @@ class AcoesController extends Zend_Controller_Action
     	$form_acao_id = new Zend_Form_Element_Hidden('acao_id');
     	$form_acao_id->setRequired(true)->addValidator('NotEmpty');
     	$this->formDescritivo->addElement($form_acao_id);
-    	$this->view->formObjetivo = $this->formObjetivos;
     	$this->view->formDescritivo = $this->formDescritivo;
     	
     	

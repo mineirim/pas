@@ -35,7 +35,7 @@ td{
 	/**background-color: #ece9d8;*/
 	height: 80px;
 }
-#menu{
+#menu1{
 	float:left;
 	width:220px;
 	left:-200px;
@@ -52,12 +52,12 @@ td{
 	height: auto;
 	width: 20px;
 }
-div#menu:hover .menu-barra{
+div#menu1:hover .menu-barra{
 	float:left;
 	left:0;
 }
 
-div#menu:hover{
+div#menu1:hover{
 	left:0;
 	background-position: top left;
 	background:none;
@@ -66,7 +66,7 @@ div#menu:hover{
 .esconder{
 	visibility:hidden;
 }
-div#menu:hover .esconder{
+div#menu1:hover .esconder{
 		visibility:visible;
 }
 
@@ -88,7 +88,7 @@ div#menu:hover .esconder{
 
 
 
-#menu ul {
+#menu1 ul {
 	list-style: none;
 	width: 180px;
 	margin: 0;
@@ -96,7 +96,7 @@ div#menu:hover .esconder{
 
 }
 
-#menu a, #menu h2 {
+#menu1 a, #menu1 h2 {
 	display: block;
 	border-width: 1px;
 	border-style: solid;
@@ -104,39 +104,39 @@ div#menu:hover .esconder{
 	padding: 2px 3px ;
 }
 
-#menu h2 {
+#menu1 h2 {
 	color: #fff;
 	text-transform: uppercase;
 }
 
-#menu a {
+#menu1 a {
 	color: #000;
 	text-decoration: none;
 }
 
-#menu a:hover {
+#menu1 a:hover {
 	color: #a00;
 }
 
 
-#menu li {
+#menu1 li {
 	position: relative;
 	width:130px;
 }
 
-#menu ul ul ul{
+#menu1 ul ul ul{
 	position: absolute;
 	top: 0;
 	left: 100%;
 	width: 100%;
 }
 
-div#menu ul ul ul,
-div#menu ul ul li:hover ul ul
+div#menu1 ul ul ul,
+div#menu1 ul ul li:hover ul ul
 {display: none;}
 
-div#menu ul ul li:hover ul,
-div#menu ul ul ul li:hover ul
+div#menu1 ul ul li:hover ul,
+div#menu1 ul ul ul li:hover ul
 {display: block;}
 
 

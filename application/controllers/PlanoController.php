@@ -25,7 +25,7 @@ class PlanoController extends Zend_Controller_Action
 		if($this->_hasParam('programa_id')){
       		$programas = new Model_Programas();
       		$programa_id = $this->_getParam ( 'programa_id', 0 );
-      		$this->view->projetos = $projetos->fetchAll ( 'programa_id=' . $programa_id. 'and situacao_id=1', 'id' );
+      		$this->view->projetos = $projetos->fetchAll ( 'programa_id=' . $programa_id. 'and situacao_id=1 and projeto_id is null', 'id' );
 			$this->view->programa = $programas->fetchRow("id=".$programa_id);
 			$this->view->nivel = 'Programa';
 			$this->view->tableheader = 'Projetos';

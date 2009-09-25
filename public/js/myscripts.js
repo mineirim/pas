@@ -42,9 +42,35 @@ $(document).ready(function(){
 		
 		//$(".progressbar").append('<span style="position:relative;top:-1.2em">50</span>')
 		
+		$(
+				function()
+				{
+					$(".submit_descritivo").click(function(e)
+					{
+						e.preventDefault()
+					    var options = {
+					        success:       showDescritivo,
+					        dataType:	'json'
+					    }; 
+					    // bind form using 'ajaxForm'
+					    formulario  = $(this).parents('form');
+					    $(formulario).ajaxSubmit(options)				
+					});
+				}
+		);
 			
 
 });
+
+function showDescritivo(data,result,obj){
+	if(data.descricao != undefined){
+		tabela = obj.attr('id');
+		tabela = tabela.substr(3);
+		$("#tb"+tabela).append("<tr><td>"+data.descricao+"</td></tr>")
+		obj[0].descricao.value="";
+		
+	}
+}
 
 function enableTabs(){
 	tabs=[];

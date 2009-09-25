@@ -1,1 +1,91 @@
-<br /><br /><center>View script for controller <b>projetos</b> and script/action name <b>edit</b></center>
+<div id="formtabs" style="width: 800px; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Projeto</a></li>
+		<li><a href="#tabs-1">Objetivos</a></li>
+		<li><a href="#tabs-2">Metas</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>' 
+			action='<?php echo $this->url(array('controller'=>'projetos', 'action'=>'edit'));?>' 
+			method="post">
+			
+			<input type="hidden" id="dependents" value="1,2"/>
+			<div style='display:none'>
+			
+			<?php echo $this->form->getDisplayGroup('ident')?>
+			</div>
+			<?php echo $this->form->descricao;?>
+			
+			<?php echo $this->form->menu;?>
+			<br></br>
+			
+			<?php echo $this->form->meta;?>
+			<?php echo $this->form->interfaces;?>
+			<?php echo $this->form->responsavel_id;?>
+			<?php echo $this->form->submit;?>
+		</form>
+
+	</div>
+
+	<div id="tabs-1" style="overflow: hidden">
+	 <?php if(isset($this->projeto)){ ?>
+		<form id='frmobjetivos' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'projetos', 'action'=>'addobjetivo'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='projeto_id' value='<?php echo $this->projeto->id?>'>
+			</div>
+			<?php echo $this->formDescritivo->descricao;?>
+			<?php echo $this->formDescritivo->submit;?>			
+		</form>	
+		<table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th>Objetivos</th>
+			</tr>
+	<?php  
+			foreach($this->projeto->findModel_ObjetivosProjeto() as $objetivo){
+	?>
+			<tr>
+				<td><?php echo $objetivo->descricao;?></td>
+			</tr>
+			<?php }?>
+		</table>
+		<button>Proximo >></button>
+		<?php }?>
+		
+	
+	</div>
+	<div id="tabs-2" style="overflow: hidden">
+		
+		<?php if(isset($this->projeto)){ ?>
+		<form id='frmmetas' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'projetos', 'action'=>'addmeta'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='projeto_id' value='<?php echo $this->projeto->id?>'>
+			</div>
+			<?php echo $this->formDescritivo->descricao;?>
+			
+			<?php echo $this->formDescritivo->submit;?>			
+		</form>	
+		<br>
+		<table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th>Metas</th>
+			</tr>
+	<?php  
+			foreach($this->projeto->findModel_MetasProjeto() as $meta){
+	?>
+			<tr>
+				<td><?php echo $meta->descricao;?></td>
+			</tr>
+			<?php }?>
+		</table>
+		<?php }?>
+	</div>
+<a href='<?php echo $this->url(array('controller'=>'plano','action'=>'programa'));?>'>Voltar</a>
+</div>
+<br></br>
+<p></p>

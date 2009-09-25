@@ -3,7 +3,25 @@
 class ProgramasController extends Zend_Controller_Action {
 	private $form;
 	public function init() {
-		/* Initialize action controller here */
+		$ajaxContext = $this->_helper->ajaxContext;
+        $ajaxContext->addActionContext('validar', 'json')
+        			->addActionContext('add',array('json','xml'))
+        			->addActionContext('addObjetivo',array('json','xml'))
+                    ->initContext();    	
+        /* Initialize action controller here */
+    	$this->form = new Form_Geral();
+    	$this->formDescritivo = new Form_Descritivo();
+    	
+    	
+    	/**
+    	 *  @var Elemento que representa o id do programa nos forms descritivos(objetivos e metas)
+    	 */
+    	$form_programa_id = new Zend_Form_Element_Hidden('programa_id');
+    	$form_programa_id->setRequired(true)->addValidator('NotEmpty');
+    	$this->formDescritivo->addElement($form_programa_id);
+    	$this->view->formDescritivo = $this->formDescritivo;
+    	
+		
 	}
 	
 	public function indexAction() {
@@ -13,107 +31,92 @@ class ProgramasController extends Zend_Controller_Action {
 	}
 	
 	public function addAction() {
-		$subformularios = new Form_ObjetivosEMetas($this->getRequest());
+		
 		$this->form = new Form_Geral ( );
-		
 		$this->form->submit->setLabel ( 'Adicionar' );
-		
-		
-		
-		$this->form->addSubForm(new Form_Descritivo(),"objetivo_0");
-		$this->form->addSubForm(new Form_Descritivo(),"meta_0");
 		$this->view->form = $this->form;
-		$this->view->objetivos = array();
-		$this->view->metas = array();
+    	
+   		$this->render('edit');
 		
-		if ($this->getRequest ()->isPost ()) {
-			
-			$formData = $this->getRequest ()->getPost ();
-			if ($this->form->isValid ( $formData )) {
-				$dados = $this->form->getDados();
-				$programas = new Model_Programas ( );
-				$id = $programas->insert ( $dados );
-				$programa = $programas->fetchRow('id='.$id);
-				$subformularios->gravaObjetivos_e_Metas($programa,$formData);
-				
-				$this->_redirect ( 'plano/programas' );
-			
-			} else {
-				
-				$this->form->populate ( $formData );
-			
-			}
-		
-		}
-		
-		$this->renderScript('form.phtml');
 	}
 	
 	/**
 	 * Edita o programa
-	 * 
 	 */
 	public function editAction() {
-		$subformularios = new Form_ObjetivosEMetas($this->getRequest());
-	    $this->view->title = "Editar";
-	    
-		$this->view->headTitle($this->view->title, 'PREPEND') ;
 		$this->form = new Form_Geral();
-		
 		$this->form->submit->setLabel('Salvar');
-		$this->view->form = $this->form;
-		if ($this->getRequest()->isPost()) {
-			$formData = $this->getRequest()->getPost();
-				
-			if ($this->form->isValid($formData)) {
-				$id = $this->form->getValue('id');
-				
-				$dados = $this->form->getDados ();
+		
+		
+		$id = $this->_getParam ( 'id' );
+    	
+    	if ($this->getRequest ()->isPost ()) {
+    		$this->save();
+    	}elseif ($id > 0) {
+    		$programas = new Model_Programas();
+    		$programa = $programas->fetchRow('id='.$id);    	
+	    	if($programa)
+	    	{
+	    		$this->form->populate($programa->toArray());
+	    	}
+	    	$this->view->programa = $programa;
+	    	$this->view->form = $this->form;
+	    	
+	    	if ($this->_request->isXmlHttpRequest()) {
+	                $this->_helper->layout()->disableLayout();
+	                $this->_helper->viewRenderer->setNoRender(true);
+	               	echo $this->getXml($this->view->programa);
+	    		
+	    	}else{
+	    		$this->render('edit');
+	    	}
+    	}
 
-				$programas = new Model_Programas ( );;
-				$programas->update($dados, 'id='.$id );
-				
-				$programa = $programas->fetchRow('id='.$id );
-				
-				$subformularios->gravaObjetivos_e_Metas($programa,$formData);
-				
-				
-				/**
-				$objetivos =$programa->findDependentRowset('Model_ObjetivosPrograma');
-				$metas  = $programa->findDependentRowset('Model_MetasPrograma');
-				$this->form->populate($formData);
-				$this->form->addSubForms($subformularios->getSubForms($objetivos,$metas));
-				$this->view->objetivos = $objetivos;
-				$this->view->metas = $metas;
-			*/
-				$this->_redirect('plano/programas');
-			} else {
-				
-				$this->form->populate($formData);
-			}
-		} else {
-			$id = $this->_getParam('id', 0);
-			if ($id > 0) {
-				$programas = new Model_Programas();
-				$programa = $programas->fetchRow('id='.$id);
-				
-				$this->form->populate($programa->toArray());
-				
-				$objetivos =$programa->findDependentRowset('Model_ObjetivosPrograma');
-				$metas  = $programa->findDependentRowset('Model_MetasPrograma');
-
-				$this->view->objetivos = $objetivos;
-				$this->view->metas = $metas;
-				
-				$this->form->addSubForms($subformularios->getSubForms($objetivos,$metas));
-				
-				
-				
-			}
-		}
-
-		$this->renderScript('form.phtml');
 	}
+
+	
+    private function save()
+    {
+		$this->view->form = $this->form;
+    	$this->form->submit->setLabel('Salvar');
+    	
+		if ($this->getRequest ()->isPost ()) {
+			$formData = $this->getRequest ()->getPost ();
+			if ($this->form->isValid ( $formData )) 
+			{
+				$id = $this->form->getValue('id');
+				$dados = $this->form->getDados ();
+				$programas = new Model_Programas ( );;
+				
+			
+				if($this->form->getValue('id')==''){
+					$id = $programas->insert ( $dados );
+				}else{
+					$id = $this->form->getValue('id');
+					$programas->update($dados, 'id='.$id );
+				}
+				$programa = $programas->fetchRow('id='.$id );
+				$this->view->programa = $programa;
+				$this->form->submit->setAttrib('class','byajax');
+				$this->form->populate ( $programa->toArray() );
+							
+			}else{
+				
+				$this->form->populate ( $formData );
+			} 
+			
+		}
+		if ($this->_request->isXmlHttpRequest()) {
+	        $this->_helper->layout()->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender(true);
+	        echo $this->getXml($this->view->programa);
+    	}else{
+    		$this->render('edit');
+    	}
+		
+    
+    }		
+	
 	public function deleteAction(){
 		$this->view->title = "Excluir";
 	    
@@ -145,6 +148,88 @@ class ProgramasController extends Zend_Controller_Action {
 		$form->populate($programa->toArray());
 		$this->view->form = $form;
 	}
+	
+	
+    /**
+     * Adiciona objetio ao programa
+     * @return unknown_type
+     */
+    public function addobjetivoAction(){
+    	
+    	if ($this->getRequest ()->isPost ()) 
+    	{
+    		$formData = $this->getRequest ()->getPost ();
+			if ($this->formDescritivo->isValid ( $formData )) 
+			{
+    			$dados = $this->formDescritivo->getDados ();
+    			$dados['programa_id'] = $this->formDescritivo->getValue('programa_id');
+    			$objetivosPrograma = new Model_ObjetivosPrograma();
+				if($this->formDescritivo->getValue('id')==''){
+					$id = $objetivosPrograma->insert ( $dados );
+				}else{
+					$id = $this->formDescritivo->getValue('id');
+					$objetivosPrograma->update($dados, 'id='.$id);
+				}
+				
+    			$objetivoPrograma = $objetivosPrograma->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($objetivoPrograma->toArray());
+			}else{
+				$this->formDescritivo->populate($formData);
+				$return = $this->formDescritivo->processAjax($this->_request->getPost());
+			}
+    	}
+		if ($this->_request->isXmlHttpRequest()) {
+	        $this->_helper->layout()->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender(true);
+	        echo $return;
+    	}else{
+    		
+    		$url = 'programas/edit/id/'.$this->formDescritivo->getValue('programa_id').'/tab/2';
+    		$this->_redirect($url);
+    	}
+    	
+    }
+	
+  
+    /**
+     * Adiciona meta ao programa
+     * @return unknown_type
+     */
+    public function addmetaAction(){
+    	if ($this->getRequest ()->isPost ()) 
+    	{
+    		$formData = $this->getRequest ()->getPost ();
+			if ($this->formDescritivo->isValid ( $formData )) 
+			{
+    			$dados = $this->formDescritivo->getDados ();
+    			$dados['programa_id'] = $this->formDescritivo->getValue('programa_id'); 
+    			$metasPrograma = new Model_MetasPrograma();
+				if($this->formDescritivo->getValue('id')==''){
+					$id = $metasPrograma->insert ( $dados );
+				}else{
+					$id = $this->formDescritivo->getValue('id');
+					$metasPrograma->update($dados, 'id='.$id);
+				}
+    			$metaPrograma = $metasPrograma->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($metaPrograma->toArray());
+    			
+			}else{
+				$this->formDescritivo->populate($formData);
+				$return = $this->formDescritivo->processAjax($this->_request->getPost());
+			}
+    	}
+		if ($this->_request->isXmlHttpRequest()) {
+	        $this->_helper->layout()->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender(true);
+	        echo $return;
+    	}else{
+    		
+    		$url = 'programas/edit/id/'.$this->formDescritivo->getValue('programa_id').'/tab/3';
+    		$this->_redirect($url);
+    	}
+    	
+    }       
+    	
 }
 
 
