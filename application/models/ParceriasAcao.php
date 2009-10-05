@@ -9,23 +9,19 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Acoes extends Zend_Db_Table_Abstract {
+class Model_ParceriasAcao extends Zend_Db_Table_Abstract {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'acoes';
-	protected $_dependentTables = array('Model_MetasAcao',
-										'Model_EstrategiasAcao', 
-										'Model_ObjetivosAcao', 
-										'Model_ParceriasAcao');
+	protected $_order = 'id';
+	protected $_name = 'parcerias_acao';
 	protected $_referenceMap = array (
-	                     		'Projetos' => array ( 'columns' => 'projeto_id', 
-	                     							  'refTableClass' => 'Model_Projetos', 
+	                     		'Acoes' => array ( 'columns' => 'acao_id', 
+	                     							  'refTableClass' => 'Model_Acoes', 
 	                     							  'refColumns' => 'id' ) 							
 								);	
 
 	public function update($dados, $where){
-		
 		$auth = Zend_Auth::getInstance();
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
 		$dados['alteracao_data']=date('Y/m/d h:i:s', time());

@@ -1,5 +1,5 @@
 body {
-	font-family: "Courier new",Verdana,Arial,Helvetica,sans-serif;
+	font-family: Times,Verdana,Arial,Helvetica,sans-serif;
 	font-size:70%;
 	margin-left: 0px;
 	margin-top: 0px;
@@ -268,5 +268,10 @@ div.inner {
 	background-color:  #F6F6F6;
 }
 .even{
-	background-color:  #F2F0FF;
+	
+	/*background-color:  #F2F0FF*/;
+}
+.text-header{
+	font-size: 130%;
+	font-weight: bold;
 }

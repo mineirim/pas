@@ -25,7 +25,9 @@ class AcoesController extends Zend_Controller_Action
     	$this->formDescritivo->addElement($form_acao_id);
     	$this->view->formDescritivo = $this->formDescritivo;
     	
-    	
+    	$this->view->selectobjetivos = new Zend_Form_Element_Select('objetivo_id');
+    	$this->view->selectobjetivos->setLabel("Vincular ao objetivo:");
+    					
     	 
     }
 
@@ -167,6 +169,8 @@ class AcoesController extends Zend_Controller_Action
 			{
     			$dados = $this->formDescritivo->getDados ();
     			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id');
+    			$objetivo_id = $this->formDescritivo->getValue('acao_id');
+    			$dados['objetivo_id']= $objetivo_id?$objetivo_id :'null';
     			 
     			$estrategiasAcao = new Model_EstrategiasAcao();
 				if($this->formDescritivo->getValue('id')==''){
@@ -230,6 +234,43 @@ class AcoesController extends Zend_Controller_Action
     	}
     	
     }       
+
+    /**
+     * Adiciona parceria à ação
+     * @return unknown_type
+     */
+    public function addparceriaAction(){
+    	if ($this->getRequest ()->isPost ()) 
+    	{
+    		$formData = $this->getRequest ()->getPost ();
+			if ($this->formDescritivo->isValid ( $formData )) 
+			{
+    			$dados = $this->formDescritivo->getDados ();
+    			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id'); 
+    			$parceriasAcao = new Model_ParceriasAcao();
+				if($this->formDescritivo->getValue('id')==''){
+					$id = $parceriasAcao->insert ( $dados );
+				}else{
+					$id = $this->formDescritivo->getValue('id');
+					$parceriasAcao->update($dados, 'id='.$id);
+				}
+    			$parceriaAcao = $parceriasAcao->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($parceriaAcao->toArray());
+    			
+			}else{
+				$this->formDescritivo->populate($formData);
+				$return = $this->formDescritivo->processAjax($this->_request->getPost());
+			}
+    	}
+		if ($this->_request->isXmlHttpRequest()) {
+	        $this->_helper->layout()->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender(true);
+	        echo $return;
+    	}else{
+    		$this->_forward('edit',null,null,array('id'=>$this->formDescritivo->getValue('acao_id')));
+    	}
+    	
+    }      
     
     public function validarAction() {
         if ($this->_request->isXmlHttpRequest()) {

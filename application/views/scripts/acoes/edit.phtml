@@ -10,12 +10,13 @@
 		<li><a href="#tabs-1">Objetivos</a></li>
 		<li><a href="#tabs-2">Estratégias</a></li>
 		<li><a href="#tabs-3">Metas</a></li>
+		<li><a href="#tabs-4">Parcerias</a></li>
 	</ul>
 	<div id="tabs-0" style="overflow: hidden">
 		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
 			action='<?php echo $this->url(array('controller'=>'acoes', 'action'=>'save'));?>' 
 			method="post">
-			<input type="hidden" id="dependents" value="1,2,3"/>
+			<input type="hidden" id="dependents" value="1,2,3,4"/>
 			<div style='display:none'>
 			<?php echo $this->form->getDisplayGroup('ident') ?>
 			</div>
@@ -47,12 +48,17 @@
 				<th>Objetivos</th>
 			</tr>
 	<?php  
+	
+			$arr_objetivos= array(0=>'');
 			foreach($this->acao->findModel_ObjetivosAcao() as $objetivo){
+				$arr_objetivos[$objetivo->id]=$objetivo->descricao;
 	?>
 			<tr>
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
-			<?php }?>
+			<?php }
+			$this->selectobjetivos->setMultiOptions($arr_objetivos);		
+			?>
 		</table>
 		<?php }?>
 		<button>Proximo >></button>
@@ -68,6 +74,8 @@
 			<input type=hidden name='acao_id' value='<?php echo $this->acao->id?>'>
 			</div>
 			<?php echo $this->formDescritivo->descricao;?>
+			
+			<?php echo $this->selectobjetivos?>
 			
 			<?php echo $this->formDescritivo->submit;?>			
 		</form>	
@@ -113,6 +121,36 @@
 	?>
 			<tr>
 				<td><?php echo $meta->descricao;?></td>
+			</tr>
+			<?php }?>
+		</table>
+		<?php }?>
+	</div>
+
+	<div id="tabs-4" style="overflow: hidden">
+		
+		<?php if(isset($this->acao)){ ?>
+		<form id='frmparcerias' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'acoes', 'action'=>'addparceria'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='acao_id' value='<?php echo $this->acao->id?>'>
+			</div>
+			<?php echo $this->formDescritivo->descricao;?>
+			
+			<?php echo $this->formDescritivo->submit;?>			
+		</form>	
+		<br>
+		<table width="100%" id="tbparcerias" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th>Parceria</th>
+			</tr>
+	<?php  
+			foreach($this->acao->findModel_ParceriasAcao() as $parceria){
+	?>
+			<tr>
+				<td><?php echo $parceria->descricao;?></td>
 			</tr>
 			<?php }?>
 		</table>

@@ -60,12 +60,19 @@ echo $this->baseUrl ();
 </style>
 </head>
 <body>
-	<div id="topo" class="ui-widget-header">
-	<H2>MONITORASUS</H2>
-	
-	<?php
-	echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
-	?>
+	<div id="topo" >
+		<div style="float:left">
+			<img alt="" src="<?php echo $this->baseUrl (); ?>/images/titulo_ses.jpg">
+		</div>
+		<div style="float:left; padding-left: 80px;">
+			<h1>Plano Operativo Anual - POA 2009</h1>
+		</div>
+		<br/>
+		<div style="clear:both">
+			<?php
+			echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
+			?>
+		</div>
 	</div>
 	
 	<div id="corpo" class="ui-widget-content">
