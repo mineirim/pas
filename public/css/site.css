@@ -1,6 +1,6 @@
 body {
-	font-family: Times,Verdana,Arial,Helvetica,sans-serif;
-	font-size:70%;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size:10px;
 	margin-left: 0px;
 	margin-top: 0px;
 	margin-right: 0px;
@@ -8,13 +8,21 @@ body {
 
 	margin: 0;
 	padding: 0;
+	color:#666666;
 	
 	
 }
 
 table{
 	
+	
+}
+
+.collapse{
 	border-collapse:collapse;
+}
+.tb-header{
+	width:100%;
 }
 td{
 	border:none;
@@ -23,24 +31,44 @@ td{
 
 #corpo{
 
-	margin: 0;
+	margin: 5px;
 	padding: 0;
-	margin-left: 38px;
 	overflow:   auto;
+	margin-left:30px;
 	
 }
 #topo{
 	margin: 0;
 	padding: 0;
 	/**background-color: #ece9d8;*/
-	height: 80px;
+	height: 110px;
+	color: #666666;
 }
+#topo-portal {
+	height:25px;
+	position:absolute;
+	width:100%;
+}
+#topo-ico {
+	float:left;
+	height:30px;
+	margin:30px 0 0 10px;
+	padding:33px 0 14px !important;
+	position:absolute;
+	width:740px;
+}
+#topo-ico .topo-logo {
+	float:left;
+	margin:0 4px 0 0;
+}
+
+
 #menu1{
 	float:left;
 	width:220px;
 	left:-200px;
     position: absolute;
-	top:200px;
+	top:170px;
 	float:inherit;
 
 
@@ -173,8 +201,6 @@ form #submitbutton {
 .titulos-tabela {
 	background-color:#FFFFFF;
 	color:#444242;
-	font-family:"Trebuchet MS",Verdana,Arial;
-	font-size:12px;
 	font-weight:bold;
 	text-align:center;
 }
@@ -261,11 +287,11 @@ div.inner {
 }
 
 
-.ui-widget-header { font-family: "Courier new",Verdana,Arial,Helvetica,sans-serif; }
-.ui-widget { font-family: "Courier new",Verdana,Arial,Helvetica,sans-serif; }
+.ui-widget-header { font-family: Verdana,Arial,Helvetica,sans-serif; }
+.ui-widget { font-family: Verdana,Arial,Helvetica,sans-serif; }
 
 .odd{
-	background-color:  #F6F6F6;
+	background-color:  #F7F6F4;
 }
 .even{
 	

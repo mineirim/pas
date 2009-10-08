@@ -169,8 +169,8 @@ class AcoesController extends Zend_Controller_Action
 			{
     			$dados = $this->formDescritivo->getDados ();
     			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id');
-    			$objetivo_id = $this->formDescritivo->getValue('acao_id');
-    			$dados['objetivo_id']= $objetivo_id?$objetivo_id :'null';
+    			$objetivo_id = $this->_getParam('objetivo_id');
+    			$dados['objetivo_id']= $objetivo_id?$objetivo_id :	NULL;
     			 
     			$estrategiasAcao = new Model_EstrategiasAcao();
 				if($this->formDescritivo->getValue('id')==''){
@@ -209,7 +209,10 @@ class AcoesController extends Zend_Controller_Action
 			if ($this->formDescritivo->isValid ( $formData )) 
 			{
     			$dados = $this->formDescritivo->getDados ();
-    			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id'); 
+    			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id');
+    			$objetivo_id = $this->_getParam('objetivo_id');
+    			$dados['objetivo_id']= $objetivo_id?$objetivo_id :	NULL;
+    			
     			$metasAcao = new Model_MetasAcao();
 				if($this->formDescritivo->getValue('id')==''){
 					$id = $metasAcao->insert ( $dados );
@@ -247,6 +250,7 @@ class AcoesController extends Zend_Controller_Action
 			{
     			$dados = $this->formDescritivo->getDados ();
     			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id'); 
+    			
     			$parceriasAcao = new Model_ParceriasAcao();
 				if($this->formDescritivo->getValue('id')==''){
 					$id = $parceriasAcao->insert ( $dados );

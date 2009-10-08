@@ -17,8 +17,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		
 		Zend_Session::start ();
 		$mysession = new Zend_Session_Namespace ( 'temas' );
+		
 		if (! isset ( $mysession->temax )) {
-			$mysession->temax = 'smoothness';
+			$mysession->temax = 'custom-theme';
 		}
 	
 	}
@@ -146,6 +147,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					
 		);
 		$programas = new Model_Programas();
+		$projetos = new Model_Projetos();
 		
 		
 		$pages_din = array(
@@ -159,14 +161,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					
 		$pages_din['pages']=array();
 		        					
-		foreach($programas->fetchAll('situacao_id=1','id') as $programa){
-			$pages_din['pages'][]=array('label'=>$programa->menu,
+		foreach($programas->fetchAll('situacao_id=1','id') as $programa)
+		{
+			$arr =array('label'=>$programa->menu,
 							'module'=>'default',
 							'controller'=>'plano',
 							'action'=>'programa',
 							'params'=>array('programa_id'=>$programa->id),
 							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
 							);
+			foreach($projetos->fetchAll('situacao_id=1 and projeto_id is null and programa_id='.$programa->id,'id') as $projeto)
+			{
+				$pgs = array('label'=>$projeto->menu,
+							'module'=>'default',
+							'controller'=>'plano',
+							'action'=>'projeto',
+							'params'=>array('projeto_id'=>$projeto->id),
+							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+							);	
+				$arr['pages'][] = $pgs;
+			}
+			$pages_din['pages'][]=$arr;
 		}
 		
 		$pages[]=$pages_din;

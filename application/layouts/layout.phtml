@@ -61,21 +61,27 @@ echo $this->baseUrl ();
 </head>
 <body>
 	<div id="topo" >
-		<div style="float:left">
-			<img alt="" src="<?php echo $this->baseUrl (); ?>/images/titulo_ses.jpg">
+		<div id="topo-portal">
+			<iframe width="100%" scrolling="no" height="50" frameborder="0" align="center" target="_blank" src="http://portal.saude.sp.gov.br/barra-gov/barra.htm">
+			</iframe>
 		</div>
-		<div style="float:left; padding-left: 80px;">
-			<h1>Plano Operativo Anual - POA 2009</h1>
+		<div id="topo-ico" style="float:left">
+			<img class="topo-logo" alt="" src="<?php echo $this->baseUrl (); ?>/images/titulo_ses.jpg">
+			<div style="float:left; padding-left: 80px;" class="topo-logo" >
+				<h1 style="margin-top:0">Plano Operativo Anual - POA 2009</h1>
+			</div>
+			<div style="clear:both">
+				<?php
+				echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
+				?>
+			</div>
 		</div>
+		
 		<br/>
-		<div style="clear:both">
-			<?php
-			echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
-			?>
-		</div>
+		
 	</div>
 	
-	<div id="corpo" class="ui-widget-content">
+	<div id="corpo" class="ui-widget ui-corner-all">
 	
 	<h3><?php
 	echo $this->escape ( $this->title );
@@ -85,22 +91,25 @@ echo $this->baseUrl ();
 		?>
 	
 	</div>
+	 
 	<div id="menu1">
-	
+	 
 	<div id="barra" class='menu-barra ui-widget ui-widget-header '>
 		<div class="ui-state-default ui-corner-all" style="text-align:center">
 			<span class="ui-icon ui-icon-home">menu</span>
 			M<br>E<br>N<br>U
 		</div> 
 	</div>
+	 
 	<div style="float: left;">
-	<ul>
+		<ul>
 			<?php
 			echo $this->navigation ()->menu ()->setUlClass ( 'esconder' );
 			?>
 		</ul>
 	</div>
+	
 	</div>
-
+ 	
 </body>
 </html>
