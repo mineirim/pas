@@ -11,6 +11,7 @@ class ProgramasController extends Zend_Controller_Action {
         /* Initialize action controller here */
     	$this->form = new Form_Geral();
     	$this->formDescritivo = new Form_Descritivo();
+    	$this->view->formIndicador = new Form_Indicador();
     	
     	
     	/**

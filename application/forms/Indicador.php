@@ -1,0 +1,65 @@
+<?php
+
+class Form_Indicador extends Zend_Form_SubForm
+{
+	public function __construct($options = null )
+	{
+		parent::__construct($options);
+		
+		$this->setDisableLoadDefaultDecorators(true);
+		$this->removeDecorator('label');
+		$this->getDecorator('HtmlTag')->clearOptions();
+		$this->getDecorator('fieldset')->setOption('style','padding:0;border:none;margin:0;');
+		$id = new Zend_Form_Element_Hidden('id');
+		$id->removeDecorator('label');
+		
+		$descricao = new Zend_Form_Element_Textarea('descricao');
+		$descricao->removeDecorator('label');
+		$descricao->setRequired(true)
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->addValidator('NotEmpty')
+			->setAttrib('rows',2);
+		
+		$periodos = new Zend_Form_Element_MultiCheckbox('tipo_periodo_id');
+		
+		$periodos ->setLabel('Atualização');
+		$tiposperiodo = new Model_TiposPeriodo();
+		
+		foreach ($tiposperiodo->fetchAll() as $tipo ){
+			$periodos->addMultiOption($tipo->id,$tipo->descricao);
+		}
+		$periodos->addDecorator ('HtmlTag',array('tag'=>'div','style'=>'padding:0;border:none;margin:0;float:left;'));
+
+		
+		$remover = new Zend_Form_Element_Checkbox('remover');
+		$remover->removeDecorator('label');
+		$remover->addDecorator ('HtmlTag',array('tag'=>'div','style'=>'padding:0;border:none;margin:0;float:left;'));
+
+		$submit = new Zend_Form_Element_Submit('submit');
+		$submit->setAttrib('id', 'submit_descritivo')
+				->setLabel('Adicionar')
+				->setAttrib('class','submit_descritivo');
+		
+		
+		$this->addElements(array($id, $descricao, $remover, $periodos,$submit ));
+		 /*
+		 $this->setDecorators(array('ViewHelper','FormElements',
+                    array('HtmlTag',array('tag'=>'div', 'style'=>'width:50%;'))
+        ));*/
+	
+	}
+
+	/**
+	 * retorna um array associativo para inserção dos dados na tabela
+	 * @param $form
+	 * @param array $array_add campos adicionais que serão persistidos com o objeto  
+	 * @return array
+	 */
+	public function getDados($array_add=false) {
+		
+		$dados = array ('descricao' 	=> $this->getValue('descricao')				);
+		
+		return $dados;
+	}
+}
