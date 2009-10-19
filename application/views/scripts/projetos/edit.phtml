@@ -3,13 +3,14 @@
 		<li><a href="#tabs-0" >Projeto</a></li>
 		<li><a href="#tabs-1">Objetivos</a></li>
 		<li><a href="#tabs-2">Metas</a></li>
+		<li><a href="#tabs-3">Indicadores</a></li>
 	</ul>
 	<div id="tabs-0" style="overflow: hidden">
 		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>' 
 			action='<?php echo $this->url(array('controller'=>'projetos', 'action'=>'edit'));?>' 
 			method="post">
 			
-			<input type="hidden" id="dependents" value="1,2"/>
+			<input type="hidden" id="dependents" value="1,2,3"/>
 			<div style='display:none'>
 			
 			<?php echo $this->form->getDisplayGroup('ident')?>
@@ -82,6 +83,37 @@
 				<td><?php echo $meta->descricao;?></td>
 			</tr>
 			<?php }?>
+		</table>
+		<?php }?>
+	</div>
+
+	<div id="tabs-3" style="overflow: hidden">
+		
+		<?php if(isset($this->projeto)){ ?>
+		<form id='frmindicadores' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'projetos', 'action'=>'addindicador'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='projeto_id' value='<?php echo $this->projeto->id?>'>
+			</div>
+			<?php echo $this->formDescritivo->descricao;?>
+			
+			<?php echo $this->formDescritivo->submit;?>			
+		</form>	
+		<br>
+		<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th>Indicadores</th>
+			</tr>
+	<?php  
+			foreach($this->projeto->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresProjeto') as $indicador){
+	?>
+			<tr>
+				<td><?php echo $indicador->descricao;?></td>
+			</tr>
+			<?php }?>
+			
 		</table>
 		<?php }?>
 	</div>

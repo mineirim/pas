@@ -11,7 +11,7 @@ class ProgramasController extends Zend_Controller_Action {
         /* Initialize action controller here */
     	$this->form = new Form_Geral();
     	$this->formDescritivo = new Form_Descritivo();
-    	$this->view->formIndicador = new Form_Indicador();
+    	
     	
     	
     	/**
@@ -192,6 +192,52 @@ class ProgramasController extends Zend_Controller_Action {
     }
 	
   
+    /**
+     * Adiciona indicador ao programa
+     * @return unknown_type
+     */
+    public function addindicadorAction(){
+    	
+    	if ($this->getRequest ()->isPost ()) 
+    	{
+    		$formData = $this->getRequest ()->getPost ();
+			if ($this->formDescritivo->isValid ( $formData )) 
+			{
+    			$dados = $this->formDescritivo->getDados ();
+    			$indicadores = new Model_Indicadores();
+				if($this->formDescritivo->getValue('id')==''){
+					$id = $indicadores->insert ( $dados );
+				}else{
+					$id = $this->formDescritivo->getValue('id');
+					$indicadores->update($dados, 'id='.$id);
+				}
+				$programa_id = $this->formDescritivo->getValue('programa_id');
+				$indicadoresPrograma = new Model_IndicadoresPrograma();
+				
+				$indicadorPrograma = $indicadoresPrograma->fetchRow('programa_id='.$programa_id.' and indicador_id='.$id);
+				if(!$indicadorPrograma){
+					$arr = array('programa_id'=>$programa_id, 'indicador_id'=>$id);
+					$indicadoresPrograma->insert($arr);
+				}
+    			$indicador = $indicadores->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($indicador->toArray());
+			}else{
+				$this->formDescritivo->populate($formData);
+				$return = $this->formDescritivo->processAjax($this->_request->getPost());
+			}
+    	}
+		if ($this->_request->isXmlHttpRequest()) {
+	        $this->_helper->layout()->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender(true);
+	        echo $return;
+    	}else{
+    		
+    		$url = 'programas/edit/id/'.$this->formDescritivo->getValue('programa_id').'/tab/4';
+    		$this->_redirect($url);
+    	}
+    	
+    }    
+    
     /**
      * Adiciona meta ao programa
      * @return unknown_type

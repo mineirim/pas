@@ -15,7 +15,6 @@ class Model_IndicadoresConfigs extends Zend_Db_Table_Abstract {
 	 */
 	protected $_order = 'id';
 	protected $_name = 'indicador_configs';
-	protected $_dependentTables = array('Model_IndicadoresPrograma','Model_IndicadoresProjeto');
 	protected $_referenceMap = array (
 	                     		'Indicadores' => array ( 'columns' => 'indicador_id', 
 	                     							  'refTableClass' => 'Model_Indicadores', 

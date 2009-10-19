@@ -14,7 +14,7 @@ class Model_Projetos extends Zend_Db_Table_Abstract {
 	 * The default table name 
 	 */
 	protected $_name = 'projetos';
-	protected $_dependentTables = array('Model_Projetos','Model_ObjetivosProjeto', 'Model_MetasProjeto');
+	protected $_dependentTables = array('Model_Projetos','Model_ObjetivosProjeto', 'Model_MetasProjeto', 'Model_IndicadoresProjeto');
 	protected $_referenceMap = array (
 	                     		'Programas' => array ( 'columns' => 'programa_id', 
 	                     							  'refTableClass' => 'Model_Programas', 

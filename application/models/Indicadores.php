@@ -15,7 +15,7 @@ class Model_Indicadores extends Zend_Db_Table_Abstract {
 	 */
 	protected $_order = 'id';
 	protected $_name = 'indicadores';
-	protected $_dependentTables = array('Model_IndicadoresConfig');
+	protected $_dependentTables = array('Model_IndicadoresConfig', 'Model_IndicadoresPrograma', 'Model_IndicadoresProjeto');
 	
 	public function update($dados, $where){
 		$auth = Zend_Auth::getInstance();

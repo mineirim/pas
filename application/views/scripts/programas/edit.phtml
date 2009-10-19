@@ -10,7 +10,7 @@
 			action='<?php echo $this->url(array('controller'=>'programas', 'action'=>'edit'));?>' 
 			method="post">
 			
-			<input type="hidden" id="dependents" value="1,2"/>
+			<input type="hidden" id="dependents" value="1,2,3"/>
 			<div style='display:none'>
 			
 			<?php echo $this->form->id?>
@@ -88,8 +88,36 @@
 	</div>
 	<div id="tabs-3" style="overflow: hidden">
 		
-
+		
+		<?php if(isset($this->programa)){ ?>
+		<form id='frmindicadores' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'programas', 'action'=>'addindicador'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='programa_id' value='<?php echo $this->programa->id?>'>
+			</div>
+			<?php echo $this->formDescritivo->descricao;?>
+			
+			<?php echo $this->formDescritivo->submit;?>			
+		</form>	
+		<br>
+		<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th>Indicadores</th>
+			</tr>
+	<?php  
+	
+			foreach($this->programa->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresPrograma') as $indicador){
+	?>
+			<tr>
+				<td><?php echo $indicador->descricao;?></td>
+			</tr>
+			<?php }?>
+		</table>
+		<?php }?>
 	</div>
 </div>
 <br></br>
 <p></p>
+<a href='<?php echo $this->url(array('controller'=>'plano', 'action'=>'programas'))?>'>Voltar</a>

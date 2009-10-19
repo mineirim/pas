@@ -14,7 +14,7 @@ class Model_Programas extends Zend_Db_Table_Abstract {
 	 * The default table name 
 	 */
 	protected $_name = 'programas';
-	protected $_dependentTables = array('Model_Projetos', 'Model_ObjetivosPrograma', 'Model_MetasPrograma');
+	protected $_dependentTables = array('Model_Projetos', 'Model_ObjetivosPrograma', 'Model_MetasPrograma', 'Model_IndicadoresPrograma');
 	
 	
 	public function update($dados, $where){

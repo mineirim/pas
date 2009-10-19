@@ -40,9 +40,8 @@ class Form_Geral extends Zend_Form
 
 		
 		$usuarios = new Model_Usuarios();
-		
 		$form = new Zend_Form_Element_Select('responsavel_id');
-		foreach($usuarios->fetchAll() as $p) 
+		foreach($usuarios->fetchAll('1=1' ,array('nome')) as $p) 
 			$form->addMultiOptions(array($p->id => " ".$p->nome));
 		$form->setLabel ( "Responsável:" )
 		->setRequired ( true );

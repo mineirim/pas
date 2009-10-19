@@ -252,7 +252,55 @@ class ProjetosController extends Zend_Controller_Action {
     		$this->_redirect($url);
     	}
     	
-    }       
+    }
+
+    
+    /**
+     * Adiciona objetio ao programa
+     * @return unknown_type
+     */
+    public function addindicadorAction(){
+    	
+    	if ($this->getRequest ()->isPost ()) 
+    	{
+    		$formData = $this->getRequest ()->getPost ();
+			if ($this->formDescritivo->isValid ( $formData )) 
+			{
+    			$dados = $this->formDescritivo->getDados ();
+    			$indicadores = new Model_Indicadores();
+				if($this->formDescritivo->getValue('id')==''){
+					$id = $indicadores->insert ( $dados );
+				}else{
+					$id = $this->formDescritivo->getValue('id');
+					$indicadores->update($dados, 'id='.$id);
+				}
+				$programa_id = $this->formDescritivo->getValue('projeto_id');
+				$indicadoresProjeto = new Model_IndicadoresProjeto();
+				
+				$indicadorProjeto = $indicadoresProjeto->fetchRow('projeto_id='.$programa_id.' and indicador_id='.$id);
+				if(!$indicadorProjeto){
+					$arr = array('projeto_id'=>$programa_id, 'indicador_id'=>$id);
+					$indicadoresProjeto->insert($arr);
+				}
+    			$indicador = $indicadores->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($indicador->toArray());
+			}else{
+				$this->formDescritivo->populate($formData);
+				$return = $this->formDescritivo->processAjax($this->_request->getPost());
+			}
+    	}
+		if ($this->_request->isXmlHttpRequest()) {
+	        $this->_helper->layout()->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender(true);
+	        echo $return;
+    	}else{
+    		
+    		$url = 'projetos/edit/id/'.$this->formDescritivo->getValue('projeto_id').'/tab/3';
+    		$this->_redirect($url);
+    	}
+    	
+    }    
+        
     
 }
 
