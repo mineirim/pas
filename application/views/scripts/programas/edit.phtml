@@ -42,12 +42,19 @@
 		</form>	
 		<table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
 			<tr>
+				<th></th>
 				<th>Objetivos</th>
 			</tr>
 	<?php  
 			foreach($this->programa->findModel_ObjetivosPrograma() as $objetivo){
 	?>
 			<tr>
+				<td>
+					<a href='#'	class='my-button ui-state-default ui-corner-all '
+								title='Excluir' id='ex_objetivo_<?php echo $objetivo->id?>'>
+						<span class='ui-icon ui-icon-trash '></span>
+					</a>
+				</td>
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
 			<?php }?>

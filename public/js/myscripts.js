@@ -59,7 +59,13 @@ $(document).ready(function(){
 				}
 		);
 			
-
+		/*
+		 * edição de objetos via ajax
+		*/
+		$(".byajax").click(function(){
+			alert ("enviar via ajax e receber json")
+			return false
+		});
 });
 
 function showDescritivo(data,result,obj){

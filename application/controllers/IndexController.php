@@ -10,7 +10,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->view->title = "MonitoraSUS";
+        $this->view->title = "POA 2009";
         
         		$this->view->headTitle($this->view->title, 'PREPEND');
     }

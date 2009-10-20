@@ -7,5 +7,5 @@
 </form>  
 <?php else: ?>  
 Logado.<br />  
-<a href="/monitorasus-zf/public/auth/logout">Logout</a>  
+<a href="<?php echo $this->url(array('controller'=>'auth','action'=>'logout'));?> ">Logout</a>  
 <?php endif; ?>  

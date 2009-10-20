@@ -42,12 +42,19 @@
 		</form>	
 		<table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
 			<tr>
+				<th></th>
 				<th>Objetivos</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findModel_ObjetivosProjeto() as $objetivo){
 	?>
 			<tr>
+				<td>
+					<a href='#'	class='my-button ui-state-default ui-corner-all '
+								title='Excluir' id='ex_objetivo_<?php echo $objetivo->id?>'>
+						<span class='ui-icon ui-icon-trash '></span>
+					</a>
+				</td>
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
 			<?php }?>
@@ -74,12 +81,19 @@
 		<br>
 		<table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
 			<tr>
+				<th></th>
 				<th>Metas</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findModel_MetasProjeto() as $meta){
 	?>
 			<tr>
+			<?php
+				/**
+				 * TODO criar javascripa para editar os descritivos baseado no linebar abaixo
+				 */ 
+			?>
+				<td><?php echo $this->lineToolbar('projetos',$meta)?>
 				<td><?php echo $meta->descricao;?></td>
 			</tr>
 			<?php }?>

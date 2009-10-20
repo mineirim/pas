@@ -43,7 +43,7 @@ class Zend_View_Helper_PlanoNavegacao {
 		{
 			$key = substr($key,0,strlen($key)-1);
 			
-			$ret.= "<tr><th class='removedui-widget-header ' width='180px'> $key</th><td >$value</td></tr>";
+			$ret.= "<tr><th class='ui-widget-header ' width='180px'> $key</th><td >$value</td></tr>";
 		}
 		$ret .= "</table>";
 		
