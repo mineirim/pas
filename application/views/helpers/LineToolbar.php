@@ -34,8 +34,13 @@ class Zend_View_Helper_LineToolbar {
 		
 				
 		$this->_model = $classe[count($classe)-1];
+		if($this->_model=='ind'){
+			var_dump($classe);exit;
+		}
+		
 		$rowname = substr($controller,0,strlen($controller)-1);
-		$this->_model = substr($this->_model,0, strlen($this->_model)-strlen($controller));
+		if(strpos(strtolower($this->_model),strtolower($controller)) )
+			$this->_model = substr($this->_model,0, strlen($this->_model)-strlen($controller));
 		
 		$toolbar = ""; 
 		$mysession = new Zend_Session_Namespace ( 'mysession' );
@@ -59,21 +64,21 @@ class Zend_View_Helper_LineToolbar {
 	}
 	private function getLineToobar()
 	{
-		
+		$id_a = strtolower($this->_model);
 		
 		$toolbar = "
 		<div style='width:55px;'>
-		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit'.strtolower($this->_model),'id'=>$this->_obj->id))."'
-					class='my-button ui-state-default ui-corner-all byajax'
+		<a href='".$this->view->url(array('controller'=>'search','action'=>'object','id'=>$this->_obj->id,'classe'=>$this->_obj->getTableClass()))."'
+					class='my-button ui-state-default ui-corner-all editdescription'
 					title='Editar' 
-					
+					id='edit-$id_a' 
 					>
 					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete'.strtolower($this->_model),'id'=>$this->_obj->id))."'
-		class='my-button ui-state-default ui-corner-all byajax '
+		class='my-button ui-state-default ui-corner-all editdescription '
 		title='Excluir' 
-		
+		id='edit-$id_a'
 		>
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>

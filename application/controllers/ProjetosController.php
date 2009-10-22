@@ -235,7 +235,12 @@ class ProjetosController extends Zend_Controller_Action {
 					$metasProjeto->update($dados, 'id='.$id);
 				}
     			$metaProjeto = $metasProjeto->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($metaProjeto->toArray());
+    			$returns =array();
+    			
+    			$toolbar = $this->view->lineToolbar('projetos',$metaProjeto);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $metaProjeto->toArray();
+    			$return = Zend_Json_Encoder::encode($returns);
     			
 			}else{
 				$this->formDescritivo->populate($formData);
@@ -283,7 +288,14 @@ class ProjetosController extends Zend_Controller_Action {
 					$indicadoresProjeto->insert($arr);
 				}
     			$indicador = $indicadores->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($indicador->toArray());
+    			
+    			$returns =array();
+    			
+    			$toolbar = $this->view->lineToolbar('projetos',$indicador);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $indicador->toArray();
+    			$return = Zend_Json_Encoder::encode($returns);
+    			
 			}else{
 				$this->formDescritivo->populate($formData);
 				$return = $this->formDescritivo->processAjax($this->_request->getPost());

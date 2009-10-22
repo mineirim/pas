@@ -42,19 +42,16 @@
 		</form>	
 		<table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
 			<tr>
-				<th></th>
+				<th widht="5%"></th>
 				<th>Objetivos</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findModel_ObjetivosProjeto() as $objetivo){
 	?>
 			<tr>
-				<td>
-					<a href='#'	class='my-button ui-state-default ui-corner-all '
-								title='Excluir' id='ex_objetivo_<?php echo $objetivo->id?>'>
-						<span class='ui-icon ui-icon-trash '></span>
-					</a>
-				</td>
+				
+					<td><?php echo $this->lineToolbar('projetos',$objetivo)?>
+				
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
 			<?php }?>
@@ -81,18 +78,13 @@
 		<br>
 		<table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
 			<tr>
-				<th></th>
+				<th width="5%"></th>
 				<th>Metas</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findModel_MetasProjeto() as $meta){
 	?>
-			<tr>
-			<?php
-				/**
-				 * TODO criar javascripa para editar os descritivos baseado no linebar abaixo
-				 */ 
-			?>
+			<tr >
 				<td><?php echo $this->lineToolbar('projetos',$meta)?>
 				<td><?php echo $meta->descricao;?></td>
 			</tr>
@@ -118,12 +110,14 @@
 		<br>
 		<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
 			<tr>
+				<th with="5%"></th>
 				<th>Indicadores</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresProjeto') as $indicador){
 	?>
 			<tr>
+				<td><?php echo $this->lineToolbar('projetos',$indicador)?>
 				<td><?php echo $indicador->descricao;?></td>
 			</tr>
 			<?php }?>

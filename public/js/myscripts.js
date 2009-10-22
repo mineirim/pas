@@ -62,17 +62,28 @@ $(document).ready(function(){
 		/*
 		 * edição de objetos via ajax
 		*/
-		$(".byajax").click(function(){
-			alert ("enviar via ajax e receber json")
-			return false
+		$(".editdescription").live('click',function(e){
+			e.preventDefault();
+			$this = $(this)
+			$tpobjeto = this.id.split('-')[1]
+			$tpobjeto = $tpobjeto + 's'
+			$.getJSON(this.href,
+			        function(data){
+					  $this.parents('tr').remove()
+					  $('#frm'+$tpobjeto).find('#id').val(data.id)
+					  $('#frm'+$tpobjeto).find('#descricao').val(data.descricao)
+			          
+			        });
+
+			
 		});
 });
 
 function showDescritivo(data,result,obj){
-	if(data.descricao != undefined){
+	if(data.toolbar != undefined){
 		tabela = obj.attr('id');
 		tabela = tabela.substr(3);
-		$("#tb"+tabela).append("<tr><td>"+data.descricao+"</td></tr>")
+		$("#tb"+tabela).append("<tr><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>")
 		obj[0].descricao.value="";
 		
 	}
