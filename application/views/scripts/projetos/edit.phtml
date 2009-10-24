@@ -49,17 +49,12 @@
 			foreach($this->projeto->findModel_ObjetivosProjeto() as $objetivo){
 	?>
 			<tr>
-				
 					<td><?php echo $this->lineToolbar('projetos',$objetivo)?>
-				
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
 			<?php }?>
 		</table>
-		<button>Proximo >></button>
 		<?php }?>
-		
-	
 	</div>
 	<div id="tabs-2" style="overflow: hidden">
 		

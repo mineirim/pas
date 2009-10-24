@@ -34,12 +34,9 @@ class Zend_View_Helper_LineToolbar {
 		
 				
 		$this->_model = $classe[count($classe)-1];
-		if($this->_model=='ind'){
-			var_dump($classe);exit;
-		}
 		
 		$rowname = substr($controller,0,strlen($controller)-1);
-		if(strpos(strtolower($this->_model),strtolower($controller)) )
+		if(strpos(strtolower($this->_model),strtolower($rowname)) )
 			$this->_model = substr($this->_model,0, strlen($this->_model)-strlen($controller));
 		
 		$toolbar = ""; 

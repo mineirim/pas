@@ -196,7 +196,13 @@ class ProjetosController extends Zend_Controller_Action {
 				}
 				
     			$objetivoProjeto = $objetivosProjeto->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($objetivoProjeto->toArray());
+    			
+    			$returns =array();
+    			$toolbar = $this->view->lineToolbar('projetos',$objetivoProjeto);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $objetivoProjeto->toArray();
+    			
+    			$return = Zend_Json_Encoder::encode($returns);
 			}else{
 				$this->formDescritivo->populate($formData);
 				$return = $this->formDescritivo->processAjax($this->_request->getPost());

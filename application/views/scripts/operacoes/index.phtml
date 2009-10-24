@@ -1,0 +1,24 @@
+
+<div class="outer">
+<div id="tabela" class='inner'>
+<br></br>
+<table width="100%">
+<caption class="titulos-tabela">Operações</caption>
+<thead class="titulos-tabela">
+<th>Descrição</th>
+<th>Realiz.</th>
+<th>Relatório</th>
+</thead>
+<tbody>
+	<?php foreach ($this->operacoes as $operacao){?>
+	<tr bgcolor="#ece9d8">
+		<td class="texto"><?php echo $operacao->descricao;?></td>
+		<td></td>
+		<td><img alt="relatório" src="<?php echo $this->baseUrl();?>/images/impressora.gif"/> </td>
+	</tr>
+	<?php }?>
+</tbody>
+</table>
+<br></br>
+</div>
+</div>

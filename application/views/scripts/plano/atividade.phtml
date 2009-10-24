@@ -1,0 +1,30 @@
+
+
+<div class="ui-overlay ui-corner-all">
+	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header'>
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
+													 'nome'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+		<tr>
+		<td colspan="2" height="2px" style="background-color:black"></td>
+		</tr>
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->projeto,
+													 'nome'=>'Projeto', 'detalhar'=>($this->nivel=='Projeto')));?>
+		<tr>
+		<td colspan="2" height="2px" style="background-color:black"></td>
+		</tr>		
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->acao,
+													 'nome'=>'Acao', 'detalhar'=>($this->nivel=='Acao')));?>
+		<tr>
+		<td colspan="2" height="2px" style="background-color:black"></td>
+		</tr>		
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->operacao,
+													 'nome'=>'Operacao', 'detalhar'=>($this->nivel=='Operacao')));?>
+		<tr>
+		<td colspan="2" height="2px" style="background-color:black"></td>
+		</tr>		
+		
+	</table>
+	
+	<br></br>
+
+</div>

@@ -62,11 +62,15 @@ $(document).ready(function(){
 		/*
 		 * edição de objetos via ajax
 		*/
-		$(".editdescription").live('click',function(e){
+		$(".editdescription").live('click',function(e)
+		{
 			e.preventDefault();
 			$this = $(this)
 			$tpobjeto = this.id.split('-')[1]
-			$tpobjeto = $tpobjeto + 's'
+            if($tpobjeto.substr(-1)!='s')
+            {
+            	$tpobjeto = $tpobjeto + 's'
+            }	
 			$.getJSON(this.href,
 			        function(data){
 					  $this.parents('tr').remove()
@@ -86,6 +90,16 @@ function showDescritivo(data,result,obj){
 		$("#tb"+tabela).append("<tr><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>")
 		obj[0].descricao.value="";
 		
+	}else{
+		/**
+		 * enquanto ajusta todos os scriptis de add
+		 */
+		if (data.descricao != undefined){
+			tabela = obj.attr('id');
+			tabela = tabela.substr(3);
+			$("#tb"+tabela).append("<tr><td></td><td>"+data.descricao+"</td></tr>")
+			obj[0].descricao.value="";
+		}
 	}
 }
 
