@@ -41,7 +41,7 @@ class AtividadesController extends Zend_Controller_Action {
 		
 		$operacao_id = $this->_getParam ( 'operacao_id' );
     	
-    	$this->form = new Form_Acoes();
+    	$this->form = new Form_Atividades();
     	
     	if ($this->getRequest ()->isPost ()) 
     	{
@@ -49,8 +49,8 @@ class AtividadesController extends Zend_Controller_Action {
     		
     	}
     	
-    	$this->form->getElement('operacao_id')->setValue($operacao_id);
     	$this->view->form = $this->form;
+    	$this->form->getElement('operacao_id')->setValue($operacao_id);
     	
     	if ($this->_request->isXmlHttpRequest()) {
                 $this->_helper->layout()->disableLayout();
@@ -58,7 +58,7 @@ class AtividadesController extends Zend_Controller_Action {
                	echo $this->getXml($this->view->atividade);
     		
     	}else{
-    		$this->render('edit');
+    		$this->render('add');
     	}
 	}
 	
@@ -70,9 +70,10 @@ class AtividadesController extends Zend_Controller_Action {
     	$atividades = new Model_Atividades();
     	$atividade = $atividades->fetchRow('id='.$id);
     	
-    	if($atividade)
+    	if ($this->getRequest ()->isPost ()) 
     	{
-    		$this->form->populate($atividade->toArray());
+    		$this->saveAction();
+    		
     	}
     	$this->view->atividade = $atividade;
     	$this->view->form = $this->form;
@@ -88,15 +89,16 @@ class AtividadesController extends Zend_Controller_Action {
 	}
 
 	
-    private function save()
+    private function saveAction()
     {
     	$this->view->form = $this->form;
     	
-		if ($this->getRequest ()->isPost ()) {
+    	if ($this->getRequest()->isPost()) {
 			$formData = $this->getRequest ()->getPost ();
 			if ($this->form->isValid ( $formData )) 
 			{
 				$dados = $this->form->getDados ();
+				
 				$atividades = new Model_Atividades ( );
 			
 				if($this->form->getValue('id')==''){
@@ -105,14 +107,10 @@ class AtividadesController extends Zend_Controller_Action {
 					$id = $this->form->getValue('id');
 					$atividades->update($dados, 'id='.$id);
 				}
-				$atividades = $atividades->fetchRow('id='.$id);
-				$this->view->atividade = $atividade;
-				$this->form->submit->setAttrib('class','byajax');
-				$this->form->populate ( $atividade->toArray() );			
+				$this->_redirect('plano/operacao/operacao_id/'.$dados['operacao_id']);
 			}else{
 				$this->form->populate ( $formData );
-			} 
-			
+			}
 		}
 		if ($this->_request->isXmlHttpRequest()) {
 	        $this->_helper->layout()->disableLayout();

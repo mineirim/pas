@@ -1,7 +1,13 @@
-
+<?php 
+/*
+ * meta.phtml
+ * @author Hugo
+ */
+?>
 
 <div class="ui-overlay ui-corner-all">
-	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header'>
+	<?php// echo $this->planoNavegacao($this->programa) ;?>
+	<table  class='ui-widget ui-widget-content tb-header '>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
 													 'nome'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
 		<tr>
@@ -22,26 +28,20 @@
 		<tr>
 		<td colspan="2" height="2px" style="background-color:black"></td>
 		</tr>		
-		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->operacao,
-													 'nome'=>'Operação', 'detalhar'=>($this->nivel=='Operacao')));?>
-		<tr>
-		<td colspan="2" height="2px" style="background-color:black"></td>
-		</tr>		
-		
 		
 	</table>
 	
-	<br></br>
+
 
 	<br><br>
-	<?php if(count($this->atividades)){?>
+	<?php if(count($this->operacoes)){?>
 	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'>
 		
 		<table width="100%">
-			<caption class="text-caption ui-widget removedui-widget-header"><b>Atividades</b></caption>
+			<caption class="text-caption ui-widget removedui-widget-header"><b>Operações</b></caption>
 			<thead class="ui-widget removedui-widget-header">
 				<tr class="odd">
-					<td width="40px"><?php echo $this->myToolbar('atividades','toptable');?></td>
+					<td width="40px"><?php echo $this->myToolbar('operacoes','toptable');?></td>
 					<td >Descrição</td>
 					<td width="100px;">Realiz.</td>
 					<td>Relat.</td>
@@ -50,18 +50,18 @@
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
 				$loopCount=0; 
-				foreach ($this->atividades as $atividade){?>
+				foreach ($this->operacoes as $operacao){?>
 				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
 					<td class="texto">
-						<?php echo $this->myToolbar ( 'atividades' , 'line', $atividade->id  );?>
+						<?php echo $this->myToolbar ( 'operacoes' , 'line', $operacao->id  );?>
 					</td>
 					<td class="texto">
 						<a href=
-							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'atividade', 'atividade_id' => $atividade->id ) );?>'>
-							<?php echo $atividade->descricao;?>
+							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'operacao', 'operacao_id' => $operacao->id ) );?>'>
+							<?php echo $operacao->descricao;?>
 						</a>
 					</td>
-					<td width='10px'><div id="pb-atividade-<?php echo $atividade->id;?>" class="progressbar"></div></td>
+					<td width='10px'><div id="pb-operacao-<?php echo $operacao->id;?>" class="progressbar"></div></td>
 					<td width='10px'>
 						<a href="#" class="my-button ui-state-default ui-corner-all">
 							<span class="ui-icon ui-icon-print">relatório</span>
@@ -76,6 +76,7 @@
 		<br></br>
 	</div>
 	<?php }?>
+	
 
 
 </div>

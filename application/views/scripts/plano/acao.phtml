@@ -74,7 +74,10 @@
 						foreach ($this->acao->findDependentRowset('Model_MetasAcao',null,$select) as $meta){?>
 						<div style="overflow: auto;border-bottom: thin dashed black;">
 							<div style="float: left;width: 80%; ">
+								<a href=
+								'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'meta', 'meta_id' => $meta->id ) );?>'>
 								<?php echo $meta->descricao;?>
+								</a>
 							</div>
 							 <div style="float: left;width: 19%;">
 							 	<div id="pb-metaacao-<?php echo $meta->id;?>" class="progressbar"></div>

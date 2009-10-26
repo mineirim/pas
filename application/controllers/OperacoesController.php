@@ -27,41 +27,48 @@ class OperacoesController extends Zend_Controller_Action {
 	}
 	
 	public function indexAction() {
-		$metas_acao_id = $this->_getParam ( 'metas_acao_id', 0 );
+		$metas_acao_id = $this->_getParam ( 'meta_id', 0 );
 		
 		$operacoes = new Model_Operacoes ( );
 		$this->view->operacoes = $operacoes->fetchAll ( 'metas_acao_id=' . $metas_acao_id, 'id' );
 	}
+
 	/**
 	 * Adiciona nova operação
 	 * necessário passar o metas_acao_id como parametro
 	 * @return unknown_type
 	 */
 	public function addAction() {
-		
-		$metas_acao_id = $this->_getParam ( 'metas_acao_id' );
-    	
-    	$this->form = new Form_Acoes();
-    	
-    	if ($this->getRequest ()->isPost ()) 
-    	{
-    		$this->saveAction();
-    		
-    	}
-    	
+        $this->view->title = "Adicionar Operação";
+		$this->view->headTitle($this->view->title, 'PREPEND');
+		$metas_acao_id = $this->_getParam ( 'meta_id' );
+		$this->form = new Form_Operacoes();
     	$this->form->getElement('metas_acao_id')->setValue($metas_acao_id);
-    	$this->view->form = $this->form;
+		$this->form->submit->setLabel('Adicionar');
+		$this->view->form = $this->form;
+	    $this->render('add');	
     	
-    	if ($this->_request->isXmlHttpRequest()) {
-                $this->_helper->layout()->disableLayout();
-                $this->_helper->viewRenderer->setNoRender(true);
-               	echo $this->getXml($this->view->operacao);
-    		
-    	}else{
-    		$this->render('edit');
-    	}
+    	if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest ()->getPost ();
+			if ($this->form->isValid ( $formData )) 
+			{
+				$dados = $this->form->getDados ();
+				
+				$operacoes = new Model_Operacoes ( );
+			
+				if($this->form->getValue('id')==''){
+					$id = $operacoes->insert ( $dados );
+				}else{
+					$id = $this->form->getValue('id');
+					$operacoes->update($dados, 'id='.$id);
+				}
+				$this->_redirect('plano/meta/meta_id/'.$dados['metas_acao_id']);
+			}else{
+				$this->form->populate ( $formData );
+			}
+		}
+		
 	}
-	
 	
 	
 	
@@ -76,21 +83,8 @@ class OperacoesController extends Zend_Controller_Action {
     	}
     	$this->view->operacao = $operacao;
     	$this->view->form = $this->form;
-    	
-    	if ($this->_request->isXmlHttpRequest()) {
-                $this->_helper->layout()->disableLayout();
-                $this->_helper->viewRenderer->setNoRender(true);
-               	echo $this->getXml($this->view->operacao);
-    		
-    	}else{
-    		$this->render('edit');
-    	}
-	}
-
-	
-    private function save()
-    {
-    	$this->view->form = $this->form;
+		$this->form->submit->setLabel('Salvar');
+		$this->render('edit');
     	
 		if ($this->getRequest ()->isPost ()) {
 			$formData = $this->getRequest ()->getPost ();
@@ -105,25 +99,18 @@ class OperacoesController extends Zend_Controller_Action {
 					$id = $this->form->getValue('id');
 					$operacoes->update($dados, 'id='.$id);
 				}
-				$operacao = $operacoes->fetchRow('id='.$id);
-				$this->view->operacao = $operacao;
-				$this->form->submit->setAttrib('class','byajax');
-				$this->form->populate ( $operacao->toArray() );			
+				$this->_redirect('plano/meta/meta_id/'.$dados['metas_acao_id']);
+				
 			}else{
 				$this->form->populate ( $formData );
 			} 
 			
 		}
-		if ($this->_request->isXmlHttpRequest()) {
-	        $this->_helper->layout()->disableLayout();
-	        $this->_helper->viewRenderer->setNoRender(true);
-	        echo $this->getXml($this->view->operacao);
-    	}else{
-    		$this->render('edit');
-    	}
-    }		
 
-    
+	}
+
+	
+     
 	public function deleteAction(){
 		$this->view->title = "Excluir";
 	    
@@ -131,6 +118,7 @@ class OperacoesController extends Zend_Controller_Action {
 		
 		
 		$id = $this->_getParam('id', 0);
+		$meta_id = $this->_getParam('meta_id', 0);
 		
 		$form = new Zend_Form();
 		$form->addElement('hidden','id');
@@ -145,7 +133,7 @@ class OperacoesController extends Zend_Controller_Action {
 				$operacao->situacao_id=2;
 				$operacao->save();
 			}
-			$this->_redirect('plano/acoes');
+			$this->_redirect('plano/meta/meta_id/'.$meta_id);
 		}elseif ($id > 0) {
 			
 			$operacao = $operacoes->fetchRow('id='.$id);

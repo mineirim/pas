@@ -8,6 +8,7 @@ class Form_Operacoes extends Zend_Form
 		
 		$this->setName($name);
 		$id = new Zend_Form_Element_Hidden('id');
+		$metas_acao_id = new Zend_Form_Element_Hidden('metas_acao_id');
 		
 		$descricao = new Zend_Form_Element_Textarea('descricao');
 		$descricao->setLabel('Descricao')
@@ -18,9 +19,8 @@ class Form_Operacoes extends Zend_Form
 			->setAttrib('rows',4);
 		
 		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setAttrib('id', 'submitbutton')
-				->setLabel('Salvar');
-		$this->addElements(array($id, $descricao, $submit));
+		$submit->setAttrib('id', 'submitbutton');
+		$this->addElements(array($id, $descricao, $metas_acao_id, $submit));
 	}
 
 	
@@ -32,7 +32,8 @@ class Form_Operacoes extends Zend_Form
 	 */
 	public function getDados($array_add=false) {
 		
-		$dados = array ('descricao' 	=> $this->getValue('descricao') 
+		$dados = array ('descricao' 	=> $this->getValue('descricao'), 
+						'metas_acao_id'	=> $this->getValue('metas_acao_id')
 				);
 		
 		return $dados;

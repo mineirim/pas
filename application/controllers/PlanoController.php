@@ -69,6 +69,92 @@ class PlanoController extends Zend_Controller_Action
       		
       	}
     }
+
+    /*
+     * metaAction()
+     * @author Hugo
+     */
+    public function metaAction()
+    {
+      	
+      	$metas = new Model_MetasAcao();
+      	$operacoes = new Model_Operacoes();
+      	if($this->_hasParam('meta_id')){
+      		$meta_id = $this->_getParam ( 'meta_id', 0 );
+      		$this->view->meta = $metas->fetchRow ( 'id=' . $meta_id, 'id' );
+      		$this->view->operacoes	=	$operacoes->fetchAll('metas_acao_id=' . $meta_id . ' and situacao_id=1', 'id' );
+      		
+      		$this->view->acao = $this->view->meta->findParentRow('Model_Acoes');
+      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
+			$this->view->nivel = 'Meta';
+			$this->view->tableheader = 'Metas_Acao';
+      		
+      	}else{
+      		
+      		echo $this->dispatch('programasAction');
+      		
+      	}
+    }
+    
+    /*
+     * operacaoAction()
+     * @author Hugo
+     * 
+     */
+    public function operacaoAction()
+    {
+      	
+      	$operacoes = new Model_Operacoes();
+		$atividades = new Model_Atividades();
+      	if($this->_hasParam('operacao_id')){
+      		$operacao_id = $this->_getParam ( 'operacao_id', 0 );
+      		$this->view->operacao = $operacoes->fetchRow ( 'id=' . $operacao_id, 'id' );
+      		$this->view->atividades	=	$atividades->fetchAll('operacao_id=' . $operacao_id . ' and situacao_id=1', 'id' );
+
+      		$this->view->meta = $this->view->operacao->findParentRow('Model_MetasAcao');
+      		$this->view->acao = $this->view->meta->findParentRow('Model_Acoes');
+      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
+			$this->view->nivel = 'Operação';
+			$this->view->tableheader = 'Operacoes';
+      		
+      	}else{
+      		
+      		echo $this->dispatch('programasAction');
+      		
+      	}
+    }
+
+    /*
+     * atividadeAction()
+     * @author Hugo
+     * 
+     */
+    public function atividadeAction()
+    {
+      	
+      	$operacoes = new Model_Operacoes();
+		$atividades = new Model_Atividades();
+      	if($this->_hasParam('atividade_id')){
+      		$atividade_id = $this->_getParam ( 'atividade_id', 0 );
+      		$this->view->atividade = $atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
+
+			$this->view->operacao = $this->view->atividade->findParentRow('Model_Operacoes');
+      		$this->view->meta = $this->view->operacao->findParentRow('Model_MetasAcao');
+      		$this->view->acao = $this->view->meta->findParentRow('Model_Acoes');
+      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
+			$this->view->nivel = 'Atividade';
+			$this->view->tableheader = 'Atividades';
+      		
+      	}else{
+      		
+      		echo $this->dispatch('programasAction');
+      		
+      	}
+    }
+    
 }
 
 

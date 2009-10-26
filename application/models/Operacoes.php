@@ -27,6 +27,11 @@ class Model_Operacoes extends Zend_Db_Table_Abstract {
 		$auth = Zend_Auth::getInstance();
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
 		$dados['alteracao_data']=date('Y/m/d h:i:s', time());
+
+		// marcone, retirar as 1 linhas abaixo
+		$dados['alteracao_usuario_id']= 2;
+		
+		
 		return parent::update($dados,$where);
 		
 	}
@@ -34,6 +39,12 @@ class Model_Operacoes extends Zend_Db_Table_Abstract {
 		$auth = Zend_Auth::getInstance();
 		$dados['inclusao_usuario_id']= $auth->getIdentity()->id;
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
+
+		// marcone, retirar as 2 linhas abaixo
+		$dados['inclusao_usuario_id']= 2;
+		$dados['alteracao_usuario_id']= 2;
+		
+		
 		return parent::insert($dados);
 	}
 
