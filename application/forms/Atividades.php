@@ -30,11 +30,17 @@ class Form_Atividades extends Zend_Form
 			->setAttrib('size','80');
 		$valor = new Zend_Form_Element_Text('valor');
 		$valor->setLabel('Valor');
-			
+		$inicio_data = new Zend_Form_Element_Text('inicio_data');
+		$inicio_data->setLabel('Data Início');
+		$inicio_data->setAttrib('class','datepick');
+		$prazo_data = new Zend_Form_Element_Text('prazo_data');
+		$prazo_data->setLabel('Prazo Realização');
+		$prazo_data->setAttrib('class','datepick');
+		
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton')
 				->setLabel('Salvar');
-		$this->addElements(array($id, $descricao, $responsavel, $intersecao, $valor, $operacao_id, $submit));
+		$this->addElements(array($id, $descricao, $responsavel, $intersecao, $valor, $inicio_data, $prazo_data, $operacao_id, $submit));
 	}
 
 	

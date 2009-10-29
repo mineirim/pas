@@ -53,11 +53,13 @@ class AuthController extends Zend_Controller_Action {
 			$password = $filter->filter ( $this->_request->getPost ( 'password' ));
 			$authadapter->setIdentity ( $username )->setCredential ( $password);
 			// Check it
-			$result = $authadapter->authenticate ();
+			$auth = Zend_Auth::getInstance();
+			$result = $auth->authenticate ($authadapter);
+			
 			if ($result->isValid ()) {
 				// It is a valid login, store it in the auth storage, but dont save the password and the salt
 				$zf_auth = Zend_Auth::getInstance();
-				$zf_auth->getStorage ()->write ( $authadapter->getResultRowObject ( null, array ('password', 'salt' ) ) );
+				$auth->getStorage ()->write ( $authadapter->getResultRowObject ( null, array ('password', 'salt' ) ) );
 				
 				$acl = new App_Myacl(Zend_Auth::getInstance());
 				

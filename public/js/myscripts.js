@@ -81,6 +81,8 @@ $(document).ready(function(){
 
 			
 		});
+		$(".datepick").datepicker({dateformat:"dd-mm-yy"});
+
 });
 
 function showDescritivo(data,result,obj){
