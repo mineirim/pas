@@ -52,14 +52,28 @@ class AuthController extends Zend_Controller_Action {
 			$username = $filter->filter ( $this->_request->getPost ( 'username' ) );
 			$password = $filter->filter ( $this->_request->getPost ( 'password' ));
 			$authadapter->setIdentity ( $username )->setCredential ( $password);
+			
+			
+			
 			// Check it
+			
 			$auth = Zend_Auth::getInstance();
-			$result = $auth->authenticate ($authadapter);
+			$auth->clearIdentity();
+			$auth->getStorage()->clear();
+			$result =$authadapter->authenticate() ;//  $auth->authenticate ($authadapter);
+			
+			$zf_auth = Zend_Auth::getInstance();
+			
+			
 			
 			if ($result->isValid ()) {
+				
+				$usuarios = new Model_Usuarios();
+				
 				// It is a valid login, store it in the auth storage, but dont save the password and the salt
 				$zf_auth = Zend_Auth::getInstance();
 				$auth->getStorage ()->write ( $authadapter->getResultRowObject ( null, array ('password', 'salt' ) ) );
+				
 				
 				$acl = new App_Myacl(Zend_Auth::getInstance());
 				
@@ -83,7 +97,8 @@ class AuthController extends Zend_Controller_Action {
 			} else {
 				// Not valid, show the loginform
 				$this->view->errormessage = "Username or Password false.";
-				return $this->indexAction ();
+				$mensagem = "Erro";
+				
 			}
 		} catch ( Zend_Db_Adapter_Exception $e ) {
 			$mensagem = "{success:false, dados: {code: '4'}}";
@@ -97,63 +112,7 @@ class AuthController extends Zend_Controller_Action {
 		$this->getResponse ()->setBody ( $mensagem );
 		
 	}
-	public function logarAction() {
-		if (! ($this->_request->isPost ()))
-			$this->_redirect ( '/' );
-		
-		try {
-			$filter = new Zend_Filter ( );
-			$filter->addFilter ( new Zend_Filter_StringTrim ( ) )->addFilter ( new Zend_Filter_StripTags ( ) )->addFilter ( new Zend_Filter_Alnum ( ) );
-			
-			$nome = $filter->filter ( $this->_request->getPost ( 'nome' ) );
-			$senha = $filter->filter ( $this->_request->getPost ( 'senha' ) );
-			
-			$config = Zend_Registry::get ( 'config' );
-			$db = Zend_Db::factory ( $config->database );
-			
-			$authAdapter = new Zend_Auth_Adapter_DbTable ( $db );
-			$authAdapter->setTableName ( "Usuarios" )->setIdentityColumn ( "Login" )->setCredentialColumn ( "Senha" )->setCredentialTreatment ( 'MD5(?)' )->setIdentity ( $nome )->setCredential ( $senha );
-			
-			$result = Zend_Auth::getInstance ()->authenticate ( $authAdapter );
-			
-			$db->closeConnection ();
-			
-			switch ($result->getCode ()) {
-				case Zend_Auth_Result::SUCCESS :
-					$data = $authAdapter->getResultRowObject ( null, "Senha" );
-					if ($data->Nivel_Acesso > 0) {
-						Zend_Auth::getInstance ()->getStorage ()->write ( $data );
-						$log_txt = "Login|$nome|" . date ( "Y-m-d H:i:s" );
-						$log_xml->log ( $log_txt, Zend_Log::INFO );
-						$mensagem = "{success:true, dados: {code: '0', usuario:'" . ucfirst ( strtolower ( $nome ) ) . "'}}";
-					} else {
-						Zend_Auth::getInstance ()->clearIdentity ();
-						$log_txt = "Aguardando liberação|$nome|" . date ( "Y-m-d H:i:s" );
-						$log_xml->log ( $log_txt, Zend_Log::INFO );
-						$mensagem = "{success:false, dados: {code: '1'}}";
-					}
-					break;
-				case Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND :
-					$log_xml->log ( 'Erro Usuario nao cadastrado!!!', Zend_Log::WARN );
-					$mensagem = "{success:false, dados: {code: '2'}}";
-					break;
-				case Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID :
-					$log_xml->log ( 'Erro senha errada!!!', Zend_Log::WARN );
-					$mensagem = "{success:false, dados: {code: '3'}}";
-					break;
-			}
-		} catch ( Zend_Db_Adapter_Exception $e ) {
-			$mensagem = "{success:false, dados: {code: '4'}}";
-			$log_xml->log ( $e->getMessage (), Zend_Log::WARN );
-		} catch ( Zend_Exception $e ) {
-			$mensagem = "{success:false, dados: {code: '5'}}";
-			$log_xml->log ( $e->getMessage (), Zend_Log::WARN );
-		}
-		$this->getResponse ()->clearBody ();
-		$this->getResponse ()->setHeader ( 'Content-Type', 'text/x-json; charset=iso-8859-1' );
-		$this->getResponse ()->setBody ( $mensagem );
-	}
-	
+
 	function logoutAction() {
 		Zend_Registry::_unsetInstance ();
 		Zend_Auth::getInstance ()->clearIdentity ();
