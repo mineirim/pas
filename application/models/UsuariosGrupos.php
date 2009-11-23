@@ -9,11 +9,11 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_UsuariosGrupos extends Zend_Db_Table_Abstract {
+class Model_UsuariosGrupos extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'usuarios_grupos';
+	protected $_name = 'public.usuarios_grupos';
 	protected $_referenceMap = array (
 	                     		'Usuarios' => array ( 'columns' => 'usuario_id', 
 	                     							  'refTableClass' => 'Model_Usuarios', 
@@ -23,4 +23,9 @@ class Model_UsuariosGrupos extends Zend_Db_Table_Abstract {
 	                     							  'refColumns' => 'id' ) 							
 								);
 
+								
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}									
 }

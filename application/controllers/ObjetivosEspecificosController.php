@@ -1,6 +1,6 @@
 <?php
 
-class AcoesController extends Zend_Controller_Action
+class ObjetivosEspecificosController extends Zend_Controller_Action
 {
 	private $form;
 	private $formObjetivos;
@@ -14,20 +14,17 @@ class AcoesController extends Zend_Controller_Action
         			->addActionContext('addObjetivo',array('json','xml'))
                     ->initContext();    	
         /* Initialize action controller here */
-    	$this->form = new Form_Acoes();
+    	$this->form = new Form_ObjetivosEspecificos();
     	
     	$this->formDescritivo = new Form_Descritivo();
     	
     	
     	
-    	$form_acao_id = new Zend_Form_Element_Hidden('acao_id');
-    	$form_acao_id->setRequired(true)->addValidator('NotEmpty');
-    	$this->formDescritivo->addElement($form_acao_id);
+    	$form_objetivoespecifico_id = new Zend_Form_Element_Hidden('objetivo_especifico_id');
+    	$form_objetivoespecifico_id->setRequired(true)->addValidator('NotEmpty');
+    	$this->formDescritivo->addElement($form_objetivoespecifico_id);
     	$this->view->formDescritivo = $this->formDescritivo;
     	
-    	$this->view->selectobjetivos = new Zend_Form_Element_Select('objetivo_id');
-    	$this->view->selectobjetivos->setLabel("Vincular ao objetivo:");
-    					
     	 
     }
 
@@ -39,7 +36,7 @@ class AcoesController extends Zend_Controller_Action
     {
 		$projeto_id = $this->_getParam ( 'projeto_id' );
     	
-    	$this->form = new Form_Acoes();
+    	$this->form = new Form_ObjetivosEspecificos();
     	
     	if ($this->getRequest ()->isPost ()) 
     	{
@@ -53,7 +50,7 @@ class AcoesController extends Zend_Controller_Action
     	if ($this->_request->isXmlHttpRequest()) {
                 $this->_helper->layout()->disableLayout();
                 $this->_helper->viewRenderer->setNoRender(true);
-               	echo $this->getXml($this->view->acao);
+               	echo $this->getXml($this->view->meta);
     		
     	}else{
     		$this->render('edit');
@@ -63,20 +60,20 @@ class AcoesController extends Zend_Controller_Action
     public function editAction()
     {
     	$id = $this->_getParam ( 'id' );
-    	$acoes = new Model_Acoes();
-    	$acao = $acoes->fetchRow('id='.$id);
+    	$objetivosEspecificos = new Model_ObjetivosEspecificos();
+    	$objetivo_especifico = $objetivosEspecificos->fetchRow('id='.$id);
     	
-    	if($acao)
+    	if($objetivo_especifico)
     	{
-    		$this->form->populate($acao->toArray());
+    		$this->form->populate($objetivo_especifico->toArray());
     	}
-    	$this->view->acao = $acao;
+    	$this->view->meta = $objetivo_especifico;
     	$this->view->form = $this->form;
     	
     	if ($this->_request->isXmlHttpRequest()) {
                 $this->_helper->layout()->disableLayout();
                 $this->_helper->viewRenderer->setNoRender(true);
-               	echo $this->getXml($this->view->acao);
+               	echo $this->getXml($this->view->meta);
     		
     	}else{
     		$this->render('edit');
@@ -92,18 +89,18 @@ class AcoesController extends Zend_Controller_Action
 			if ($this->form->isValid ( $formData )) 
 			{
 				$dados = $this->form->getDados ();
-				$acoes = new Model_Acoes ( );
+				$objetivosEspecificos = new Model_ObjetivosEspecificos ( );
 			
 				if($this->form->getValue('id')==''){
-					$id = $acoes->insert ( $dados );
+					$id = $objetivosEspecificos->insert ( $dados );
 				}else{
 					$id = $this->form->getValue('id');
-					$acoes->update($dados, 'id='.$id);
+					$objetivosEspecificos->update($dados, 'id='.$id);
 				}
-				$acao = $acoes->fetchRow('id='.$id);
-				$this->view->acao = $acao;
+				$objetivo_especifico = $objetivosEspecificos->fetchRow('id='.$id);
+				$this->view->meta = $objetivo_especifico;
 				$this->form->submit->setAttrib('class','byajax');
-				$this->form->populate ( $acao->toArray() );			
+				$this->form->populate ( $objetivo_especifico->toArray() );			
 			}else{
 				$this->form->populate ( $formData );
 			} 
@@ -112,53 +109,16 @@ class AcoesController extends Zend_Controller_Action
 		if ($this->_request->isXmlHttpRequest()) {
 	        $this->_helper->layout()->disableLayout();
 	        $this->_helper->viewRenderer->setNoRender(true);
-	        echo $this->getXml($this->view->acao);
+	        echo $this->getXml($this->view->meta);
     	}else{
     		$this->render('edit');
     	}
 		
     
     }
+
     /**
-     * Adiciona objetio à ação
-     * @return unknown_type
-     */
-    public function addobjetivoAction(){
-    	
-    	if ($this->getRequest ()->isPost ()) 
-    	{
-    		$formData = $this->getRequest ()->getPost ();
-			if ($this->formDescritivo->isValid ( $formData )) 
-			{
-    			$dados = $this->formDescritivo->getDados ();
-    			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id');
-    			$objetivosAcao = new Model_ObjetivosAcao();
-				if($this->formDescritivo->getValue('id')==''){
-					$id = $objetivosAcao->insert ( $dados );
-				}else{
-					$id = $this->formDescritivo->getValue('id');
-					$objetivosAcao->update($dados, 'id='.$id);
-				}
-				
-    			$objetivoAcao = $objetivosAcao->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($objetivoAcao->toArray());
-			}else{
-				$this->formDescritivo->populate($formData);
-				$return = $this->formDescritivo->processAjax($this->_request->getPost());
-			}
-    	}
-		if ($this->_request->isXmlHttpRequest()) {
-	        $this->_helper->layout()->disableLayout();
-	        $this->_helper->viewRenderer->setNoRender(true);
-	        echo $return;
-    	}else{
-    		$this->_setParam('id',$this->formDescritivo->getValue('acao_id'));
-    		$this->_forward('edit');
-    	}
-    	
-    }
-    /**
-     * Adiciona Estratégia à ação
+     * Adiciona Estratégia ao ObjetivoEspecífico
      */
     public function addestrategiaAction(){
     	
@@ -168,19 +128,17 @@ class AcoesController extends Zend_Controller_Action
 			if ($this->formDescritivo->isValid ( $formData )) 
 			{
     			$dados = $this->formDescritivo->getDados ();
-    			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id');
-    			$objetivo_id = $this->_getParam('objetivo_id');
-    			$dados['objetivo_id']= $objetivo_id?$objetivo_id :	NULL;
+    			$dados['objetivo_especifico_id'] = $this->formDescritivo->getValue('objetivo_especifico_id');
     			 
-    			$estrategiasAcao = new Model_EstrategiasAcao();
+    			$estrategias = new Model_Estrategias();
 				if($this->formDescritivo->getValue('id')==''){
-					$id = $estrategiasAcao->insert ( $dados );
+					$id = $estrategias->insert ( $dados );
 				}else{
 					$id = $this->formDescritivo->getValue('id');
-					$estrategiasAcao->update($dados, 'id='.$id);
+					$estrategias->update($dados, 'id='.$id);
 				}
-    			$estrategiaAcao = $estrategiasAcao->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($estrategiaAcao->toArray());
+    			$estrategia = $estrategias->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($estrategia->toArray());
 			}else{
 				$this->formDescritivo->populate($formData);
 				$return = $this->formDescritivo->processAjax($this->_request->getPost());
@@ -191,7 +149,7 @@ class AcoesController extends Zend_Controller_Action
 	        $this->_helper->viewRenderer->setNoRender(true);
 	        echo $return;
     	}else{
-    		$this->_setParam('id',$this->formDescritivo->getValue('acao_id'));
+    		$this->_setParam('id',$this->formDescritivo->getValue('objetivo_especifico_id'));
     		$this->dispatch('edit');
     	}
     	
@@ -209,19 +167,17 @@ class AcoesController extends Zend_Controller_Action
 			if ($this->formDescritivo->isValid ( $formData )) 
 			{
     			$dados = $this->formDescritivo->getDados ();
-    			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id');
-    			$objetivo_id = $this->_getParam('objetivo_id');
-    			$dados['objetivo_id']= $objetivo_id?$objetivo_id :	NULL;
+    			$dados['objetivo_especifico_id'] = $this->formDescritivo->getValue('objetivo_especifico_id');
     			
-    			$metasAcao = new Model_MetasAcao();
+    			$metas = new Model_Metas();
 				if($this->formDescritivo->getValue('id')==''){
-					$id = $metasAcao->insert ( $dados );
+					$id = $metas->insert ( $dados );
 				}else{
 					$id = $this->formDescritivo->getValue('id');
-					$metasAcao->update($dados, 'id='.$id);
+					$metas->update($dados, 'id='.$id);
 				}
-    			$metaAcao = $metasAcao->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($metaAcao->toArray());
+    			$meta = $metas->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($meta->toArray());
     			
 			}else{
 				$this->formDescritivo->populate($formData);
@@ -233,7 +189,7 @@ class AcoesController extends Zend_Controller_Action
 	        $this->_helper->viewRenderer->setNoRender(true);
 	        echo $return;
     	}else{
-    		$this->_forward('edit',null,null,array('id'=>$this->formDescritivo->getValue('acao_id')));
+    		$this->_forward('edit',null,null,array('id'=>$this->formDescritivo->getValue('objetivo_especifico_id')));
     	}
     	
     }       
@@ -249,17 +205,17 @@ class AcoesController extends Zend_Controller_Action
 			if ($this->formDescritivo->isValid ( $formData )) 
 			{
     			$dados = $this->formDescritivo->getDados ();
-    			$dados['acao_id'] = $this->formDescritivo->getValue('acao_id'); 
+    			$dados['objetivo_especifico_id'] = $this->formDescritivo->getValue('objetivo_especifico_id'); 
     			
-    			$parceriasAcao = new Model_ParceriasAcao();
+    			$parcerias = new Model_Parcerias();
 				if($this->formDescritivo->getValue('id')==''){
-					$id = $parceriasAcao->insert ( $dados );
+					$id = $parcerias->insert ( $dados );
 				}else{
 					$id = $this->formDescritivo->getValue('id');
-					$parceriasAcao->update($dados, 'id='.$id);
+					$parcerias->update($dados, 'id='.$id);
 				}
-    			$parceriaAcao = $parceriasAcao->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($parceriaAcao->toArray());
+    			$parceria = $parcerias->fetchRow('id='.$id);
+    			$return = Zend_Json_Encoder::encode($parceria->toArray());
     			
 			}else{
 				$this->formDescritivo->populate($formData);
@@ -271,7 +227,7 @@ class AcoesController extends Zend_Controller_Action
 	        $this->_helper->viewRenderer->setNoRender(true);
 	        echo $return;
     	}else{
-    		$this->_forward('edit',null,null,array('id'=>$this->formDescritivo->getValue('acao_id')));
+    		$this->_forward('edit',null,null,array('id'=>$this->formDescritivo->getValue('objetivo_especifico_id')));
     	}
     	
     }      
@@ -289,7 +245,7 @@ class AcoesController extends Zend_Controller_Action
 		$this->_xml = new DOMDocument('1.0', 'UTF-8');
         $this->_xml->formatOutput = true;
  
-		$responseNode = $this->_xml->createElement('acao');
+		$responseNode = $this->_xml->createElement('objetivo_especifico');
 		if($row){
 			$id = $this->_xml->createElement('id',$row->id);
 			$responseNode->appendChild($id);

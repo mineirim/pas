@@ -1,0 +1,18 @@
+
+<h3>Cadastro de Metas</h3>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'metas', 'action'=>'save'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->form->id ?>
+			</div>
+			<?php echo $this->form->objetivo_especifico_id;?>
+			<?php echo $this->form->descricao;?>
+			
+			<?php echo $this->form->submit;?>
+		</form>
+
+	</div>
+
+

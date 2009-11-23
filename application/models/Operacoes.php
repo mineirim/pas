@@ -9,7 +9,7 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Operacoes extends Zend_Db_Table_Abstract {
+class Model_Operacoes extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
@@ -17,8 +17,8 @@ class Model_Operacoes extends Zend_Db_Table_Abstract {
 	// dúvida: é necessário quando eu não estou atualizando uma subpágina na mesma página?
 	protected $_dependentTables = array('Model_Atividades');
 	protected $_referenceMap = array (
-	                     		'MetasAcao' => array ( 'columns' => 'metas_acao_id', 
-	                     							  'refTableClass' => 'Model_MetasAcao', 
+	                     		'Model_Metas' => array ( 'columns' => 'meta_id', 
+	                     							  'refTableClass' => 'Model_Metas', 
 	                     							  'refColumns' => 'id' ) 							
 								);	
 
@@ -28,9 +28,6 @@ class Model_Operacoes extends Zend_Db_Table_Abstract {
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
 		$dados['alteracao_data']=date('Y/m/d h:i:s', time());
 
-		// marcone, retirar as 1 linhas abaixo
-		$dados['alteracao_usuario_id']= 2;
-		
 		
 		return parent::update($dados,$where);
 		
@@ -40,10 +37,7 @@ class Model_Operacoes extends Zend_Db_Table_Abstract {
 		$dados['inclusao_usuario_id']= $auth->getIdentity()->id;
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
 
-		// marcone, retirar as 2 linhas abaixo
-		$dados['inclusao_usuario_id']= 2;
-		$dados['alteracao_usuario_id']= 2;
-		
+	
 		
 		return parent::insert($dados);
 	}

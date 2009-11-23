@@ -9,21 +9,25 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_IndicadoresConfigs extends Zend_Db_Table_Abstract {
+class Model_IndicadoresConfiguracoes extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
 	protected $_order = 'id';
-	protected $_name = 'indicador_configs';
+	protected $_name = 'public.indicador_configuracoes';
 	protected $_referenceMap = array (
 	                     		'Indicadores' => array ( 'columns' => 'indicador_id', 
 	                     							  'refTableClass' => 'Model_Indicadores', 
 	                     							  'refColumns' => 'id' ),
-								'TiposPeriodo' => array ( 'columns' => 'tipo_periodo_id', 
-	                     							  'refTableClass' => 'Model_TiposPeriodo', 
+								'TiposPeriodos' => array ( 'columns' => 'tipo_periodo_id', 
+	                     							  'refTableClass' => 'Model_TiposPeriodos', 
 	                     							  'refColumns' => 'id' ) 							
 								);	
-
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}									
+								
 	public function update($dados, $where){
 		$auth = Zend_Auth::getInstance();
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;

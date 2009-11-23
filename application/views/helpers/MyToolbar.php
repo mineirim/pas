@@ -73,14 +73,21 @@ class Zend_View_Helper_MyToolbar {
 					<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Projeto</a>";
 			
 		}elseif($this->_controller=='projetos'){
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'acoes','action'=>'add'))."'
-					title='Adicionar Ação' 
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'objetivos-especificos','action'=>'add'))."'
+					title='Adicionar Objetivo' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-					<span class='ui-icon ui-icon-plus'>Adicionar Ação</span>Adicionar Ação</a>";
+					<span class='ui-icon ui-icon-plus'>Adicionar Objetivo</span>Adicionar Objetivo</a>";
 			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add', 'projeto_id'=>$this->_id ))."'
 					title='Adicionar Subprojeto' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Subprojeto</span>Adicionar Subprojeto</a>";
+		}elseif($this->_controller=='objetivos-especificos'){
+
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'metas','action'=>'add'))."'
+					title='Adicionar Meta' 
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					<span class='ui-icon ui-icon-plus'>Adicionar Meta</span>Adicionar Meta</a>";
+			
 		}
 		
 		$ret = $divsini.$toolbar.$divsfim;

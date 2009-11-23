@@ -21,7 +21,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		if (! isset ( $mysession->temax )) {
 			$mysession->temax = 'custom-theme';
 		}
+		Zend_Registry::set('schema','poa2010');
 	
+	}
+	function _initLocale(){
+		$locale = new Zend_Locale('pt_BR');
+		Zend_Registry::set('Zend_Locale', $locale);
 	}
 	function _initViewHelpers() {
 		$this->bootstrap ( 'layout' );

@@ -9,7 +9,7 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Projetos extends Zend_Db_Table_Abstract {
+class Model_Projetos extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */

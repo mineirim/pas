@@ -10,17 +10,8 @@ class AtividadesController extends Zend_Controller_Action {
         /* Initialize action controller here */
     	$this->form = new Form_Atividades();
     	$this->form->addElement('hidden','operacao_id');
-    	$this->form->addDisplayGroup(array('id', 'operacao_id','operacao_id'),'ident');
-    	$this->formDescritivo = new Form_Descritivo();
     	
     	
-    	/**
-    	 *  @var Elemento que representa o id do programa nos forms descritivos(objetivos e metas)
-    	 */
-    	$form_atividade_id = new Zend_Form_Element_Hidden('atividade_id');
-    	$form_atividade_id->setRequired(true)->addValidator('NotEmpty');
-    	$this->formDescritivo->addElement($form_atividade_id);
-    	$this->view->formDescritivo = $this->formDescritivo;
 		
     	    	
 		
@@ -68,13 +59,27 @@ class AtividadesController extends Zend_Controller_Action {
 	public function editAction() {
     	$id = $this->_getParam ( 'id' );
     	$atividades = new Model_Atividades();
-    	$atividade = $atividades->fetchRow('id='.$id);
     	
     	if ($this->getRequest ()->isPost ()) 
     	{
     		$this->saveAction();
     		
     	}
+    	$atividade = $atividades->fetchRow('id='.$id);
+    	
+    	if($atividade){
+    		$inicio = new Zend_Date($atividade->inicio_data,Zend_Date::ISO_8601);
+    		
+    		$prazo =  new Zend_Date($atividade->prazo_data,Zend_Date::ISO_8601);
+    		
+    		$atividade->inicio_data = $inicio->toString('dd/MM/yyyy');
+    		$atividade->prazo_data = $prazo->toString('dd/MM/yyyy');
+    		 
+    		$this->form->populate($atividade->toArray());
+    	}else{
+    		$this->_redirect('error/naoexiste');
+    	}
+    	
     	$this->view->atividade = $atividade;
     	$this->view->form = $this->form;
     	
@@ -100,7 +105,8 @@ class AtividadesController extends Zend_Controller_Action {
 				$dados = $this->form->getDados ();
 				
 				$atividades = new Model_Atividades ( );
-			
+				
+				
 				if($this->form->getValue('id')==''){
 					$id = $atividades->insert ( $dados );
 				}else{
@@ -153,7 +159,17 @@ class AtividadesController extends Zend_Controller_Action {
 		$form->populate($atividade->toArray());
 		$this->view->form = $form;
 	}    
-    
+
+
+
+	// Passando data do text box "DD/MM/AAAA" para "AAAA-MM-DD"
+	function gravaData ($data) {
+		if ($data != '') {
+			$dt = split('/',$data);
+		   return ($dt[2].'/'.$dt[1].'/'.$dt[0]);
+		}
+		else { return ''; }
+	}	
 }
 
 

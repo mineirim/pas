@@ -15,16 +15,20 @@
 		</tr>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->projeto,
 													 'nome'=>'Projeto', 'detalhar'=>($this->nivel=='Projeto')));?>
+
 		<tr>
 		<td colspan="2" height="2px" style="background-color:black"></td>
 		</tr>		
-		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->acao,
-													 'nome'=>'Ação', 'detalhar'=>($this->nivel=='Acao')));?>
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->objetivo_especifico,
+													 'nome'=>'objetivos-especificos', 'detalhar'=>false, 
+													 'label'=>'Objetivo Específico',
+													 'campo_id'=>'objetivo_especifico_id' ));?>
+
 		<tr>
 		<td colspan="2" height="2px" style="background-color:black"></td>
 		</tr>		
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->meta,
-													 'nome'=>'Meta', 'detalhar'=>($this->nivel=='MetaAcao')));?>
+													 'nome'=>'Meta', 'detalhar'=>false));?>
 		<tr>
 		<td colspan="2" height="2px" style="background-color:black"></td>
 		</tr>		

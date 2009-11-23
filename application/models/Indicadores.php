@@ -9,13 +9,19 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Indicadores extends Zend_Db_Table_Abstract {
+class Model_Indicadores extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
 	protected $_order = 'id';
-	protected $_name = 'indicadores';
-	protected $_dependentTables = array('Model_IndicadoresConfig', 'Model_IndicadoresPrograma', 'Model_IndicadoresProjeto');
+	protected $_name = 'public.indicadores';
+	protected $_dependentTables = array('Model_IndicadoresConfig', 'Model_IndicadoresPrograma', 'Model_IndicadoresProjeto','Model_IndicadoresMeta');
+	
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}									
+	
 	
 	public function update($dados, $where){
 		$auth = Zend_Auth::getInstance();

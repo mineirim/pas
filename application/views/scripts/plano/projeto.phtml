@@ -68,11 +68,11 @@
 
 
 	<br></br>
-	<?php if(count($this->acoes)){?>
+	<?php if(count($this->objetivos_especificos)){?>
 	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'>
 		
 		<table width="100%">
-			<caption class="text-caption ui-widget removedui-widget-header"><b>Ações</b></caption>
+			<caption class="text-caption ui-widget removedui-widget-header"><b>Objetivos Específicos</b></caption>
 			<thead class="ui-widget removedui-widget-header">
 				<tr class="odd">
 					<td width="40px"><?php echo $this->myToolbar('acoes','toptable');?></td>
@@ -84,18 +84,18 @@
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
 				$loopCount=0; 
-				foreach ($this->acoes as $acao){?>
+				foreach ($this->objetivos_especificos as $objetivos_especificos){?>
 				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
 					<td class="texto">
-						<?php echo $this->myToolbar ( 'acoes' , 'line', $acao->id  );?>
+						<?php echo $this->myToolbar ( 'objetivos-especificos' , 'line', $objetivos_especificos->id  );?>
 					</td>
 					<td class="texto">
 						<a href=
-							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'acao', 'acao_id' => $acao->id ) );?>'>
-							<?php echo $acao->descricao;?>
+							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'objetivos-especificos', 'objetivo_especifico_id' => $objetivos_especificos->id ) );?>'>
+							<?php echo $objetivos_especificos->descricao;?>
 						</a>
 					</td>
-					<td width='10px'><div id="pb-acao-<?php echo $acao->id;?>" class="progressbar"></div></td>
+					<td width='10px'><div id="pb-acao-<?php echo $objetivos_especificos->id;?>" class="progressbar"></div></td>
 					<td width='10px'>
 						<a href="#" class="my-button ui-state-default ui-corner-all">
 							<span class="ui-icon ui-icon-print">relatório</span>

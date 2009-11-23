@@ -9,15 +9,20 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Grupos extends Zend_Db_Table_Abstract {
+class Model_Grupos extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'grupos';
+	
+	protected $_name = 'public.grupos';
+	protected $_primary='id';
 	protected $_dependentTables = array('UsuariosGrupos');
 
-	
-    public function insert(array $dados, array $paginas) {
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}									
+	public function insert(array $dados, array $paginas) {
 		
 		$this->getAdapter()->beginTransaction();
     	

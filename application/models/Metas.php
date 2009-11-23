@@ -9,20 +9,18 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_MetasAcao extends Zend_Db_Table_Abstract {
+class Model_Metas extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'metas_acao';
+	protected $_name = 'metas';
 	protected $_referenceMap = array (
-	                     		'Acoes' => array ( 'columns' => 'acao_id', 
-	                     							  'refTableClass' => 'Model_Acoes', 
-	                     							  'refColumns' => 'id' ),
-	 							'ObjetivosAcao' => array ( 'columns' => 'objetivo_id', 
-	                     							  'refTableClass' => 'Model_ObjetivosAcao', 
+	                     		'Model_ObjetivosEspecificos' => array ( 'columns' => 'objetivo_especifico_id', 
+	                     							  'refTableClass' => 'Model_ObjetivosEspecificos', 
 	                     							  'refColumns' => 'id' )
 								);	
-
+ 	protected $_dependentTables = array('Model_Operacoes');
+ 	
 	public function update($dados, $where){
 		$auth = Zend_Auth::getInstance();
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;

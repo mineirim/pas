@@ -9,16 +9,15 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_ObjetivosAcao extends Zend_Db_Table_Abstract {
+class Model_Parcerias extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
 	protected $_order = 'id';
-	protected $_name = 'objetivos_acao';
-	protected $_dependentTables = array('Model_MetasAcao','Model_EstrategiasAcao');
+	protected $_name = 'parcerias';
 	protected $_referenceMap = array (
-	                     		'Acoes' => array ( 'columns' => 'acao_id', 
-	                     							  'refTableClass' => 'Model_Acoes', 
+	                     		'ObjetivosEspecificos' => array ( 'columns' => 'objetivo_especifico_id', 
+	                     							  'refTableClass' => 'Model_ObjetivosEspecificos', 
 	                     							  'refColumns' => 'id' ) 							
 								);	
 

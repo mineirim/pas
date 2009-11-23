@@ -1,0 +1,95 @@
+
+<div id="formtabs" style="width: 800px; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Objetivo Específico</a></li>
+		<li><a href="#tabs-1">Estratégias</a></li>
+		<li><a href="#tabs-2">Parcerias</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'objetivos-especificos', 'action'=>'save'));?>' 
+			method="post">
+			<input type="hidden" id="dependents" value="1,2"/>
+			<div style='display:none'>
+			<?php echo $this->form->getDisplayGroup('ident') ?>
+			</div>
+			<?php echo $this->form->descricao;?>
+			
+			<?php echo $this->form->menu;?>
+			
+			<?php echo $this->form->recursos;?>
+			
+			<?php echo $this->form->cronograma;?>
+			
+			<?php echo $this->form->submit;?>
+		</form>
+
+	</div>
+
+
+	<div id="tabs-1" style="overflow: hidden">
+
+		<?php if(isset($this->objetivo_especifico)){ ?>
+		<form id='frmestrategias' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'objetivos-especificos', 'action'=>'addestrategia'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='objetivo_especifico_id' value='<?php echo $this->objetivo_especifico->id?>'>
+			</div>
+			<?php echo $this->formDescritivo->descricao;?>
+			
+			<?php echo $this->selectobjetivos?>
+			
+			<?php echo $this->formDescritivo->submit;?>			
+		</form>	
+		<br>
+		<table width="100%" id="tbestrategias" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th>Estratégias</th>
+			</tr>
+	<?php  
+			foreach($this->objetivo_especifico->findModel_Estrategias() as $estrategia){
+	?>
+			<tr>
+				<td><?php echo $estrategia->descricao;?></td>
+			</tr>
+			<?php }?>
+		</table>
+		<?php }?>
+		<button>Proximo >></button>
+
+		
+	</div>
+
+	<div id="tabs-2" style="overflow: hidden">
+		
+		<?php if(isset($this->objetivo_especifico)){ ?>
+		<form id='frmparcerias' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'objetivos-especificos', 'action'=>'addparceria'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='objetivo_especifico_id' value='<?php echo $this->objetivo_especifico->id?>'>
+			</div>
+			<?php echo $this->formDescritivo->descricao;?>
+			
+			<?php echo $this->formDescritivo->submit;?>			
+		</form>	
+		<br>
+		<table width="100%" id="tbparcerias" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th>Parceria</th>
+			</tr>
+	<?php  
+			foreach($this->objetivo_especifico->findModel_Parcerias() as $parceria){
+	?>
+			<tr>
+				<td><?php echo $parceria->descricao;?></td>
+			</tr>
+			<?php }?>
+		</table>
+		<?php }?>
+	</div>
+	
+</div>

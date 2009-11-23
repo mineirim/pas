@@ -1,11 +1,15 @@
 <?php
-class Model_Usuarios extends Zend_Db_Table_Abstract
+class Model_Usuarios extends App_DefaultModel
 {
-	protected $_name = 'usuarios';
+	protected $_name = 'public.usuarios';
 	protected $_dependentTables = array('Model_UsuariosGrupos');
 	private $password_md5;
 	private $salt;
-	
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}									
+			
 	public function getUsuario($id)
 	{
 		$id = (int)$id;

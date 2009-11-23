@@ -9,13 +9,13 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_TiposPeriodo extends Zend_Db_Table_Abstract {
+class Model_TiposPeriodos extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
 	protected $_order = 'id';
-	protected $_name = 'tipos_periodo';
-	protected $_dependentTables = array('Model_IndicadoresConfigs'); 
+	protected $_name = 'public.tipos_periodos';
+	protected $_dependentTables = array('Model_IndicadoresConfiguracoes'); 
 	
 	
 

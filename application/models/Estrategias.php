@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Projetos
+ * EstrategiasAcao
  *  
  * @author marcone
  * @version 
@@ -9,23 +9,18 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Acoes extends Zend_Db_Table_Abstract {
+class Model_Estrategias extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'acoes';
-	protected $_dependentTables = array('Model_MetasAcao',
-										'Model_EstrategiasAcao', 
-										'Model_ObjetivosAcao', 
-										'Model_ParceriasAcao');
+	protected $_name = 'estrategias';
 	protected $_referenceMap = array (
-	                     		'Projetos' => array ( 'columns' => 'projeto_id', 
-	                     							  'refTableClass' => 'Model_Projetos', 
-	                     							  'refColumns' => 'id' ) 							
+	 							'ObjetivosEspecificos' => array ( 'columns' => 'objetivo_especifico_id', 
+	                     							  'refTableClass' => 'Model_ObjetivosEspecificos', 
+	                     							  'refColumns' => 'id' )
 								);	
 
 	public function update($dados, $where){
-		
 		$auth = Zend_Auth::getInstance();
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
 		$dados['alteracao_data']=date('Y/m/d h:i:s', time());

@@ -1,11 +1,14 @@
 	<?php
-	$lC=0; 
+	$lC=0;
+	$this->campo_id = isset($this->campo_id) ? $this->campo_id : strtolower($this->nome).'_id'; 
 	$href = $this->url(array('controller'=>'plano',
 												'action'=>strtolower($this->nome) ,
-												strtolower($this->nome).'_id'=>$this->objeto->id));
+												$this->campo_id=>$this->objeto->id));
+    $this->label = isset($this->label) ? $this->label : $this->nome;	
+     											
 	?>
 		<tr style="border-bottom: thin solid black"  class="even">
-			<td class='removedui-widget-header text-header'><?php echo $this->nome?></td>
+			<td class='removedui-widget-header text-header'><?php echo $this->label?></td>
 			<td class='removedui-state-highlight' style='padding-left:15px'>
 				<a href='<?php echo $href?>' style="float:left"> <?php echo $this->objeto->descricao?></a>
 				<div id="pb-<?php echo $this->nome?>-<?php echo $this->objeto->id;?>" class="progressbar" style="float:right;width: 100px;"></div>

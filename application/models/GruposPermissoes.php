@@ -9,11 +9,11 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_GruposPermissoes extends Zend_Db_Table_Abstract {
+class Model_GruposPermissoes extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'grupos_permissoes';
+	protected $_name = 'public.grupos_permissoes';
 	protected $_referenceMap = array (
 	                     		'Model_Paginas' => array ( 'columns' => 'pagina_id', 
 	                     							  'refTableClass' => 'Model_Paginas', 
@@ -23,4 +23,9 @@ class Model_GruposPermissoes extends Zend_Db_Table_Abstract {
 	                     							  'refColumns' => 'id' ) 							
 								);
 
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}									
+								
 }

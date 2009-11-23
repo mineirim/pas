@@ -1,6 +1,6 @@
 <?php
 
-class Form_Acoes extends Zend_Form
+class Form_ObjetivosEspecificos extends Zend_Form
 {
 	public function __construct($options = null,$name='acao' )
 	{
@@ -19,6 +19,12 @@ class Form_Acoes extends Zend_Form
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
 			->setAttrib('rows',4);
+		$menu = new Zend_Form_Element_Text('menu');
+		$menu->setLabel('Menu')
+			->setRequired(true)
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->addValidator('NotEmpty');
 
 		$recursos = new Zend_Form_Element_Textarea('recursos');
 		$recursos->setLabel('Recursos')
@@ -39,7 +45,7 @@ class Form_Acoes extends Zend_Form
 		$submit->setAttrib('id', 'submitbutton')
 				->setLabel('Salvar');
 		
-		$this->addElements(array($id,$projeto_id, $descricao, $recursos, $cronograma,  $submit));
+		$this->addElements(array($id,$projeto_id, $descricao, $menu,$recursos, $cronograma,  $submit));
 		$this->addDisplayGroup(array('id', 'projeto_id'),'ident');
 	}
 
@@ -52,6 +58,7 @@ class Form_Acoes extends Zend_Form
 	public function getDados($array_add=false) {
 		
 		$dados = array ('descricao' 	=> $this->getValue('descricao'), 
+					'menu'				=> $this->getValue('menu'),
 					'recursos'			=> $this->getValue('recursos'),
 					'cronograma' 		=> $this->getValue('cronograma'),
 					'projeto_id'		=> $this->getValue('projeto_id')

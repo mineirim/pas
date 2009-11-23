@@ -29,12 +29,22 @@ class Form_Atividades extends Zend_Form
 			->addFilter('StringTrim')
 			->setAttrib('size','80');
 		$valor = new Zend_Form_Element_Text('valor');
-		$valor->setLabel('Valor');
+		$valor->setLabel('Valor')->addValidator('Digits');
+		
+		
+		$dateValidator = new Zend_Validate_Date();
+				
 		$inicio_data = new Zend_Form_Element_Text('inicio_data');
-		$inicio_data->setLabel('Data Início');
+		$inicio_data->setLabel('Data Início')
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->addValidator($dateValidator);
 		$inicio_data->setAttrib('class','datepick');
 		$prazo_data = new Zend_Form_Element_Text('prazo_data');
-		$prazo_data->setLabel('Prazo Realização');
+		$prazo_data->setLabel('Prazo Realização')
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->addValidator($dateValidator);
 		$prazo_data->setAttrib('class','datepick');
 		
 		$submit = new Zend_Form_Element_Submit('submit');
@@ -56,6 +66,8 @@ class Form_Atividades extends Zend_Form
 						'responsavel'	=> $this->getValue('responsavel'), 
 						'intersecao'	=> $this->getValue('intersecao'), 
 						'valor'			=> $this->getValue('valor'),
+						'inicio_data'	=>  $this->getValue('inicio_data'),
+						'prazo_data'	=>  $this->getValue('prazo_data'),
 						'operacao_id'	=> $this->getValue('operacao_id')
 		);
 		

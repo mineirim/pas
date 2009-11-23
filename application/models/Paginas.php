@@ -9,12 +9,20 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_Paginas extends Zend_Db_Table_Abstract {
+class Model_Paginas extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
-	protected $_name = 'paginas';
+	protected $_name = 'public.paginas';
 	protected $_dependentTables = array('GruposPermissoes');
+	
+
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}									
+	
+	
 	
     public function insert(array $dados, array $grupos) {
 		

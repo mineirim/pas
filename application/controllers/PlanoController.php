@@ -35,13 +35,13 @@ class PlanoController extends Zend_Controller_Action
     public function projetoAction()
     {
       	$projetos = new Model_Projetos ( );
-      	$acoes = new Model_Acoes();
+      	$objetivos_especificos = new Model_ObjetivosEspecificos();
       	if($this->_hasParam('projeto_id')){
       		$projeto_id = $this->_getParam ( 'projeto_id', 0 );
       		$this->view->projeto = $projetos->fetchRow ( 'id=' . $projeto_id, 'id' );
       		$this->view->projetos = $projetos->fetchAll ( 'projeto_id=' . $projeto_id. 'and situacao_id=1', 'id' );
       		
-      		$this->view->acoes	=	$acoes->fetchAll('projeto_id='. $projeto_id. 'and situacao_id=1', 'id' );
+      		$this->view->objetivos_especificos	=	$objetivos_especificos->fetchAll('projeto_id='. $projeto_id. 'and situacao_id=1', 'id' );
       		 
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
 			$this->view->nivel = 'Projeto';
@@ -50,18 +50,18 @@ class PlanoController extends Zend_Controller_Action
       	}
     }
     
-    public function acaoAction()
+    public function objetivosEspecificosAction()
     {
       	
-      	$acoes = new Model_Acoes();
-      	if($this->_hasParam('acao_id')){
-      		$acao_id = $this->_getParam ( 'acao_id', 0 );
-      		$this->view->acao = $acoes->fetchRow ( 'id=' . $acao_id, 'ordem' );
+      	$objetivosEspecificos = new Model_ObjetivosEspecificos();
+      	if($this->_hasParam('objetivo_especifico_id')){
+      		$objetivo_especifico_id = $this->_getParam ( 'objetivo_especifico_id', 0 );
+      		$this->view->objetivo_especifico = $objetivosEspecificos->fetchRow ( 'id=' . $objetivo_especifico_id, 'ordem' );
       		
-      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+      		$this->view->projeto = $this->view->objetivo_especifico->findParentRow('Model_Projetos');
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
-			$this->view->nivel = 'Acao';
-			$this->view->tableheader = 'Acoes';
+			$this->view->nivel = 'ObjetivoEspecifico';
+			$this->view->tableheader = 'Objetivos Especificos';
       		
       	}else{
       		
@@ -77,18 +77,18 @@ class PlanoController extends Zend_Controller_Action
     public function metaAction()
     {
       	
-      	$metas = new Model_MetasAcao();
+      	$metas = new Model_Metas();
       	$operacoes = new Model_Operacoes();
       	if($this->_hasParam('meta_id')){
       		$meta_id = $this->_getParam ( 'meta_id', 0 );
       		$this->view->meta = $metas->fetchRow ( 'id=' . $meta_id, 'id' );
-      		$this->view->operacoes	=	$operacoes->fetchAll('metas_acao_id=' . $meta_id . ' and situacao_id=1', 'id' );
+      		$this->view->operacoes	=	$operacoes->fetchAll('meta_id=' . $meta_id . ' and situacao_id=1', 'id' );
       		
-      		$this->view->acao = $this->view->meta->findParentRow('Model_Acoes');
-      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+      		$this->view->objetivo_especifico = $this->view->meta->findParentRow('Model_ObjetivosEspecificos');
+      		$this->view->projeto = $this->view->objetivo_especifico->findParentRow('Model_Projetos');
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
 			$this->view->nivel = 'Meta';
-			$this->view->tableheader = 'Metas_Acao';
+			$this->view->tableheader = 'Metas';
       		
       	}else{
       		
@@ -112,9 +112,10 @@ class PlanoController extends Zend_Controller_Action
       		$this->view->operacao = $operacoes->fetchRow ( 'id=' . $operacao_id, 'id' );
       		$this->view->atividades	=	$atividades->fetchAll('operacao_id=' . $operacao_id . ' and situacao_id=1', 'id' );
 
-      		$this->view->meta = $this->view->operacao->findParentRow('Model_MetasAcao');
-      		$this->view->acao = $this->view->meta->findParentRow('Model_Acoes');
-      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+      		$this->view->meta = $this->view->operacao->findParentRow('Model_Metas');
+      		
+      		$this->view->objetivo_especifico = $this->view->meta->findParentRow('Model_ObjetivosEspecificos');
+      		$this->view->projeto = $this->view->objetivo_especifico->findParentRow('Model_Projetos');
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
 			$this->view->nivel = 'Operação';
 			$this->view->tableheader = 'Operacoes';
@@ -139,11 +140,17 @@ class PlanoController extends Zend_Controller_Action
       	if($this->_hasParam('atividade_id')){
       		$atividade_id = $this->_getParam ( 'atividade_id', 0 );
       		$this->view->atividade = $atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
-
+    		$inicio = new Zend_Date($this->view->atividade->inicio_data,Zend_Date::ISO_8601);
+    		
+    		$prazo =  new Zend_Date($this->view->atividade->prazo_data,Zend_Date::ISO_8601);
+    		
+    		$this->view->atividade->inicio_data = $inicio->toString('dd/MM/yyyy');
+    		$this->view->atividade->prazo_data = $prazo->toString('dd/MM/yyyy');
+      		
 			$this->view->operacao = $this->view->atividade->findParentRow('Model_Operacoes');
-      		$this->view->meta = $this->view->operacao->findParentRow('Model_MetasAcao');
-      		$this->view->acao = $this->view->meta->findParentRow('Model_Acoes');
-      		$this->view->projeto = $this->view->acao->findParentRow('Model_Projetos');
+      		$this->view->meta = $this->view->operacao->findParentRow('Model_Metas');
+      		$this->view->objetivo_especifico = $this->view->meta->findParentRow('Model_ObjetivosEspecificos');
+      		$this->view->projeto = $this->view->objetivo_especifico->findParentRow('Model_Projetos');
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
 			$this->view->nivel = 'Atividade';
 			$this->view->tableheader = 'Atividades';
