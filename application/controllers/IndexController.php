@@ -14,7 +14,7 @@ class IndexController extends Zend_Controller_Action
         
         		$this->view->headTitle($this->view->title, 'PREPEND');
         
-
+        $this->_redirect('/auth');
     }
 
     public function projetosAction()
