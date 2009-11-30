@@ -9,18 +9,15 @@
 
 require_once 'Zend/Db/Table/Abstract.php';
 
-class Model_IndicadoresConfiguracoes extends App_DefaultModel {
+class Model_IndicadoresResultados extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
 	protected $_order = 'id';
-	protected $_name = 'public.indicadores_configuracoes';
+	protected $_name = 'public.indicadores_resultados';
 	protected $_referenceMap = array (
-	                     		'Indicadores' => array ( 'columns' => 'indicador_id', 
-	                     							  'refTableClass' => 'Model_Indicadores', 
-	                     							  'refColumns' => 'id' ),
-								'TiposPeriodos' => array ( 'columns' => 'tipo_periodo_id', 
-	                     							  'refTableClass' => 'Model_TiposPeriodos', 
+	                     		'IndicadoresConfiguracoes' => array ( 'columns' => 'indicador_configuracao_id', 
+	                     							  'refTableClass' => 'Model_IndicadoresConfiguracoes', 
 	                     							  'refColumns' => 'id' ) 							
 								);	
 	public function init(){
