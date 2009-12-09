@@ -1,0 +1,53 @@
+
+
+<h3>Indicador: <?php echo $this->indicador->descricao;?></h3>
+<div style="border: thin solid black;overflow:auto; padding:10px;">
+		<form enctype='<?php echo $this->form->getEnctype();?>' 
+			action='<?php echo $this->url(array('controller'=>'indicadores', 'action'=>'configurar'));?>' 
+			method="post">
+			
+			
+			<div style='display:none'>
+			
+			<?php echo $this->form->id;?>
+			<?php echo $this->form->indicador_id;?>
+			</div>
+			<?php echo $this->form->tipo_periodo_id;?>
+			
+			<br></br>
+			
+			<?php echo $this->form->base;?>
+			
+			<?php echo $this->form->submit;?>
+			<br/>
+		</form>
+</div>
+<br/>
+<br/>
+<table>
+	<tr>
+		<td></td>
+		<td>Tipo</td>
+		<td>Base</td>
+	</tr>
+	<?php foreach($this->indicador->findDependentRowset('Model_IndicadoresConfiguracoes') as $ic){?>
+		<tr>
+			<td>
+			<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'removerconfiguracao','id'=>$ic->id))?>'
+					class='my-button ui-state-default ui-corner-all '
+					title='Excluir' 
+					
+					>
+					<span class='ui-icon ui-icon-trash '></span>
+				</a>
+			</td>
+			<td>
+				<?php echo $ic->findParentRow('Model_TiposPeriodos')->descricao;?>
+			</td>
+			<td>
+				<?php echo $ic->base;?>
+			</td>
+			
+		</tr>
+	<?php }?>
+</table>

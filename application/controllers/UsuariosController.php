@@ -17,7 +17,7 @@ class UsuariosController extends Zend_Controller_Action
         $this->view->title = "Usuários";
 		$this->view->headTitle($this->view->title, 'PREPEND');
 		$usuarios = new Model_Usuarios();
-		$this->view->usuarios = $usuarios->fetchAll(null,'nome');
+		$this->view->usuarios = $usuarios->fetchAll();
     }
 
     public function addAction()
@@ -26,8 +26,6 @@ class UsuariosController extends Zend_Controller_Action
 		$this->view->headTitle($this->view->title, 'PREPEND');
 		$form = new Form_Usuario();
 		$form->submit->setLabel('Add');
-		$form->password->addValidator('NotEmpty')->setRequired(true);
-		$form->username->addValidator('NotEmpty')->setRequired(true);
 		$this->view->form = $form;
 		if ($this->getRequest()->isPost()) {
 			$formData = $this->getRequest()->getPost();
@@ -62,15 +60,16 @@ class UsuariosController extends Zend_Controller_Action
 				$id = (int)$form->getValue('id');
 				$nome = $form->getValue('nome');
 				$username = $form->getValue('username');
+				$password = $form->getValue('password');
 				$email = $form->getValue('email');
-				$dados =array('id'=>$id,  'nome'=> $nome, 'email'=>$email);
+				
+				$dados =array('id'=>$id,  'nome'=> $nome, 'username'=> $username,'password'=>$password,'email'=>$email);
 				$grupos = $form->getValue('grupos');
 				
 				$usuarios = new Model_Usuarios();
 				$usuarios->updateUsuario($dados, $grupos, 'id='.$id  );
 				$this->_redirect('usuarios');
 			} else {
-				
 				$form->populate($formData);
 			}
 		} else {
@@ -89,63 +88,7 @@ class UsuariosController extends Zend_Controller_Action
 	
 		}
     }
-	public function changepasswordAction(){
-		$usuarios = new Model_Usuarios();
-		if($this->_getParam('id')){
-			
-			$this->view->usuario = $usuarios->find($this->_getParam('id'))->current();
-		
-	        $this->view->title = "Alterar senha";
-			$this->view->headTitle($this->view->title, 'PREPEND');
-			$form = new Zend_Form();
-			$id = new Zend_Form_Element_Hidden('id');
-			$id->setRequired(true)
-				->addFilter('StripTags')
-				->addFilter('StringTrim')
-				->addValidator('NotEmpty');
-			$password = new Zend_Form_Element_Password('password');
-			
-			$password->setLabel("Senha")
-				->setRequired(true)
-				->addFilter('StripTags')
-				->addFilter('StringTrim')
-				->addValidator('NotEmpty'); 
-			$confirm = new Zend_Form_Element_Password('confirm');
-			$confirm->setLabel("Confirmar senha"); 
-			$submit = new Zend_Form_Element_Submit('submit');
-			$submit->setLabel('Alterar');
-			$form->addElements(array($id,$password,$confirm,$submit));
-			$this->view->form = $form;
-			if ($this->getRequest()->isPost()) {
-				$formData = $this->getRequest()->getPost();
-				if ($form->isValid($formData)) {
-					$id = (int)$form->getValue('id');
-					$password = $form->getValue('password');
-	
-					$dados =array('id'=>$id,  'password'=>$password);
-					
-					
-					$usuarios->updatePassword($dados,'id='.$id  );
-					$this->_redirect('usuarios');
-				} else {
-					
-					$form->populate($formData);
-				}
-			} else {
-				
-				$id = $this->_getParam('id', 0);
-				if ($id > 0) {
-					$usuarios = new Model_Usuarios();
-					$form->populate($usuarios->getUsuario($id));
-				}
-		
-			}
-		}else{
-			$this->_redirect('usuarios');
-		}		
-						
-		
-	}
+
     public function deleteAction()
     {
         $this->view->title = "Apagar Usuário";

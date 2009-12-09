@@ -14,12 +14,16 @@ class Form_Usuario extends Zend_Form
 			->addValidator('NotEmpty');
 		$username = new Zend_Form_Element_Text('username');
 		$username->setLabel('Login')
+			->setRequired(true)
 			->addFilter('StripTags')
-			->addFilter('StringTrim');
+			->addFilter('StringTrim')
+			->addValidator('NotEmpty');
 		$password = new Zend_Form_Element_Password('password');	
 		$password->setLabel('Senha')
+			->setRequired(true)
 			->addFilter('StripTags')
-			->addFilter('StringTrim');
+			->addFilter('StringTrim')
+			->addValidator('NotEmpty');
 		$email = new Zend_Form_Element_Text('email');	
 		$email->setLabel('E-mail')
 			->setRequired(true)

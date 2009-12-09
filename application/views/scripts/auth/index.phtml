@@ -1,10 +1,8 @@
-<br/>
+
 <?php if(!$this->auth): ?>  
-<form action="<?php echo $this->url(array('controller'=>'auth', 'action'=>'login'));?>" method="post">
-<label for="username">Usuário</label> 
-<input type="text" name="username" />
-<label for="password">Senha</label>  
-<input type="password" name="password" />  
+<form action="<?php echo $this->url(array('controller'=>'auth', 'action'=>'login'));?>" method="post">  
+<label for='username'>Usuário</label>  <input type="text" name="username" />  
+<label for='password'>Senha</label><input type="password" name="password" />  
 <input type="submit" name="submit" value="Login" />  
 </form>  
 <?php else: ?>  

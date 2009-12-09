@@ -35,7 +35,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$view->doctype ( 'XHTML1_STRICT' );
 		$view->headMeta ()->appendHttpEquiv ( 'Content-Type', 'text/html;charset=utf-8' );
 		$view->headTitle ()->setSeparator ( ' - ' );
-		$view->headTitle ( 'Sistema de Monitoramento do Plano Operativo Anual' );
+		$view->headTitle ( 'Sistema de Monitoramento do Plano Municipal de Saúde' );
 		
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper(
@@ -139,6 +139,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 														)
 												   )
+									),
+									array(
+										'label' => 'Temas',
+										'module' => 'default',
+										'controller' => 'tema',
+										'action' => 'index',
+										'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
 									)
 								)
 					)
@@ -181,8 +188,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			}
 			$pages_din['pages'][]=$arr;
 		}
+		$indicadores = array('label'=>'Indicadores',
+							 'title'=>'Indicadores',
+							 'module'=>'default',
+							 'controller'=>'indicadores',
+							 'action'=>'index',
+							 'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu');
 		
 		$pages[]=$pages_din;
+		$pages[]=$indicadores;
 		$container = new Zend_Navigation($pages);
 		$this->bootstrap ( 'layout' );
 		$layout = $this->getResource ( 'layout' );

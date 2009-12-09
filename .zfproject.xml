@@ -52,6 +52,7 @@
         <controllerFile controllerName="indicadores">
           <actionMethod actionName="index"/>
           <actionMethod actionName="edit"/>
+          <actionMethod actionName="configurar"/>
         </controllerFile>
         <controllerFile controllerName="resultados">
           <actionMethod actionName="index"/>
@@ -139,6 +140,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="indicadores">
             <viewScriptFile forActionName="edit"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="indicadores">
+            <viewScriptFile forActionName="configurar"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

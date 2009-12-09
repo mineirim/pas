@@ -42,14 +42,14 @@
 		</form>	
 		<table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
 			<tr>
-				<th widht="5%"></th>
+				<th width="5%"></th>
 				<th>Objetivos</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findModel_ObjetivosProjeto() as $objetivo){
 	?>
 			<tr>
-					<td><?php echo $this->lineToolbar('projetos',$objetivo)?>
+					<td><?php echo $this->lineToolbar('projetos',$objetivo)?></td>
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
 			<?php }?>
@@ -80,7 +80,7 @@
 			foreach($this->projeto->findModel_MetasProjeto() as $meta){
 	?>
 			<tr >
-				<td><?php echo $this->lineToolbar('projetos',$meta)?>
+				<td><?php echo $this->lineToolbar('projetos',$meta)?></td>
 				<td><?php echo $meta->descricao;?></td>
 			</tr>
 			<?php }?>
@@ -105,14 +105,14 @@
 		<br>
 		<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
 			<tr>
-				<th with="5%"></th>
+				<th width="5%"></th>
 				<th>Indicadores</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresProjeto') as $indicador){
 	?>
 			<tr>
-				<td><?php echo $this->lineToolbar('projetos',$indicador)?>
+				<td><?php echo $this->lineToolbar('projetos',$indicador)?></td>
 				<td><?php echo $indicador->descricao;?></td>
 			</tr>
 			<?php }?>

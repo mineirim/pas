@@ -36,7 +36,7 @@ echo $this->JQuery ();
 <style type="text/css" media="screen">
 body {
 behavior: url(<?php echo $this->baseUrl ();?>/css/csshover.htc); /* call hover behaviour file */
-/*font-size: 90%;  enable IE to resize em fonts */
+font-size: 100%; /* enable IE to resize em fonts */
 } 
 #menu1 ul li {
 float: left; /* cure IE5.x "whitespace in lists" problem */
@@ -47,12 +47,9 @@ height: 1%; /* make links honour display: block; properly */
 } 
  
 #menu1 a, #menu1 h2 {
-font: bold 0.9em/1.4em arial, helvetica, sans-serif; 
+font: bold 0.7em/1.4em arial, helvetica, sans-serif; 
 /* if required use em's for IE as it won't resize pixels */
 } 
-.ui-widget{
-    font-size: 1.05em;
-}
 </style>
 <![endif]-->
 
@@ -72,15 +69,13 @@ echo $this->baseUrl ();
 		<div id="topo-ico" style="float:left">
 			<img class="topo-logo" alt="" src="<?php echo $this->baseUrl (); ?>/images/titulo_ses.jpg">
 			<div style="float:left; padding-left: 80px;" class="topo-logo" >
-				<h2 style="margin-top:0">Plano Operativo Anual-POA 2010</h2>
+				<h1 style="margin-top:0">Plano Operativo Anual - POA 2009</h1>
 			</div>
-            <!-- 
 			<div style="clear:both">
 				<?php
 				echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
 				?>
 			</div>
-             -->
 		</div>
 		
 		<br/>
@@ -103,7 +98,7 @@ echo $this->baseUrl ();
 	<div id="barra" class='menu-barra ui-widget ui-widget-header '>
 		<div class="ui-state-default ui-corner-all" style="text-align:center">
 			<span class="ui-icon ui-icon-home">menu</span>
-			M<br/>E<br/>N<br/>U
+			M<br>E<br>N<br>U
 		</div> 
 	</div>
 	 

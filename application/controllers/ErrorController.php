@@ -25,6 +25,10 @@ class ErrorController extends Zend_Controller_Action {
 	}
 	public function privilegesAction(){
 	}
+	public function notfoundAction(){
+		$msg = $this->_getParam('msg');
+		$this->view->msg =$msg;
+	}
 
 }
 

@@ -8,7 +8,7 @@ require_once 'Zend/View/Interface.php';
 
 /**
  * MyToolbar helper
- *
+ * 
  * @uses viewHelper Zend_View_Helper
  */
 class Zend_View_Helper_MyToolbar {

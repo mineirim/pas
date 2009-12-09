@@ -24,7 +24,7 @@ class Form_Indicador extends Zend_Form_SubForm
 		$periodos = new Zend_Form_Element_MultiCheckbox('tipo_periodo_id');
 		
 		$periodos ->setLabel('Atualização');
-		$tiposperiodo = new Model_TiposPeriodo();
+		$tiposperiodo = new Model_TiposPeriodos();
 		
 		foreach ($tiposperiodo->fetchAll() as $tipo ){
 			$periodos->addMultiOption($tipo->id,$tipo->descricao);
