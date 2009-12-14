@@ -14,6 +14,11 @@ class IndicadoresController extends Zend_Controller_Action {
 	private $indicadores_configs = null;
 	
 	public function init() {
+		$ajaxContext = $this->_helper->ajaxContext;
+        $ajaxContext->addActionContext('localizar', 'json')
+        			->addActionContext('add',array('json','xml'))
+        			->addActionContext('addObjetivo',array('json','xml'))
+                    ->initContext();  
 		/* Initialize action controller here */
 		$this->indicadores = new Model_Indicadores ( );
 	}
@@ -34,7 +39,32 @@ class IndicadoresController extends Zend_Controller_Action {
 	public function deleteAction() {
 	
 	}
-	
+	public function localizarAction(){
+		$this->_helper->layout()->disableLayout();
+	    $this->_helper->viewRenderer->setNoRender(true);
+		
+		$resultados = new Model_IndicadoresResultados();
+		
+		
+		$response = array();
+		$response['page'] = 1; 
+		$response['total'] = 1; 
+		$response['records'] = 10;
+
+		
+		$i=0; 
+		foreach ($resultados->fetchAll(null,'id') as $row) 
+		{ 
+				
+			$response['rows'][$i]['id']=$row->id; 
+			$response['rows'][$i]['cell']=array($row->id,$row->competencia,$row->numerador,$row->denominador,$row->resultado);
+			$i++; 
+			
+		} 		
+		
+		$this->_helper->json($response);
+		 		
+	}
 	public function configurarAction() 
 	{
 		$this->indicadores_configs = new Model_IndicadoresConfiguracoes();

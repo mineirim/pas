@@ -82,6 +82,11 @@ $(document).ready(function(){
 			
 		});
 		$(".datepick").datepicker({dateformat:"dd-mm-yy"});
+		
+		
+
+
+				  
 
 });
 
@@ -132,7 +137,7 @@ function isvalidform(obj, e)
     var options = {
         success:       showResponse,
         dataType:	'json',
-        url:       '/monitorasus-zf/public/acoes/validar'    
+        url:       '/poa2010/public/acoes/validar'    
     }; 
     // bind form using 'ajaxForm'
     formulario  = obj.parent('form');

@@ -20,7 +20,9 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.positionBy.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.form.js' )
-				->addJavascriptFile ( $this->baseUrl () . '/js/ui.datepicker-pt-BR.js' )				
+				->addJavascriptFile ( $this->baseUrl () . '/js/ui.datepicker-pt-BR.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/grid.locale-pt-br.js')				
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqGrid.min.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
 				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
 
@@ -30,6 +32,8 @@ echo $this->JQuery ();
 <?php echo $this->headMeta ();?>
 <?php echo $this->headTitle ();?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/site.css' );?>
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/ui.jqgrid.css' );?>
+
 
 
 <!--[if IE]>

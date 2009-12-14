@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @see Zend_Exception
+ */
+require_once 'Use/Jquery/Exception.php';
+
+/**
+ * Classe para tratamento de erro
+ * 
+ * @author Tales Santos <tsantos>
+ * 
+ * @version 1.0.0
+ * @package Use
+ * @subpackage Exception
+ * @since Mar 2, 2009
+ * 
+ * @uses Zend_Exception
+ * 
+ * @filesource
+ * 
+ */
+class Use_Jquery_Flexigrid_Exception extends Use_Jquery_Exception
+{}

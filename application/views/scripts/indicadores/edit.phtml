@@ -1,1 +1,79 @@
-<br /><br /><center>View script for controller <b>indicadores</b> and script/action name <b>edit</b></center>
+
+<div id="liste">
+    <table id="list" class="scroll" cellpadding="0″ cellspacing="0″></table>
+    <div id="pager" class="scroll" style="text-align:center;"></div>
+</div>
+ 
+<script type="text/javascript"><!--
+var lastsel; 
+    $(document).ready(function(){
+        $("#list").jqGrid({
+            width: 900,
+            height: 240,
+            rownumbers: true,
+            url:'<?php echo $this->baseUrl() ?>/indicadores/localizar',
+            datatype: 'json',
+            mtype: 'POST',
+				  colNames:['id', 'Competencia', 'Numerador','Denominador','resultado'], 
+				  colModel:[ {name:'id',index:'id', width:90}, 
+				             {name:'competencia',index:'competencia asc', width:100,editable:true, edittype:"text", editrules:{number:true}}, 
+				             {name:'numerador',index:'numerador', width:80, align:"right", editable:true}, 
+				             {name:'denominador',index:'denominador', width:80, align:"right", editable:true},
+				             {name:'resultado',index:'resultado', width:80, align:"right", editable:true}, 
+				            ], 
+				            pager: '#pager',
+				            rowNum:30,
+				            rowList:[10,20,30],
+				            sortname: 'competencia',
+				            sortorder: "asc",
+				            viewrecords: true,
+				            viewsortcols: [true,'horizontal',true],
+				            gridview: true,
+				            hidegrid: false,
+				            editurl:"<?php echo $this->baseUrl() ?>/indicadores/save",
+				            caption: 'Indicadores',
+                			editurl:'<?php echo $this->baseUrl() ?>/indicadores/localizar',
+             			    onSelectRow: function(id){
+								            if(id && id!==lastsel){ 
+								               jQuery('#list').restoreRow(lastsel); 
+								               lastsel=id; 
+								            }
+								            jQuery('#list').editRow(id, true); 
+								          },
+
+                			forceFit : true
+
+			});
+        	$("#list").navGrid("#pager",
+		        {view:true},
+		        {
+			        top:20,
+			        left:150,
+			        dataheight:200,
+			        width:400,
+			        reloadAfterSubmit:false,
+			        jqModal:false, 
+			        closeOnEscape:true,
+			        closeAfterEdit:true,
+			        bottominfo:"Campos marcados com * são obrigatórios"
+				}, // edit options
+		        {
+			        top:20,
+			        left:150,
+			        dataheight:200,
+			        width:400,
+			        reloadAfterSubmit:false,
+			        jqModal:false, 
+			        closeOnEscape:true,
+			        closeAfterEdit:true,
+			        bottominfo:"Campos marcados com * são obrigatórios"
+				}, // add options
+		        {top:20,left:150,reloadAfterSubmit:false,jqModal:false, closeOnEscape:true}, // del options
+		        {top:20,left:150,jqModal:false,closeOnEscape:true}, // search options
+		        {top:20,left:150,dataheight:200,width:400,jqModal:false,closeOnEscape:true} // view options
+    	);
+
+ 
+    });
+    --></script>
+

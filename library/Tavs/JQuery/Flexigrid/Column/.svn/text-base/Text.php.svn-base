@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @see Use_Jquery_Column_Abstract
+ */
+require_once 'Use/Jquery/Flexigrid/Column/Abstract.php';
+
+/**
+ * Classe para gerar o texto nas colunas do Flexigrid.
+ *
+ * @author Tales Santos <tsantos>
+ * 
+ * @version 1.0.0
+ * @package Use_Jquery_Flexigrid
+ * @subpackage Column
+ * @since Feb 28, 2009
+ * 
+ * @uses Use_Jquery_Column_Abstract
+ * 
+ * @filesource
+ * 
+ */
+class Use_Jquery_Flexigrid_Column_Text extends Use_Jquery_Flexigrid_Column_Abstract
+{
+	/**
+	 * @see Use_Jquery_Column_Abstract::render
+	 * 
+	 * @author Tales Santos <tsantos>
+	 * 
+	 * @access public
+	 * 
+	 * @param string $value
+	 * 
+	 * @return string
+	 */
+	public function render($value)
+	{
+		return (string) $value;
+	}
+}

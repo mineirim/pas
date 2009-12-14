@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @see Use_Jquery_Column_Abstract
+ */
+require_once 'Use/Jquery/Flexigrid/Column/Abstract.php';
+
+/**
+ * Classe para gerar o select nas colunas do Flexigrid.
+ *
+ * @author Tales Santos <tsantos>
+ * 
+ * @version 1.0.0
+ * @package Use_Jquery_Flexigrid
+ * @subpackage Column
+ * @since Feb 28, 2009
+ * 
+ * @uses Use_Jquery_Column_Abstract
+ * 
+ * @filesource
+ * 
+ */
+class Use_Jquery_Flexigrid_Column_Select extends Use_Jquery_Flexigrid_Column_Abstract
+{
+	/**
+	 * Opções do select
+	 * 
+	 * @access private
+	 *
+	 * @var array
+	 */
+	private $_multiOptions = array();
+
+	/**
+	 * Seta as opções do select.
+	 * 
+	 * @author Tales Santos <tsantos>
+	 * 
+	 * @access public
+	 *
+	 * @param array $options Array chave/valor para montar os options do select
+	 * 
+	 * @return Use_Jquery_Column_Select
+	 */
+	public function setMultiOptions(array $options)
+	{
+		$this->_multiOptions = $options;
+		return $this;
+	}
+
+	/**
+	 * @see Use_Jquery_Column_Abstract::render.
+	 * 
+	 * @author Tales Santos <tsantos>
+	 * 
+	 * @access public
+	 *
+	 * @param string $value
+	 * 
+	 * @return string
+	 */
+	public function render($value)
+	{
+		$view = $this->getView();
+		$name = $this->getName();
+		
+		$select = $view->formSelect($name, $value, $this->_elementAttribs, $this->_multiOptions);
+		return $select;
+	}
+}
