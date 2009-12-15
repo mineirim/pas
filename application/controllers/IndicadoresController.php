@@ -65,6 +65,37 @@ class IndicadoresController extends Zend_Controller_Action {
 		$this->_helper->json($response);
 		 		
 	}
+	public function salvarAction()
+	{
+		
+		$this->_helper->layout()->disableLayout();
+	    $this->_helper->viewRenderer->setNoRender(true);
+		$resultados = new Model_IndicadoresResultados();
+		$dados = array(  "competencia"=> $this->_getParam('competencia'),
+						  "numerador" => $this->_getParam('numerador'),
+						  "denominador" => $this->_getParam('denominador'),
+						  "resultado" =>$this->_getParam('resultado'));
+		try{
+			$id =$this->_getParam('id');
+			if($id=='_empty')
+			{
+				$dados['indicador_configuracao_id'] = $this->_getParam('indicador_configuracao_id');
+				$resultados->insert($dados);
+			}else{
+				$resultados->update($dados, "id=".$this->_getParam('id'));
+			}
+			$ret = array('status'=>'Ok', $dados);
+		}catch (Zend_Db_Statement_Exception  $e){
+			
+			
+			$ret = array('status'=>'error','message'=>$e->getMessage(),
+						'file'=>$e->getFile(), 'code'=>$e->getCode());
+			
+		}
+		$this->_helper->json($ret);
+  
+	    
+	}
 	public function configurarAction() 
 	{
 		$this->indicadores_configs = new Model_IndicadoresConfiguracoes();

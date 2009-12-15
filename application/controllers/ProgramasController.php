@@ -12,7 +12,8 @@ class ProgramasController extends Zend_Controller_Action {
     	$this->form = new Form_Geral();
     	$this->formDescritivo = new Form_Descritivo();
     	
-    	
+    	$this->form->menu->setRequired(true)
+			->addValidator('NotEmpty');
     	
     	/**
     	 *  @var Elemento que representa o id do programa nos forms descritivos(objetivos e metas)
@@ -33,7 +34,6 @@ class ProgramasController extends Zend_Controller_Action {
 	
 	public function addAction() {
 		
-		$this->form = new Form_Geral ( );
 		$this->form->submit->setLabel ( 'Adicionar' );
 		$this->view->form = $this->form;
     	
@@ -45,7 +45,7 @@ class ProgramasController extends Zend_Controller_Action {
 	 * Edita o programa
 	 */
 	public function editAction() {
-		$this->form = new Form_Geral();
+		
 		$this->form->submit->setLabel('Salvar');
 		
 		

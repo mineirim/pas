@@ -14,6 +14,10 @@ class ProjetosController extends Zend_Controller_Action {
     	$this->form->addElement('hidden','programa_id');
 		$this->form->addElement('hidden','projeto_id');
 		$this->form->addDisplayGroup(array('id', 'programa_id','projeto_id'),'ident');
+    	$this->form->menu->setRequired(true)
+			->addValidator('NotEmpty');
+		
+		
     	$this->formDescritivo = new Form_Descritivo();
     	
     	
