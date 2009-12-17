@@ -2,69 +2,103 @@
 	$lC=0;
 	$this->campo_id = isset($this->campo_id) ? $this->campo_id : strtolower($this->nome).'_id'; 
 	$href = $this->url(array('controller'=>'plano',
-												'action'=>strtolower($this->nome) ,
+												'action'=>strtolower($this->acao) ,
 												$this->campo_id=>$this->objeto->id));
     $this->label = isset($this->label) ? $this->label : $this->nome;	
      											
 	?>
 		<tr style="border-bottom: thin solid black"  class="even">
-			<td class='removedui-widget-header text-header'><?php echo $this->label?></td>
+			<td class='removedui-widget-header text-header' width="13%"><div class="titulo-nivel2"><?php echo $this->label?></div></td>
 			<td class='removedui-state-highlight' style='padding-left:15px'>
 				<a href='<?php echo $href?>' style="float:left"> <?php echo $this->objeto->descricao?></a>
-				<div id="pb-<?php echo $this->nome?>-<?php echo $this->objeto->id;?>" class="progressbar" style="float:right;width: 100px;"></div>
 			</td>
 		</tr>
 		<?php 
-		
-		 if($this->detalhar){?>
-			<tr style="border-bottom: thin solid black" class="odd">	
-				<td class='removedui-widget-header text-header' >Objetivos do <?php echo $this->nome?></td>
-				<td class='removedui-state-highlight' style='padding-left:15px'>
-				<?php 
-					foreach($this->objeto->findDependentRowset('Model_Objetivos'.$this->nome) as $objetivo){
-						echo '<li>'.$objetivo->descricao.'</li>';
-					}
-				?>
+		 if($this->detalhar){
+		 	if ((strtolower($this->nome) == "programa")||(strtolower($this->nome) == "projeto")){
+			 	?>
 				
-				</td>
-			</tr>
-			<tr style="border-bottom: thin solid black" class="even"> 	
-				<td class='removedui-widget-header text-header'  >Metas do <?php echo $this->nome?></td>
-				<td class='removedui-state-highlight' style='padding-left:15px'>
-				<?php 
-					foreach($this->objeto->findDependentRowset('Model_Metas'.$this->nome) as $meta){
-						echo '<li>'.$meta->descricao.'</li>';
-					}
-				?>
-				
-				</td>
-			</tr>
+				<tr style="border-bottom: thin solid black" class="odd">	
+					<td class='removedui-widget-header text-header' ><div class="subtitulos-descreve-niveis">OBJETIVOS DO <?php echo strtoupper($this->nome); ?>:</div></td>
+					<td class='removedui-state-highlight' style='padding-left:15px'>
+					<?php 
+						foreach($this->objeto->findDependentRowset('Model_Objetivos'.$this->nome) as $objetivo){
+							echo '<li><div class="texto-descreve-niveis">'.$objetivo->descricao.'</div></li>';
+						}
+					?>
+					</td>
+				</tr>
+				<tr style="border-bottom: thin solid black" class="even"> 	
+					<td class='removedui-widget-header text-header'  ><div class="subtitulos-descreve-niveis">METAS DO <?php echo strtoupper($this->nome); ?>:</div></td>
+					<td class='removedui-state-highlight' style='padding-left:15px'>
+					<?php 
+						foreach($this->objeto->findDependentRowset('Model_Metas'.$this->nome) as $meta){
+							echo '<li><div class="texto-descreve-niveis">'.$meta->descricao.'</div></li>';
+						}
+					?>
+					
+					</td>
+				</tr>
 
 
-			<tr style="border-bottom: thin solid black" class="odd"> 	
-				<td class='removedui-widget-header text-header'  >Indicadores do <?php echo $this->nome?></td>
-				<td class='removedui-state-highlight' style='padding-left:15px'>
+				<tr style="border-bottom: thin solid black" class="odd"> 	
+					<td class='removedui-widget-header text-header'  ><div class="subtitulos-descreve-niveis">INDICADORES DO <?php echo strtoupper($this->nome); ?>:</div></td>
+					<td class='removedui-state-highlight' style='padding-left:15px'>
+					<?php 
+						foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador){
+							echo '<li><div class="texto-descreve-niveis">'.$indicador->descricao.'</div></li>';
+						}
+					?>
+					
+					</td>
+				</tr>
+				<tr style="border-bottom: thin solid black"  class="even">
+					<td class='removedui-widget-header text-header'><div class="subtitulos-descreve-niveis">INTERFACES:</div></td>
+					<td class='removedui-state-highlight' style='padding-left:15px'>
+						<div class="texto-descreve-niveis"><?php echo $this->objeto->interfaces?></div>
+					</td>
+				</tr>
 				<?php 
-					foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador){
-						echo '<li>'.$indicador->descricao.'</li>';
-					}
-				?>
+		 	} // programas e projetos
+		 	?>
+		 	<?php 
+		 	if (strtolower($this->nome)== "objetivo_especifico"){
+		 		?>
+				<tr style="border-bottom: thin solid black" class="odd"> 	
+					<td class='removedui-widget-header text-header'  ><div class="subtitulos-descreve-niveis">ESTRATÉGIAS:</div></td>
+					<td class='removedui-state-highlight' style='padding-left:15px'>
+					<?php 
+						$select = $this->objeto->select();
+						$select->order('id'); 
+						foreach ($this->objeto->findDependentRowset('Model_Estrategias',null,$select) as $estrategia){?>
+							<li><div class="texto-descreve-niveis"><?php echo $estrategia->descricao;?></div></li>
+						<?php }
+					?>
+					</td>
+				</tr>
 				
-				</td>
-			</tr>
-			<tr style="border-bottom: thin solid black"  class="even">
-				<td class='removedui-widget-header text-header'>Interfaces</td>
-				<td class='removedui-state-highlight' style='padding-left:15px'>
-					<?php echo $this->objeto->interfaces?>
-				</td>
-			</tr>
+				<tr  class="even" >
+					<td><div class="subtitulos-descreve-niveis">PARCERIAS:</div></td>
 
-			
-			 <tr style="border-bottom: thin solid black" class="odd">
+					<td  class='removedui-state-highlight' style='padding-left:15px'>
+						<?php
+						$select = $this->objeto->select();
+						$select->order('id'); 
+						foreach ($this->objeto->findDependentRowset('Model_Parcerias',null,$select) as $parceria){?>
+							<li><div class="texto-descreve-niveis"><?php echo $parceria->descricao;?></div></li>
+						<?php }?>
+					</td>
+				</tr>
+				
+				
+				<?php 
+		 	} // objetivo específico
+		 	?>
+			<tr style="border-bottom: thin solid black" class="odd">
 				 <td colspan="2">
 				 <?php echo $this->myToolbar(strtolower($this->nome).'s','top',$this->objeto->id);?>
 				 </td>
-			 </tr>
+			</tr>
 		 <?php
 		}
 		?>

@@ -1,18 +1,21 @@
-
-
 <div class="ui-overlay ui-corner-all">
-	<?php// echo $this->planoNavegacao($this->programa) ;?>
-	<table  class='ui-widget ui-widget-content tb-header '>
+	<?php // echo $this->planoNavegacao($this->programa) ;
+	// echo $this->nivel;
+	// echo "<br>";
+	?>
+	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header'>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
-													 'nome'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
-		<tr>
-		<td colspan="2" height="2px" style="background-color:black"></td>
-		</tr>
+													 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+				 <tr>
+			       <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->projeto,
-													 'nome'=>'Projeto', 'detalhar'=>($this->nivel=='ObjetivoEspecifico')));?>
-		<tr>
-		<td colspan="2" height="2px" style="background-color:black"></td>
-		</tr>		
+													 'nome'=>'Projeto', 'acao'=>'Projeto', 'detalhar'=>($this->nivel=='Projeto')));?>
+				 <tr>
+			       <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->objetivo_especifico, 
+													'label'=>'Objetivo Específico', 'nome'=>'objetivo_especifico', 'campo_id'=>'objetivo_especifico_id', 'acao'=>'objetivos-especificos', 'detalhar'=>($this->nivel=='ObjetivoEspecifico')));?>
 		
 	</table>
 	
@@ -24,65 +27,24 @@
 	?>
 	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'>
 		
-		<table width="100%">
-			<caption class="text-caption ui-widget ui-widget-header" style="text-align: left">
-
-				<span  style="float:left"> 
-					Objetivo Específico: <?php echo $this->objetivo_especifico->descricao;?> 
-				</span>
-				<span id="pb-objetivo_especifico-<?php echo $acao->id;?>" class="progressbar" style="float:right;width:100px;">
-				</span>
-
-			</caption>
-			<tbody class="ui-widget ui-widget-content ">
-				<tr  class="odd">
-					
-					<td width='10%'>Estratégias</td>
-					<td >
-						<ul>
-						<?php
-						$select = $this->objetivo_especifico->select();
-						$select->order('id'); 
-						foreach ($this->objetivo_especifico->findDependentRowset('Model_Estrategias',null,$select) as $estrategia){?>
-							<li><?php echo $estrategia->descricao;?></li>
-						<?php }?>
-						</ul>
-					</td>					
-					
-				</tr>
-			
-			
-				
-				<tr  class="even" >
-					<td>Parcerias</td>
-
-					<td>
-						<ul>
-						<?php
-						$select = $this->objetivo_especifico->select();
-						$select->order('id'); 
-						foreach ($this->objetivo_especifico->findDependentRowset('Model_Parcerias',null,$select) as $parceria){?>
-							<li><?php echo $parceria->descricao;?></li>
-						<?php }?>
-						</ul>
-					</td>
-				</tr>
-				<tr style="border-bottom: thin solid black" class="odd">
-					 <td colspan="2">
-					 <?php echo $this->myToolbar('objetivos-especificos','top',$this->objetivo_especifico->id);?>
-					 </td>
-			 	</tr>
-			</tbody>
-		</table>
 		<br></br>
-		<table width='100%'><caption></caption>
+		<table width='98%'>
 			<tr>
-				<th nowrap="nowrap" width='2%'>
-					
-				</th>
-				<th>Metas</th>
-				<th>%</th>
+			<td></td>
+			<td colspan="3">
+			<div class="titulos-tabela">METAS</div>
+			</td>
 			</tr>
+			<tr class="even">
+					<td width="4%"><?php echo $this->myToolbar('metas','toptable');?></td>
+					<td  class="subtitulos-tabela">Descrição</td>
+					<td  class="subtitulos-tabela" width="70px">Realiz.</td>
+					<td align="center"  width="40px"><img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif"></td>
+			</tr>
+				   <tr>
+				   <td></td>
+			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
 			<?php
 			$select = $this->objetivo_especifico->select();
 			$select->order('id'); 
@@ -93,15 +55,26 @@
 					<?php echo $this->myToolbar ( 'metas', 'line', $meta->id );	?>
 					</td>
 					<td >
+					<div class="texto-tabela-com-seta">
 						<a href=
 						'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'meta', 'meta_id' => $meta->id ) );?>'>
 						<?php echo $meta->descricao;?>
 						</a>
+					</div>
 					 </td>
 					 <td>
 					 	<div id="pb-metaacao-<?php echo $meta->id;?>" class="progressbar"></div>
 					</td>
+					<td  align="center">
+						<a href="#">
+							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
+						</a> 
+					</td>
 				</tr>
+			   	<tr>
+			   	<td></td>
+		       	<td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+		       	</tr>
 				 
 			<?php }?>
 		

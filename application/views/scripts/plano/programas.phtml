@@ -1,18 +1,29 @@
 <div class="ui-overlay ui-corner-all">
-
-	<h3 align="center">PROGRAMAS</h3>
+	
 	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'><br></br>
-		<table  >
+		<table  width="98%" align="center">
 			
 			<thead class="ui-widget removedui-widget-header">
-				<tr class='odd'>
-					<th nowrap="nowrap">
-						<?php echo $this->myToolbar ( 'programas', 'toptable' );?>
-					</th>
-					<th>Descrição</th>
-					<th>Realiz.</th>
-					<th>Relatório</th>
+				<tr>
+				<td></td>
+				<td colspan="3">
+				<div class="titulos-tabela">PROGRAMAS</div>
+				</td>
 				</tr>
+				<tr class='even'>
+					<td nowrap="nowrap">
+						<?php echo $this->myToolbar ( 'programas', 'toptable' );?>
+					</td>
+					<td class="subtitulos-tabela">Descrição</td>
+					<td  class="subtitulos-tabela" width="70px">Realiz.</td>
+					<td  class="subtitulos-tabela"  style="text-align:center"  width="40px">
+						<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif">
+					</td>
+				</tr>
+				 <tr>
+			       <td></td>
+			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
@@ -20,29 +31,38 @@
 				foreach ( $this->programas as $programa ) {
 					?>
 				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
-					<td >
+					<td width="4%" >
 						<?php
 						echo $this->myToolbar ( 'programas', 'line', $programa->id );
 						?>
 					</td>
-					<td class="texto">
+					<td>
+				   	<div class="texto-tabela-com-seta">
 						<a
 							href=
 							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'programa', 'programa_id' => $programa->id ) );?>'>
 							<?php echo $programa->descricao;?>
 						</a>
-					</td>
-					<td>
-					<div id="pb-programa-<?php echo $programa->id;?>" class="progressbar">
-					
-					</div>
-					</td>
-					<td>
-						<a href="#" class="my-button ui-state-default ui-corner-all">
-							<span class="ui-icon ui-icon-print">relatório</span>
+				   
+				   	</div>
+				   	</td>
+				   
+			       	<td align="center">
+						<div id="pb-programa-<?php echo $programa->id;?>" class="progressbar">
+						</div>
+			       	</td>
+
+			       	<td align="center">
+						<a href="#">
+							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
 						</a> 
-					</td>
+			       	</td>
 					</tr>
+
+				   <tr>
+				   <td></td>
+			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
 				<?php
 				$loopCount++;
 				}
@@ -52,4 +72,5 @@
 		<br></br>
 	</div>
 </div>
+
 

@@ -3,29 +3,31 @@
 <div class="ui-overlay ui-corner-all">
 	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header'>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
-													 'nome'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
-		<tr>
-		<td colspan="2" height="2px" style="background-color:black"></td>
-		</tr>
+													 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+				 <tr>
+			       <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->projeto,
-													 'nome'=>'Projeto', 'detalhar'=>($this->nivel=='Projeto')));?>
-		<tr>
-		<td colspan="2" height="2px" style="background-color:black"></td>
-		</tr>		
+													 'nome'=>'Projeto', 'acao'=>'Projeto',  'detalhar'=>($this->nivel=='Projeto')));?>
+
+				 <tr>
+			       <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->objetivo_especifico,
-													 'nome'=>'objetivos-especificos', 'detalhar'=>false, 
-													 'label'=>'Objetivo Específico',
+													 'nome'=>'objetivos-especificos', 'detalhar'=>($this->nivel=='ObjetivoEspecifico'), 
+													 'label'=>'Objetivo Específico', 'acao'=>'objetivos-especificos', 
 													 'campo_id'=>'objetivo_especifico_id' ));?>
-		<tr>
-		<td colspan="2" height="2px" style="background-color:black"></td>
-		</tr>		
+
+				 <tr>
+			       <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
+		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->meta,
+													 'nome'=>'Meta', 'acao'=>'meta', 'detalhar'=>false));?>
+				 <tr>
+			       <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       </tr>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->operacao,
-													 'nome'=>'operacao', 'detalhar'=>false,
-													 'label'=>'Operação',
-													 'campo_id'=>'operacao_id' ));?>
-		<tr>
-		<td colspan="2" height="2px" style="background-color:black"></td>
-		</tr>		
+													 'nome'=>'Operacao', 'label'=>'Operação', 'acao'=>'operacao', 'campo_id'=>'operacao_id', 'detalhar'=>false));?>
 		
 	</table>
 	
