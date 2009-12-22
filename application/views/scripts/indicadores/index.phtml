@@ -9,7 +9,13 @@
 	<?php foreach($this->indicadores as $indicador){?>
 		<tr>
 			<td >
-			<?php echo $this->myToolbar ( 'indicadores', 'line', $indicador->id );?>
+				<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'show','id'=>$indicador->id))?>'
+					class='my-button ui-state-default ui-corner-all '
+					title='Visualizar' 
+					
+					>
+					<span class='ui-icon ui-icon-info'></span>
+				</a>
 			</td>
 			<td>
 				<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'configurar','indicador_id'=>$indicador->id))?>'

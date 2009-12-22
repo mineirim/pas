@@ -1,0 +1,40 @@
+<div class="ui-overlay ui-corner-all" style="width: 680px;">
+	<h3><?php echo $this->indicador->descricao;?></h3>
+	
+	<?php
+	 
+	foreach($this->indicadores_configs as $config){
+		$periodo = $config->findParentRow('Model_TiposPeriodos');
+		$resultados = $config->findDependentRowset('Model_IndicadoresResultados');
+	?>
+	
+	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header tabela-resultado'  >
+		<caption><h3>Indicador <?php echo $periodo->descricao;?> </h3></caption>
+		<tr>
+			<th>Competência</th>
+			<th>Numerador</th>
+			<th>Denominador</th>
+			<th>Resultado</th>
+		</tr>
+		<?php foreach($resultados as $resultado){ ?>
+		<tr class='<?php echo $this->cycle(array("odd","even"))->next()?>"'>
+			<td><?php echo $resultado->competencia;?></td>
+			<td><?php echo $resultado->numerador;?></td>
+			<td><?php echo $resultado->denominador;?></td>
+			<td><?php echo $resultado->resultado;?></td>
+		</tr>
+		<?php }?>
+	</table>
+	<div style='clear:both'>
+		<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'edit', 
+						'id'=>$this->indicador->id,'indicador_configuracao_id'=>$config->id));?>'
+						title='Editar valores' 
+						class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+						<span class='ui-icon ui-icon-pencil'>Editar</span>Editar
+		</a>
+	</div>
+	<br/>
+	<br>
+	<hr>
+	<?php }?>
+</div>
