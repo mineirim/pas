@@ -23,7 +23,7 @@ var lastsel;
             width: 900,
             height: 240,
             rownumbers: true,
-            url:'<?php echo $this->baseUrl() ?>/indicadores/localizar',
+            url:'<?php echo $this->baseUrl() ?>/indicadores/localizar/indicador_configuracao_id/<?php echo $this->indicador_configuracao_id;?>',
             datatype: 'json',
             mtype: 'POST',
             
@@ -79,7 +79,7 @@ var lastsel;
 			        closeOnEscape:true,
 			        closeAfterEdit:true,
 			        bottominfo:"Campos marcados com * são obrigatórios",
-			        editData: {indicador_configuracao_id:this.selector}
+			        editData: {indicador_configuracao_id:<?php echo $this->indicador_configuracao_id;?>}
 			        
 							        
 				}, // add options
