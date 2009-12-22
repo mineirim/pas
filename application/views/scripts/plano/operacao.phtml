@@ -1,7 +1,26 @@
 
 
-<div class="ui-overlay ui-corner-all">
-	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header'>
+<div>
+	<!--   class="ui-overlay ui-corner-all" -->
+	<!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
+
+	<table width="99%" border="0" cellpadding="0" cellspacing="0" style="padding: 0px;">
+	  <tr>
+	       <td width="5" height="14" background="<?php echo $this->baseUrl (); ?>/images/curva-sup-esq.jpg"  style="background-repeat:no-repeat">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	       <td background="<?php echo $this->baseUrl (); ?>/images/linha-sup-horiz.jpg" style="background-repeat:repeat-x">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	       <td width="11" height="14" background="<?php echo $this->baseUrl (); ?>/images/curva-sup-dir.jpg" style="background-repeat:no-repeat">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	  </tr>
+	  <tr valign="top">
+	       <td valign="top" background="<?php echo $this->baseUrl (); ?>/images/linha-esq-vert.jpg"  style="background-repeat:repeat-y">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" /></td>
+	   <td class="titulos-miolo">
+
+
+	<table  cellpadding="0" cellspacing="0">
+	<!-- class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header' -->
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
 													 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
 				 <tr>
@@ -29,14 +48,40 @@
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->operacao,
 													 'nome'=>'Operacao', 'label'=>'Operação', 'acao'=>'operacao', 'campo_id'=>'operacao_id', 'detalhar'=>false));?>
 	</table>
+	<!--FIM DA TABELA COM BORDAS ARREDONDADAS-->	</td>
+	      <td background="<?php echo $this->baseUrl (); ?>/images/linha-dir-vert.jpg" style="background-repeat:repeat-y">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	  </td>
+	   </tr>
+	   <tr>
+	    <td width="5" height="11" background="<?php echo $this->baseUrl (); ?>/images/curva-inf-esq.jpg"  style="background-repeat:no-repeat">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+	    <td background="<?php echo $this->baseUrl (); ?>/images/linha-inf-horiz.jpg" style="background-repeat:repeat-x"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+	    <td width="11" height="11" background="<?php echo $this->baseUrl (); ?>/images/curva-inf-dir.jpg"  style="background-repeat:no-repeat">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+	  </tr>
+	</table>
 	
-	<br></br>
 
-	<br><br>
 	
-	<div id="tabela" class='ui-widget ui-widget-content ui-corner-all'>
+	<div id="tabela" >
+	<!-- class='ui-widget ui-widget-content ui-corner-all' -->
+	<!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
+
+	<table width="99%" border="0" cellpadding="0" cellspacing="0" style="padding: 0px;">
+	  <tr>
+	       <td width="5" height="14" background="<?php echo $this->baseUrl (); ?>/images/curva-sup-esq.jpg"  style="background-repeat:no-repeat">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	       <td background="<?php echo $this->baseUrl (); ?>/images/linha-sup-horiz.jpg" style="background-repeat:repeat-x">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	       <td width="11" height="14" background="<?php echo $this->baseUrl (); ?>/images/curva-sup-dir.jpg" style="background-repeat:no-repeat">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	  </tr>
+	  <tr valign="top">
+	       <td valign="top" background="<?php echo $this->baseUrl (); ?>/images/linha-esq-vert.jpg"  style="background-repeat:repeat-y">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" /></td>
+	   <td class="titulos-miolo">
 		
-		<table width="100%">
+		<table width="100%" cellpadding="0" cellspacing="0">
 			<thead class="ui-widget removedui-widget-header">
 					<tr class="even">
 					<tr>
@@ -52,7 +97,7 @@
 					<td  class="subtitulos-tabela" width="40px" align="center"><img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif"></td>
 				</tr>
 				   <tr>
-				   <td></td>
+				   <td width="4%"></td>
 			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
 
@@ -73,7 +118,9 @@
 						</a>
 					</div>
 					</td>
-					<td><div id="pb-atividade-<?php echo $atividade->id;?>" class="progressbar"></div></td>
+					<td>
+						<img src="<?php echo $this->baseUrl (); ?>/images/barra.gif" width="35" height="10" />
+					</td>
 					<td align="center">
 						<a href="#">
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
@@ -89,7 +136,21 @@
 				}?>
 			</tbody>
 		</table>
-		<br></br>
+
+	<!--FIM DA TABELA COM BORDAS ARREDONDADAS-->	</td>
+	      <td background="<?php echo $this->baseUrl (); ?>/images/linha-dir-vert.jpg" style="background-repeat:repeat-y">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	  </td>
+	   </tr>
+	   <tr>
+	    <td width="5" height="11" background="<?php echo $this->baseUrl (); ?>/images/curva-inf-esq.jpg"  style="background-repeat:no-repeat">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+	    <td background="<?php echo $this->baseUrl (); ?>/images/linha-inf-horiz.jpg" style="background-repeat:repeat-x"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+	    <td width="11" height="11" background="<?php echo $this->baseUrl (); ?>/images/curva-inf-dir.jpg"  style="background-repeat:no-repeat">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+	  </tr>
+	</table>
+
+
 	</div>
 
 

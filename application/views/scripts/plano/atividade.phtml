@@ -1,7 +1,25 @@
 
 
 <div class="ui-overlay ui-corner-all">
-	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header'>
+
+	<!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
+
+	<table width="99%" border="0" cellpadding="0" cellspacing="0" style="padding: 0px;">
+	  <tr>
+	       <td width="5" height="14" background="<?php echo $this->baseUrl (); ?>/images/curva-sup-esq.jpg"  style="background-repeat:no-repeat">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	       <td background="<?php echo $this->baseUrl (); ?>/images/linha-sup-horiz.jpg" style="background-repeat:repeat-x">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	       <td width="11" height="14" background="<?php echo $this->baseUrl (); ?>/images/curva-sup-dir.jpg" style="background-repeat:no-repeat">
+		   <img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	   </td>
+	  </tr>
+	  <tr valign="top">
+	       <td valign="top" background="<?php echo $this->baseUrl (); ?>/images/linha-esq-vert.jpg"  style="background-repeat:repeat-y">
+		<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" /></td>
+	   <td class="titulos-miolo">
+
+	<!--  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header' -->
+	<table cellpadding="0" cellspacing="0">
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
 													 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
 				 <tr>
@@ -31,27 +49,40 @@
 		
 	</table>
 	
-	<br></br>
+<!--FIM DA TABELA COM BORDAS ARREDONDADAS-->	</td>
+      <td background="<?php echo $this->baseUrl (); ?>/images/linha-dir-vert.jpg" style="background-repeat:repeat-y">
+	<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	  </td>
+   </tr>
+   <tr>
+    <td width="5" height="11" background="<?php echo $this->baseUrl (); ?>/images/curva-inf-esq.jpg"  style="background-repeat:no-repeat">
+	<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+    <td background="<?php echo $this->baseUrl (); ?>/images/linha-inf-horiz.jpg" style="background-repeat:repeat-x"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+    <td width="11" height="11" background="<?php echo $this->baseUrl (); ?>/images/curva-inf-dir.jpg"  style="background-repeat:no-repeat">
+	<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
+  </tr>
+</table>
+
+
 	<table>
 		<tr>
-			<th>Atividade</th>
-			<td><?php echo $this->atividade->descricao?></td>
+			<th><font size="2">Atividade</font></th>
+			<td><font size="2"><?php echo $this->atividade->descricao?></font></td>
 		</tr>
 		<tr>
-			<th>Responsável</th>
-			<td><?php echo $this->atividade->responsavel?></td>
+			<th><font size="2">Responsável</font></th>
+			<td><font size="2"><?php echo $this->atividade->responsavel?></font></td>
 		</tr>
 		<tr>
-			<th>Intersecao</th>
-			<td><?php echo $this->atividade->intersecao?></td>
+			<th><font size="2">Intersecao</font></th>
+			<td><font size="2"><?php echo $this->atividade->intersecao?></font></td>
 		</tr>
 		<tr>
-			<th>Início</th>
-			<td><?php echo $this->atividade->inicio_data?></td>
+			<th><font size="2">Início</font></th>
+			<td><font size="2"><?php echo $this->atividade->inicio_data?></font></td>
 		</tr>
 		<tr>
-			<th>Prazo</th>
-			<td><?php echo $this->atividade->prazo_data?></td>
+			<th><font size="2">Prazo</font></th>
+			<td><font size="2"><?php echo $this->atividade->prazo_data?></font></td>
 		</tr>
 		
 	</table>

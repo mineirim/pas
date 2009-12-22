@@ -75,11 +75,13 @@ echo $this->baseUrl ();
 			<div style="float:left; padding-left: 80px;" class="titulo" >
 				<font size="5"><b>Plano Operativo Anual - POA 2010</b></font>
 			</div>
-			<div style="clear:both">
-				<?php
-				echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
-				?>
-			</div>
+		</div>
+		<div style="position: absolute; top: 100px; left: 15px; width: 240px;" >
+			<font size="1">
+			<?php
+			echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
+			?>
+			</font>
 		</div>
 		
 		<br/>
@@ -102,7 +104,7 @@ echo $this->baseUrl ();
 	<div id="barra" class='menu-barra ui-widget ui-widget-header '>
 		<div class="ui-state-default ui-corner-all" style="text-align:center">
 			<span class="ui-icon ui-icon-home">menu</span>
-			M<br>E<br>N<br>U
+			<font size="1">M<br>E<br>N<br>U<br></font>
 		</div> 
 	</div>
 	 
