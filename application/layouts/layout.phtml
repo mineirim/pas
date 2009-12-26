@@ -40,7 +40,6 @@ echo $this->JQuery ();
 <style type="text/css" media="screen">
 body {
 behavior: url(<?php echo $this->baseUrl ();?>/css/csshover.htc); /* call hover behaviour file */
-font-size: 100%; /* enable IE to resize em fonts */
 } 
 #menu1 ul li {
 float: left; /* cure IE5.x "whitespace in lists" problem */
@@ -54,6 +53,10 @@ height: 1%; /* make links honour display: block; properly */
 font: bold 0.7em/1.4em arial, helvetica, sans-serif; 
 /* if required use em's for IE as it won't resize pixels */
 } 
+
+.ui-widget{
+    font-size: 1.05em;
+}
 </style>
 <![endif]-->
 
