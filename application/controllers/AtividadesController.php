@@ -103,7 +103,10 @@ class AtividadesController extends Zend_Controller_Action {
 			if ($this->form->isValid ( $formData )) 
 			{
 				$dados = $this->form->getDados ();
-				
+				$di =  new Zend_Date($dados['inicio_data']);
+				$dp = new Zend_Date($dados['prazo_data']);
+				$dados['inicio_data'] = $di->get(Zend_Date::W3C);
+				$dados['prazo_data'] =  $dp->get(Zend_Date::W3C);				
 				$atividades = new Model_Atividades ( );
 				
 				
