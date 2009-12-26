@@ -25,6 +25,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	
 	}
 	function _initLocale(){
+
+		Zend_Locale::setCache(
+		Zend_Cache::factory(
+			'Core',
+			'File',
+			array(),
+			array('cache_dir' => '/home/marconecosta/www/poa2010/tmp_zend')
+			)
+		);
 		$locale = new Zend_Locale('pt_BR');
 		Zend_Registry::set('Zend_Locale', $locale);
 	}
