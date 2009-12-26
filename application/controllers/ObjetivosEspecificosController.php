@@ -50,7 +50,7 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
     	if ($this->_request->isXmlHttpRequest()) {
                 $this->_helper->layout()->disableLayout();
                 $this->_helper->viewRenderer->setNoRender(true);
-               	echo $this->getXml($this->view->meta);
+               	echo $this->getXml($this->view->objetivo_especifico);
     		
     	}else{
     		$this->render('edit');
@@ -67,13 +67,13 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
     	{
     		$this->form->populate($objetivo_especifico->toArray());
     	}
-    	$this->view->meta = $objetivo_especifico;
+    	$this->view->objetivo_especifico = $objetivo_especifico;
     	$this->view->form = $this->form;
     	
     	if ($this->_request->isXmlHttpRequest()) {
                 $this->_helper->layout()->disableLayout();
                 $this->_helper->viewRenderer->setNoRender(true);
-               	echo $this->getXml($this->view->meta);
+               	echo $this->getXml($this->view->objetivo_especifico);
     		
     	}else{
     		$this->render('edit');
@@ -98,7 +98,7 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
 					$objetivosEspecificos->update($dados, 'id='.$id);
 				}
 				$objetivo_especifico = $objetivosEspecificos->fetchRow('id='.$id);
-				$this->view->meta = $objetivo_especifico;
+				$this->view->objetivo_especifico = $objetivo_especifico;
 				$this->form->submit->setAttrib('class','byajax');
 				$this->form->populate ( $objetivo_especifico->toArray() );			
 			}else{
@@ -109,7 +109,7 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
 		if ($this->_request->isXmlHttpRequest()) {
 	        $this->_helper->layout()->disableLayout();
 	        $this->_helper->viewRenderer->setNoRender(true);
-	        echo $this->getXml($this->view->meta);
+	        echo $this->getXml($this->view->objetivo_especifico);
     	}else{
     		$this->render('edit');
     	}

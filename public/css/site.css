@@ -150,6 +150,7 @@ div#menu1:hover .esconder{
 #menu1 li {
 	position: relative;
 	width:130px;
+	font-size: 1.05em !important;
 }
 
 #menu1 ul ul ul{
