@@ -12,19 +12,25 @@ class Form_Atividades extends Zend_Form
 		
 		
 		$descricao = new Zend_Form_Element_Textarea('descricao');
-		$descricao->setLabel('Descricao')
+		$descricao->setLabel('Descrição')
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
 			->setAttrib('rows',4);
+		$andamento = new Zend_Form_Element_Textarea('andamento');
+		$andamento->setLabel('Andamento da Execução')
+			->setRequired(false)
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->setAttrib('rows',4);
 		$responsavel = new Zend_Form_Element_Text('responsavel');
-		$responsavel->setLabel('Responsavel')
+		$responsavel->setLabel('Responsável')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->setAttrib('size','80');
 		$intersecao = new Zend_Form_Element_Text('intersecao');
-		$intersecao->setLabel('Intersecao')
+		$intersecao->setLabel('Interseção')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->setAttrib('size','80');
@@ -46,11 +52,11 @@ class Form_Atividades extends Zend_Form
 			->addFilter('StringTrim')
 			->addValidator($dateValidator);
 		$prazo_data->setAttrib('class','datepick');
-		
+
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton')
 				->setLabel('Salvar');
-		$this->addElements(array($id, $descricao, $responsavel, $intersecao, $valor, $inicio_data, $prazo_data, $operacao_id, $submit));
+		$this->addElements(array($id, $descricao, $andamento, $responsavel, $intersecao, $valor, $inicio_data, $prazo_data, $operacao_id, $submit));
 	}
 
 	
@@ -68,6 +74,7 @@ class Form_Atividades extends Zend_Form
 						'valor'			=> $this->getValue('valor'),
 						'inicio_data'	=>  $this->getValue('inicio_data'),
 						'prazo_data'	=>  $this->getValue('prazo_data'),
+						'andamento'		=>  $this->getValue('andamento'),
 						'operacao_id'	=> $this->getValue('operacao_id')
 		);
 		

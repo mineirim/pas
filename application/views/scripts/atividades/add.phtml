@@ -1,4 +1,23 @@
-<?php echo $this->form ;?>
+<h3>Inclusão de Atividade</h3>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'atividades', 'action'=>'save'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->form->id ?>
+			<?php echo $this->form->operacao_id; ?>
+			</div>
+			<?php echo $this->form->descricao; ?>
+			<?php echo $this->form->responsavel; ?>
+			<?php echo $this->form->intersecao; ?>
+			<?php echo $this->form->valor; ?>
+			<?php echo $this->form->inicio_data; ?>
+			<?php echo $this->form->prazo_data; ?>
+			
+			<?php echo $this->form->submit;?>
+		</form>
+
+	</div>
 <div style="clear:both;">
 <a href='<?php echo $this->url(array('controller'=>'plano', 'action'=>'operacao'))?>'>Voltar</a>
 </div>

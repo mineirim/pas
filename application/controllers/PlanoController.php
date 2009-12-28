@@ -137,9 +137,11 @@ class PlanoController extends Zend_Controller_Action
       	
       	$operacoes = new Model_Operacoes();
 		$atividades = new Model_Atividades();
-      	if($this->_hasParam('atividade_id')){
+		$atividadesprazo = new Model_AtividadesPrazo();
+		if($this->_hasParam('atividade_id')){
       		$atividade_id = $this->_getParam ( 'atividade_id', 0 );
       		$this->view->atividade = $atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
+      		$this->view->atividadeprazo = $atividadesprazo->fetchAll('atividade_id=' . $atividade_id, 'atividades_prazo_id ASC');
     		$inicio = new Zend_Date($this->view->atividade->inicio_data,Zend_Date::ISO_8601);
     		
     		$prazo =  new Zend_Date($this->view->atividade->prazo_data,Zend_Date::ISO_8601);

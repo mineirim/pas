@@ -61,8 +61,8 @@
 	<img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" width="1" height="1" />	</td>
   </tr>
 </table>
-
-
+<br>
+<br>
 	<table>
 		<tr>
 			<th><font size="2">Atividade</font></th>
@@ -81,10 +81,82 @@
 			<td><font size="2"><?php echo $this->atividade->inicio_data?></font></td>
 		</tr>
 		<tr>
-			<th><font size="2">Prazo</font></th>
+			<th><font size="2">Prazo Inicial</font></th>
 			<td><font size="2"><?php echo $this->atividade->prazo_data?></font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Prazo Atual</font></th>
+			<td><font size="2">
+			<?php
+			$prazo = '';
+			foreach($this->atividadeprazo as $atividadeprazo){ 
+				$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+			}
+			if ($prazo){
+				echo $prazo->toString('dd/MM/yyyy');
+			}
+			?>
+			</font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Andamento<br>da Execução</font></th>
+			<td><font size="2"><?php echo $this->atividade->andamento?></font></td>
 		</tr>
 		
 	</table>
+<br>
+	<table border="2">
+	<tr>
+	<td colspan="2"><font size="2"><b>PRAZOS</b></font></td>
+	</tr>
+	<tr>
+	<td><font size="2"><b>Prazo</b></font></td>
+	<td><font size="2"><b>Motivo do Novo Prazo</b></font></td>
+	</tr>
+	<?php
+	foreach($this->atividadeprazo as $atividadeprazo){ 
+	?>
+		<tr>
+		<td><font size="2">
+		<?php 
+		$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+		echo $prazo->toString('dd/MM/yyyy');
+		?>
+		</font></td>
+		<td><font size="2"><?php echo $atividadeprazo->motivopostergacao; ?></font></td>
+		</tr>
+	<?php 	
+	}?>
+
+		<tr>
+		<td colspan="2">
+		<?php 
+				$mysession = new Zend_Session_Namespace ( 'mysession' );
+				$acl = $mysession->acl;
+		
+				$auth = Zend_Auth::getInstance();
+				if ($auth->hasIdentity ()) {
+					$role = $auth->getIdentity ()->username;
+				} else {
+					$role = 'guest';
+				}
+		
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+		
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
+							title='Adicionar Prazo' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+							<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Prazo</a>";
+				}
+		?>
+
+		</td>
+		</tr>
+
+	</table>
+
 
 </div>
