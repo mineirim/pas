@@ -10,28 +10,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		return $moduleloader;
 	}
 	function _initSession() {
-		/**
-		 * como usar o zend _session
-		 * 
-		 */
 		
 		Zend_Session::start ();
-		$mysession = new Zend_Session_Namespace ( 'temas' );
-		
-		if (! isset ( $mysession->temax )) {
-			$mysession->temax = 'custom-theme';
-		}
 		Zend_Registry::set('schema','poa2010');
 	
 	}
 	function _initLocale(){
-
+		
 		Zend_Locale::setCache(
 		Zend_Cache::factory(
 			'Core',
 			'File',
 			array(),
-			array('cache_dir' => '/home/marconecosta/www/poa2010/tmp_zend')
+			array('cache_dir' => APPLICATION_PATH . '/../tmp_zend')
 			)
 		);
 		$locale = new Zend_Locale('pt_BR');
@@ -44,7 +35,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$view->doctype ( 'XHTML1_STRICT' );
 		$view->headMeta ()->appendHttpEquiv ( 'Content-Type', 'text/html;charset=utf-8' );
 		$view->headTitle ()->setSeparator ( ' - ' );
-		$view->headTitle ( 'Sistema de Monitoramento do Plano Municipal de Saúde' );
+		$view->headTitle ( 'Sistema de Monitoramento do Plano Operativo Anual' );
 		
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper(
@@ -155,6 +146,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		);
 		$programas = new Model_Programas();
 		$projetos = new Model_Projetos();
+		$objetivos_especificos = new Model_ObjetivosEspecificos();
+		$metas = new Model_Metas();
+		$operacoes = new Model_Operacoes();
+		$atividades = new Model_Atividades();
 		
 		
 		$pages_din = array(
@@ -177,6 +172,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'params'=>array('programa_id'=>$programa->id),
 							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
 							);
+							
+			/**
+			 * navegação dos projetos
+			 */				
 			foreach($projetos->fetchAll('situacao_id=1 and projeto_id is null and programa_id='.$programa->id,'id') as $projeto)
 			{
 				$pgs = array('label'=>$projeto->menu,
@@ -186,7 +185,66 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'params'=>array('projeto_id'=>$projeto->id),
 							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
 							);	
-				$arr['pages'][] = $pgs;
+				
+				/**
+				 * navegação em objetivos específicos 
+				 */
+							
+				foreach($objetivos_especificos->fetchAll('situacao_id=1 and projeto_id='.$projeto->id) as $objetivo){
+					$objesp = array(
+								'label'=>$objetivo->menu,
+								'module'=>'default',
+								'controller'=>'plano',
+								'action'=>'objetivos-especificos',
+								'params'=>array('objetivo_especifico_id'=>$objetivo->id),
+								'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+								);
+					/**
+					 * navegação em metas
+					 */
+					foreach($metas->fetchAll('situacao_id=1 and objetivo_especifico_id='.$objetivo->id) as $meta){
+						$metaarray  = array(
+								'label'=>'meta',
+								'module'=>'default',
+								'controller'=>'plano',
+								'action'=>'meta',
+								'params'=>array('meta_id'=>$meta->id),
+								'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+								);
+						/**
+						 * navegação em operações
+						 */
+						foreach($operacoes->fetchAll('situacao_id=1 and meta_id='.$meta->id) as $operacao){
+							$arr_operacao = array(
+											'label'=>'operação',
+											'module'=>'default',
+											'controller'=>'plano',
+											'action'=>'operacao',
+											'params'=>array('operacao_id'=>$operacao->id),
+											'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+											);
+							/**
+							 * navegação em atividades
+							 */
+							foreach($atividades->fetchAll('situacao_id=1 and operacao_id='.$operacao->id) as $atividade){
+							$arr_operacao = array(
+											'label'=>'atividade',
+											'module'=>'default',
+											'controller'=>'plano',
+											'action'=>'atividade',
+											'params'=>array('atividade_id'=>$atividade->id),
+											'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+											);
+										
+							}
+							$metaarray['pages'][]=$arr_operacao;
+						}		
+						$objesp['pages'][] = $metaarray;
+					}			
+					$pgs['pages'][]=$objesp;
+				}
+				
+				$arr['pages'][] = $pgs;							
 			}
 			$pages_din['pages'][]=$arr;
 		}
@@ -196,9 +254,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							 'controller'=>'indicadores',
 							 'action'=>'index',
 							 'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu');
+
+
+
 		
 		$pages[]=$pages_din;
 		$pages[]=$indicadores;
+		
 		$container = new Zend_Navigation($pages);
 		$this->bootstrap ( 'layout' );
 		$layout = $this->getResource ( 'layout' );
