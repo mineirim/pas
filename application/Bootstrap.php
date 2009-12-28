@@ -216,7 +216,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 						 */
 						foreach($operacoes->fetchAll('situacao_id=1 and meta_id='.$meta->id) as $operacao){
 							$arr_operacao = array(
-											'label'=>'operação',
+											'label'=>'operacao',
 											'module'=>'default',
 											'controller'=>'plano',
 											'action'=>'operacao',
@@ -226,8 +226,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							/**
 							 * navegação em atividades
 							 */
+											
 							foreach($atividades->fetchAll('situacao_id=1 and operacao_id='.$operacao->id) as $atividade){
-							$arr_operacao = array(
+							$arr_atividades = array(
 											'label'=>'atividade',
 											'module'=>'default',
 											'controller'=>'plano',
@@ -235,7 +236,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 											'params'=>array('atividade_id'=>$atividade->id),
 											'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
 											);
-										
+							$arr_operacao['pages'][]=$arr_atividades;			
 							}
 							$metaarray['pages'][]=$arr_operacao;
 						}		
