@@ -15,6 +15,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		Zend_Registry::set('schema','poa2010');
 	
 	}
+	protected function _initLanguage() {
+		require_once 'Languages/pt-br/pt_BR.php';
+		$translate = new Zend_Translate ( 'array', $portugues, 'pt_BR' );
+		Zend_Registry::set('translate',$translate);
+	}	
 	function _initLocale(){
 		
 		Zend_Locale::setCache(

@@ -25,7 +25,7 @@ class UsuariosController extends Zend_Controller_Action
         $this->view->title = "Adicionar usuário";
 		$this->view->headTitle($this->view->title, 'PREPEND');
 		$form = new Form_Usuario();
-		$form->submit->setLabel('Add');
+		$form->submit->setLabel('Adicionar');
 		$form->password->addValidator('NotEmpty')->setRequired(true);
 		$form->username->addValidator('NotEmpty')->setRequired(true);
 		$this->view->form = $form;

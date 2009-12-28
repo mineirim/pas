@@ -5,7 +5,8 @@ class Form_Operacoes extends Zend_Form
 	public function __construct($options = null,$name='operacao' )
 	{
 		parent::__construct($options);
-		
+		$translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
 		$this->setName($name);
 		$id = new Zend_Form_Element_Hidden('id');
 		$id->removeDecorator('label');

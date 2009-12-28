@@ -24,7 +24,7 @@ class PaginasController extends Zend_Controller_Action
         $this->view->title = "Adicionar Pagina";
 		$this->view->headTitle($this->view->title, 'PREPEND');
 		$form = new Form_Pagina();
-		$form->submit->setLabel('Add');
+		$form->submit->setLabel('Adicionar');
 		$this->view->form = $form;
 		if ($this->getRequest()->isPost()) {
 			$formData = $this->getRequest()->getPost();

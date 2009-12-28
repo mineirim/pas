@@ -5,6 +5,8 @@ class Form_Pagina extends Zend_Form
 	public function __construct($options = null)
 	{
 		parent::__construct($options);
+		$translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
 		$this->setName('pagina');
 		$id = new Zend_Form_Element_Hidden('id');
 		$pagina = new Zend_Form_Element_Text('pagina');

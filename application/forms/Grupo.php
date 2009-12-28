@@ -5,6 +5,8 @@ class Form_Grupo extends Zend_Form
 	public function __construct($options = null )
 	{
 		parent::__construct($options);
+		$translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
 		$this->setName('grupo');
 		$id = new Zend_Form_Element_Hidden('id');
 		$grupo = new Zend_Form_Element_Text('grupo');

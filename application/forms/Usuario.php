@@ -3,7 +3,12 @@ class Form_Usuario extends Zend_Form
 {
 	public function __construct($options = null)
 	{
+		
 		parent::__construct($options);
+		$translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
+		$translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
 		$this->setName('usuario');
 		$id = new Zend_Form_Element_Hidden('id');
 		$nome = new Zend_Form_Element_Text('nome');

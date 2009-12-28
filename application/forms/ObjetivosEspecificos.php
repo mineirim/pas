@@ -5,8 +5,8 @@ class Form_ObjetivosEspecificos extends Zend_Form
 	public function __construct($options = null,$name='acao' )
 	{
 		parent::__construct($options);
-		
-		
+		$translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
 		$this->setName($name);
 		$id = new Zend_Form_Element_Hidden('id');
 		

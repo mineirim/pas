@@ -25,7 +25,7 @@ class GruposController extends Zend_Controller_Action
     	$this->view->title = "Adicionar Grupo";
 		$this->view->headTitle($this->view->title, 'PREPEND');
 		$form = new Form_Grupo();
-		$form->submit->setLabel('Add');
+		$form->submit->setLabel('Adicionar');
 		$this->view->form = $form;
 		
 		if ($this->getRequest()->isPost()) {

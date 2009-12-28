@@ -5,7 +5,8 @@ class Form_Indicador extends Zend_Form_SubForm
 	public function __construct($options = null )
 	{
 		parent::__construct($options);
-		
+		$translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
 		$this->setDisableLoadDefaultDecorators(true);
 		$this->removeDecorator('label');
 		$this->getDecorator('HtmlTag')->clearOptions();

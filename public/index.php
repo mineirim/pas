@@ -1,5 +1,4 @@
 <?php
-
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
@@ -15,6 +14,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 
+session_save_path(APPLICATION_PATH.'/../tmp_zend');
 /** Zend_Application */
 require_once 'Zend/Application.php';  
 

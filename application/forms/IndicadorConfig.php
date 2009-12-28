@@ -5,7 +5,8 @@ class Form_IndicadorConfig extends Zend_Form_SubForm
 	public function __construct($options = null )
 	{
 		parent::__construct($options);
-
+        $translate = Zend_Registry::get('translate');
+        $this->setTranslator($translate);
 		$id = new Zend_Form_Element_Hidden('id');
 		$id->removeDecorator('label');
 		
