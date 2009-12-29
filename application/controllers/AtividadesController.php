@@ -188,7 +188,7 @@ class AtividadesController extends Zend_Controller_Action {
     		
     	}
 
-    	$atividadeprazo = $atividadesprazo->fetchRow('atividade_id='.$atividade_id, 'atividades_prazo_id DESC');
+    	$atividadeprazo = $atividadesprazo->fetchRow('atividade_id='.$atividade_id, 'id DESC');
     	if($atividadeprazo){
 	    		$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
 	    		$atividadeprazo->prazo_data = $prazo->toString('dd/MM/yyyy');
