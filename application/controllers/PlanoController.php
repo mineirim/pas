@@ -16,7 +16,7 @@ class PlanoController extends Zend_Controller_Action
     public function programasAction()
     {
         $programas = new Model_Programas ( );
-        
+		
         $this->view->programas = $programas->fetchAll( "situacao_id=1", 'ordem'  );
         $this->view->nivel = 'Programas';
     }
@@ -107,11 +107,13 @@ class PlanoController extends Zend_Controller_Action
       	
       	$operacoes = new Model_Operacoes();
 		$atividades = new Model_Atividades();
-      	if($this->_hasParam('operacao_id')){
+		$atividadesprazo = new Model_AtividadesPrazo();
+		if($this->_hasParam('operacao_id')){
       		$operacao_id = $this->_getParam ( 'operacao_id', 0 );
       		$this->view->operacao = $operacoes->fetchRow ( 'id=' . $operacao_id, 'id' );
       		$this->view->atividades	=	$atividades->fetchAll('operacao_id=' . $operacao_id . ' and situacao_id=1', 'id' );
-
+      		$this->view->atividadeprazo = $atividadesprazo;
+      		
       		$this->view->meta = $this->view->operacao->findParentRow('Model_Metas');
       		
       		$this->view->objetivo_especifico = $this->view->meta->findParentRow('Model_ObjetivosEspecificos');
@@ -156,6 +158,7 @@ class PlanoController extends Zend_Controller_Action
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
 			$this->view->nivel = 'Atividade';
 			$this->view->tableheader = 'Atividades';
+			$this->view->resource = "atividades";
       		
       	}else{
       		

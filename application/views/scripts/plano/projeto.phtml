@@ -106,7 +106,14 @@
 					</div>
 					</td>
 					<td align="center">
-						<img src="<?php echo $this->baseUrl (); ?>/images/barra.gif" width="35" height="10" />
+						<?php 
+						if (!$projeto->projeto_id){
+							echo $this->lineProgressbar ( 2, $projeto->id  ); // Projetos 
+						} else {
+							echo $this->lineProgressbar ( 3, $projeto->id  ); // Sub Projetos 
+						}
+						
+						?>
 					</td>
 					<td  align="center">
 						<a href="#">
@@ -203,7 +210,7 @@
 					</div>
 					</td>
 					<td align="center">
-						<img src="<?php echo $this->baseUrl (); ?>/images/barra.gif" width="35" height="10" />
+						<?php echo $this->lineProgressbar ( 4, $objetivos_especificos->id  ); // Objetivos Específicos ?>
 					</td>
 					<td align="center">
 						<a href="#">

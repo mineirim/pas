@@ -65,6 +65,45 @@
 <br>
 	<table>
 		<tr>
+			<td colspan="2">
+			<?php 
+				$mysession = new Zend_Session_Namespace ( 'mysession' );
+				$acl = $mysession->acl;
+			
+				$auth = Zend_Auth::getInstance();
+				if ($auth->hasIdentity ()) {
+					$role = $auth->getIdentity ()->username;
+				} else {
+					$role = 'guest';
+				}
+		
+				$resource = $this->resource;
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+		
+			
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+						
+					if (!$this->atividade->conclusao_data){
+						// botão para concluir atividade
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'concluir', 'id'=>$this->atividade->id))."'
+								title='Concluir Atividade' 
+								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+								<span class='ui-icon ui-icon-check'>Concluir Atividade</span>Concluir Atividade</a>";
+					} else {
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'reativar', 'id'=>$this->atividade->id))."'
+								title='Reativar Atividade' 
+								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+								<span class='ui-icon ui-icon-arrowreturnthick-1-e'>Reativar Atividade</span>Reativar Atividade</a>";
+					} // if conclusao_data
+				} // if isAllowed
+			
+			?>
+			</td>
+		</tr>
+
+		<tr>
 			<th><font size="2">Atividade</font></th>
 			<td><font size="2"><?php echo $this->atividade->descricao?></font></td>
 		</tr>
@@ -77,7 +116,7 @@
 			<td><font size="2"><?php echo $this->atividade->intersecao?></font></td>
 		</tr>
 		<tr>
-			<th><font size="2">Início</font></th>
+			<th><font size="2">Data de Início</font></th>
 			<td><font size="2"><?php echo $this->atividade->inicio_data?></font></td>
 		</tr>
 		<tr>
@@ -99,10 +138,26 @@
 			</font></td>
 		</tr>
 		<tr>
+			<th><font size="2">Valor</font></th>
+			<td><font size="2"><?php echo $this->atividade->valor?></font></td>
+		</tr>
+		<tr>
 			<th><font size="2">Andamento<br>da Execução</font></th>
 			<td><font size="2"><?php echo $this->atividade->andamento?></font></td>
 		</tr>
-		
+		<?php 
+		if ($this->atividade->conclusao_data){
+		?>
+		<tr>
+			<th><font size="2">Data Conclusão</font></th>
+			<td><font size="2"><?php 
+			$conclusao = new Zend_Date($this->atividade->conclusao_data,Zend_Date::ISO_8601);
+			echo $conclusao->toString('dd/MM/yyyy');
+			?></font></td>
+		</tr>
+		<?php 
+		} // if
+		?>
 	</table>
 <br>
 	<table border="2">
@@ -128,33 +183,29 @@
 	<?php 	
 	}?>
 
-		<tr>
-		<td colspan="2">
 		<?php 
-				$mysession = new Zend_Session_Namespace ( 'mysession' );
-				$acl = $mysession->acl;
-		
-				$auth = Zend_Auth::getInstance();
-				if ($auth->hasIdentity ()) {
-					$role = $auth->getIdentity ()->username;
-				} else {
-					$role = 'guest';
-				}
-		
-				if (! $acl->has ( $resource )) 
-					$resource = null;
-		
-				if($acl->isAllowed($role,$resource) ||
-						!$resource){ 
-					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
-							title='Adicionar Prazo' 
-							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-							<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Prazo</a>";
-				}
+		// só é possível adicionar prazos quando a atividade ainda não foi concluida.
+		if (!$this->atividade->conclusao_data){
 		?>
 
-		</td>
-		</tr>
+			<tr>
+			<td colspan="2">
+			<?php 
+					if($acl->isAllowed($role,$resource) ||
+							!$resource){ 
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
+								title='Adicionar Prazo' 
+								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+								<span class='ui-icon ui-icon-plus'>Adicionar Prazo</span>Adicionar Prazo</a>";
+					}
+			?>
+	
+			</td>
+			</tr>
+		<?php 
+		} // if
+		?>
+
 
 	</table>
 

@@ -221,7 +221,9 @@ class AtividadesController extends Zend_Controller_Action {
     	}
 	}
 	
-	
+    /*
+     * Controller para Salvar os novos prazos das atividades
+     */
     public function saveprazoAction()
     {
     	$this->form = new Form_AtividadesPrazo();
@@ -249,9 +251,34 @@ class AtividadesController extends Zend_Controller_Action {
     		$this->render('addprazo');
     	}
     }		
-	
-	
 
+    /*
+     * Controller para Concluir Atividades
+     */
+    public function concluirAction()
+    {
+    	$atividades = new Model_Atividades();
+    	$dataatual = new Zend_Date();
+		$atividade_id = $this->_getParam ( 'id' );
+		$dados = array("conclusao_data" => $dataatual);
+		$atividades->update($dados, 'id='.$atividade_id);
+		$this->_redirect('plano/atividade/atividade_id/'.$atividade_id);
+    }
+    
+    /*
+     * Controller para Reativar Atividades
+     */
+    public function reativarAction()
+    {
+    	$atividades = new Model_Atividades();
+		$atividade_id = $this->_getParam ( 'id' );
+		$dados = array("conclusao_data" => null);
+		$atividades->update($dados, 'id='.$atividade_id);
+		$this->_redirect('plano/atividade/atividade_id/'.$atividade_id);
+    }
+    
+    
+    
 	// Passando data do text box "DD/MM/AAAA" para "AAAA-MM-DD"
 	function gravaData ($data) {
 		if ($data != '') {

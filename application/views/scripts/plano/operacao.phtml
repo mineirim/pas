@@ -86,19 +86,22 @@
 					<tr class="even">
 					<tr>
 					<td></td>
-					<td colspan="3">
+					<td colspan="5">
 					<div class="titulos-tabela">ATIVIDADES</div>
 					</td>
 					</tr>
 
 					<td width="4px"><?php echo $this->myToolbar('atividades','toptable');?></td>
 					<td  class="subtitulos-tabela">Descrição</td>
+					<td  class="subtitulos-tabela" width="70px;">Data Início</td>
+					<td  class="subtitulos-tabela" width="80px;">Prazo Atual</td>
+					<td  class="subtitulos-tabela" width="70px;">Valor</td>
 					<td  class="subtitulos-tabela" width="70px;">Realiz.</td>
 					<td  class="subtitulos-tabela" width="40px" align="center"><img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif"></td>
 				</tr>
 				   <tr>
 				   <td width="4%"></td>
-			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			       <td colspan="5"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
 
 			</thead>
@@ -118,8 +121,30 @@
 						</a>
 					</div>
 					</td>
+					<td class="texto">
+						<?php 
+						$data =  new Zend_Date($atividade->inicio_data,Zend_Date::ISO_8601);
+						echo $data->toString('dd/MM/yy');
+						?>				
+					</td>
+					<td class="texto">
+						<?php 
+						$resultado = $this->atividadeprazo->fetchAll('atividade_id=' . $atividade->id, 'id ASC');
+						$prazo = '';
+						foreach($resultado as $atividadeprazo){ 
+							$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+						}
+						if (!$prazo){
+							$prazo =  new Zend_Date($atividade->prazo_data,Zend_Date::ISO_8601);
+						}
+						echo $prazo->toString('dd/MM/yy');
+						?>				
+					</td>
+					<td class="texto">
+						<?php echo $atividade->valor;?>
+					</td>
 					<td>
-						<img src="<?php echo $this->baseUrl (); ?>/images/barra.gif" width="35" height="10" />
+						<?php echo $this->lineProgressbar ( 7, $atividade->id  ); // atividade ?>
 					</td>
 					<td align="center">
 						<a href="#">
@@ -129,7 +154,7 @@
 				</tr>
 			   	<tr>
 			   	<td></td>
-		       	<td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+		       	<td colspan="5"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 		       	</tr>
 				<?php
 				$loopCount++; 
