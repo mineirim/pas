@@ -113,6 +113,38 @@ class MetasController extends Zend_Controller_Action
     }
 
     
+	public function deleteAction(){
+		$this->view->title = "Excluir";
+	    
+		$this->view->headTitle($this->view->title, 'PREPEND') ;
+		
+		
+		$id = $this->_getParam('id', 0);
+		
+		$form = new Zend_Form();
+		$form->addElement('hidden','id');
+		$form->addElement('submit','ok');
+		
+		$metas = new Model_Metas();
+		
+		if ($this->getRequest()->isPost()) {
+			if ($form->isValid($this->getRequest()->getPost())) {
+				$id = $form->getValue('id');
+				$meta = $metas->fetchRow('id='.$id);
+				$meta->situacao_id=2;
+				$meta->save();
+			}
+			
+			$this->_redirect($this->view->url(array('action'=>'objetivos-especificos','controller'=> 'plano')), array('prependBase' => false));
+		}elseif ($id > 0) {
+			
+			$meta = $metas->fetchRow('id='.$id);
+			$this->view->meta = $meta;
+		}
+		
+		$form->populate($meta->toArray());
+		$this->view->form = $form;
+	}          
     public function validarAction() {
         if ($this->_request->isXmlHttpRequest()) {
                 $this->_helper->layout()->disableLayout();

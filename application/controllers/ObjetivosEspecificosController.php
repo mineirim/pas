@@ -117,6 +117,40 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
     
     }
 
+    
+	public function deleteAction(){
+		$this->view->title = "Excluir";
+	    
+		$this->view->headTitle($this->view->title, 'PREPEND') ;
+		
+		
+		$id = $this->_getParam('id', 0);
+		
+		$form = new Zend_Form();
+		$form->addElement('hidden','id');
+		$form->addElement('submit','ok');
+		
+		$objetivos = new Model_ObjetivosEspecificos();
+		
+		if ($this->getRequest()->isPost()) {
+			if ($form->isValid($this->getRequest()->getPost())) {
+				$id = $form->getValue('id');
+				$objetivo = $objetivos->fetchRow('id='.$id);
+				$objetivo->situacao_id=2;
+				$objetivo->save();
+			}
+			
+			$this->_redirect($this->view->url(array('action'=>'projeto','controller'=> 'plano')), array('prependBase' => false));
+		}elseif ($id > 0) {
+			
+			$objetivo = $objetivos->fetchRow('id='.$id);
+			$this->view->objetivo = $objetivo;
+		}
+		
+		$form->populate($objetivo->toArray());
+		$this->view->form = $form;
+	}      
+    
     /**
      * Adiciona Estratégia ao ObjetivoEspecífico
      */

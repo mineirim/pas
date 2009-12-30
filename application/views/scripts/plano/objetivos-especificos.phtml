@@ -97,8 +97,9 @@
 			<?php
 			$select = $this->objetivo_especifico->select();
 			$select->order('id'); 
+			
 			$loopCount=0;
-			foreach ($this->objetivo_especifico->findDependentRowset('Model_Metas',null,$select) as $meta){?>
+			foreach ($this->metas as $meta){?>
 				<tr class="<?= ($loopCount++%2 ? 'even' : 'odd'); ?>">
 					<td>
 					<?php echo $this->myToolbar ( 'metas', 'line', $meta->id );	?>

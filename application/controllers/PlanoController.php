@@ -52,12 +52,12 @@ class PlanoController extends Zend_Controller_Action
     
     public function objetivosEspecificosAction()
     {
-      	
+      	$metas = new Model_Metas();
       	$objetivosEspecificos = new Model_ObjetivosEspecificos();
       	if($this->_hasParam('objetivo_especifico_id')){
       		$objetivo_especifico_id = $this->_getParam ( 'objetivo_especifico_id', 0 );
       		$this->view->objetivo_especifico = $objetivosEspecificos->fetchRow ( 'id=' . $objetivo_especifico_id, 'ordem' );
-      		
+      		$this->view->metas = $metas->fetchAll('objetivo_especifico_id='.$objetivo_especifico_id. 'and situacao_id=1', 'id');
       		$this->view->projeto = $this->view->objetivo_especifico->findParentRow('Model_Projetos');
 			$this->view->programa = $this->view->projeto->findParentRow('Model_Programas');
 			$this->view->nivel = 'ObjetivoEspecifico';
