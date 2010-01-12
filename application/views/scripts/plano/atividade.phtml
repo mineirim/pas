@@ -120,21 +120,19 @@
 			<td><font size="2"><?php echo $this->atividade->inicio_data?></font></td>
 		</tr>
 		<tr>
-			<th><font size="2">Prazo Inicial</font></th>
-			<td><font size="2"><?php echo $this->atividade->prazo_data?></font></td>
-		</tr>
-		<tr>
-			<th><font size="2">Prazo Atual</font></th>
+			<th><font size="2">Data de Término</font></th>
 			<td><font size="2">
-			<?php
-			$prazo = '';
-			foreach($this->atividadeprazo as $atividadeprazo){ 
-				$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
-			}
-			if ($prazo){
-				echo $prazo->toString('dd/MM/yyyy');
-			}
-			?>
+				<?php
+				$prazo = '';
+				foreach($this->atividadeprazo as $atividadeprazo){ 
+					$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+				}
+				if ($prazo){
+						echo $prazo->toString('dd/MM/yyyy');
+				} else {
+						echo $this->atividade->prazo_data;
+				} // if
+				?>
 			</font></td>
 		</tr>
 		<tr>
@@ -149,7 +147,7 @@
 		if ($this->atividade->conclusao_data){
 		?>
 		<tr>
-			<th><font size="2">Data Conclusão</font></th>
+			<th><font size="2">Data de Conclusão</font></th>
 			<td><font size="2"><?php 
 			$conclusao = new Zend_Date($this->atividade->conclusao_data,Zend_Date::ISO_8601);
 			echo $conclusao->toString('dd/MM/yyyy');
@@ -162,11 +160,11 @@
 <br>
 	<table border="2">
 	<tr>
-	<td colspan="2"><font size="2"><b>PRAZOS</b></font></td>
+	<td colspan="2"><font size="2"><b>POSTERGAÇÕES</b></font></td>
 	</tr>
 	<tr>
-	<td><font size="2"><b>Prazo</b></font></td>
-	<td><font size="2"><b>Motivo do Novo Prazo</b></font></td>
+	<td><font size="2"><b>Data</b></font></td>
+	<td><font size="2"><b>Motivo da Postergação</b></font></td>
 	</tr>
 	<?php
 	foreach($this->atividadeprazo as $atividadeprazo){ 

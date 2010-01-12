@@ -1,0 +1,487 @@
+
+<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='' 
+			method="post">
+<table width="90%" border="1" align="center">
+	<?php 
+	foreach($this->programa->fetchAll("1=1", "id") as $programas){
+	?>
+		<tr>
+			<td  colspan="4">
+			<br>
+			<table border="0" width="100%">
+				<tr bgcolor="0099FF">
+					<td>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000"><b>PROGRAMA <?php echo $programas->id; ?></b></font>
+					</td>
+					<td>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000"><b>Reponsável</b></font>
+					</td>
+				</tr>
+				<tr bgcolor="66FF99">
+					<td>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+					<b><?php echo $programas->descricao; ?></b>
+					</font>
+					</td>
+					<td>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+					<?php 
+					$nome = "";
+					foreach ($this->responsavel->fetchAll("id=" . $programas->responsavel_id) as $responsaveis)
+					{
+						$nome = $responsaveis->nome;
+					}
+					?>
+					<b><?php echo $nome; ?></b>
+					</font>
+					</td>
+				</tr>
+				<tr>
+			    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			    </tr>
+				<tr>
+					<td colspan=2>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+					<b>OBJETIVO DO PROGRAMA:</b> 
+					<?php 
+					foreach($this->objetivoprograma->fetchAll("programa_id=" . $programas->id) as $objetivosprograma)
+					{
+						echo $objetivosprograma->descricao;
+						echo "<br>";
+					}
+					?>
+					</font>
+					</td>
+				</tr>
+				<tr>
+			    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			    </tr>
+				<tr>
+					<td colspan=2>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+					<b>META DO PROGRAMA:</b> 
+					<?php 
+					foreach($this->metaprograma->fetchAll("programa_id=" . $programas->id) as $metasprograma)
+					{
+						echo $metasprograma->descricao;
+						echo "<br>";
+					}
+					?>
+					</font>
+					</td>
+				</tr>
+				<tr>
+			    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			    </tr>
+				<tr>
+					<td colspan=2>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+					<b>INDICADOR DO PROGRAMA:</b> 
+					<?php 
+					foreach($this->indicadorprograma->fetchAll("programa_id=" . $programas->id) as $indicadoresprograma)
+					{
+						echo $indicadoresprograma->indicador_id;
+						// aqui entrar com a descrição do indicador
+						echo "; ";
+					}
+					?>
+					</font>
+					</td>
+				</tr>
+				<tr>
+			    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+			    </tr>
+			</table>
+
+			<table border="0" width="100%">
+				<tr>
+					<td  bgcolor="66FF99">
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+					<b>INTERFACES</b>
+					</font>
+					</td>
+					<td>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+					<?php echo $programas->interfaces; ?>
+					</font>
+					</td>
+				</tr>
+			</table>		
+			<tr><td colspan="4"><hr></td></tr>
+			</td>
+		</tr>
+		<?php 
+		foreach($this->projeto->fetchAll("programa_id=".$programas->id." and projeto_id is null", "id") as $projetos){
+		?>
+			<tr>
+				<td  colspan="4">
+				<table border="0" width="100%">
+					<tr bgcolor="66FF99">
+						<td>
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+						<b>PROJETO: <?php echo $projetos->descricao; ?></b>
+						</font>
+						</td>
+						<td>
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+						<?php 
+						$nome = "";
+						foreach ($this->responsavel->fetchAll("id=" . $projetos->responsavel_id) as $responsaveis)
+						{
+							$nome = $responsaveis->nome;
+						}
+						?>
+						<b><?php echo $nome; ?></b>
+						</font>
+						</td>
+					</tr>
+					<tr>
+				    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+				    </tr>
+					<tr>
+						<td colspan=2>
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+						<b>OBJETIVO DO PROJETO:</b> 
+						<?php 
+						foreach($this->objetivoprojeto->fetchAll("projeto_id=" . $projetos->id) as $objetivosprojeto)
+						{
+							echo $objetivosprojeto->descricao;
+							echo "<br>";
+						}
+						?>
+						</font>
+						</td>
+					</tr>
+					<tr>
+				    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+				    </tr>
+					<tr>
+						<td colspan=2>
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+						<b>META DO PROJETO:</b> 
+						<?php 
+						foreach($this->metaprojeto->fetchAll("projeto_id=" . $projetos->id) as $metasprojeto)
+						{
+							echo $metasprojeto->descricao;
+							echo "<br>";
+						}
+						?>
+						</font>
+						</td>
+					</tr>
+					<tr>
+				    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+				    </tr>
+					<tr>
+						<td colspan=2>
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+						<b>INDICADOR DO PROJETO:</b> 
+						<?php 
+						foreach($this->indicadorprojeto->fetchAll("projeto_id=" . $projetos->id) as $indicadoresprojeto)
+						{
+							echo $indicadoresprojeto->indicador_id;
+							echo "; ";
+						}
+						?>
+						</font>
+						</td>
+					</tr>
+					<tr>
+				    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+				    </tr>
+				</table>
+		
+				<table border="0" width="100%">
+					<tr>
+						<td  bgcolor="66FF99">
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+						<b>INTERFACES</b>
+						</font>
+						</td>
+						<td>
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+						<?php echo $projetos->interfaces; ?>
+						</font>
+						</td>
+					</tr>
+				</table>		
+				</td>
+			</tr>
+			<?php 
+			foreach($this->subprojeto->fetchAll("programa_id=" . $programas->id, "id") as $subprojetos){
+			?>
+				<?php 
+				if (($subprojetos->projeto_id != "") && ($subprojetos->projeto_id == $projetos->id)){
+				?>
+					<tr>
+						<td  colspan="4">
+						<table border="0" width="100%">
+							<tr  bgcolor="66FF99"><td>
+								<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+								<b>SUBPROJETO: <?php echo $subprojetos->descricao; ?></b>
+								</font>
+								</td>
+								<td>
+								<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+								<?php 
+								$nome = "";
+								foreach ($this->responsavel->fetchAll("id=" . $subprojetos->responsavel_id) as $responsaveis)
+								{
+									$nome = $responsaveis->nome;
+								}
+								?>
+								<b><?php echo $nome; ?></b>
+								</font>
+								</td>
+							</tr>
+							<tr>
+						    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+						    </tr>
+							<tr>
+								<td colspan=2>
+								<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+								<b>OBJETIVO DO SUBPROJETO:</b> 
+								<?php 
+								foreach($this->objetivosubprojeto->fetchAll("projeto_id=" . $subprojetos->id) as $objetivossubprojeto)
+								{
+									echo $objetivossubprojeto->descricao;
+									echo "<br>";
+								}
+								?>
+								</font>
+								</td>
+							</tr>
+							<tr>
+						    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+						    </tr>
+							<tr>
+								<td colspan=2>
+								<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+								<b>META DO PROJETO:</b> 
+								<?php 
+								foreach($this->metasubprojeto->fetchAll("projeto_id=" . $subprojetos->id) as $metassubprojeto)
+								{
+									echo $metassubprojeto->descricao;
+									echo "<br>";
+								}
+								?>
+								</font>
+								</td>
+							</tr>
+							<tr>
+						    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+						    </tr>
+							<tr>
+								<td colspan=2>
+								<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+								<b>INDICADOR DO PROJETO:</b> 
+								<?php 
+								foreach($this->indicadorsubprojeto->fetchAll("projeto_id=" . $subprojetos->id) as $indicadoressubprojeto)
+								{
+									echo $indicadoressubprojeto->indicador_id;
+									echo "; ";
+								}
+								?>
+								</font>
+								</td>
+							</tr>
+							<tr>
+						    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+						    </tr>
+						</table>
+				
+						<table border="0" width="100%">
+							<tr>
+								<td bgcolor="66FF99"> 
+								<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+								<b>INTERFACES</b>
+								</font>
+								</td>
+								<td>
+								<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+								<?php echo $subprojetos->interfaces; ?>
+								</font>
+								</td>
+							</tr>
+						</table>		
+						</td>
+					</tr>
+				<?php 
+				} // if do cabeçalho para subprojeto
+				?>
+				<?php 
+				if (($projetos->id == $subprojetos->id) || ($subprojetos->projeto_id == $projetos->id)){
+					$projeto_id = $subprojetos->id;
+					foreach($this->objetivoespecifico->fetchAll("projeto_id=" . $projeto_id) as $objetivosespecificos){
+					?>
+						<tr>
+							<td  colspan="4">
+							<table border="0" width="100%">
+								<tr  bgcolor="66FF99">
+									<td colspan="2">
+									<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+									<b>OBJETIVO ESPECÍFICO: <?php echo $objetivosespecificos->descricao; ?></b>
+									</font>
+									</td>
+								</tr>
+								<tr>
+							    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+							    </tr>
+								<tr>
+									<td>
+									<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+									<b>RECURSOS:</b>
+									</font>
+									</td>
+									<td>
+									<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+									<?php echo $objetivosespecificos->recursos; ?>
+									</font>
+									</td>
+								</tr>
+								<tr>
+							    	<td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
+							    </tr>
+								<tr>
+									<td>
+									<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+									<b>CRONOGRAMA:</b>
+									</font>
+									</td>
+									<td>
+									<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000">
+									<?php echo $objetivosespecificos->cronograma; ?>
+									</font>
+									</td>
+								</tr>
+							</table>
+							</td>
+						</tr>									
+						<tr>
+							<td>
+
+				            <table width="100%" border="1">
+					            <tr bgcolor="0099FF">
+						            <td>
+						            <font face="Arial, Helvetica, sans-serif" size="2" color="000000">
+						            <b>Meta</b>
+						            </font>
+						            </td>
+						            <td>
+						            <font face="Arial, Helvetica, sans-serif" size="2" color="000000">
+						            <b>Operação</b>
+						            </font>
+						            </td>
+						            <td>
+						            <font face="Arial, Helvetica, sans-serif" size="2" color="000000">
+						            <b>Atividade</b>
+						            </font>
+						            </td>
+						            <td>
+						            <font face="Arial, Helvetica, sans-serif" size="2" color="000000">
+						            <b>Valor</b>
+						            </font>
+						            </td>
+						            <td>
+						            <font face="Arial, Helvetica, sans-serif" size="2" color="000000">
+						            <b>Data Término</b>
+						            </font>
+						            </td>
+					            </tr>
+								<?php 
+								$sc = "poa2010"; // schema
+								$meta_id = 0;
+								$operacao_id = 0;
+								$select = $this->atividade->select()
+												->setIntegrityCheck(false)
+												->from(array("m" => "$sc.metas"), array("descricao_meta" => "descricao", "meta_id" => "id"));
+								$select->joinleft(array("o" => "$sc.operacoes"),
+												"o.meta_id = m.id and o.situacao_id = 1", array("descricao_operacao" => "descricao", "operacao_id" => "id"));
+								$select->joinleft(array("a" => "$sc.atividades"),
+												"a.operacao_id = o.id and a.situacao_id = 1", array("descricao_atividade" => "descricao", "atividade_id" => "id", "valor", "responsavel", "intersecao", "prazo_data", "conclusao_data"));
+								$select->where("m.situacao_id = 1 and m.objetivo_especifico_id = " . $objetivosespecificos->id); 												
+								$select->order(array("m.id", "o.id", "a.id"));
+								foreach($this->atividade->fetchAll($select) as $registros){
+									?>
+									<tr>
+									<?php 
+									if ($registros->meta_id != $meta_id){
+										?>
+					                    <td style="border-bottom-width:0">
+					                    <font face="Arial" size="1" color="000000">
+					                    <?php echo $registros->descricao_meta; ?>
+					                    </font>
+					                    </td>
+										<?php 
+										$meta_id = $registros->meta_id;
+									} else {
+										?>	
+					    				<td style="border-bottom-width:0; border-top-width:0">&nbsp;</td>            
+										<?php
+									} // if
+									if ($registros->operacao_id != $operacao_id){
+										?>
+										<td style="border-bottom-width:0">
+										<font face="Arial" size="1" color="000000">
+										<?php echo $registros->descricao_operacao; ?>
+										</font>
+										</td>
+										<?php
+										$operacao_id = $registros->operacao_id;				
+									} else {
+										?>	
+					    				<td style="border-bottom-width:0; border-top-width:0">&nbsp;</td>            
+										<?php
+									}
+									?>
+									<td>
+					                <font face="Arial" size="1" color="000000">
+					                <?php echo $registros->atividade_id . " - " . $registros->descricao_atividade; ?>
+					                </font>
+					                </td>
+					                <td align="center">
+					                <font face="Arial" size="1" color="000000">
+					                <?php echo $registros->valor; ?>
+					                </font>
+					                </td>
+									<?php
+									if ($registros->atividade_id){
+										$prazos = $this->atividadeprazo->fetchRow("atividade_id=" . $registros->atividade_id,"id DESC");
+										if ($prazos){
+											$data_termino = new Zend_Date($prazos->prazo_data,Zend_Date::ISO_8601);
+										} else {
+											$data_termino = new Zend_Date($registros->prazo_data,Zend_Date::ISO_8601);
+										}
+										?>	
+						                <td align="center">
+						                <font face="Arial" size="1" color="000000">
+						                <?php 
+						                if ($registros->conclusao_data){
+						                	echo "Concluída";
+						                } else {
+						                	echo $data_termino->toString('dd/MM/yyyy');
+						                } 
+						                ?>
+						                </font>
+						                </td>
+									<?php 
+									} // if atividade_id
+									?>
+									</tr>
+									
+									<?php 
+								} // foreach
+								?>
+							</table>
+							</td>
+						</tr>
+					<?php 
+					} // foreach objetivos especificos
+				} // if de projetos e subprojetos
+			} // select subprojetos
+		} // select projetos
+	} // select programas
+	?>
+</table>
+</form>

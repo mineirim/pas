@@ -40,7 +40,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$view->doctype ( 'XHTML1_STRICT' );
 		$view->headMeta ()->appendHttpEquiv ( 'Content-Type', 'text/html;charset=utf-8' );
 		$view->headTitle ()->setSeparator ( ' - ' );
-		$view->headTitle ( 'Sistema de Monitoramento do Plano Operativo Anual' );
+		$view->headTitle ( 'Sistema de Monitoramento da Programação Anual de Saúde do Estado de São Paulo' );
 		
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper(
@@ -260,12 +260,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							 'controller'=>'indicadores',
 							 'action'=>'index',
 							 'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu');
-
+		$relatorios = array('label'=>'Relatórios',
+							 'title'=>'Relatórios',
+							 'module'=>'default',
+							 'controller'=>'relatorios',
+							 'action'=>'index',
+							 'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu');
+		
 
 
 		
 		$pages[]=$pages_din;
 		$pages[]=$indicadores;
+		$pages[]=$relatorios;
 		
 		$container = new Zend_Navigation($pages);
 		$this->bootstrap ( 'layout' );

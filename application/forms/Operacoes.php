@@ -14,7 +14,7 @@ class Form_Operacoes extends Zend_Form
 		$meta_id->removeDecorator('label');
 		
 		$descricao = new Zend_Form_Element_Textarea('descricao');
-		$descricao->setLabel('Descricao')
+		$descricao->setLabel('Descrição')
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
@@ -22,7 +22,9 @@ class Form_Operacoes extends Zend_Form
 			->setAttrib('rows',4);
 		
 		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setAttrib('id', 'submitbutton');
+		$submit->setAttrib('id', 'submitbutton')
+				->setLabel('Salvar');
+		
 		$this->addElements(array($id, $descricao, $meta_id, $submit));
 	}
 

@@ -92,9 +92,9 @@
 					</tr>
 
 					<td width="4px"><?php echo $this->myToolbar('atividades','toptable');?></td>
-					<td  class="subtitulos-tabela">Descrição</td>
+					<td  class="subtitulos-tabela" width="55%">Descrição</td>
 					<td  class="subtitulos-tabela" width="70px;">Data Início</td>
-					<td  class="subtitulos-tabela" width="80px;">Prazo Atual</td>
+					<td  class="subtitulos-tabela" width="100px;">Data Término</td>
 					<td  class="subtitulos-tabela" width="70px;">Valor</td>
 					<td  class="subtitulos-tabela" width="70px;">Realiz.</td>
 					<td  class="subtitulos-tabela" width="40px" align="center"><img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif"></td>
@@ -124,7 +124,7 @@
 					<td class="texto">
 						<?php 
 						$data =  new Zend_Date($atividade->inicio_data,Zend_Date::ISO_8601);
-						echo $data->toString('dd/MM/yy');
+						echo $data->toString('dd/MM/yyyy');
 						?>				
 					</td>
 					<td class="texto">
@@ -137,7 +137,7 @@
 						if (!$prazo){
 							$prazo =  new Zend_Date($atividade->prazo_data,Zend_Date::ISO_8601);
 						}
-						echo $prazo->toString('dd/MM/yy');
+						echo $prazo->toString('dd/MM/yyyy');
 						?>				
 					</td>
 					<td class="texto">

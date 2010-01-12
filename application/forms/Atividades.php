@@ -19,45 +19,59 @@ class Form_Atividades extends Zend_Form
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
 			->setAttrib('rows',4);
+			
+		$responsavel = new Zend_Form_Element_Text('responsavel');
+		$responsavel->setLabel('Responsável')
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->setAttrib('size','80');
+			
+		$intersecao = new Zend_Form_Element_Text('intersecao');
+		$intersecao->setLabel('Interseção')
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->setAttrib('size','80');
+			
+		$valor = new Zend_Form_Element_Text('valor');
+		$valor->setLabel('Valor')->addValidator('Digits')
+			->setAttrib('size','10')
+			->addValidator('Between', true, array(0, 100))
+			->addErrorMessage('Valor deve ser entre 0 e 100');
+			
+		
+		
+		$dateValidator = new Zend_Validate_Date();
+				
+		$inicio_data = new Zend_Form_Element_Text('inicio_data');
+		$inicio_data->setLabel('Data de Início')
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->addValidator($dateValidator)
+			->setAttrib('class','datepick')
+			->setAttrib('size','12');
+			
+		$prazo_data = new Zend_Form_Element_Text('prazo_data');
+		$prazo_data->setLabel('Data de Término')
+			->addFilter('StripTags')
+			->addFilter('StringTrim')
+			->addValidator($dateValidator)
+			->setAttrib('class','datepick')
+			->setAttrib('size','12');
+
 		$andamento = new Zend_Form_Element_Textarea('andamento');
 		$andamento->setLabel('Andamento da Execução')
 			->setRequired(false)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->setAttrib('rows',4);
-		$responsavel = new Zend_Form_Element_Text('responsavel');
-		$responsavel->setLabel('Responsável')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->setAttrib('size','80');
-		$intersecao = new Zend_Form_Element_Text('intersecao');
-		$intersecao->setLabel('Interseção')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->setAttrib('size','80');
-		$valor = new Zend_Form_Element_Text('valor');
-		$valor->setLabel('Valor')->addValidator('Digits');
 		
 		
-		$dateValidator = new Zend_Validate_Date();
-				
-		$inicio_data = new Zend_Form_Element_Text('inicio_data');
-		$inicio_data->setLabel('Data Início')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->addValidator($dateValidator);
-		$inicio_data->setAttrib('class','datepick');
-		$prazo_data = new Zend_Form_Element_Text('prazo_data');
-		$prazo_data->setLabel('Prazo Realização')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->addValidator($dateValidator);
-		$prazo_data->setAttrib('class','datepick');
-
+		
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton')
 				->setLabel('Salvar');
-		$this->addElements(array($id, $descricao, $andamento, $responsavel, $intersecao, $valor, $inicio_data, $prazo_data, $operacao_id, $submit));
+				
+		$this->addElements(array($id, $descricao, $responsavel, $intersecao, $valor, $inicio_data, $prazo_data, $operacao_id, $andamento, $submit));
 	}
 
 	

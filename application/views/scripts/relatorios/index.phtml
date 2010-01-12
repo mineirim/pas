@@ -1,0 +1,58 @@
+<div id="formtabs" style="width: 800px; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Relatórios</a></li>
+	</ul>
+
+	<div id="tabs-0" style="overflow: hidden">
+<div id="tabela" class='inner' border="0">
+<br></br>
+<table width="100%">
+<tbody>
+<tr><td>
+<?php 
+$mysession = new Zend_Session_Namespace ( 'mysession' );
+$acl = $mysession->acl;
+		
+$auth = Zend_Auth::getInstance();
+if ($auth->hasIdentity ()) {
+	$role = $auth->getIdentity ()->username;
+} else {
+	$role = 'guest';
+}
+		
+$resource = $this->resource;
+if (! $acl->has ( $resource )) 
+	$resource = null;
+		
+if($acl->isAllowed($role,$resource) ||
+		!$resource){ 
+	?>
+	<a href='<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'editgestao' ) );?>'>
+	Atualizar Relatório de Gestão
+	</a>
+<?php 
+} else {
+?>
+	Atualizar Relatório de Gestão (você precisa logar para acessar este relatório)
+<?php 
+} // if $acl
+?>
+</td></tr>
+<tr><td>Relatório de Gestão</td></tr>
+<tr><td>
+<a href='<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano' ) );?>'>
+Relatório do Plano
+</a>
+</td></tr>
+<tr><td>
+<a href='<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioatividaderesponsavel' ) );?>'>
+Relatório do Atividades com Responsável
+</a>
+</td></tr>
+
+</tbody>
+</table>
+<br></br>
+</div>
+</div>
+</div>

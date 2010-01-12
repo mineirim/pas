@@ -259,8 +259,9 @@ class AtividadesController extends Zend_Controller_Action {
     {
     	$atividades = new Model_Atividades();
     	$dataatual = new Zend_Date();
+    	$databanco = $dataatual->get(Zend_Date::W3C);
 		$atividade_id = $this->_getParam ( 'id' );
-		$dados = array("conclusao_data" => $dataatual);
+		$dados = array("conclusao_data" => $databanco);
 		$atividades->update($dados, 'id='.$atividade_id);
 		$this->_redirect('plano/atividade/atividade_id/'.$atividade_id);
     }

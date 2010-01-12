@@ -21,7 +21,7 @@ class Form_AtividadesPrazo extends Zend_Form
 		$dateValidator = new Zend_Validate_Date();
 				
 		$prazo_data = new Zend_Form_Element_Text('prazo_data');
-		$prazo_data->setLabel('Novo Prazo')
+		$prazo_data->setLabel('Nova Data de Término')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator($dateValidator);

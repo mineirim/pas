@@ -34,7 +34,7 @@ class OperacoesController extends Zend_Controller_Action {
 		$meta_id = $this->_getParam ( 'meta_id' );
 		$this->form = new Form_Operacoes();
     	$this->form->getElement('meta_id')->setValue($meta_id);
-		$this->form->submit->setLabel('Adicionar');
+		$this->form->submit->setLabel('Salvar');
 		$this->view->form = $this->form;
 	    $this->render('add');	
     	
@@ -96,6 +96,8 @@ class OperacoesController extends Zend_Controller_Action {
     	}
     	$this->view->operacao = $operacao;
     	$this->form->submit->setLabel('Salvar');
+        $this->view->title = "Alterar Operação";
+		$this->view->headTitle($this->view->title, 'PREPEND');
     	$this->view->form = $this->form;
 		
 		$this->render('edit');

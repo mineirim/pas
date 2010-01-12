@@ -1,4 +1,9 @@
-<h3>Alteração de Atividade</h3>
+<h3>Alterar Atividade</h3>
+<div id="formtabs" style="width: 800px; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Atividade</a></li>
+	</ul>
+
 	<div id="tabs-0" style="overflow: hidden">
 		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
 			action='<?php echo $this->url(array('controller'=>'atividades', 'action'=>'save'));?>' 
@@ -7,20 +12,34 @@
 			<?php echo $this->form->id ?>
 			<?php echo $this->form->operacao_id; ?>
 			</div>
-
+			<table width="100%" border="0">
+			<tr><td>
 			<?php echo $this->form->descricao; ?>
+			</td></tr>
+			<tr><td>
 			<?php echo $this->form->responsavel; ?>
+			</td></tr>
+			<tr><td>
 			<?php echo $this->form->intersecao; ?>
+			</td></tr>
+			<tr><td>
 			<?php echo $this->form->valor; ?>
+			</td></tr>
+			<tr><td>
 			<?php echo $this->form->inicio_data; ?>
+			</td></tr>
+			<tr><td>
 			<?php echo $this->form->andamento; ?>
-
-			
+			</td></tr>
+			<tr><td>
 			<?php echo $this->form->submit;?>
+			</td></tr>
+			</table>
 		</form>
 
 	</div>
-
+</div>
+<br></br>
 <div style="clear:both;">
 <a href='<?php echo $this->url(array('controller'=>'plano', 'action'=>'operacao'))?>'>Voltar</a>
 </div>
