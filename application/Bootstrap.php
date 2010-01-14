@@ -33,8 +33,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$locale = new Zend_Locale('pt_BR');
 		Zend_Registry::set('Zend_Locale', $locale);
 	}
+	public function _initDbAdapter() {
+		$this->bootstrap ( 'db' );
+		$dbAdapter = $this->getResource ( 'db' );
+		
+		Zend_Registry::set ( 'db', $dbAdapter );
+	
+	}	
 	function _initViewHelpers() {
 		$this->bootstrap ( 'layout' );
+		
 		$layout = $this->getResource ( 'layout' );
 		$view = $layout->getView ();
 		$view->doctype ( 'XHTML1_STRICT' );
@@ -42,19 +50,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$view->headTitle ()->setSeparator ( ' - ' );
 		$view->headTitle ( 'Sistema de Monitoramento da Programação Anual de Saúde do Estado de São Paulo' );
 		
+		
+		
 		$view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper(
 		            'ViewRenderer'
 		);
+		
+		
+		
 		$viewRenderer->setView($view); 		
 	}
-	public function _initDbAdapter() {
-		$this->bootstrap ( 'db' );
-		$dbAdapter = $this->getResource ( 'db' );
-		
-		Zend_Registry::set ( 'db', $dbAdapter );
-	
-	}
+
 	function _initAcl() {
 		$front = Zend_Controller_Front::getInstance ();
 		$front->throwExceptions ( true );
@@ -66,6 +73,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		}
 		$acl = $mysession->acl;
 		$front->registerPlugin ( new App_Controller_AclPlugin ( $auth, $acl ) );
+		$front->registerPlugin ( new App_Controller_AjudaPlugin () );
+		
 	
 	}
 	/*

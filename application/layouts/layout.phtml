@@ -99,6 +99,11 @@ echo $this->baseUrl ();
 	<h3><?php
 	echo $this->escape ( $this->title );
 	?></h3>
+		<!-- Hugo, alterar o código abaixo para funcionar o tooltip -->
+		<div class='help_tooltip'>	
+		<a href='#' class='tooltip' title='<?php echo $this->textoajuda;?>'>xx</a>
+		</div>
+		<!-- final do código -->
 		<?php
 		echo $this->layout ()->content;
 		?>

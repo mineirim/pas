@@ -84,6 +84,10 @@ $(document).ready(function(){
 		$(".datepick").datepicker({dateformat:"dd-mm-yy"});
 		
 		
+		/**
+		 * hugo, fazer as alterações aqui para funcionar o tooltip
+		 */
+		$('.tooltip').tooltip();
 
 
 				  

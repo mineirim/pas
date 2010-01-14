@@ -5,7 +5,12 @@ class PlanoController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
+        /**
+         * passa a variável ajudatexto para a view
+         * na view basta chamar $this->ajuda
+         */
+    	$this->view->textoajuda= $this->_getParam('textoajuda');
+    	
     }
 
     public function indexAction()
@@ -15,6 +20,7 @@ class PlanoController extends Zend_Controller_Action
 
     public function programasAction()
     {
+    	 
         $programas = new Model_Programas ( );
 		
         $this->view->programas = $programas->fetchAll( "situacao_id=1", 'ordem'  );
