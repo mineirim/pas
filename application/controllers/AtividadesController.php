@@ -220,7 +220,91 @@ class AtividadesController extends Zend_Controller_Action {
     		$this->render('addprazo');
     	}
 	}
+
+	/**
+	 * Adiciona nova vinculação na atividade
+	 * necessário passar o atividade_id como parametro
+	 * @return unknown_type
+	 */
+	public function addvinculacaoAction() {
+		
+		$atividades = new Model_Atividades();
+		$atividadesvinculacao = new Model_AtividadesVinculadas();
+
+		$atividade_id = $this->_getParam ( 'id' );
+    	
+    	$this->form = new Form_AtividadesVinculacao();
+
+    	if ($this->getRequest ()->isPost ()) 
+    	{
+    		$this->savevinculacaoAction();
+    	}
+    	
+    	$atividade = $atividades->fetchRow('id='.$atividade_id);
+    	
+    	$this->view->form = $this->form;
+    	$this->form->getElement('atividade_id')->setValue($atividade_id);
+    	
+    	if ($this->_request->isXmlHttpRequest()) {
+                $this->_helper->layout()->disableLayout();
+                $this->_helper->viewRenderer->setNoRender(true);
+               	echo $this->getXml($this->view->atividade);
+    		
+    	}else{
+    		$this->render('addvinculacao');
+    	}
+    	
+	}
 	
+    /*
+     * Controller para Salvar os novas vinculações das atividades
+     */
+    public function savevinculacaoAction()
+    {
+    	$this->form = new Form_AtividadesVinculacao();
+    	$this->view->form = $this->form;
+    	
+    	if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest ()->getPost ();
+			if ($this->form->isValid ( $formData )) 
+			{
+				$dados = $this->form->getDados ();
+				$atividadesvinculacao = new Model_AtividadesVinculadas ( );
+				$id = $atividadesvinculacao->insert ( $dados );
+				$this->_redirect('plano/atividade/atividade_id/'.$dados['atividade_id']);
+			}else{
+				$this->form->populate ( $formData );
+			}
+		}
+		if ($this->_request->isXmlHttpRequest()) {
+	        $this->_helper->layout()->disableLayout();
+	        $this->_helper->viewRenderer->setNoRender(true);
+	        echo $this->getXml($this->view->atividade);
+    	}else{
+    		$this->render('addvinculacao');
+    	}
+    }
+	
+    /*
+     * Controller para excluir as vinculações das atividades
+     */
+    public function deletevinculacaoAction()
+    {
+		$id = $this->_getParam('id', 0);
+		
+		$atividade_id = $this->_getParam('atividade_id', 0);
+		
+    	$atividadesvinculacao = new Model_AtividadesVinculadas ( );
+
+    	$atividadesvinculacao->delete ( $id );
+
+    	$this->_redirect('plano/atividade/atividade_id/'.$atividade_id);
+
+    }
+    
+    
+    
+    
     /*
      * Controller para Salvar os novos prazos das atividades
      */

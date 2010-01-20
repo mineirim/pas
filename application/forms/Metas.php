@@ -7,13 +7,8 @@ class Form_Metas extends Zend_Form_SubForm
 		parent::__construct($options);
 		$translate = Zend_Registry::get('translate');
         $this->setTranslator($translate);
-		$this->setDisableLoadDefaultDecorators(true);
-		$this->removeDecorator('label');
-		$this->getDecorator('HtmlTag')->clearOptions();
-		$this->getDecorator('fieldset')->setOption('style','padding:0;border:none;margin:0;');
-		$id = new Zend_Form_Element_Hidden('id');
-		$id->removeDecorator('label');
 		
+        $id = new Zend_Form_Element_Hidden('id');
 		$objetivo_especifico_id = new Zend_Form_Element_Hidden('objetivo_especifico_id');
 		
 		$descricao = new Zend_Form_Element_Textarea('descricao');
@@ -23,7 +18,7 @@ class Form_Metas extends Zend_Form_SubForm
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
 			->setAttrib('rows',2);
-		
+			
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submit_descritivo')

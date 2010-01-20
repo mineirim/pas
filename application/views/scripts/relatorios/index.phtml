@@ -38,7 +38,11 @@ if($acl->isAllowed($role,$resource) ||
 } // if $acl
 ?>
 </td></tr>
-<tr><td>Relatório de Gestão</td></tr>
+<tr><td>
+<a href='<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatoriogestao' ) );?>'>
+Relatório de Gestão
+</a>
+</td></tr>
 <tr><td>
 <a href='<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano' ) );?>'>
 Relatório do Plano

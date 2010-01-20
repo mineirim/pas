@@ -1,0 +1,31 @@
+<div id="formtabs" style="width: 800px; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Atividade - Vinculação</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'atividades', 'action'=>'savevinculacao'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->form->id ?>
+			<?php echo $this->form->atividade_id; ?>
+			</div>
+			<table width="100%" border="0">
+			<tr><td>
+			<?php echo $this->form->depende_atividade_id; ?>
+			</td></tr>
+			<tr><td>
+			<?php echo $this->form->observacoes; ?>
+			</td></tr>
+			<tr><td>
+			<?php echo $this->form->submit;?>
+			</td></tr>
+			</table>
+		</form>
+
+	</div>
+</div>
+<br></br>
+<div style="clear:both;">
+<a href='<?php echo $this->url(array('controller'=>'plano', 'action'=>'atividade', 'atividade_id'=>$this->form->id))?>'>Voltar</a>
+</div>

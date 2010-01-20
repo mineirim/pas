@@ -33,9 +33,9 @@ class App_DefaultModel extends Zend_Db_Table_Abstract {
   
   		$log->insert($data_log);
 	}
-	public function insert($data, $where)
+	public function insert($data)
 	{
-		parent::update($data,$where);
+		parent::insert($data);
 		$log = new Model_Log();
 		$data_log = array();
 		$data_log['session_id']= session_id();  

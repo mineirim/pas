@@ -62,7 +62,13 @@
   </tr>
 </table>
 <br>
-<br>
+
+<div id="formtabs" style="width: 98%; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Atividade</a></li>
+	</ul>
+
+
 	<table>
 		<tr>
 			<td colspan="2">
@@ -105,7 +111,7 @@
 
 		<tr>
 			<th><font size="2">Atividade</font></th>
-			<td><font size="2"><?php echo $this->atividade->descricao?></font></td>
+			<td><font size="2"><?php echo $this->atividade->id . " - " . $this->atividade->descricao?></font></td>
 		</tr>
 		<tr>
 			<th><font size="2">Responsável</font></th>
@@ -158,54 +164,101 @@
 		?>
 	</table>
 <br>
-	<table border="2">
-	<tr>
-	<td colspan="2"><font size="2"><b>POSTERGAÇÕES</b></font></td>
-	</tr>
-	<tr>
-	<td><font size="2"><b>Data</b></font></td>
-	<td><font size="2"><b>Motivo da Postergação</b></font></td>
-	</tr>
-	<?php
-	foreach($this->atividadeprazo as $atividadeprazo){ 
-	?>
-		<tr>
-		<td><font size="2">
-		<?php 
-		$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
-		echo $prazo->toString('dd/MM/yyyy');
-		?>
-		</font></td>
-		<td><font size="2"><?php echo $atividadeprazo->motivopostergacao; ?></font></td>
-		</tr>
-	<?php 	
-	}?>
-
-		<?php 
-		// só é possível adicionar prazos quando a atividade ainda não foi concluida.
-		if (!$this->atividade->conclusao_data){
-		?>
-
+	<table border="0">
+	<tr><td>
+		<table border="2">
 			<tr>
-			<td colspan="2">
-			<?php 
-					if($acl->isAllowed($role,$resource) ||
-							!$resource){ 
-						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
-								title='Adicionar Prazo' 
-								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-								<span class='ui-icon ui-icon-plus'>Adicionar Prazo</span>Adicionar Prazo</a>";
-					}
-			?>
-	
-			</td>
+				<td colspan="2"><font size="2"><b>POSTERGAÇÕES</b></font></td>
 			</tr>
-		<?php 
-		} // if
-		?>
-
-
+			<tr>
+				<td><font size="2"><b>Data</b></font></td>
+				<td><font size="2"><b>Motivo da Postergação</b></font></td>
+			</tr>
+			<?php
+			foreach($this->atividadeprazo as $atividadeprazo){ 
+			?>
+				<tr>
+					<td><font size="2">
+					<?php 
+					$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+					echo $prazo->toString('dd/MM/yyyy');
+					?>
+					</font></td>
+					<td><font size="2"><?php echo $atividadeprazo->motivopostergacao; ?></font></td>
+				</tr>
+			<?php 	
+			} // foreach
+			// *** só é possível adicionar prazos quando a atividade ainda não foi concluida.
+			if (!$this->atividade->conclusao_data){
+				?>
+				<tr>
+				<td colspan="2">
+				<?php 
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
+							title='Adicionar Prazo' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+							<span class='ui-icon ui-icon-plus'>Adicionar Prazo</span>Adicionar Prazo</a>";
+				}
+				?>
+				</td>
+				</tr>
+				<?php 
+			} // if
+			?>
+		</table>
+	</td>
+	<td>
+		<table border="2">
+			<tr>
+				<td colspan="2"><font size="2"><b>VINCULAÇÕES</b></font></td>
+			</tr>
+			<tr>
+				<td><font size="2"><b>Atividade</b></font></td>
+				<td><font size="2"><b>Observações</b></font></td>
+				<td><font size="2"><b>&nbsp;</b></font></td>
+			</tr>
+			<?php
+			foreach($this->atividadevinculada as $atividadesvinculadas){ 
+				$vinculacao = $this->atividades->fetchRow ( 'id=' . $atividadesvinculadas->depende_atividade_id, 'id' );
+				?>
+				<tr>
+					<td><font size="2"><a title='<?php echo $atividadesvinculadas->depende_atividade_id . " - " . $vinculacao->descricao; ?>' href='<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'atividade', 'atividade_id' => $atividadesvinculadas->depende_atividade_id ) );?>'><?php echo $atividadesvinculadas->depende_atividade_id; ?></a></font></td>
+					<td><font size="2"><?php echo $atividadesvinculadas->observacoes; ?></font></td>
+					<td><font size="2">
+					<?php 
+					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'deletevinculacao', 'id'=>$atividadesvinculadas->id))."'
+							title='Excluir Vinculação' 
+							class='my-button ui-state-default ui-corner-all'>
+							<span class='ui-icon ui-icon-trash'>Excluir Vinculação</span></a>";
+					?>
+					</font></td>
+				</tr>
+				<?php 	
+			} // foreach
+			// *** só é possível adicionar vinculações quando a atividade ainda não foi concluida.
+			if (!$this->atividade->conclusao_data){
+				?>
+				<tr>
+				<td colspan="2">
+				<?php 
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id))."'
+							title='Adicionar Vinculação' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+							<span class='ui-icon ui-icon-plus'>Adicionar Vinculação</span>Adicionar Vinculação</a>";
+				}
+				?>
+				</td>
+				</tr>
+				<?php 
+			} // if
+			?>
+		</table>	
+	</td></tr>
 	</table>
 
-
+</div>
 </div>

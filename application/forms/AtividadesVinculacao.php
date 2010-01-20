@@ -1,8 +1,8 @@
 <?php
 
-class Form_AtividadesPrazo extends Zend_Form
+class Form_AtividadesVinculacao extends Zend_Form
 {
-	public function __construct($options = null,$name='atividade_prazo' )
+	public function __construct($options = null,$name='atividade_vinculadas' )
 	{
 		parent::__construct($options);
 		$translate = Zend_Registry::get('translate');
@@ -12,25 +12,25 @@ class Form_AtividadesPrazo extends Zend_Form
 		$atividade_id = new Zend_Form_Element_Hidden('atividade_id');
 		
 		
-		$motivopostergacao = new Zend_Form_Element_Text('motivopostergacao');
-		$motivopostergacao->setLabel('Motivo da Postergação')
+		$observacoes = new Zend_Form_Element_Text('observacoes');
+		$observacoes->setLabel('Observações')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->setAttrib('size','80');
 
-		$dateValidator = new Zend_Validate_Date();
-				
-		$prazo_data = new Zend_Form_Element_Text('prazo_data');
-		$prazo_data->setLabel('Nova Data de Término')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->addValidator($dateValidator);
-		$prazo_data->setAttrib('class','datepick');
+		$depende_atividade_id = new Zend_Form_Element_Text('depende_atividade_id');
+		$depende_atividade_id->setLabel('Código Atividade Vinculada')
+			->addValidator('Digits')
+			->setAttrib('size','10')
+			->addValidator('NotEmpty')
+			->setRequired(true)			
+			->addErrorMessage('Código da Atividade Vinculada é obrigatório');
+			
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton')
 				->setLabel('Salvar');
-		$this->addElements(array($id, $atividade_id, $motivopostergacao, $prazo_data, $submit));
+		$this->addElements(array($id, $atividade_id, $depende_atividade_id, $observacoes, $submit));
 	}
 
 	
@@ -42,8 +42,8 @@ class Form_AtividadesPrazo extends Zend_Form
 	 */
 	public function getDados($array_add=false) {
 		
-		$dados = array ('motivopostergacao' 	=> $this->getValue('motivopostergacao'),
-						'prazo_data'	=>  $this->getValue('prazo_data'),
+		$dados = array ('depende_atividade_id' 	=> $this->getValue('depende_atividade_id'),
+						'observacoes'	=>  $this->getValue('observacoes'),
 						'atividade_id'	=> $this->getValue('atividade_id')
 		);
 		

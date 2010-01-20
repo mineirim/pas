@@ -12,6 +12,11 @@ class RelatoriosController extends Zend_Controller_Action {
 		
 	}
 
+	/*
+	 * editgestao
+	 * 
+	 * edição do relatório de gestão.
+	 */
 	public function editgestaoAction() {
 		$this->form = new Form_Relatoriosgestao();
     	$this->view->form = $this->form;
@@ -49,6 +54,23 @@ class RelatoriosController extends Zend_Controller_Action {
 			}			
 		}
 	}
+	
+
+	/*
+	 * relatoriogestao
+	 * 
+	 * impressão do relatório de gestão.
+	 */
+	public function relatoriogestaoAction() {
+    	$this->view->programa = new Model_Programas();
+    	$this->view->projeto = new Model_Projetos();
+		$this->view->subprojeto = new Model_Projetos();
+		$this->view->objetivoespecifico = new Model_ObjetivosEspecificos();
+		$this->view->meta = new Model_Metas();
+		$this->render('relatoriogestao');
+	}
+	
+	
 	
 	/*
 	 * Relatório do plano

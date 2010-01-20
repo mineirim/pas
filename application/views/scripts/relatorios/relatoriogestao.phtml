@@ -1,0 +1,116 @@
+<font face="Arial, Helvetica, sans-serif" size="3"><b>
+Relatório de Gestão
+</b></font><br><br>
+<table width="90%" border="1" align="center">
+	<?php 
+	foreach($this->programa->fetchAll("1=1", "id") as $programas){
+	?>
+		<tr>
+		<td  colspan="4">
+		<br>
+		<table border="0" width="100%">
+		<tr><td width="25%">
+		<font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+		<b>PROGRAMA: <?php echo $programas->descricao; ?></b>
+		</font>
+		</td></tr>
+		</table>
+		</td>
+		</tr>
+		<?php 
+		foreach($this->projeto->fetchAll("programa_id=".$programas->id." and projeto_id is null", "id") as $projetos){
+		?>
+			<tr>
+			<td  colspan="4">
+			<table border="0" width="100%">
+			<tr><td width="25%">
+			<font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+			<b>PROJETO: <?php echo $projetos->descricao; ?></b>
+			</font>
+			</td></tr>
+			</table>
+			</td>
+			</tr>
+			<?php 
+			foreach($this->subprojeto->fetchAll("programa_id=" . $programas->id, "id") as $subprojetos){
+			?>
+				<?php 
+				if (($subprojetos->projeto_id != "") && ($subprojetos->projeto_id == $projetos->id)){
+				?>
+					<tr>
+					<td  colspan="4">
+					<table border="0" width="100%">
+					<tr><td width="25%">
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+					<b>SUBPROJETO: <?php echo $subprojetos->descricao; ?></b>
+					</font>
+					</td></tr>
+					</table>
+					</td>
+					</tr>
+				<?php 
+				} // if do cabeçalho para subprojeto
+				?>
+
+
+				<?php 
+				if (($projetos->id == $subprojetos->id) || ($subprojetos->projeto_id == $projetos->id)){
+				?>
+
+					<?php 
+					foreach($this->objetivoespecifico->fetchAll("projeto_id=".$subprojetos->id, "id") as $objetivosespecificos){
+					?>
+	
+						<tr>
+						<td  colspan="4">
+						<table border="0" width="100%">
+						<tr><td width="25%">
+						<font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+						<b>OBJETIVO ESPECÍFICO: <?php echo $objetivosespecificos->descricao; ?></b>
+						</font>
+						</td></tr>
+						</table>
+						</td>
+						</tr>
+		
+						<tr>
+						<td><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">&nbsp;METAS</font></b></td>
+						<td width="15%"><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">REALIZADO</font></b></td>
+						<td><b><font face="Verdana, Arial, Helvetica, sans-serif" size="2">OBSERVAÇÕES</font></b></td>
+						</tr>
+						<?php 
+						foreach($this->meta->fetchAll("objetivo_especifico_id=".$objetivosespecificos->id, "id") as $meta){
+						?>
+							<tr>
+							<td><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><?php echo $meta->id . " - " . $meta->descricao; ?></font></td>
+							<td width="14%">
+							<font face="Verdana, Arial, Helvetica, sans-serif" size="1">
+							<?php if ($meta->realizado == 1){ echo "[x]"; } else {echo "&nbsp;&nbsp;&nbsp;&nbsp;"; }; ?> Realizado<br>
+							<?php if ($meta->realizado == 3){ echo "[x]"; } else {echo "&nbsp;&nbsp;&nbsp;&nbsp;"; }; ?> Parcialmente<br>
+							<?php if ($meta->realizado == 2){ echo "[x]"; } else {echo "&nbsp;&nbsp;&nbsp;&nbsp;"; }; ?> Não Realizado
+							</font>
+							</td>	
+							<td><?php echo rtrim($meta->justificativa); ?></td>
+							</tr>
+						<?php 
+						} // fim select meta
+						?>
+					<?php 
+					} // select acoes
+					?>
+				<?php 
+				} // if de projetos e subprojetos
+				?>
+			<?php 
+			} // select subprojetos
+			?>
+		<?php 
+		} // select projetos
+		?>
+	<?php 
+	} // select programas
+	?>
+
+
+
+</table>	

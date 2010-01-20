@@ -82,6 +82,19 @@ echo $this->baseUrl ();
 				<font size="4"><b>Programação Anual de Saúde - PAS-E 2010</b></font>
 			</div>
 		</div>
+		<div style="position: absolute; top: 100px; right: 55px; width: 65px;" >
+			<?php 
+			echo "<a href='".$this->url(array('controller'=>'favoritos','action'=>'add')) ."'
+								title='Adicionar Favorito'> 
+								<img alt='Adicionar Marcador' src='". $this->baseUrl() ."/images/addbookmark.jpg' width='23' height='23' border='0'></a>";								
+			?>
+			&nbsp;&nbsp;
+			<?php 
+			echo "<a href='".$this->url(array('controller'=>'favoritos','action'=>'list')) ."'
+								title='Visualizar Marcadores'> 
+								<img alt='Visualizar Marcadores' src='". $this->baseUrl() ."/images/seebookmark.jpg' width='23' height='23' border='0'></a>";								
+			?>
+		</div>
 		<div style="position: absolute; top: 100px; left: 15px; width: 800px;" >
 			<font size="1">
 			<?php

@@ -29,8 +29,6 @@ class MetasController extends Zend_Controller_Action
     public function addAction()
     {
 		$objetivo_especifico_id = $this->_getParam ( 'objetivo_especifico_id' );
-    	
-    	
     	if ($this->getRequest ()->isPost ()) 
     	{
     		$this->saveAction();
@@ -38,14 +36,14 @@ class MetasController extends Zend_Controller_Action
     	}
     	$this->form->getElement('objetivo_especifico_id')->setValue($objetivo_especifico_id);
     	$this->view->form = $this->form;
-    	
-    	if ($this->_request->isXmlHttpRequest()) {
+
+		if ($this->_request->isXmlHttpRequest()) {
                 $this->_helper->layout()->disableLayout();
                 $this->_helper->viewRenderer->setNoRender(true);
                	echo $this->getXml($this->view->meta);
     		
     	}else{
-    		$this->render('edit');
+    		$this->render('add');
     	}
     	
     } 
@@ -84,7 +82,7 @@ class MetasController extends Zend_Controller_Action
 				$metas = new Model_Metas ( );
 			
 				if($this->form->getValue('id')==''){
-					$id = $metas->insert ( $dados );
+					$metas->insert ( $dados );
 				}else{
 					$id = $this->form->getValue('id');
 					$metas->update($dados, 'id='.$id);

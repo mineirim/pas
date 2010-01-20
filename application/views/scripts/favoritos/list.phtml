@@ -1,0 +1,53 @@
+<h3>Marcadores</h3>
+<div id="formtabs" style="width: 800px; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Marcadores</a></li>
+	</ul>
+
+	<div id="tabs-0" style="overflow: hidden">
+			<table width="100%" border="0">
+			<tr><td>
+			<?php 
+			foreach($this->favoritos as $favoritos){
+				$pos = strpos($favoritos->caminho, "/");
+				if ($pos > 0){
+					$descricao = "";
+					$campo = "";
+					$pagina = str_replace("_id", "", substr($favoritos->caminho,0,$pos));
+					$id = str_replace("/","",substr($favoritos->caminho,$pos+1,strlen($favoritos->caminho)-$pos));
+					$campo = $pagina;
+					if ($pagina == "programa"){
+						$pagina = "programas";
+						$resultado = $this->programas->fetchRow("id=" . $id);
+					}
+					if ($pagina == "projeto"){
+						$resultado = $this->projetos->fetchRow("id=" . $id);
+					}
+					if ($pagina == "objetivo_especifico"){
+						$pagina = "objetivos-especificos";
+						$resultado = $this->objetivosespecificos->fetchRow("id=" . $id);
+					}
+					if ($pagina == "meta"){
+						$resultado = $this->metas->fetchRow("id=" . $id);
+					}
+					if ($pagina == "operacao"){
+						$resultado = $this->operacoes->fetchRow("id=" . $id);
+					}
+					if ($pagina == "atividade"){
+						$resultado = $this->atividades->fetchRow("id=" . $id);
+					}
+					if ($resultado){
+						$descricao = $resultado->descricao;
+					}
+		
+					echo "<a href='".$this->url(array('controller'=>'plano', 'action' => $pagina, $campo."_id"=>$id))."'
+								title='$descricao'>$descricao</a><br>";
+				} // if
+			} // foreach
+			
+			?>
+			</td></tr>
+			</table>
+	</div>
+</div>
+<a href='<?php echo $this->url(array('controller'=>'plano', 'action'=>'projeto'))?>'>Voltar</a>
