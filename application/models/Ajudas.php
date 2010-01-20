@@ -24,7 +24,7 @@ class Model_Ajudas extends App_DefaultModel {
 	
 	
 	
-    public function insert(array $dados, array $grupos) {
+    public function insert(array $dados) {
 		
 		$auth = Zend_Auth::getInstance();
 		$dados['inclusao_usuario_id']= $auth->getIdentity()->id;
@@ -32,7 +32,7 @@ class Model_Ajudas extends App_DefaultModel {
 	    $id = parent::insert($dados);
     }
     
-    public function update(array $dados, array $grupos, $where) {
+    public function update(array $dados, $where) {
 		$auth = Zend_Auth::getInstance();
 		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
 		$dados['alteracao_data']=date('Y/m/d h:i:s', time());

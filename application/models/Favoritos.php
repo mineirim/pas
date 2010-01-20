@@ -29,7 +29,7 @@ class Model_Favoritos extends App_DefaultModel {
 		$auth = Zend_Auth::getInstance();
 		$dados = array('usuario_id' => $auth->getIdentity()->id,
 						'caminho' => $caminho);
-		return parent::insert($dados,"");
+		return parent::insert($dados);
 	}
 
 }

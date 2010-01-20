@@ -11,7 +11,7 @@ class App_Controller_AjudaPlugin extends Zend_Controller_Plugin_Abstract {
 		$act = $request->getActionName();
 		$ajuda = $ajudas->fetchRow("pagina='$cont' AND acao='$act'");
 		
-		$request->setParam('textoajuda',$ajuda->textoajuda);
+//		$request->setParam('textoajuda',$ajuda->textoajuda);
 		
 	}
 

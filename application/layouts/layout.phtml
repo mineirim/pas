@@ -9,7 +9,6 @@ $this->jQuery ()->enable ();
 if ($this->jQuery ()->isEnabled ()) {
 	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
 	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.7.2.custom.css' );
-
 }
 /**
  * ZendX_JQuery_View_Helper_JQuery_Container $this->JQuery()
@@ -27,6 +26,15 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
 				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
 
 echo $this->JQuery ();
+
+/*
+ * ckeditor para ajudas.
+ */
+if ( !$this->ckeditor ) { 
+	echo $this->headScript()->appendFile( $this->baseUrl().'/js/ckeditor/ckeditor.js');
+}
+
+
 
 ?> 
 <?php echo $this->headMeta ();?>
@@ -82,7 +90,7 @@ echo $this->baseUrl ();
 				<font size="4"><b>Programação Anual de Saúde - PAS-E 2010</b></font>
 			</div>
 		</div>
-		<div style="position: absolute; top: 100px; right: 55px; width: 65px;" >
+		<div style="position: absolute; top: 100px; right: 55px; width: 115px;" >
 			<?php 
 			echo "<a href='".$this->url(array('controller'=>'favoritos','action'=>'add')) ."'
 								title='Adicionar Favorito'> 
@@ -93,6 +101,12 @@ echo $this->baseUrl ();
 			echo "<a href='".$this->url(array('controller'=>'favoritos','action'=>'list')) ."'
 								title='Visualizar Marcadores'> 
 								<img alt='Visualizar Marcadores' src='". $this->baseUrl() ."/images/seebookmark.jpg' width='23' height='23' border='0'></a>";								
+			?>
+			&nbsp;&nbsp;
+			<?php 
+			echo "<a href='".$this->url(array('controller'=>'ajudas','action'=>'add')) ."'
+								title='Editar Ajuda'> 
+								<img alt='Editar Ajuda' src='". $this->baseUrl() ."/images/seehelp.jpg' width='28' height='28' border='0'></a>";								
 			?>
 		</div>
 		<div style="position: absolute; top: 100px; left: 15px; width: 800px;" >
