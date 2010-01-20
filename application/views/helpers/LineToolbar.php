@@ -53,7 +53,7 @@ class Zend_View_Helper_LineToolbar {
 			$resource = null;
 			
 		
-		if($acl->isAllowed($role,$resource) ||	!$resource)
+		if($acl->isAllowed($role,$resource,'editar') ||	!$resource)
 		{
 			$toolbar =$this->getLineToobar(); 
 		}

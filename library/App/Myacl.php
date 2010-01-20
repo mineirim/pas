@@ -46,24 +46,48 @@ class App_Myacl extends Zend_Acl {
 		
 		$select = $db->select()->distinct();
 		
-		$select->from(array('gp'=> 'grupos_permissoes'), array('id'))
-					  ->joinLeft(array('p'=>'paginas'), 'gp.pagina_id=p.id', array('pagina','acao'));
+		$select->from(array('gp'=> 'grupos_permissoes'), array('pagina_id'))
+					  ->joinLeft(array('p'=>'paginas'), 'gp.pagina_id=p.id', array('id','pagina','acao'));
 	    $select->where('"gp".grupo_id in ('.implode(",",$this->_grupos).')');
 	    $select->order(array('pagina','acao'));
 	    
 	    
 	    $stmt = $db->query($select);
+	    
 	    $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
 		$paginas = $stmt->fetchAll();
 	    
 		
 		foreach($paginas as $pagina){
+			
 			$pg=strlen($pagina->pagina)>1 ? $pagina->pagina : null;
-			$ac=strlen($pagina->acao)>1 ? $pagina->acao : null;
+			
+			
+			$ac = strlen($pagina->acao)>0? $pagina->acao:null;
 			$this->allow ( $userrole, $pg, $ac);
+			
+		
+			/**
+			 * pega todos as funções da ação atual
+			 * ex: o privilégio de editar tem as seguintes funções no sistema: edit, addmeta... etc
+			 */
+			
+				
+			$select = $db->select();
+			$select->from(array('af'=> 'acao_funcoes'), array('funcao_id'))
+					  ->joinLeft(array('f'=>'funcoes'), 'af.funcao_id=f.id', array('funcao'));
+			$select->where('"af".pagina_id in ('.$pagina->id.')');
+		    $stmt = $db->query($select);
+		    $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
+			$funcoes = $stmt->fetchAll();
+			foreach ($funcoes as $funcao){
+				$ac=strlen($funcao->funcao)>1 ? $funcao->funcao : null;
+				$this->allow ( $userrole, $pg, $ac);
+					
+			}
+			
 		}
-		
-		
+	
 		
 	}
 }

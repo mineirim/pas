@@ -29,19 +29,25 @@ class Zend_View_Helper_MyToolbar {
 		$this->_id = $id;
 		$toolbar = ""; 
 		$mysession = new Zend_Session_Namespace ( 'mysession' );
-		$acl = $mysession->acl;
+		$this->acl = $mysession->acl;
 		$auth = Zend_Auth::getInstance();
 		if ($auth->hasIdentity ()) {
-			$role = $auth->getIdentity ()->username;
+			$this->role = $auth->getIdentity ()->username;
 		} else {
-			$role = 'guest';
+			$this->role = 'guest';
 		}
 		$resource = $controller;
-		if (! $acl->has ( $resource )) 
+		if (! $this->acl->has ( $resource )) 
 			$resource = null;
-			
 		
-		if($acl->isAllowed($role,$resource) ||
+		$this->res = $resource;	
+
+		if($this->role=='guest' && !$this->acl->hasRole('guest'))
+			$this->acl->addRole('guest');
+		
+		
+		
+		if($this->acl->isAllowed($this->role,$resource,'editar') ||
 					!$resource){ 
 			if($type=='top'){
 				$toolbar= $this->getTopBar();
