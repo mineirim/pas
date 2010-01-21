@@ -5,7 +5,11 @@
 <label for='password'>Senha</label><input type="password" name="password" />  
 <input type="submit" name="submit" value="Login" />  
 </form>  
-<?php else: ?>  
-Logado.<br />  
-<a href="<?php echo $this->url(array('controller'=>'auth','action'=>'logout'));?> ">Logout</a>  
+<?php else:
+  $user = Zend_Auth::getInstance()->getIdentity();
+?>  
+Usuário logado: <?php echo $user->nome;?>.<br />  
+<a href="<?php echo $this->url(array('controller'=>'usuarios','action'=>'changepassword'));?> ">Alterar senha</a>
+ | 
+<a href="<?php echo $this->url(array('controller'=>'auth','action'=>'logout'));?> ">Sair</a>  
 <?php endif; ?>  

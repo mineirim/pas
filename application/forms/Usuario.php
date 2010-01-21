@@ -37,15 +37,24 @@ class Form_Usuario extends Zend_Form
 			->addValidator('NotEmpty');
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submitbutton');
-		$this->addElements(array($id, $nome, $username,$password,$email, $this->getGrupos() ,$submit));
+		$this->addElements(array($id, $nome, $email, $this->getGrupos() ,$submit));
 	}
 	public function getGrupos() {
 
+		$acl = Zend_Registry::get('acl');
+		$auth = Zend_Auth::getInstance()->getIdentity();
+		
+		/**
+		 * somente usuário administrador pode definir outros administradores(ou usuários de grupos reservados ao sistema)
+		 */
+		$where = 'id>6';
+		if($acl->has('admin') && $acl->isAllowed($auth->username,'admin'))
+			$where = 'id<>6';
 		
 		$grupos = new Model_Grupos();
 		
 		$formGrupos = new Zend_Form_Element_MultiCheckbox('grupos');
-		foreach($grupos->fetchAll() as $p) 
+		foreach($grupos->fetchAll($where) as $p) 
 			$formGrupos->addMultiOptions(array($p->id => " ".$p->descricao));
 		$formGrupos->setLabel ( "Grupos:" )
 		->setRequired ( true );

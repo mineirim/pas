@@ -33,7 +33,7 @@ class Form_Grupo extends Zend_Form
 		$paginas = new Model_Paginas();
 		
 		$formPaginas = new Zend_Form_Element_MultiCheckbox('paginas');
-		foreach($paginas->fetchAll() as $p) 
+		foreach($paginas->fetchAll(null,array('pagina','acao')) as $p) 
 			$formPaginas->addMultiOptions(array($p->id => " ".$p->descricao));
 		$formPaginas->setLabel ( "Permissões:" )
 		->setRequired ( true );

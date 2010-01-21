@@ -72,6 +72,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			$mysession->acl = $acl;
 		}
 		$acl = $mysession->acl;
+		
+		Zend_Registry::set('acl',$acl);
 		$front->registerPlugin ( new App_Controller_AclPlugin ( $auth, $acl ) );
 		$front->registerPlugin ( new App_Controller_AjudaPlugin () );
 		
@@ -107,6 +109,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					'action' => 'index',
 					'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu',
 					'pages' => array(
+									array(
+										'label' => 'Alterar senha',
+										'module' => 'default',
+										'controller' => 'usuarios',
+										'action' => 'changepassword',
+										'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+									),
 									array(
 										'label' => 'Usuários',
 										'module' => 'default',

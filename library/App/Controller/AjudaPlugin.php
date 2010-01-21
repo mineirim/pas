@@ -5,14 +5,21 @@ class App_Controller_AjudaPlugin extends Zend_Controller_Plugin_Abstract {
 		
 	}
 	
-	public function preDispatch(Zend_Controller_Request_Http $request) {
+	public function dispatchLoopStartup(Zend_Controller_Request_Http $request) {
+        /**
+         * passa a variável ajudatexto para a view
+         * na view basta chamar $this->ajuda
+         */
 		$ajudas = new Model_Ajudas();
-		$cont = $request->getControllerName();
-		$act = $request->getActionName();
-		$ajuda = $ajudas->fetchRow("pagina='$cont' AND acao='$act'");
+		$pagina = $request->getControllerName();
+		$acao = $request->getActionName();
+		Zend_Registry::set('pagina',$pagina);
+		Zend_Registry::set('acao',$acao);
 		
-//		$request->setParam('textoajuda',$ajuda->textoajuda);
-		
+		$where = "pagina='".$pagina."' AND acao='".$acao."'";
+		$ajuda = $ajudas->fetchRow($where);
+		Zend_Registry::set('textoajuda',$ajuda->textoajuda);	
+
 	}
 
 	

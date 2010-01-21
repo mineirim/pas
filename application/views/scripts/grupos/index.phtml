@@ -5,12 +5,20 @@
 <th>Descricao</th>
 <th>&nbsp;</th>
 </tr>
-<?php foreach($this->grupos as $pagina) : ?>
+<?php foreach($this->grupos as $grupo) : ?>
 <tr>
-<td><?php echo $this->escape($pagina->grupo);?></td>
-<td><?php echo $this->escape($pagina->descricao);?></td>
+<td><?php echo $this->escape($grupo->grupo);?></td>
+<td><?php echo $this->escape($grupo->descricao);?></td>
 <td>
-<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$pagina->id));?>">Editar</a>
+
+<?php
+	/**
+	 * os grupos com id até 5 são reservados ao sistema e não podem ser alterados
+	 */ 
+	if ($grupo->id>5){
+?>
+	<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$grupo->id));?>">Editar</a>
+	<?php }?>
 
 </td>
 </tr>

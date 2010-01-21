@@ -10,6 +10,7 @@ class Form_Ajudas extends Zend_Form
 		$this->setName($name);
 		$id = new Zend_Form_Element_Hidden('id');
 		$pagina = new Zend_Form_Element_Hidden('pagina');
+		$acao = new Zend_Form_Element_Hidden('acao');
 		
 		
 		$textoajuda = new Zend_Form_Element_Textarea('textoajuda');
@@ -22,7 +23,7 @@ class Form_Ajudas extends Zend_Form
 		$submit->setAttrib('id', 'submitbutton')
 				->setLabel('Salvar');
 				
-		$this->addElements(array($id, $pagina, $textoajuda, $submit));
+		$this->addElements(array($id, $pagina, $acao, $textoajuda, $submit));
 	}
 
 	
@@ -35,7 +36,8 @@ class Form_Ajudas extends Zend_Form
 	public function getDados($array_add=false) {
 		
 		$dados = array ('textoajuda' 	=> $this->getValue('textoajuda'),
-						'pagina' => $this->getValue('pagina')
+						'pagina' => $this->getValue('pagina'),
+						'acao'=> $this->getValue('acao')
 							);
 		
 		return $dados;

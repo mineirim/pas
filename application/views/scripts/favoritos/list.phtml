@@ -13,34 +13,34 @@
 				if ($pos > 0){
 					$descricao = "";
 					$campo = "";
-					$pagina = str_replace("_id", "", substr($favoritos->caminho,0,$pos));
+					$grupo = str_replace("_id", "", substr($favoritos->caminho,0,$pos));
 					$id = str_replace("/","",substr($favoritos->caminho,$pos+1,strlen($favoritos->caminho)-$pos));
-					$campo = $pagina;
-					if ($pagina == "programa"){
-						$pagina = "programas";
+					$campo = $grupo;
+					if ($grupo == "programa"){
+						$grupo = "programas";
 						$resultado = $this->programas->fetchRow("id=" . $id);
 					}
-					if ($pagina == "projeto"){
+					if ($grupo == "projeto"){
 						$resultado = $this->projetos->fetchRow("id=" . $id);
 					}
-					if ($pagina == "objetivo_especifico"){
-						$pagina = "objetivos-especificos";
+					if ($grupo == "objetivo_especifico"){
+						$grupo = "objetivos-especificos";
 						$resultado = $this->objetivosespecificos->fetchRow("id=" . $id);
 					}
-					if ($pagina == "meta"){
+					if ($grupo == "meta"){
 						$resultado = $this->metas->fetchRow("id=" . $id);
 					}
-					if ($pagina == "operacao"){
+					if ($grupo == "operacao"){
 						$resultado = $this->operacoes->fetchRow("id=" . $id);
 					}
-					if ($pagina == "atividade"){
+					if ($grupo == "atividade"){
 						$resultado = $this->atividades->fetchRow("id=" . $id);
 					}
 					if ($resultado){
 						$descricao = $resultado->descricao;
 					}
 		
-					echo "<a href='".$this->url(array('controller'=>'plano', 'action' => $pagina, $campo."_id"=>$id))."'
+					echo "<a href='".$this->url(array('controller'=>'plano', 'action' => $grupo, $campo."_id"=>$id))."'
 								title='$descricao'>$descricao</a><br>";
 				} // if
 			} // foreach

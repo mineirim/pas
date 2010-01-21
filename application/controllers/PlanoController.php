@@ -2,14 +2,12 @@
 
 class PlanoController extends Zend_Controller_Action
 {
-
+	
     public function init()
     {
-        /**
-         * passa a variável ajudatexto para a view
-         * na view basta chamar $this->ajuda
-         */
-    	$this->view->textoajuda= $this->_getParam('textoajuda');
+
+    	
+    	
     	
     }
 

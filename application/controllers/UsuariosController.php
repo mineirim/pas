@@ -111,7 +111,7 @@ class UsuariosController extends Zend_Controller_Action
 				->addValidator('NotEmpty');
 			$password = new Zend_Form_Element_Password('password');
 			
-			$password->setLabel("Senha")
+			$password->setLabel("Nova senha")
 				->setRequired(true)
 				->addFilter('StripTags')
 				->addFilter('StringTrim')

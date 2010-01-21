@@ -14,9 +14,15 @@ class App_Controller_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	}
 	
 	public function preDispatch(Zend_Controller_Request_Http $request) {
+		
+		
+		
 		$mysession = new Zend_Session_Namespace('mysession');
 		$this->_auth = Zend_Auth::getInstance();
 		$this->_acl = $mysession->acl;
+		
+		
+		
 		if ($this->_auth->hasIdentity ()) {
 			$role = $this->_auth->getIdentity ()->username;
 		} else {
@@ -28,6 +34,7 @@ class App_Controller_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$module = $request->module;
 		$resource = $controller;
 		$params =$request->getParams();
+		
 		
 		if (! $this->_acl->has ( $resource )) {
 			$resource = null;
@@ -56,6 +63,7 @@ class App_Controller_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$request->setModuleName ( $module );
 		$request->setControllerName ( $controller );
 		$request->setActionName ( $action );
+		
 	}
 
 	
