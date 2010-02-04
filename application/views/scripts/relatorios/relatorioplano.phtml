@@ -4,7 +4,7 @@
 			method="post">
 <table width="90%" border="1" align="center">
 	<?php 
-	foreach($this->programa->fetchAll("1=1", "id") as $programas){
+	foreach($this->programa->fetchAll("situacao_id=1", "id") as $programas){
 	?>
 		<tr>
 			<td  colspan="4">
@@ -112,7 +112,7 @@
 			</td>
 		</tr>
 		<?php 
-		foreach($this->projeto->fetchAll("programa_id=".$programas->id." and projeto_id is null", "id") as $projetos){
+		foreach($this->projeto->fetchAll("programa_id=".$programas->id." and projeto_id is null and situacao_id=1", "id") as $projetos){
 		?>
 			<tr>
 				<td  colspan="4">
@@ -209,7 +209,7 @@
 				</td>
 			</tr>
 			<?php 
-			foreach($this->subprojeto->fetchAll("programa_id=" . $programas->id, "id") as $subprojetos){
+			foreach($this->subprojeto->fetchAll("programa_id=" . $programas->id. " and situacao_id=1", "id") as $subprojetos){
 			?>
 				<?php 
 				if (($subprojetos->projeto_id != "") && ($subprojetos->projeto_id == $projetos->id)){
@@ -313,7 +313,7 @@
 				<?php 
 				if (($projetos->id == $subprojetos->id) || ($subprojetos->projeto_id == $projetos->id)){
 					$projeto_id = $subprojetos->id;
-					foreach($this->objetivoespecifico->fetchAll("projeto_id=" . $projeto_id) as $objetivosespecificos){
+					foreach($this->objetivoespecifico->fetchAll("projeto_id=" . $projeto_id . " and situacao_id=1") as $objetivosespecificos){
 					?>
 						<tr>
 							<td  colspan="4">

@@ -18,7 +18,7 @@ class App_Controller_AjudaPlugin extends Zend_Controller_Plugin_Abstract {
 		
 		$where = "pagina='".$pagina."' AND acao='".$acao."'";
 		$ajuda = $ajudas->fetchRow($where);
-		Zend_Registry::set('textoajuda',$ajuda->textoajuda);	
+		Zend_Registry::set('textoajuda',$ajuda->textoajuda);
 
 	}
 

@@ -82,28 +82,33 @@
 				} else {
 					$role = 'guest';
 				}
-		
-				$resource = $this->resource;
-				if (! $acl->has ( $resource )) 
-					$resource = null;
-		
-			
-				if($acl->isAllowed($role,$resource) ||
-						!$resource){ 
-						
-					if (!$this->atividade->conclusao_data){
+				
+				if (!$this->atividade->conclusao_data){
 						// botão para concluir atividade
+					$resource = 'concluir';
+					if (! $acl->has ( $resource )) 
+						$resource = null;
+					
+					if($acl->isAllowed($role,$resource) ||
+							!$resource){ 
 						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'concluir', 'id'=>$this->atividade->id))."'
 								title='Concluir Atividade' 
 								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 								<span class='ui-icon ui-icon-check'>Concluir Atividade</span>Concluir Atividade</a>";
-					} else {
+					}
+				} else {
+					$resource = 'reativar';
+					if (! $acl->has ( $resource )) 
+						$resource = null;
+					
+					if($acl->isAllowed($role,$resource) ||
+							!$resource){ 
 						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'reativar', 'id'=>$this->atividade->id))."'
 								title='Reativar Atividade' 
 								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 								<span class='ui-icon ui-icon-arrowreturnthick-1-e'>Reativar Atividade</span>Reativar Atividade</a>";
-					} // if conclusao_data
-				} // if isAllowed
+					}
+				} // if conclusao_data
 			
 			?>
 			</td>
@@ -194,13 +199,18 @@
 				<tr>
 				<td colspan="2">
 				<?php 
+				// verificando se usuário pode adicionar prazo.
+				$resource = 'addprazo';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+					
 				if($acl->isAllowed($role,$resource) ||
 						!$resource){ 
 					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
 							title='Adicionar Prazo' 
 							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 							<span class='ui-icon ui-icon-plus'>Adicionar Prazo</span>Adicionar Prazo</a>";
-				}
+				} // if do acl.
 				?>
 				</td>
 				</tr>
@@ -228,10 +238,19 @@
 					<td><font size="2"><?php echo $atividadesvinculadas->observacoes; ?></font></td>
 					<td><font size="2">
 					<?php 
-					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'deletevinculacao', 'id'=>$atividadesvinculadas->id))."'
-							title='Excluir Vinculação' 
-							class='my-button ui-state-default ui-corner-all'>
-							<span class='ui-icon ui-icon-trash'>Excluir Vinculação</span></a>";
+					// verificando se usuário pode excluir prazo.
+					$resource = 'deletevinculacao';
+					if (! $acl->has ( $resource )) 
+						$resource = null;
+						
+					if($acl->isAllowed($role,$resource) ||
+							!$resource){ 
+					
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'deletevinculacao', 'id'=>$atividadesvinculadas->id))."'
+								title='Excluir Vinculação' 
+								class='my-button ui-state-default ui-corner-all'>
+								<span class='ui-icon ui-icon-trash'>Excluir Vinculação</span></a>";
+					} // if do acl.
 					?>
 					</font></td>
 				</tr>
@@ -243,9 +262,14 @@
 				<tr>
 				<td colspan="2">
 				<?php 
+				// verificando se usuário pode adicionar vinculação.
+				$resource = 'addvinculacao';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+					
 				if($acl->isAllowed($role,$resource) ||
 						!$resource){ 
-					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id))."'
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id))."'
 							title='Adicionar Vinculação' 
 							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 							<span class='ui-icon ui-icon-plus'>Adicionar Vinculação</span>Adicionar Vinculação</a>";
