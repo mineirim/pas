@@ -1,1 +1,11 @@
-<?php echo $this->form ;?>
+<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>' 
+			action='<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'add'));?>' 
+			method="post">
+<?php echo $this->form->id ;?>
+<?php echo $this->form->username ;?>
+<?php echo $this->form->password ;?>
+<?php echo $this->form->nome ;?>
+<?php echo $this->form->email ;?>
+<?php echo $this->form->grupos ;?>
+<?php echo $this->form->submit ;?>
+</form>

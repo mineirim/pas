@@ -17,7 +17,7 @@ class App_DefaultModel extends Zend_Db_Table_Abstract {
 	}
 	public function update($data, $where)
 	{
-		parent::update($data,$where);
+		$retorno = parent::update($data,$where);
 		$log = new Model_Log();
 		$data_log = array();
 		$data_log['session_id']= session_id();  
@@ -33,10 +33,11 @@ class App_DefaultModel extends Zend_Db_Table_Abstract {
   		$data_log['acao'] = 'update';
   
   		$log->insert($data_log);
+  		return $retorno;
 	}
 	public function insert($data)
 	{
-		parent::insert($data);
+		$retorno = parent::insert($data);
 		$log = new Model_Log();
 		$data_log = array();
 		$data_log['session_id']= session_id();  
@@ -52,6 +53,7 @@ class App_DefaultModel extends Zend_Db_Table_Abstract {
   		$data_log['acao'] = 'insert';
   
   		$log->insert($data_log);
+  		return $retorno;
 	}
 	public function delete($where)
 	{
@@ -82,7 +84,7 @@ class App_DefaultModel extends Zend_Db_Table_Abstract {
   
   		$log->insert($data_log);
   		
-  		parent::delete($where);
+  		return parent::delete($where);
 	}
 }
 

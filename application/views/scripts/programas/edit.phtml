@@ -49,12 +49,7 @@
 			foreach($this->programa->findModel_ObjetivosPrograma() as $objetivo){
 	?>
 			<tr>
-				<td>
-					<a href='#'	class='my-button ui-state-default ui-corner-all '
-								title='Excluir' id='ex_objetivo_<?php echo $objetivo->id?>'>
-						<span class='ui-icon ui-icon-trash '></span>
-					</a>
-				</td>
+				<td><?php echo $this->lineToolbar('programas',$objetivo)?></td>
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
 			<?php }?>
@@ -87,6 +82,7 @@
 			foreach($this->programa->findModel_MetasPrograma() as $meta){
 	?>
 			<tr>
+				<td><?php echo $this->lineToolbar('programas',$meta)?></td>
 				<td><?php echo $meta->descricao;?></td>
 			</tr>
 			<?php }?>
@@ -111,13 +107,17 @@
 		<br>
 		<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
 			<tr>
+				<th></th>
+				<th></th>
 				<th>Indicadores</th>
+				
 			</tr>
 	<?php  
-	
 			foreach($this->programa->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresPrograma') as $indicador){
 	?>
 			<tr>
+				<td><?php echo $this->lineToolbar('programas',$indicador)?></td>
+				<td><?php echo $this->indicadoresToolbar($indicador) ?></td>
 				<td><?php echo $indicador->descricao;?></td>
 			</tr>
 			<?php }?>
@@ -129,4 +129,3 @@
 <p></p>
 <a href='<?php echo $this->url(array('controller'=>'plano', 'action'=>'programas'))?>'>Voltar</a>
 <br>
-

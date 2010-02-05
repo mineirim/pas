@@ -26,12 +26,30 @@
 		<?php }?>
 	</table>
 	<div style='clear:both'>
+	
+	<?php
+		$acl = Zend_Registry::get('acl');
+		$auth = Zend_Auth::getInstance();
+		
+		if ($auth->hasIdentity ()) {
+			$role = $auth->getIdentity ()->username;
+		} else {
+			$role = 'guest';
+		}
+		$resource = 'indicadores';
+		if (! $acl->has ( $resource )) 
+			$resource = null;
+
+		if($acl->isAllowed($role,$resource,'editar') ||	!$resource)
+		{		
+	?>
 		<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'edit', 
 						'id'=>$this->indicador->id,'indicador_configuracao_id'=>$config->id));?>'
 						title='Editar valores' 
 						class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 						<span class='ui-icon ui-icon-pencil'>Editar</span>Editar
 		</a>
+		<?php }?>
 	</div>
 	<br/>
 	<br>

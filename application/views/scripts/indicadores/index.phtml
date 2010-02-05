@@ -8,23 +8,8 @@
 	</tr>
 	<?php foreach($this->indicadores as $indicador){?>
 		<tr>
-			<td >
-				<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'show','id'=>$indicador->id))?>'
-					class='my-button ui-state-default ui-corner-all '
-					title='Visualizar' 
-					
-					>
-					<span class='ui-icon ui-icon-info'></span>
-				</a>
-			</td>
 			<td>
-				<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'configurar','indicador_id'=>$indicador->id))?>'
-					class='my-button ui-state-default ui-corner-all '
-					title='Editar' 
-					
-					>
-					<span class='ui-icon ui-icon-wrench '></span>
-				</a>
+				<?php echo $this->indicadoresToolbar($indicador) ?>
 			</td>
 			<td><?php echo $indicador->descricao;?></td>
 		</tr>

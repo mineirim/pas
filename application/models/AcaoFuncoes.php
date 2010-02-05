@@ -1,10 +1,8 @@
 <?php
 
-/**
- * Grupos
+/**  
+ * @author Marcone Costa
  *  
- * @author PS00051
- * @version 
  */
 
 require_once 'Zend/Db/Table/Abstract.php';

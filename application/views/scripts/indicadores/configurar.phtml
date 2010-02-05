@@ -33,7 +33,7 @@
 	<?php foreach($this->indicador->findDependentRowset('Model_IndicadoresConfiguracoes') as $ic){?>
 		<tr>
 			<td>
-			<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'removerconfiguracao','id'=>$ic->id))?>'
+			<a href='<?php echo $this->url(array('controller'=>'changestatus','action'=>'delete', 'model'=>'Model_IndicadoresConfiguracoes', 'id'=>$ic->id))?>'
 					class='my-button ui-state-default ui-corner-all '
 					title='Excluir' 
 					

@@ -46,18 +46,20 @@
 		<br>
 		<table width="100%" id="tbestrategias" class='ui-widget ui-widget-panel'>
 			<tr>
+				<th width="5%"></th>
 				<th>Estratégias</th>
 			</tr>
 	<?php  
 			foreach($this->objetivo_especifico->findModel_Estrategias() as $estrategia){
 	?>
 			<tr>
+				<td><?php echo $this->lineToolbar('objetivos-especificos',$estrategia)?></td>
 				<td><?php echo $estrategia->descricao;?></td>
 			</tr>
 			<?php }?>
 		</table>
 		<?php }?>
-		<button>Proximo >></button>
+		
 
 		
 	</div>
@@ -79,12 +81,14 @@
 		<br>
 		<table width="100%" id="tbparcerias" class='ui-widget ui-widget-panel'>
 			<tr>
+				<th width="5%"></th>
 				<th>Parceria</th>
 			</tr>
 	<?php  
 			foreach($this->objetivo_especifico->findModel_Parcerias() as $parceria){
 	?>
 			<tr>
+				<td><?php echo $this->lineToolbar('objetivos-especificos',$parceria)?></td>
 				<td><?php echo $parceria->descricao;?></td>
 			</tr>
 			<?php }?>

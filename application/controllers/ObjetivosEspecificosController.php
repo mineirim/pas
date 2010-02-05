@@ -172,7 +172,13 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
 					$estrategias->update($dados, 'id='.$id);
 				}
     			$estrategia = $estrategias->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($estrategia->toArray());
+    			
+    			$returns =array();
+    			$toolbar = $this->view->lineToolbar('objetivos-especificos',$estrategia);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $estrategia->toArray();    			
+    			$return = Zend_Json_Encoder::encode($returns);
+    			
 			}else{
 				$this->formDescritivo->populate($formData);
 				$return = $this->formDescritivo->processAjax($this->_request->getPost());
@@ -249,7 +255,11 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
 					$parcerias->update($dados, 'id='.$id);
 				}
     			$parceria = $parcerias->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($parceria->toArray());
+    			$returns =array();
+    			$toolbar = $this->view->lineToolbar('objetivos-especificos',$parceria);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $parceria->toArray();    			
+    			$return = Zend_Json_Encoder::encode($returns);
     			
 			}else{
 				$this->formDescritivo->populate($formData);

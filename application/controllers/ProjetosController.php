@@ -1,5 +1,5 @@
 <?php
-# protocolo OI 200900100786892
+
 class ProjetosController extends Zend_Controller_Action {
 	
 	public function init() {
@@ -200,12 +200,10 @@ class ProjetosController extends Zend_Controller_Action {
 				}
 				
     			$objetivoProjeto = $objetivosProjeto->fetchRow('id='.$id);
-    			
     			$returns =array();
     			$toolbar = $this->view->lineToolbar('projetos',$objetivoProjeto);
     			$returns['toolbar']=$toolbar;
     			$returns['obj'] = $objetivoProjeto->toArray();
-    			
     			$return = Zend_Json_Encoder::encode($returns);
 			}else{
 				$this->formDescritivo->populate($formData);

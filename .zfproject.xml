@@ -58,6 +58,10 @@
         <controllerFile controllerName="resultados">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="indicador">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="show"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory/>
@@ -148,6 +152,12 @@
           <viewControllerScriptsDirectory forControllerName="indicadores">
             <viewScriptFile forActionName="show"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="indicador">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="indicador">
+            <viewScriptFile forActionName="show"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -179,6 +189,7 @@
       <testApplicationDirectory>
         <testApplicationBootstrapFile/>
         <testApplicationControllerDirectory>
+          <testApplicationControllerFile/>
           <testApplicationControllerFile/>
           <testApplicationControllerFile/>
           <testApplicationControllerFile/>

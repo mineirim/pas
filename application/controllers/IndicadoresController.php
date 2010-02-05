@@ -48,17 +48,7 @@ class IndicadoresController extends Zend_Controller_Action
         $this->view->indicador_configuracao_id = $indicador_configuracao_id;
     }
 
-    public function showAction()
-    {
-        $id = $this->_getParam ( 'id' );
-        		if (! $id) {
-        			$msg = "id não informado";
-        			$this->_redirect ( '/error/notfound/msg/' . $msg );
-        		}
-        $this->view->indicador = $this->indicadores->find ( $id )->current ();
-        $this->view->indicadores_configs = $this->view->indicador->findDependentRowset('Model_IndicadoresConfiguracoes');
-        
-    }
+
     
     
     public function deleteAction()
@@ -153,7 +143,7 @@ class IndicadoresController extends Zend_Controller_Action
         				$form->populate ( $formData );
         			} 
         			$this->view->indicador = $this->indicadores->find($form->getValue('indicador_id'))->current();
-            	}elseif ($id) 
+            	}elseif ($id && !$indicador_id) 
             	{
             		$indicador_config = $this->indicadores_configs->fetchRow('id='.$id );
             		$form->submit->setAttrib('class','byajax');

@@ -72,11 +72,10 @@ class Zend_View_Helper_LineToolbar {
 					>
 					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
-		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete'.strtolower($this->_model),'id'=>$this->_obj->id))."'
-		class='my-button ui-state-default ui-corner-all editdescription '
+		<a href='".$this->view->url(array('controller'=>'changestatus','action'=>'delete', 'model'=>$this->_obj->getTableClass(),'id'=>$this->_obj->id))."'
+		class='my-button ui-state-default ui-corner-all deletedescription '
 		title='Excluir' 
-		id='edit-$id_a'
-		>
+		id='delete-$id_a-".$this->_obj->id."'>
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>
 		</div>

@@ -15,11 +15,11 @@ class Form_IndicadorConfig extends Zend_Form_SubForm
 		
 		$base = new Zend_Form_Element_Select('base');
 		$base->setLabel('Base');
-		$arr_bases = array(1 =>'Não se aplica',100=>'100',1000=>'1.000', 10000=>'10.000',100000=>'100.000');
+		$arr_bases = array(1 =>'Nº absoluto',100=>'100',1000=>'1.000', 10000=>'10.000',100000=>'100.000');
 		$base->setMultiOptions($arr_bases);
 		
 		$tipo_periodo_id = new Zend_Form_Element_Select('tipo_periodo_id');
-		$tipo_periodo_id ->setLabel('Atualização');
+		$tipo_periodo_id ->setLabel('Periodicidade de atualização');
 		$tiposperiodo = new Model_TiposPeriodos();
 		
 		foreach ($tiposperiodo->fetchAll() as $tipo ){

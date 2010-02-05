@@ -173,7 +173,11 @@ class ProgramasController extends Zend_Controller_Action {
 				}
 				
     			$objetivoPrograma = $objetivosPrograma->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($objetivoPrograma->toArray());
+				$returns =array();
+    			$toolbar = $this->view->lineToolbar('programas',$objetivoPrograma);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $objetivoPrograma->toArray();    			
+    			$return = Zend_Json_Encoder::encode($returns);
 			}else{
 				$this->formDescritivo->populate($formData);
 				$return = $this->formDescritivo->processAjax($this->_request->getPost());
@@ -220,7 +224,12 @@ class ProgramasController extends Zend_Controller_Action {
 					$indicadoresPrograma->insert($arr);
 				}
     			$indicador = $indicadores->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($indicador->toArray());
+    			
+    			$returns =array();
+    			$toolbar = $this->view->lineToolbar('indicadores',$indicador);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $indicador->toArray(); 
+    			$return = Zend_Json_Encoder::encode($returns);
 			}else{
 				$this->formDescritivo->populate($formData);
 				$return = $this->formDescritivo->processAjax($this->_request->getPost());
@@ -258,7 +267,11 @@ class ProgramasController extends Zend_Controller_Action {
 					$metasPrograma->update($dados, 'id='.$id);
 				}
     			$metaPrograma = $metasPrograma->fetchRow('id='.$id);
-    			$return = Zend_Json_Encoder::encode($metaPrograma->toArray());
+    			$returns =array();
+    			$toolbar = $this->view->lineToolbar('metas',$metaPrograma);
+    			$returns['toolbar']=$toolbar;
+    			$returns['obj'] = $metaPrograma->toArray(); 
+    			$return = Zend_Json_Encoder::encode($returns);
     			
 			}else{
 				$this->formDescritivo->populate($formData);
