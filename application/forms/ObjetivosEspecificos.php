@@ -13,26 +13,30 @@ class Form_ObjetivosEspecificos extends Zend_Form
 		$projeto_id = new Zend_Form_Element_Hidden('projeto_id');
 		
 		$descricao = new Zend_Form_Element_Textarea('descricao');
-		$descricao->setLabel('Descricao')
+		$descricao->setLabel('Descrição')
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
-			->setAttrib('rows',4);
+			->setAttrib('rows',4)
+			->addErrorMessage('Descrição não pode ficar vazio');
+			
 		$menu = new Zend_Form_Element_Text('menu');
 		$menu->setLabel('Menu')
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
-			->addValidator('NotEmpty');
-
+			->addValidator('NotEmpty')
+			->addErrorMessage('Menu não pode ficar vazio');
+			
 		$recursos = new Zend_Form_Element_Textarea('recursos');
 		$recursos->setLabel('Recursos')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
-			->setAttrib('rows',4);
-		
+			->setAttrib('rows',4)
+			->addErrorMessage('Recursos não pode ficar vazio');
+			
 		$cronograma = new Zend_Form_Element_Textarea('cronograma');
 		$cronograma->setLabel('Cronograma')
 			->addFilter('StripTags')

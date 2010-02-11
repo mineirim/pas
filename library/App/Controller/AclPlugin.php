@@ -34,8 +34,7 @@ class App_Controller_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$module = $request->module;
 		$resource = $controller;
 		$params =$request->getParams();
-		
-		
+
 		if (! $this->_acl->has ( $resource )) {
 			$resource = null;
 		}elseif (! $this->_acl->isAllowed ( $role, $resource, $action )) {

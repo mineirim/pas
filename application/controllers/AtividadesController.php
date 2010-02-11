@@ -10,7 +10,6 @@ class AtividadesController extends Zend_Controller_Action {
         /* Initialize action controller here */
     	$this->form = new Form_Atividades();
     	$this->form->addElement('hidden','operacao_id');
-    	
 		
 	}
 	
@@ -96,7 +95,6 @@ class AtividadesController extends Zend_Controller_Action {
     public function saveAction()
     {
     	$this->view->form = $this->form;
-    	
     	if ($this->getRequest()->isPost()) {
 			$formData = $this->getRequest ()->getPost ();
 			if ($this->form->isValid ( $formData )) 
@@ -269,9 +267,18 @@ class AtividadesController extends Zend_Controller_Action {
 			if ($this->form->isValid ( $formData )) 
 			{
 				$dados = $this->form->getDados ();
-				$atividadesvinculacao = new Model_AtividadesVinculadas ( );
-				$id = $atividadesvinculacao->insert ( $dados );
-				$this->_redirect('plano/atividade/atividade_id/'.$dados['atividade_id']);
+				$atividades = new Model_Atividades();
+				$resultado = $atividades->fetchRow('id='.$dados["depende_atividade_id"]);
+				if (!$resultado)
+				{
+					$this->form->getElement('depende_atividade_id')->setValue($dados['depende_atividade_id']);
+					$this->form->getElement('observacoes')->setValue($dados['observacoes']);
+					$this->view->erro = "não existe";
+				} else {			
+					$atividadesvinculacao = new Model_AtividadesVinculadas ( );
+					$id = $atividadesvinculacao->insert ( $dados );
+					$this->_redirect('plano/atividade/atividade_id/'.$dados['atividade_id']);
+				}
 			}else{
 				$this->form->populate ( $formData );
 			}
@@ -291,15 +298,10 @@ class AtividadesController extends Zend_Controller_Action {
     public function deletevinculacaoAction()
     {
 		$id = $this->_getParam('id', 0);
-		
 		$atividade_id = $this->_getParam('atividade_id', 0);
-		
     	$atividadesvinculacao = new Model_AtividadesVinculadas ( );
-
     	$atividadesvinculacao->delete ( $id );
-
     	$this->_redirect('plano/atividade/atividade_id/'.$atividade_id);
-
     }
     
     

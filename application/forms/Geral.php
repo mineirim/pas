@@ -11,7 +11,7 @@ class Form_Geral extends Zend_Form
 		$id = new Zend_Form_Element_Hidden('id');
 		
 		$descricao = new Zend_Form_Element_Textarea('descricao');
-		$descricao->setLabel('Descricao')
+		$descricao->setLabel('Descrição')
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')

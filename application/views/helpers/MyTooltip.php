@@ -56,11 +56,11 @@ class Zend_View_Helper_MyTooltip {
 	private function getTooltip(){
 		
 		
-		$tooltip = "<div class='tooltip' style='float:right'
+		$tooltip = "<div class='tooltip' style='position: absolute; top: 0px; right: 0px; width: 35px;'
 						title='".$this->_textoajuda."'>
 			
-			<a href='". $this->view->url(array('controller'=>'ajudas','action'=>'add', 'pagina'=>$this->_controller,'acao'=>$this->_action))."'>
-					<img alt='Editar Ajuda' 
+			<a class='tooltip' alt='".$this->_textoajuda."' href='". $this->view->url(array('controller'=>'ajudas','action'=>'add', 'pagina'=>$this->_controller,'acao'=>$this->_action))."'>
+					<img 
 						src='".$this->view->baseUrl() ."/images/seehelp.jpg' width='28' height='28' border='0'
 					>
 			</a>

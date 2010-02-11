@@ -1,3 +1,13 @@
+<?php 
+if (isset($this->erro))
+{
+	echo "
+	<script language='JavaScript'>
+	alert('Atenção! a atividade vinculada não existe na tabela atividades, favor verificar o código');
+	</script>
+	";
+}
+?>
 <div id="formtabs" style="width: 800px; height:100%">
 	<ul>
 		<li><a href="#tabs-0" >Atividade - Vinculação</a></li>

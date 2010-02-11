@@ -73,7 +73,7 @@ class App_Myacl extends Zend_Acl {
 	    
 	    $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
 		$paginas = $stmt->fetchAll();
-	    
+		
 		
 		foreach($paginas as $pagina){
 			
