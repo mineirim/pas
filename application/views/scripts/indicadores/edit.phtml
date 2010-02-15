@@ -27,12 +27,10 @@ var lastsel;
             datatype: 'json',
             mtype: 'POST',
             
-			colNames:['id', 'Competencia (AAAAMM)', 'Numerador','Denominador','resultado'], 
-			colModel:[   {name:'id',index:'id', width:90},
-			             {name:'competencia',index:'competencia asc', width:100,editable:true, edittype:"text", editrules:{number:true}}, 
-			             {name:'numerador',index:'numerador', width:80, align:"right", editable:true, editrules:{number:true}}, 
-			             {name:'denominador',index:'denominador', width:80, align:"right", editable:true, editrules:{number:true}},
-			             {name:'resultado',index:'resultado', width:80, align:"right", editable:true, editrules:{number:true} }, 
+			colNames:['id', 'Competencia (AAAAMM)' <?php echo $this->colnames; ?>], 
+			colModel:[   {name:'id',index:'id', width:2},
+			             {name:'competencia',index:'competencia asc', width:100,editable:true, edittype:"text", editrules:{number:true}}
+                         <?php echo $this->colmodels;?> 
 			            ], 
 			            pager: '#pager',
 			            rowNum:30,
@@ -67,7 +65,7 @@ var lastsel;
 			        dataheight:200,
 			        width:400,
 			        reloadAfterSubmit:true,
-			        jqModal:false, 
+			        jqModal:true, 
 			        closeOnEscape:true,
 			        closeAfterEdit:true,
 			        bottominfo:"Campos marcados com * são obrigatórios",

@@ -17,8 +17,24 @@
 			<br></br>
 			
 			<?php echo $this->form->base;?>
-			
+            
+            <br>
+            <fieldset style='clear: both;'>
+            <legend>Campos para preenchimento</legend>
+            Ex: se o indicador é "Número de casos de determinado agravo" então será preenchido apenas o resultado<br>
+                se é "Percentual de ocorrencia de determinado agravo" onde se conhece o  númerador e denominador se deseja que o sistema efetue o cálculo, então deverá ser marcado "Numerador" e "Denominador"<br>
+                se é "Percentual de ocorrencia de determinado agravo" onde se conhece o  apenas o resultado,  então deverá ser marcado "Resultado"
+                <br></br>
+            <?php echo $this->form->campos;?>
+			</fieldset>
+            <br>
+            <fieldset style='clear: both;'>
+                <legend>Data inicial de preenchimento do indicador</legend>
+            <?php echo $this->form->mes;?> / <?php echo $this->form->ano;?> 
+            </fieldset>
+            <br></br>
 			<?php echo $this->form->submit;?>
+            
 			<br/>
 		</form>
 </div>
