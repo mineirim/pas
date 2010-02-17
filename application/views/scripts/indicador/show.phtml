@@ -2,7 +2,7 @@
 	<h3><?php echo $this->indicador->descricao;?></h3>
 	
 	<?php
-	 $fmt = new NumberFormatter('pt_BR', NumberFormatter::DECIMAL );
+	 
 	foreach($this->indicadores_configs as $config){
 		$periodo = $config->findParentRow('Model_TiposPeriodos');
 		$resultados = $config->findDependentRowset('Model_IndicadoresResultados');
@@ -42,7 +42,7 @@
 			<?php if($config->base==1){?>
 				<td><?php echo $resultado->resultado;?></td>
 			<?php }else{?>
-				<td><?php echo $fmt->format($resultado->resultado);?></td>
+				<td><?php echo number_format($resultado->resultado, 2);?></td>
 			<?php }?>
 		</tr>
 		<?php }?>
