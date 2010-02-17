@@ -22,20 +22,17 @@ class Form_Indicador extends Zend_Form_SubForm
 			->addValidator('NotEmpty')
 			->setAttrib('rows',2);
 		
-		$periodos = new Zend_Form_Element_MultiCheckbox('tipo_periodo_id');
+		$tipo_indicador_id = new Zend_Form_Element_Radio('tipo_indicador_id');
 		
-		$periodos ->setLabel('Atualização');
-		$tiposperiodo = new Model_TiposPeriodos();
+		$tipo_indicador_id ->setLabel('Tipo');
+		$tiposIndicadores = new Model_TiposIndicadores();
 		
-		foreach ($tiposperiodo->fetchAll() as $tipo ){
-			$periodos->addMultiOption($tipo->id,$tipo->descricao);
+		foreach ($tiposIndicadores->fetchAll(null,'id') as $tipoIndicador){
+			$tipo_indicador_id->addMultiOption($tipoIndicador->id,$tipoIndicador->descricao);
 		}
-		$periodos->addDecorator ('HtmlTag',array('tag'=>'div','style'=>'padding:0;border:none;margin:0;float:left;'));
+		$tipo_indicador_id->addDecorator ('HtmlTag',array('tag'=>'div','style'=>'padding:0;border:none;margin:0;float:left;'));
 
 		
-		$remover = new Zend_Form_Element_Checkbox('remover');
-		$remover->removeDecorator('label');
-		$remover->addDecorator ('HtmlTag',array('tag'=>'div','style'=>'padding:0;border:none;margin:0;float:left;'));
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setAttrib('id', 'submit_descritivo')
@@ -43,13 +40,14 @@ class Form_Indicador extends Zend_Form_SubForm
 				->setAttrib('class','submit_descritivo');
 		
 		
-		$this->addElements(array($id, $descricao, $remover, $periodos,$submit ));
+		$this->addElements(array($id, $descricao, $tipo_indicador_id,$submit ));
 		 /*
 		 $this->setDecorators(array('ViewHelper','FormElements',
                     array('HtmlTag',array('tag'=>'div', 'style'=>'width:50%;'))
         ));*/
 	
 	}
+	
 
 	/**
 	 * retorna um array associativo para inserção dos dados na tabela
@@ -59,7 +57,7 @@ class Form_Indicador extends Zend_Form_SubForm
 	 */
 	public function getDados($array_add=false) {
 		
-		$dados = array ('descricao' 	=> $this->getValue('descricao')				);
+		$dados = array ('descricao' 	=> $this->getValue('descricao')	, 'tipo_indicador_id'=>	$this->getValue('tipo_indicador_id')		);
 		
 		return $dados;
 	}

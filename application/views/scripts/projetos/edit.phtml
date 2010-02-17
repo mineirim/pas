@@ -114,16 +114,16 @@
 		<br>
 		<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
 			<tr>
-				<th width="5%"></th>
-				<th></th>
+				<th width="2%"></th>
+				<th width="2%"></th>
 				<th>Indicadores</th>
 			</tr>
 	<?php  
 			foreach($this->projeto->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresProjeto') as $indicador){
 	?>
 			<tr>
-				<td><?php echo $this->lineToolbar('projetos',$indicador)?></td>
-				<td><?php echo $this->indicadoresToolbar($indicador) ?></td>
+				<td width="2%"><?php echo $this->lineToolbar('projetos',$indicador)?></td>
+				<td width="2%"><?php echo $this->indicadoresToolbar($indicador) ?></td>
 				<td><?php echo $indicador->descricao;?></td>
 			</tr>
 			<?php }?>

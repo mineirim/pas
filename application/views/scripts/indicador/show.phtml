@@ -2,26 +2,48 @@
 	<h3><?php echo $this->indicador->descricao;?></h3>
 	
 	<?php
-	 
+	 $fmt = new NumberFormatter('pt_BR', NumberFormatter::DECIMAL );
 	foreach($this->indicadores_configs as $config){
 		$periodo = $config->findParentRow('Model_TiposPeriodos');
 		$resultados = $config->findDependentRowset('Model_IndicadoresResultados');
+		$campos = explode(',',$config->campos);
 	?>
 	
 	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header tabela-resultado'  >
 		<caption><h3>Indicador <?php echo $periodo->descricao;?> </h3></caption>
 		<tr>
 			<th>Competência</th>
-			<th>Numerador</th>
-			<th>Denominador</th>
+			<?php if(in_array('n', $campos)){?>
+				<th>Numerador</th>
+			<?php }?>
+			
+			<?php if(in_array('d', $campos)){?>
+				<th>Denominador</th>
+			<?php }?>	
 			<th>Resultado</th>
 		</tr>
-		<?php foreach($resultados as $resultado){ ?>
+		<?php foreach($resultados as $resultado){
+			if($config->tipo_periodo_id==1){
+        		$competencia =substr ( $resultado->competencia,4,2)."/".substr ( $resultado->competencia, 0, 4 );
+        		
+        	}else{
+        		$competencia = $resultado->competencia;
+        	} 
+		?>
 		<tr class='<?php echo $this->cycle(array("odd","even"))->next()?>"'>
-			<td><?php echo $resultado->competencia;?></td>
-			<td><?php echo $resultado->numerador;?></td>
-			<td><?php echo $resultado->denominador;?></td>
-			<td><?php echo $resultado->resultado;?></td>
+			<td><?php echo $competencia;?></td>
+			<?php if(in_array('n', $campos)){?>
+				<td><?php echo $resultado->numerador;?></td>
+			<?php }?>
+			<?php if(in_array('d', $campos)){?>
+				<td><?php echo $resultado->denominador;?></td>
+			<?php }?>
+			
+			<?php if($config->base==1){?>
+				<td><?php echo $resultado->resultado;?></td>
+			<?php }else{?>
+				<td><?php echo $fmt->format($resultado->resultado);?></td>
+			<?php }?>
 		</tr>
 		<?php }?>
 	</table>
@@ -52,7 +74,18 @@
 		<?php }?>
 	</div>
 	<br/>
-	<br>
-	<hr>
+	<img src="<?php echo $this->url(array('controller'=>'indicador','action'=>'grafico', 'indicador_configuracao_id'=>$config->id))?>"  alt="gráfico"/>
+        	
+	<br/>
+	<hr/>
 	<?php }?>
+	
+	<a href="javascript:window.history.go(-1)">Voltar</a>
+	
 </div>
+
+
+
+	
+	
+	

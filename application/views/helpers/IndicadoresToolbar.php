@@ -27,7 +27,8 @@ class Zend_View_Helper_IndicadoresToolbar {
 	{
 		
 		$this->_indicador = $obj;
-
+		
+		$acao = $this->_indicador->tipo_indicador_id==1 ? "configurar":"configurarqualitativos";
 		
 		$toolbar = ""; 
 
@@ -54,9 +55,9 @@ class Zend_View_Helper_IndicadoresToolbar {
 			
 		if($acl->isAllowed($role,$resource,'editar') ||	!$resource)
 		{
-			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores','action'=>'configurar','indicador_id'=>$this->_indicador->id))."'
+			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores','action'=>$acao,'indicador_id'=>$this->_indicador->id))."'
 							class='my-button ui-state-default ui-corner-all '
-							title='Editar'	>
+							title='Configurar'	>
 							<span class='ui-icon ui-icon-wrench '></span>
 						 </a>";
 		}

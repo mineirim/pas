@@ -1,0 +1,47 @@
+
+
+<h3>Indicador: <?php echo $this->indicador->descricao;?></h3>
+<div style="border: thin solid black;overflow:auto; padding:10px;">
+		<form enctype='<?php echo $this->form->getEnctype();?>' 
+			action='<?php echo $this->url(array('controller'=>'indicadores', 'action'=>'configurarqualitativos'));?>' 
+			method="post">
+			
+			
+			<div style='display:none'>
+			
+			<?php echo $this->form->id;?>
+			<?php echo $this->form->indicador_id;?>
+			</div>
+			
+			<?php echo $this->form->descricao;?>
+            
+            <br></br>
+			<?php echo $this->form->submit;?>
+            
+			<br/>
+		</form>
+</div>
+<br/>
+<a href="javascript:window.history.go(-1)">Voltar</a>
+<br/>
+<table>
+	<tr>
+		<td></td>
+		<td>Opcoes</td>
+	</tr>
+	<?php foreach($this->indicador->findDependentRowset('Model_OpcoesQualitativos') as $ic){?>
+		<tr>
+			<td>
+			<a href='<?php echo $this->url(array('controller'=>'changestatus','action'=>'delete', 'model'=>'Model_OpcoesQualitativos', 'id'=>$ic->id))?>'
+					class='my-button ui-state-default ui-corner-all '
+					title='Excluir'>
+					<span class='ui-icon ui-icon-trash '></span>
+				</a>
+			</td>
+			<td>
+				<?php echo $ic->descricao;?>
+			</td>
+			
+		</tr>
+	<?php }?>
+</table>

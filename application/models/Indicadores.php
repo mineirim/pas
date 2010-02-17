@@ -15,8 +15,12 @@ class Model_Indicadores extends App_DefaultModel {
 	 */
 	protected $_order = 'id';
 	protected $_name = 'public.indicadores';
-	protected $_dependentTables = array('Model_IndicadoresConfig', 'Model_IndicadoresPrograma', 'Model_IndicadoresProjeto','Model_IndicadoresMeta');
-	
+	protected $_dependentTables = array('Model_IndicadoresConfig', 'Model_IndicadoresPrograma', 'Model_IndicadoresProjeto','Model_IndicadoresMeta', 'Model_IndicadoresQualitativos', 'Model_OpcoesQualitativos');
+	protected $_referenceMap = array (
+								'TiposIndicadores' => array ( 'columns' => 'tipo_indicador_id', 
+	                     							  'refTableClass' => 'Model_TiposIndicadores', 
+	                     							  'refColumns' => 'id' ) 							
+								);
 	public function init(){
 		parent::init();
 		$this->_schema = "public";

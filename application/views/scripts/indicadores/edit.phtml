@@ -1,4 +1,12 @@
 
+<h3>Indicador: <b><?php echo $this->indicador->descricao?></b></h3>
+<?php if($this->indicador_configuracao->base>1){?>
+Base: <?php echo $this->indicador_configuracao->base;?>
+<?php }else echo "Número absoluto"?>
+<br>
+Carga: <?php echo $this->indicador_configuracao->findParentRow('Model_TiposPeriodos')->descricao ?>
+
+<br>
 <div id="liste">
 	<div class='forgrid'>
 	    <table id="list" class="scroll" cellpadding="0" cellspacing="0"></table>
@@ -6,6 +14,7 @@
     </div>    
 
 </div>
+<a href="<?php echo $this->url(array('controller'=>'indicador','action'=>'show', 'id'=>$this->indicador->id))?>">Voltar</a>
  
 <script type="text/javascript"><!--
 var lastsel; 
@@ -27,9 +36,11 @@ var lastsel;
             datatype: 'json',
             mtype: 'POST',
             
-			colNames:['id', 'Competencia (AAAAMM)' <?php echo $this->colnames; ?>], 
-			colModel:[   {name:'id',index:'id', width:2},
-			             {name:'competencia',index:'competencia asc', width:100,editable:true, edittype:"text", editrules:{number:true}}
+			colNames:['id', 'Competencia ' <?php echo $this->colnames; ?>], 
+			colModel:[   {name:'id',index:'id', width:3},
+			             {name:'competencia',index:'competencia asc', width:100,editable:true, edittype:"select", 
+	             		  editoptions:{
+	       		  						value:'<? echo $this->periodoDisponivel($this->indicador_configuracao->inicio_preenchimento, $this->indicador_configuracao->tipo_periodo_id); ?>'}}
                          <?php echo $this->colmodels;?> 
 			            ], 
 			            pager: '#pager',

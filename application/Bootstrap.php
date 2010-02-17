@@ -7,8 +7,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		$moduleloader = new Zend_Application_Module_Autoloader ( array ('namespace' => '', 'basePath' => APPLICATION_PATH ) );
 		$autoloader = Zend_Loader_Autoloader::getInstance ();
 		$autoloader->registerNamespace ( array ('App_' ) );
+		
+		
+        // Configurando o autoloader do EzComponents
+        require_once 'ezc/Base/src/base.php';
+        $autoloader->pushAutoloader(array('ezcBase', 'autoload'), 'ezc');
+		
+		
+		
 		return $moduleloader;
 	}
+
+	
 	function _initSession() {
 		
 		Zend_Session::start ();
@@ -16,9 +26,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	
 	}
 	protected function _initLanguage() {
+		$portugues='';
 		require_once 'Languages/pt-br/pt_BR.php';
 		$translate = new Zend_Translate ( 'array', $portugues, 'pt_BR' );
 		Zend_Registry::set('translate',$translate);
+		Zend_Validate_Abstract::setDefaultTranslator($translate);
+		$locale = new Zend_Locale('pt_BR');
+		Zend_Locale::setDefault($locale);
+		Zend_Registry::set('locale',$locale);
+		
 	}	
 	function _initLocale(){
 		

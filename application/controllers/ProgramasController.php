@@ -22,7 +22,8 @@ class ProgramasController extends Zend_Controller_Action {
     	$form_programa_id->setRequired(true)->addValidator('NotEmpty');
     	$this->formDescritivo->addElement($form_programa_id);
     	$this->view->formDescritivo = $this->formDescritivo;
-    	
+		$this->frmIndicador = new Form_Indicador();
+		$this->view->frmIndicador =$this->frmIndicador;    	
 		
 	}
 	
@@ -205,20 +206,23 @@ class ProgramasController extends Zend_Controller_Action {
     	if ($this->getRequest ()->isPost ()) 
     	{
     		$formData = $this->getRequest ()->getPost ();
-			if ($this->formDescritivo->isValid ( $formData )) 
+			if ($this->frmIndicador->isValid ( $formData )) 
 			{
-    			$dados = $this->formDescritivo->getDados ();
+    			$dados = $this->frmIndicador->getDados ();
+    			
     			$indicadores = new Model_Indicadores();
-				if($this->formDescritivo->getValue('id')==''){
+				if($this->frmIndicador->getValue('id')==''){
+					
 					$id = $indicadores->insert ( $dados );
 				}else{
-					$id = $this->formDescritivo->getValue('id');
+					$id = $this->frmIndicador->getValue('id');
 					$indicadores->update($dados, 'id='.$id);
 				}
-				$programa_id = $this->formDescritivo->getValue('programa_id');
+				$programa_id =$this->_getParam('programa_id');
 				$indicadoresPrograma = new Model_IndicadoresPrograma();
 				
 				$indicadorPrograma = $indicadoresPrograma->fetchRow('programa_id='.$programa_id.' and indicador_id='.$id);
+				
 				if(!$indicadorPrograma){
 					$arr = array('programa_id'=>$programa_id, 'indicador_id'=>$id);
 					$indicadoresPrograma->insert($arr);
@@ -227,12 +231,13 @@ class ProgramasController extends Zend_Controller_Action {
     			
     			$returns =array();
     			$toolbar = $this->view->lineToolbar('indicadores',$indicador);
+    			$toolbar .= "</td><td>". $this->view->indicadoresToolbar($indicador);
     			$returns['toolbar']=$toolbar;
     			$returns['obj'] = $indicador->toArray(); 
     			$return = Zend_Json_Encoder::encode($returns);
 			}else{
-				$this->formDescritivo->populate($formData);
-				$return = $this->formDescritivo->processAjax($this->_request->getPost());
+				$this->frmIndicador->populate($formData);
+				$return = $this->frmIndicador->processAjax($this->_request->getPost());
 			}
     	}
 		if ($this->_request->isXmlHttpRequest()) {

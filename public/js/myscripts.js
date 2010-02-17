@@ -76,6 +76,8 @@ $(document).ready(function(){
 					  $this.parents('tr').remove()
 					  $('#frm'+$tpobjeto).find('#id').val(data.id)
 					  $('#frm'+$tpobjeto).find('#descricao').val(data.descricao)
+					  if(data.tipo_indicador_id != undefined )
+						  $("#tipo_indicador_id-"+data.tipo_indicador_id).attr('checked','checked')
 			          
 			        });
 

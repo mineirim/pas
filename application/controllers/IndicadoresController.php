@@ -70,7 +70,12 @@ class IndicadoresController extends Zend_Controller_Action
             $this->view->colmodels .=$model;
         }
         $this->view->indicador_configuracao = $indicador_configuracao;
+        
+        
+        
+        
     }
+
     public function deleteAction()
     {
         
@@ -95,13 +100,20 @@ class IndicadoresController extends Zend_Controller_Action
         
         $campos = explode(",",$indicador_configuracao->campos);
         $i=0; 
-        foreach ($resultados->fetchAll('indicador_configuracao_id='.$indicador_configuracao_id,'id') as $row) 
+        foreach ($resultados->fetchAll('indicador_configuracao_id='.$indicador_configuracao_id,'competencia') as $row) 
         { 
         		
         	$response['rows'][$i]['id']=$row->id;
         	
+        	if($indicador_configuracao->tipo_periodo_id==1){
+        		$competencia =substr ( $row->competencia,4,2)."/".substr ( $row->competencia, 0, 4 );
+        		
+        	}else{
+        		$competencia = $row->competencia;
+        	}
         	
-        	$cell =  array($row->id,$row->competencia);
+		 
+        	$cell =  array($row->id,$competencia);
         	foreach ($campos as $k)
         	{
         		$nomecampo = strtolower($this->arr_campos[$k]);
@@ -131,7 +143,15 @@ class IndicadoresController extends Zend_Controller_Action
         	if($this->getRequest()->isPost ()){
         		
 	        	$id =$this->_getParam('id');
-	        	$indicador_configuracao_id  = $this->_getParam('indicador_configuracao_id');
+	        	
+	        	if($id != '_empty')
+	        	{
+	        		$resultado = $resultados->find($id)->current();
+	        		$indicador_configuracao_id = $resultado->indicador_configuracao_id;
+	        	}else{
+	        		$indicador_configuracao_id  = $this->_getParam('indicador_configuracao_id');
+	        	}
+	        	
 	        	$indicadores_configuracoes = new Model_IndicadoresConfiguracoes();
 	        	$indicador_configuracao = $indicadores_configuracoes->find($indicador_configuracao_id)->current();
 	            $campos = explode(",",$indicador_configuracao->campos);
@@ -144,6 +164,7 @@ class IndicadoresController extends Zend_Controller_Action
 	        	{
 	        		$dados['resultado']=($dados['numerador']/$dados['denominador'])*$indicador_configuracao->base;
 	        	}
+	        	
 	        	if($id=='_empty')
 	            {
 	                $dados['indicador_configuracao_id'] = $this->_getParam('indicador_configuracao_id');
@@ -240,6 +261,62 @@ class IndicadoresController extends Zend_Controller_Action
     }
 
 
+    
+    
+    public function configurarqualitativosAction()
+    {
+        $this->opcoes_qualitativos = new Model_OpcoesQualitativos();
+        $form = new Form_OpcoesQualitativos();
+        $id = $this->_getParam ( 'id',null );
+        $indicador_id = $this->_getParam('indicador_id',null);
+        
+        if ($this->getRequest()->isPost ()) 
+        {
+        	$formData = $this->getRequest ()->getPost ();
+        	if ($form->isValid ( $formData )) 
+        	{
+        		$id = $form->getValue('id');
+        		
+        		$dados = $form->getDados ();
+        	
+        		if($form->getValue('id')==''){
+        			$id =$this->opcoes_qualitativos->insert ( $dados );
+        		}else{
+        			$this->opcoes_qualitativos->update($dados, 'id='.$id );
+        		}
+        		$opcao_qualitativo = $this->opcoes_qualitativos->fetchRow('id='.$id );
+        		$indicador_id = $opcao_qualitativo->indicador_id;
+        		$this->view->opcao_qualitativo = $opcao_qualitativo;
+        		$form = new Form_OpcoesQualitativos();
+        	}else{
+        		
+        		$form->populate ( $formData );
+        	}
+        }else{ 
+        	
+            if ($id && !$indicador_id) 
+            {
+	            $opcao_qualitativo = $this->indicadores_configs->fetchRow('id='.$id );
+	            
+	            
+	        	$form->populate ( $opcao_qualitativo->toArray() );
+	        	$this->view->indicador = $opcao_qualitativo->findParentRow('Model_Indicadores');
+            
+            }elseif ($indicador_id)
+            {
+	            $this->view->indicador = $this->indicadores->find ( $indicador_id )->current ();
+	            $form->indicador_id->setValue($this->view->indicador->id);
+            }else
+            {
+	        	$msg = "id não informado";
+	        	$this->_redirect ( '/error/notfound/msg/' . $msg );
+            }
+        }
+        $this->view->indicador = $this->indicadores->find($indicador_id)->current();
+        $this->form->indicador_id = $indicador_id;
+        $this->view->form = $form;
+    }    
+    
 }
 
 
