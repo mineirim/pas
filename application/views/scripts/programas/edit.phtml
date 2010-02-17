@@ -23,45 +23,33 @@ echo $this->form->getId ();
 <table width="100%" border="0">
 	<tr>
 		<td>
-			<?php
-			echo $this->form->descricao;
-			?>
+			<?php echo $this->form->descricao;	?>
 			</td>
 	</tr>
 	<tr>
 		<td>
-			<?php
-			echo $this->form->menu;
-			?>
+			<?php echo $this->form->menu;	?>
 		</td>
 	</tr>
 	<tr>
 		<td>
 
-			<?php
-			echo $this->form->meta;
-			?>
+			<?php	echo $this->form->meta;	?>
 			</td>
 	</tr>
 	<tr>
 		<td>
-			<?php
-			echo $this->form->interfaces;
-			?>
+			<?php echo $this->form->interfaces;	?>
 			</td>
 	</tr>
 	<tr>
 		<td>
-			<?php
-			echo $this->form->responsavel_id;
-			?>
+			<?php echo $this->form->responsavel_id;		?>
 			</td>
 	</tr>
 	<tr>
 		<td>
-			<?php
-			echo $this->form->submit;
-			?>
+			<?php echo $this->form->submit;	?>
 			</td>
 	</tr>
 </table>
@@ -73,26 +61,16 @@ echo $this->form->getId ();
 	 <?php
 		if (isset ( $this->programa )) {
 			?>
-		<form id='frmobjetivos'
-	enctype='<?php
-			echo $this->formDescritivo->getEnctype ();
-			?>'
-	action='<?php
-			echo $this->url ( array ('controller' => 'programas', 'action' => 'addobjetivo' ) );
-			?>'
-	method="post">
-<div style='display: none'>
-			<?php
-			echo $this->formDescritivo->id?>
-			<input type=hidden name='programa_id'
-	value='<?php
-			echo $this->programa->id?>'></div>
-			<?php
-			echo $this->formDescritivo->descricao;
-			?>
-			<?php
-			echo $this->formDescritivo->submit;
-			?>			
+		<form id='frmobjetivos'	
+			enctype='<?php	echo $this->formDescritivo->getEnctype ();	?>'
+			action='<?php	echo $this->url ( array ('controller' => 'programas', 'action' => 'addobjetivo' ) );?>'
+			method="post">
+		<div style='display: none'>
+			<?php echo $this->formDescritivo->id?>
+			<input type=hidden name='programa_id'	value='<?php echo $this->programa->id?>'>
+			</div>
+			<?php	echo $this->formDescritivo->descricao;	?>
+			<?php	echo $this->formDescritivo->submit;	?>			
 		</form>
 <table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
 	<tr>
@@ -103,17 +81,13 @@ echo $this->form->getId ();
 			foreach ( $this->programa->findModel_ObjetivosPrograma () as $objetivo ) {
 				?>
 			<tr>
-		<td><?php
-				echo $this->lineToolbar ( 'programas', $objetivo )?></td>
-		<td><?php
-				echo $objetivo->descricao;
-				?></td>
+		<td><?php	echo $this->lineToolbar ( 'programas', $objetivo )?></td>
+		<td><?php	echo $objetivo->descricao;	?></td>
 	</tr>
 			<?php
 			}
 			?>
 		</table>
-<button>Proximo >></button>
 		<?php
 		}
 		?>
@@ -139,95 +113,62 @@ echo $this->form->getId ();
 			<input type=hidden name='programa_id'
 	value='<?php
 			echo $this->programa->id?>'></div>
-			<?php
-			echo $this->formDescritivo->descricao;
-			?>
+			<?php echo $this->formDescritivo->descricao; ?>
 			
-			<?php
-			echo $this->formDescritivo->submit;
-			?>			
+			<?php echo $this->formDescritivo->submit;?>			
 		</form>
-<br>
-<table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
-	<tr>
-		<th>Metas</th>
-	</tr>
-	<?php
-			foreach ( $this->programa->findModel_MetasPrograma () as $meta ) {
-				?>
+		<br>
+		<table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
 			<tr>
-		<td><?php
-				echo $this->lineToolbar ( 'programas', $meta )?></td>
-		<td><?php
-				echo $meta->descricao;
-				?></td>
-	</tr>
+				<th width="5%"></th>
+				<th>Metas</th>
+			</tr>
 			<?php
-			}
-			?>
-		</table>
-		<?php
-		}
-		?>
-	</div>
-<div id="tabs-3" style="overflow: hidden">
-		
-		
-		<?php
-		if (isset ( $this->programa )) {
-			?>
-		<form id='frmindicadores'
-			enctype='<?php echo $this->frmIndicador->getEnctype ();?>'
-			action='<?php echo $this->url ( array ('controller' => 'programas', 'action' => 'addindicador' ) );	?>'
-			method="post">
-			<div style='display: none'>
-				<?php echo $this->frmIndicador->id?>
-				<input type=hidden name='programa_id' value='<?php echo $this->programa->id?>'>
+					foreach ( $this->programa->findModel_MetasPrograma () as $meta ) {
+						?>
+					<tr>
+						<td><?php echo $this->lineToolbar ( 'programas', $meta )?></td>
+						<td><?php echo $meta->descricao; ?></td>
+					</tr>
+			<?php }	?>
+				</table>
+				<?php } ?>
 			</div>
-			<?php
-			echo $this->frmIndicador->descricao;
-			?>
-			<br></br>
-			<?php
-			echo $this->frmIndicador->tipo_indicador_id;
-			?>			
-			<?php
-			echo $this->frmIndicador->submit;
-			?>			
-		</form>
-<br>
-<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
-	<tr>
-		<th style="width: 2%"></th>
-		<th style="width: 2%"></th>
-		<th>Indicadores</th>
-
-	</tr>
-	<?php
-			foreach ( $this->programa->findManyToManyRowset ( 'Model_Indicadores', 'Model_IndicadoresPrograma' ) as $indicador ) {
+			<div id="tabs-3" style="overflow: hidden">
+				<?php if (isset ( $this->programa )) {	?>
+				<form id='frmindicadores' enctype='<?php echo $this->frmIndicador->getEnctype ();?>'
+					action='<?php echo $this->url ( array ('controller' => 'programas', 'action' => 'addindicador' ) );	?>'
+					method="post">
+					<div style='display: none'>
+						<?php echo $this->frmIndicador->id?>
+						<input type=hidden name='programa_id' value='<?php echo $this->programa->id?>'>
+					</div>
+					<?php echo $this->frmIndicador->descricao;?>
+					<br>
+					<?php echo $this->frmIndicador->tipo_indicador_id;	?>			
+					<?php echo $this->frmIndicador->submit;	?>			
+				</form>
+				<br>
+				<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
+					<tr>
+						<th style="width: 2%"></th>
+						<th style="width: 2%"></th>
+						<th>Indicadores</th>
+					</tr>
+				<?php 
+				foreach ( $this->programa->findManyToManyRowset ( 'Model_Indicadores', 'Model_IndicadoresPrograma' ) as $indicador ) {	
 				?>
-		<tr>
-		<td style="width: 2%"><?php
-				echo $this->lineToolbar ( 'programas', $indicador )?></td>
-		<td style="width: 2%"><?php
-				echo $this->indicadoresToolbar ( $indicador )?>
-		</td>
-		<td align="left"><?php
-				echo $indicador->descricao;
-				?></td>
-	</tr>
-			<?php
-			}
-			?>
+						<tr>
+						<td style="width: 2%"><?php	echo $this->lineToolbar ( 'programas', $indicador )?></td>
+						<td style="width: 2%"><?php	echo $this->indicadoresToolbar ( $indicador )?>	</td>
+						<td align="left"><?php echo $indicador->descricao;	?></td>
+					</tr>
+				<?php	} ?>
 		</table>
-		<?php
-		}
-		?>
+	<?php }	?>
 	</div>
 </div>
 <br></br>
 <p></p>
-<a
-	href='<?php
-	echo $this->url ( array ('controller' => 'plano', 'action' => 'programas' ) )?>'>Voltar</a>
+<a	href='<?php	echo $this->url ( array ('controller' => 'plano', 'action' => 'programas' ) )?>'>Voltar</a>
 <br>

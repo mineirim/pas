@@ -209,20 +209,16 @@ class ProgramasController extends Zend_Controller_Action {
 			if ($this->frmIndicador->isValid ( $formData )) 
 			{
     			$dados = $this->frmIndicador->getDados ();
-    			
     			$indicadores = new Model_Indicadores();
 				if($this->frmIndicador->getValue('id')==''){
-					
 					$id = $indicadores->insert ( $dados );
 				}else{
 					$id = $this->frmIndicador->getValue('id');
 					$indicadores->update($dados, 'id='.$id);
 				}
-				$programa_id =$this->_getParam('programa_id');
+				$programa_id = $this->_getParam('programa_id');
 				$indicadoresPrograma = new Model_IndicadoresPrograma();
-				
 				$indicadorPrograma = $indicadoresPrograma->fetchRow('programa_id='.$programa_id.' and indicador_id='.$id);
-				
 				if(!$indicadorPrograma){
 					$arr = array('programa_id'=>$programa_id, 'indicador_id'=>$id);
 					$indicadoresPrograma->insert($arr);
@@ -246,7 +242,7 @@ class ProgramasController extends Zend_Controller_Action {
 	        echo $return;
     	}else{
     		
-    		$url = 'programas/edit/id/'.$this->formDescritivo->getValue('programa_id').'/tab/4';
+    		$url = 'programas/edit/id/'.$this->frmIndicador->getValue('programa_id').'/tab/4';
     		$this->_redirect($url);
     	}
     	

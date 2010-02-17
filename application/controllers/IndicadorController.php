@@ -73,7 +73,7 @@ class IndicadorController extends Zend_Controller_Action
 		
 		$graph->data['Indicador'] = new ezcGraphArrayDataSet( $dados );
 		
-		echo $graph->renderToOutput( 400, 150 );
+		echo $graph->renderToOutput( 600, 300 );
 
 		
 	}
