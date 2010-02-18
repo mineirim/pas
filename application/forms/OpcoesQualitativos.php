@@ -14,7 +14,7 @@ class Form_OpcoesQualitativos extends Zend_Form_SubForm
 		$indicador_id->removeDecorator('label');
 		
 		$descricao = new Zend_Form_Element_Text('descricao');
-		$descricao->setLabel('Descritivo');
+		$descricao->setLabel('Categoria');
 		
 		
 		$submit = new Zend_Form_Element_Submit('submit');

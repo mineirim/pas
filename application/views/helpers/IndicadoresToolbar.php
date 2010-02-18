@@ -32,8 +32,15 @@ class Zend_View_Helper_IndicadoresToolbar {
 		
 		$toolbar = ""; 
 
+		$f = Zend_Controller_Front::getInstance();
+		
+		$session = new Zend_Session_Namespace('back_indicador');
+		$session->url = $f->getRequest()->getPathInfo();
+		
+		
 		
 		$acl = Zend_Registry::get('acl');
+		
 		$auth = Zend_Auth::getInstance();
 		
 		if ($auth->hasIdentity ()) {
@@ -55,7 +62,8 @@ class Zend_View_Helper_IndicadoresToolbar {
 			
 		if($acl->isAllowed($role,$resource,'editar') ||	!$resource)
 		{
-			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores','action'=>$acao,'indicador_id'=>$this->_indicador->id))."'
+			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores','action'=>$acao,
+							'indicador_id'=>$this->_indicador->id))."'
 							class='my-button ui-state-default ui-corner-all '
 							title='Configurar'	>
 							<span class='ui-icon ui-icon-wrench '></span>

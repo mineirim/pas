@@ -18,8 +18,8 @@ class Form_IndicadorConfig extends Zend_Form_SubForm
 		$arr_bases = array(1 =>'Nº absoluto',100=>'100',1000=>'1.000', 10000=>'10.000',100000=>'100.000');
 		$base->setMultiOptions($arr_bases);
 		
-		$campos = new Zend_Form_Element_MultiCheckbox('campos');
-        $arr_campos = array('n' =>'Numerador','d'=>'Denominador','r'=>'Resultado');
+		$campos = new Zend_Form_Element_Radio('campos');
+        $arr_campos = array('n,d' =>'Numerador e Denominador','r'=>'Resultado');
         $campos->setMultiOptions($arr_campos)
           ->removeDecorator('label')
           ->removeDecorator('HtmlTag');
@@ -74,7 +74,7 @@ class Form_IndicadorConfig extends Zend_Form_SubForm
 		$dados = array ('base' 	=> $this->getValue('base'), 
 		              'indicador_id'=>$this->getValue('indicador_id'),
 				      'tipo_periodo_id'=>$this->getValue('tipo_periodo_id'),
-		              'campos'=> implode(',', $this->getValue('campos')),
+		              'campos'=>  $this->getValue('campos'),
 		              'inicio_preenchimento'=> $this->getValue('ano').$this->getValue('mes')				
 		              );
 		

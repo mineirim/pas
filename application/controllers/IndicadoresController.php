@@ -230,7 +230,7 @@ class IndicadoresController extends Zend_Controller_Action
                       'ano'=> $indicador_config->ano,
 	                  'mes'=> $indicador_config->mes                
                       );
-	        	$form->populate ( $dados );
+	        	$form->alterarcategoriapopulate ( $dados );
 	        	$this->view->indicador = $indicador_config->findParentRow('Model_Indicadores');
             
             }elseif ($indicador_id)
@@ -246,8 +246,10 @@ class IndicadoresController extends Zend_Controller_Action
             }
         }
         $this->view->indicador = $this->indicadores->find($indicador_id)->current();
-        $this->form->indicador_id = $indicador_id;
+        $form->indicador_id->setValue($indicador_id);
         $this->view->form = $form;
+        $session = new Zend_Session_Namespace('back_indicador');
+        $this->view->uralterarcategorialback = $session->url;
     }
 
     public function removerconfiguracaoAction()
@@ -313,9 +315,34 @@ class IndicadoresController extends Zend_Controller_Action
             }
         }
         $this->view->indicador = $this->indicadores->find($indicador_id)->current();
-        $this->form->indicador_id = $indicador_id;
+        $form->indicador_id->setValue($indicador_id);
         $this->view->form = $form;
-    }    
+        
+        $session = new Zend_Session_Namespace('back_indicador');
+        $this->view->urlback = $session->url;
+    }  
+    public function alterarcategoriaAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $opcoes_qualitativos = new Model_OpcoesQualitativos();
+        $indicadores_qualitativos = new Model_IndicadoresQualitativos();
+        
+        $categoria_id = $this->_getParam('categoria_id');
+        
+        $opcao_qualitativo = $opcoes_qualitativos->fetchRow('id='.$categoria_id);
+        
+        $indicador_qualitativo = $indicadores_qualitativos->fetchRow('indicador_id='.$opcao_qualitativo->indicador_id);
+        
+        if($indicador_qualitativo){
+        	$indicador_qualitativo->opcao_qualitativo_id = $opcao_qualitativo->id;
+        }else{
+        	$data = array('indicador_id'=>$opcao_qualitativo->indicador_id,'opcao_qualitativo_id'=>$opcao_qualitativo->id );
+        	$indicadores_qualitativos->insert($data);
+        }
+        $response = array('id'=>$opcao_qualitativo->id,'categoria'=>$opcao_qualitativo->descricao);
+        $this->_helper->json($response);    	
+    }  
     
 }
 

@@ -44,7 +44,7 @@ if ( !$this->ckeditor ) {
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/ui.jqgrid.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.tooltip.css' );?>
 
-
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
 
 <!--[if IE]>
 <style type="text/css" media="screen">
@@ -94,7 +94,7 @@ echo $this->baseUrl ();
 				<font size="4"><b>Programação Anual de Saúde - PAS-E 2010</b></font>
 			</div>
 		</div>
-		<div style="position: absolute; top: 100px; right: 55px; width: 115px;" >
+		<div id="topo-buttons" style="position: absolute; top: 100px; right: 55px; width: 115px;" >
 			<?php 
 			echo "<a href='".$this->url(array('controller'=>'favoritos','action'=>'add')) ."'
 								title='Adicionar Favorito'> 

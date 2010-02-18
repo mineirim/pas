@@ -116,6 +116,7 @@ class AuthController extends Zend_Controller_Action {
 	function logoutAction() {
 		Zend_Registry::_unsetInstance ();
 		Zend_Auth::getInstance ()->clearIdentity ();
+		Zend_Session::destroy();
 		$this->_redirect ( '/auth' );
 	}
 }

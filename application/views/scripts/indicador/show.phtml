@@ -1,5 +1,7 @@
+
 <div class="ui-overlay ui-corner-all" style="width: 680px;">
-	<h3><?php echo $this->indicador->descricao;?></h3>
+	<h3><?php echo $this->indicador->descricao;?> 
+	</h3>
 	
 	<?php
 	 
@@ -7,10 +9,15 @@
 		$periodo = $config->findParentRow('Model_TiposPeriodos');
 		$resultados = $config->findDependentRowset('Model_IndicadoresResultados');
 		$campos = explode(',',$config->campos);
+		
+		if($config->base==1){
+			$this->desc_base = "Número absoluto";
+		}else{
+			$this->desc_base="Por ".$config->base;
+		}
 	?>
-	
 	<table  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header tabela-resultado'  >
-		<caption><h3>Indicador <?php echo $periodo->descricao;?> </h3></caption>
+		<caption><h3>Valor <?php echo $periodo->descricao;?> ( <?php echo $this->desc_base; ?>	)</h3></caption>
 		<tr>
 			<th>Competência</th>
 			<?php if(in_array('n', $campos)){?>

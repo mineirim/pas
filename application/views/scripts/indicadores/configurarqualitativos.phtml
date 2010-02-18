@@ -22,19 +22,21 @@
 		</form>
 </div>
 <br/>
-<a href="javascript:window.history.go(-1)">Voltar</a>
+<a href='<?php echo $this->baseUrl(). $this->urlback; ?>'> Voltar</a>
 <br/>
-<table>
+<table  id='tbcategorias'>
 	<tr>
 		<td></td>
-		<td>Opcoes</td>
+		<td>Categorias</td>
 	</tr>
 	<?php foreach($this->indicador->findDependentRowset('Model_OpcoesQualitativos') as $ic){?>
 		<tr>
 			<td>
 			<a href='<?php echo $this->url(array('controller'=>'changestatus','action'=>'delete', 'model'=>'Model_OpcoesQualitativos', 'id'=>$ic->id))?>'
-					class='my-button ui-state-default ui-corner-all '
-					title='Excluir'>
+					class='my-button ui-state-default ui-corner-all deletedescription'
+					title='Excluir'
+					id='delete-categorias-<?php echo $ic->id?>'
+					>
 					<span class='ui-icon ui-icon-trash '></span>
 				</a>
 			</td>

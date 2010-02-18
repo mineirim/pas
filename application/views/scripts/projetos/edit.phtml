@@ -119,13 +119,15 @@
 				</tr>
 		<?php  
 				foreach($this->projeto->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresProjeto') as $indicador){
+					if($indicador->situacao_id==1){
 		?>
 				<tr>
 					<td width="2%"><?php echo $this->lineToolbar('projetos',$indicador)?></td>
 					<td width="2%"><?php echo $this->indicadoresToolbar($indicador) ?></td>
 					<td><?php echo $indicador->descricao;?></td>
 				</tr>
-				<?php }?>
+				<?php } 
+				}?>
 			
 		</table>
 		<?php }?>

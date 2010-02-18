@@ -62,18 +62,18 @@ class IndicadorController extends Zend_Controller_Action
         $pathfont = $_SERVER['DOCUMENT_ROOT'].$this->view->baseUrl();
         
 		$graph = new ezcGraphLineChart();
-		$graph->title = 'Gráfico de Indicador';
 		$graph->driver = new ezcGraphGdDriver();
 		$graph->options->font ="$pathfont/verdana.ttf";
 		$graph->options->font->name ='verdana.ttf'; 
 		$graph->driver->options->supersampling = 1;
 		$graph->driver->options->jpegQuality = 100;
 		$graph->driver->options->imageFormat = IMG_JPEG;
+		
 		 // Add data
 		
-		$graph->data['Indicador'] = new ezcGraphArrayDataSet( $dados );
+		$graph->data[]= new ezcGraphArrayDataSet( $dados );
 		
-		echo $graph->renderToOutput( 600, 300 );
+		echo $graph->renderToOutput( 400, 150 );
 
 		
 	}

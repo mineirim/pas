@@ -48,10 +48,7 @@
 						foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador){ ?>
 							<li>
 								<div class="texto-descreve-niveis">
-								
-								<a href=<?php echo $this->url(array('controller' =>'indicador','action' => 'show','id'=> $indicador->id));?> >
-									<?php echo $indicador->descricao ?>
-								</a>
+									<?php echo $this->cabecalhoIndicador($indicador,strtolower($this->nome))?>
 								</div>
 							</li>
 					<?php 	

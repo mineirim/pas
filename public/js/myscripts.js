@@ -104,11 +104,17 @@ $(document).ready(function(){
 		$(".datepick").datepicker({dateformat:"dd-mm-yy"});
 		
 		
-		/**
-		 * hugo, fazer as alterações aqui para funcionar o tooltip
-		 */
+		
 		$('.tooltip').tooltip();
-
+		
+		
+		$("#categoria.alterar-categoria").live('change',function(e){
+			$.getJSON($("#url_categoria").val()+'/categoria_id/'+$(this).val(),
+			        function(data){
+					  alert ("Indicador Atualizado:  "+data.categoria)
+		          
+			        });
+		});
 
 				  
 

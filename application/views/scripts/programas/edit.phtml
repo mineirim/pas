@@ -156,14 +156,18 @@ echo $this->form->getId ();
 						<th>Indicadores</th>
 					</tr>
 				<?php 
-				foreach ( $this->programa->findManyToManyRowset ( 'Model_Indicadores', 'Model_IndicadoresPrograma' ) as $indicador ) {	
+				foreach ( $this->programa->findManyToManyRowset ( 'Model_Indicadores', 'Model_IndicadoresPrograma' ) as $indicador ) {
+					if($indicador->situacao_id==1){	
 				?>
 						<tr>
 						<td style="width: 2%"><?php	echo $this->lineToolbar ( 'programas', $indicador )?></td>
 						<td style="width: 2%"><?php	echo $this->indicadoresToolbar ( $indicador )?>	</td>
 						<td align="left"><?php echo $indicador->descricao;	?></td>
 					</tr>
-				<?php	} ?>
+					
+				<?php
+						}	
+				} ?>
 		</table>
 	<?php }	?>
 	</div>
