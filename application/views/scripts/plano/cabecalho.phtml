@@ -45,7 +45,9 @@
 					<td class='removedui-widget-header text-header'  ><div class="subtitulos-descreve-niveis">INDICADORES DO <?php echo strtoupper($this->nome); ?>:</div></td>
 					<td class='removedui-state-highlight' style='padding-left:15px'>
 					<?php 
-						foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador){ ?>
+						foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador){
+							if($indicador->situacao_id==2) continue; 
+						?>
 							<li>
 								<div class="texto-descreve-niveis">
 									<?php echo $this->cabecalhoIndicador($indicador,strtolower($this->nome))?>
