@@ -62,7 +62,19 @@ class RelatoriosController extends Zend_Controller_Action {
 	 * impressão do relatório de gestão.
 	 */
 	public function relatoriogestaoAction() {
-    	$this->view->programa = new Model_Programas();
+		$this->view->imprimir = "não";
+		$this->view->programa = new Model_Programas();
+    	$this->view->projeto = new Model_Projetos();
+		$this->view->subprojeto = new Model_Projetos();
+		$this->view->objetivoespecifico = new Model_ObjetivosEspecificos();
+		$this->view->meta = new Model_Metas();
+		$this->render('relatoriogestao');
+	}
+	
+	public function relatoriogestaoprintAction(){
+		$this->view->imprimir = "sim";
+		$this->_helper->layout()->disableLayout();
+		$this->view->programa = new Model_Programas();
     	$this->view->projeto = new Model_Projetos();
 		$this->view->subprojeto = new Model_Projetos();
 		$this->view->objetivoespecifico = new Model_ObjetivosEspecificos();
@@ -78,6 +90,7 @@ class RelatoriosController extends Zend_Controller_Action {
 	public function relatorioplanoAction() {
 		$this->form = new Form_Relatoriosplano();
 
+		$this->view->imprimir = "não";
 		$this->view->programa = new Model_Programas();
 		$this->view->responsavel = new Model_Usuarios();
 		$this->view->objetivoprograma = new Model_ObjetivosPrograma();
@@ -97,13 +110,41 @@ class RelatoriosController extends Zend_Controller_Action {
 		$this->view->form = $this->form;		
 	}
 
+	public function relatorioplanoprintAction() {
+		$this->form = new Form_Relatoriosplano();
+
+		$this->view->imprimir = "sim";
+		$this->_helper->layout()->disableLayout();
+		$this->view->programa = new Model_Programas();
+		$this->view->responsavel = new Model_Usuarios();
+		$this->view->objetivoprograma = new Model_ObjetivosPrograma();
+		$this->view->metaprograma = new Model_MetasPrograma();		
+		$this->view->indicadorprograma = new Model_IndicadoresPrograma();
+		$this->view->projeto = new Model_Projetos();
+		$this->view->objetivoprojeto = new Model_ObjetivosProjeto();
+		$this->view->metaprojeto = new Model_MetasProjeto();
+		$this->view->indicadorprojeto = new Model_IndicadoresProjeto();
+		$this->view->subprojeto = new Model_Projetos();		
+		$this->view->objetivosubprojeto = new Model_ObjetivosProjeto();
+		$this->view->metasubprojeto = new Model_MetasProjeto();
+		$this->view->indicadorsubprojeto = new Model_IndicadoresProjeto();
+		$this->view->objetivoespecifico = new Model_ObjetivosEspecificos();
+		$this->view->atividade = new Model_Atividades();
+		$this->view->atividadeprazo = new Model_AtividadesPrazo();
+		$this->view->form = $this->form;
+		$this->render('relatorioplano');
+	}
+	
+	
+	
 	/*
 	 * Relatório de Atividades com Responsável
 	 */
 	public function relatorioatividaderesponsavelAction() {
 
     	$this->form = new Form_Relatoriosatividaderesponsavel();
-		$this->view->programa = new Model_Programas();
+		$this->view->imprimir = "não";
+    	$this->view->programa = new Model_Programas();
 		$this->view->responsavel = new Model_Usuarios();
 		$this->view->objetivoprograma = new Model_ObjetivosPrograma();
 		$this->view->metaprograma = new Model_MetasPrograma();		
@@ -121,9 +162,33 @@ class RelatoriosController extends Zend_Controller_Action {
 		$this->view->atividadeprazo = new Model_AtividadesPrazo();
 		$this->view->form = $this->form;		
    	}
-	
+
+	public function relatorioatividaderesponsavelprintAction() {
+
+    	$this->form = new Form_Relatoriosatividaderesponsavel();
+		$this->view->imprimir = "sim";
+		$this->_helper->layout()->disableLayout();
+    	$this->view->programa = new Model_Programas();
+		$this->view->responsavel = new Model_Usuarios();
+		$this->view->objetivoprograma = new Model_ObjetivosPrograma();
+		$this->view->metaprograma = new Model_MetasPrograma();		
+		$this->view->indicadorprograma = new Model_IndicadoresPrograma();
+		$this->view->projeto = new Model_Projetos();
+		$this->view->objetivoprojeto = new Model_ObjetivosProjeto();
+		$this->view->metaprojeto = new Model_MetasProjeto();
+		$this->view->indicadorprojeto = new Model_IndicadoresProjeto();
+		$this->view->subprojeto = new Model_Projetos();		
+		$this->view->objetivosubprojeto = new Model_ObjetivosProjeto();
+		$this->view->metasubprojeto = new Model_MetasProjeto();
+		$this->view->indicadorsubprojeto = new Model_IndicadoresProjeto();
+		$this->view->objetivoespecifico = new Model_ObjetivosEspecificos();
+		$this->view->atividade = new Model_Atividades();
+		$this->view->atividadeprazo = new Model_AtividadesPrazo();
+		$this->view->form = $this->form;		
+		$this->render('relatorioatividaderesponsavel');
+		
+	}
+   	
 
 }
-
-
-
+?>

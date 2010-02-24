@@ -1,7 +1,24 @@
-
+<?php 
+if ($this->imprimir == "sim"){
+	?>
+	<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<?php 
+}
+?>
 <form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
 			action='' 
 			method="post">
+<?php 
+if ($this->imprimir == "não")
+{
+	?>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplanoprint' ) ); ?>"><img src="<?php echo $this->baseUrl (); ?>/images/print_icon.jpg" border="0" /></a>
+	<?php 
+}
+?>			
 <table width="90%" border="1" align="center">
 	<?php 
 	foreach($this->programa->fetchAll("situacao_id=1", "id") as $programas){
@@ -485,3 +502,13 @@
 	?>
 </table>
 </form>
+<?php 
+if ($this->imprimir == "sim")
+{
+	?>
+	<script language="JavaScript">
+	window.print();
+	</script>
+	<?php 
+}
+?>
