@@ -98,6 +98,7 @@
 		</div>
 		<div id="tabs-3" style="overflow: hidden">
 			<?php if(isset($this->projeto)){ ?>
+            <div style="clear:both;width:100%;">
 			<form id='frmindicadores' enctype='<?php echo $this->frmIndicador->getEnctype();?>'
 				action='<?php echo $this->url ( array( 'controller' => 'projetos', 'action' => 'addindicador' ));?>' 
 				method="post">
@@ -110,6 +111,7 @@
 				<?php echo $this->frmIndicador->tipo_indicador_id;	?>
 				<?php echo $this->frmIndicador->submit;?>			
 			</form>	
+            </div>
 			<br>
 			<table width="100%" id="tbindicadores" class='ui-widget ui-widget-panel'>
 				<tr>

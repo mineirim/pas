@@ -15,7 +15,7 @@ class Model_Usuarios extends App_DefaultModel
 		$id = (int)$id;
 		$row = $this->fetchRow('id = ' . $id);
 		if (!$row) {
-			throw new Exception("Count not find row $id");
+			throw new Exception("Usuário não encontrado: $id");
 		}
 		return $row->toArray();
 	}
@@ -42,12 +42,24 @@ class Model_Usuarios extends App_DefaultModel
     	$this->getAdapter()->commit();		
 		
 	}
+	function updatePassword(array $dados,  $where){
+		
+		if( isset( $dados['password'])){
+			$this->getAdapter()->beginTransaction();
+			$this->makePassword($dados['password']);
+			$dados['password']=$this->password_md5;
+		    $dados['salt']=$this->salt;
+		    parent::update($dados, $where);
+			$this->getAdapter()->commit();
+		}
+				
+	}
 
 	function updateUsuario(array $dados, array $grupos, $where)
 	{
 		$this->getAdapter()->beginTransaction();
 		if( isset( $dados['password'])){
-			$this->makePassword($password);
+			$this->makePassword($dados['password']);
 			$dados['password']=$this->password_md5;
 		    $dados['salt']=$this->salt;
 			
@@ -88,7 +100,9 @@ class Model_Usuarios extends App_DefaultModel
 	
 	function deleteUsuario($id)
 	{
-		$this->delete('id =' . (int)$id);
+		$usuario = $this->find($id)->current();
+		$usuario->situacao = 2;
+		$usuario->save();
 	}
 	private function makePassword($password){
 		$this->salt = md5(time());

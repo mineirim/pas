@@ -55,7 +55,11 @@ class IndicadorController extends Zend_Controller_Action
         
         $dados = array();
         foreach($indicadores_resultados->fetchAll('indicador_configuracao_id='.$indicador_configuracao_id, 'competencia') as $resultado){
-        	$dados[$resultado->competencia] = number_format($resultado->resultado,2);
+        	$competencia = $resultado->competencia;
+        	if(strlen($competencia)>4)
+                $competencia =substr ( $competencia,4,2)."/".substr ( $competencia, 0, 4 );
+        	
+        	$dados[$competencia] = number_format($resultado->resultado,2);
         }
 		
         
