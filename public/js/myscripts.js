@@ -67,7 +67,8 @@ $(document).ready(function(){
 			e.preventDefault();
 			$this = $(this)
 			$tpobjeto = this.id.split('-')[1]
-            if($tpobjeto.substr(-1)!='s')
+			
+            if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
             {
             	$tpobjeto = $tpobjeto + 's'
             }	
@@ -83,13 +84,15 @@ $(document).ready(function(){
 
 			
 		});
-		
+
+			
+		   
 		$(".deletedescription").live('click',function(e)
 		{
 			e.preventDefault();
 			$this = $(this)
 			$tpobjeto = this.id.split('-')[1]
-            if($tpobjeto.substr(-1)!='s')
+            if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
             {
             	$tpobjeto = $tpobjeto + 's'
             }	

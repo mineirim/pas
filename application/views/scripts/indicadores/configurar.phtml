@@ -71,8 +71,9 @@ if($("#base").val()==1){
 	$("#campos-r").attr('checked','checked')
 }
 	
-$("#base").live('change',function(e)
+$("#base").change(function(e)
 		{
+	
 			obj = $(this)
 			if(obj.val()==1){
 				$("#campos-r").attr('checked','checked')
