@@ -336,6 +336,7 @@ class IndicadoresController extends Zend_Controller_Action
         
         if($indicador_qualitativo){
         	$indicador_qualitativo->opcao_qualitativo_id = $opcao_qualitativo->id;
+        	$indicador_qualitativo->save();
         }else{
         	$data = array('indicador_id'=>$opcao_qualitativo->indicador_id,'opcao_qualitativo_id'=>$opcao_qualitativo->id );
         	$indicadores_qualitativos->insert($data);

@@ -22,7 +22,8 @@ class Form_Geral extends Zend_Form
 		$menu->setLabel('Descrição no menu')
 			->addFilter('StripTags')	
 			->addFilter('StringTrim')
-			->setAttrib('size',20);
+			->setAttrib('size',20)
+			->setAttrib('maxlength',20);
 
 		$interfaces = new Zend_Form_Element_Textarea('interfaces');
 		$interfaces->setLabel('Interfaces')

@@ -112,7 +112,8 @@ $(document).ready(function(){
 		
 		
 		$("#categoria.alterar-categoria").live('change',function(e){
-			$.getJSON($("#url_categoria").val()+'/categoria_id/'+$(this).val(),
+			url = $("#url_categoria").val()+'/categoria_id/'+$(this).val();
+			$.getJSON(url,
 			        function(data){
 					  alert ("Indicador Atualizado:  "+data.categoria)
 		          
