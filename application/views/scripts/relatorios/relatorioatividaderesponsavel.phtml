@@ -19,6 +19,7 @@ if ($this->imprimir == "não")
 	<?php 
 }
 ?>			
+<center><font size="3" style="color:black"><b>RELATÓRIO DE ATIVIDADES COM RESPONSÁVEL</b></font></center>
 <table width="90%" border="1" align="center">
 	<?php 
 	foreach($this->programa->fetchAll("situacao_id=1", "id") as $programas){
@@ -29,7 +30,7 @@ if ($this->imprimir == "não")
 			<table border="0" width="100%">
 				<tr bgcolor="0099FF">
 					<td>
-					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000"><b>PROGRAMA <?php echo $programas->id; ?></b></font>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000"><b><?php echo $programas->menu; ?></b></font>
 					</td>
 					<td>
 					<font face="Verdana, Arial, Helvetica, sans-serif" size="2" color="000000"><b>Reponsável</b></font>

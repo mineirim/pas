@@ -116,7 +116,7 @@
 						?>
 					</td>
 					<td  align="center">
-						<a href="#">
+						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'projeto_id' => $projeto->id ) );?>">
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
 						</a> 
 					</td>
@@ -213,7 +213,7 @@
 						<?php echo $this->lineProgressbar ( 4, $objetivos_especificos->id  ); // Objetivos Específicos ?>
 					</td>
 					<td align="center">
-						<a href="#">
+						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'objetivo_especifico_id' => $objetivos_especificos->id ) );?>">
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
 						</a> 
 					</td>

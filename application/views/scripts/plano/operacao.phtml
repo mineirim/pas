@@ -147,7 +147,7 @@
 						<?php echo $this->lineProgressbar ( 7, $atividade->id  ); // atividade ?>
 					</td>
 					<td align="center">
-						<a href="#">
+						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'atividade_id' => $atividade->id ) );?>">
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
 						</a> 
 					</td>

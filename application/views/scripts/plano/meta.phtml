@@ -125,7 +125,7 @@
 						<?php echo $this->lineProgressbar ( 6, $operacao->id  ); // operação ?>
 					</td>
 					<td align="center">
-						<a href="#">
+						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'operacao_id' => $operacao->id ) );?>">
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
 						</a> 
 					</td>
