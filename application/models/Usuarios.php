@@ -101,7 +101,7 @@ class Model_Usuarios extends App_DefaultModel
 	function deleteUsuario($id)
 	{
 		$usuario = $this->find($id)->current();
-		$usuario->situacao = 2;
+		$usuario->situacao_id = 2;
 		$usuario->save();
 	}
 	private function makePassword($password){
