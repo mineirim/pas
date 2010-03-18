@@ -17,7 +17,7 @@ class UsuariosController extends Zend_Controller_Action
         $this->view->title = "Usuários";
 		$this->view->headTitle($this->view->title, 'PREPEND');
 		$usuarios = new Model_Usuarios();
-		$this->view->usuarios = $usuarios->fetchAll(null,'nome');
+		$this->view->usuarios = $usuarios->fetchAll("situacao_id=1",'nome');
     }
 
     public function addAction()
