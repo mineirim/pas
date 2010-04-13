@@ -18,7 +18,8 @@ class Model_IndicadoresResultados extends App_DefaultModel {
 	protected $_referenceMap = array (
 	                     		'IndicadoresConfiguracoes' => array ( 'columns' => 'indicador_configuracao_id', 
 	                     							  'refTableClass' => 'Model_IndicadoresConfiguracoes', 
-	                     							  'refColumns' => 'id' ) 							
+	                     							  'refColumns' => 'id' ,
+	                     							  'onDelete' => self::CASCADE) 							
 								);	
 	public function init(){
 		parent::init();

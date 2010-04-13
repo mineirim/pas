@@ -18,7 +18,8 @@ class Model_IndicadoresConfiguracoes extends App_DefaultModel {
 	protected $_referenceMap = array (
 	                     		'Indicadores' => array ( 'columns' => 'indicador_id', 
 	                     							  'refTableClass' => 'Model_Indicadores', 
-	                     							  'refColumns' => 'id' ),
+	                     							  'refColumns' => 'id' ,
+	                     							  'onDelete' => self::CASCADE),
 								'TiposPeriodos' => array ( 'columns' => 'tipo_periodo_id', 
 	                     							  'refTableClass' => 'Model_TiposPeriodos', 
 	                     							  'refColumns' => 'id' ) 							

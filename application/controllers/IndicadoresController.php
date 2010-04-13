@@ -79,6 +79,34 @@ class IndicadoresController extends Zend_Controller_Action
     public function deleteAction()
     {
         
+		$this->view->title = "Excluir";
+	    
+		$this->view->headTitle($this->view->title, 'PREPEND') ;
+		
+		
+		$id = $this->_getParam('indicador_id', 0);
+		
+		$form = new Zend_Form();
+		$form->addElement('hidden','id');
+		$form->addElement('submit','Confirmar');
+		
+		$indicadores = new Model_Indicadores();
+		
+		if ($this->getRequest()->isPost()) {
+			if ($form->isValid($this->getRequest()->getPost())) {
+				$id_excluir = $form->getValue('id');
+				$indicador = $indicadores->fetchRow('id='.$id_excluir);
+				$indicador->delete();
+			}
+			$this->_redirect('indicadores');
+		}elseif ($id > 0) {
+			
+			$indicador = $indicadores->fetchRow('id='.$id);
+			$this->view->indicador = $indicador;
+		}
+		
+		$form->populate($indicador->toArray());
+		$this->view->form = $form;        
     }
 
     public function localizarAction()

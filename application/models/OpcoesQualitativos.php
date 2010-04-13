@@ -19,7 +19,9 @@ class Model_OpcoesQualitativos extends App_DefaultModel {
 	protected $_referenceMap = array (
 	                     		'Indicadores' => array ( 'columns' => 'indicador_id', 
 	                     							  'refTableClass' => 'Model_Indicadores', 
-	                     							  'refColumns' => 'id' )
+	                     							  'refColumns' => 'id',
+	                     							  'onDelete' => self::CASCADE 
+	)
 								);	
 	public function init(){
 		parent::init();

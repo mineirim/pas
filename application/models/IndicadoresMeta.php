@@ -21,7 +21,8 @@ class Model_IndicadoresMeta extends App_DefaultModel {
 	                     							  'refColumns' => 'id' ),
 								'Indicador' => array('columns' => 'indicador_id', 
 	                     							  'refTableClass' => 'Model_Indicadores', 
-	                     							  'refColumns' => 'id' )
+	                     							  'refColumns' => 'id' ,
+	                     							  'onDelete' => self::CASCADE)
 								);	
 	
 }

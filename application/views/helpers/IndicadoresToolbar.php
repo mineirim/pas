@@ -52,7 +52,7 @@ class Zend_View_Helper_IndicadoresToolbar {
 		if (! $acl->has ( $resource )) 
 			$resource = null;
 			
-		$toolbar = "<div style='width:55px;'>
+		$toolbar = "<div style='width:80px;'>
 						<a href='". $this->view->url(array('controller'=>'indicador','action'=>'show','id'=>$this->_indicador->id))."'
 						class='my-button ui-state-default ui-corner-all '
 						title='Visualizar'>
@@ -67,6 +67,12 @@ class Zend_View_Helper_IndicadoresToolbar {
 							class='my-button ui-state-default ui-corner-all '
 							title='Configurar'	>
 							<span class='ui-icon ui-icon-wrench '></span>
+						 </a>";
+			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores','action'=>'delete',
+							'indicador_id'=>$this->_indicador->id))."'
+							class='my-button ui-state-default ui-corner-all '
+							title='Exclusão permanente'	>
+							<span class='ui-icon ui-icon-circle-close '></span>
 						 </a>";
 		}
 		$toolbar .="</div";

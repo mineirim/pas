@@ -29,6 +29,7 @@ class ProjetosController extends Zend_Controller_Action {
     	$this->formDescritivo->addElement($form_projeto_id);
     	$this->view->formDescritivo = $this->formDescritivo;
 		$this->frmIndicador = new Form_Indicador();
+		$this->frmIndicador->addElement($form_projeto_id); 
 		$this->view->frmIndicador =$this->frmIndicador;    	
     	
     	    	
@@ -281,7 +282,9 @@ class ProjetosController extends Zend_Controller_Action {
     		$formData = $this->getRequest ()->getPost ();
 			if ($this->frmIndicador->isValid ( $formData )) 
 			{
+				
     			$dados = $this->frmIndicador->getDados ();
+    			
     			$indicadores = new Model_Indicadores();
 				if($this->frmIndicador->getValue('id')==''){
 					$id = $indicadores->insert ( $dados );
@@ -289,11 +292,12 @@ class ProjetosController extends Zend_Controller_Action {
 					$id = $this->frmIndicador->getValue('id');
 					$indicadores->update($dados, 'id='.$id);
 				}
-				$programa_id = $this->_getParam('projeto_id');
+				
+				$projeto_id = $this->frmIndicador->getValue('projeto_id');
 				$indicadoresProjeto = new Model_IndicadoresProjeto();
-				$indicadorProjeto = $indicadoresProjeto->fetchRow('projeto_id='.$programa_id.' and indicador_id='.$id);
+				$indicadorProjeto = $indicadoresProjeto->fetchRow('projeto_id='.$projeto_id.' and indicador_id='.$id);
 				if(!$indicadorProjeto){
-					$arr = array('projeto_id'=>$programa_id, 'indicador_id'=>$id);
+					$arr = array('projeto_id'=>$projeto_id, 'indicador_id'=>$id);
 					$indicadoresProjeto->insert($arr);
 				}
     			$indicador = $indicadores->fetchRow('id='.$id);
