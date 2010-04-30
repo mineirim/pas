@@ -46,9 +46,25 @@ class Zend_View_Helper_MyToolbar {
 			$this->acl->addRole('guest');
 		
 		
+		if($this->_id && !$this->acl->has('admin') && ($this->_controller=='programas' || $this->_controller=='projetos')){
+			
+			eval('$objs = new Model_'.ucfirst($this->_controller).'();');
+			
+			
+			$obj = $objs->fetchRow('id='.$this->_id);
+			
+			if(isset($obj->responsavel_id)){
+				if($obj->responsavel_id!==$auth->getIdentity ()->id){
+					return;
+				}
+			}
+		}				
+			
 		
 		if($this->acl->isAllowed($this->role,$resource,'editar') ||
-					!$resource){ 
+					!$resource ){ 
+
+						
 			if($type=='top'){
 				$toolbar= $this->getTopBar();
 			}
