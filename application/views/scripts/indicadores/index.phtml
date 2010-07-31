@@ -1,6 +1,7 @@
 
 
-<table>
+<table class="ui-widget ui-widget-content ">
+	<caption>Indicadores Cadastrados</caption>
 	<tr>
 	<th></th>
 	<th></th>
@@ -17,3 +18,26 @@
 	<?php }?>
 </table>
 
+<br/>
+<table class="ui-widget ui-widget-content ">
+	<caption>Indicadores Excluídos</caption>
+	<tr>
+	<th></th>
+	<th></th>
+	<th>Indicador</th>
+	</tr>
+	<?php foreach($this->indicadores_excluidos as $indicador){?>
+		<tr>
+			<td>
+				<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'restaurar',
+							'indicador_id'=>$indicador->id))?>'
+							class='my-button ui-state-default ui-corner-all '
+							title='Configurar'	>
+							<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>
+						 </a>";
+			</td>
+			<td><?php echo $indicador->id;?></td>
+			<td><?php echo $indicador->descricao;?></td>
+		</tr>
+	<?php }?>
+</table>

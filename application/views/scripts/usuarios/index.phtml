@@ -1,18 +1,67 @@
+<script language="javascript">
+
+$('.tabela_padrao').dataTable( {
+	"bPaginate": true,
+	"bLengthChange": false,
+	"bFilter": true,
+	"bSort": true,
+	"bInfo": true,
+	"bAutoWidth": false,
+	"bJQueryUI": true,
+	"oLanguage": {
+		"sLengthMenu": "Mostrar _MENU_ registros por página",
+		"sZeroRecords": "Não encontrado - desculpe",
+		"sInfo": "Mostrando _START_ até _END_ de _TOTAL_ registros",
+		"sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+		"sInfoFiltered": "(filtrado de _MAX_ registros totais)"
+	}	 } );
+
+</script>
 <p><a href="<?php echo $this->url(array('action'=>'add'));?>">Adicionar Usuário</a></p>
-<table>
-<tr>
-<th>Usuario</th>
-<th>E-mail</th>
-<th>&nbsp;</th>
-</tr>
-<?php foreach($this->usuarios as $pagina) : ?>
-<tr>
-<td><?php echo $this->escape($pagina->nome);?></td>
-<td><?php echo $this->escape($pagina->email);?></td>
-<td>
-<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$pagina->id));?>">Editar</a>
-<a href="<?php echo $this->url(array('action'=>'delete', 'id'=>$pagina->id));?>">Apagar</a>
-</td>
-</tr>
+<table class="tabela_padrao">
+	<caption>Usuarios Cadastrados</caption>
+	<tr>
+		<th>Usuario</th>
+		<th>E-mail</th>
+		<th>Login</th>
+		<th>&nbsp;</th>
+	</tr>
+<?php foreach($this->usuarios as $usuario) : ?>
+	<tr>
+		<td><?php echo $this->escape($usuario->nome);?></td>
+		<td><?php echo $this->escape($usuario->email);?></td>
+		<td><?php echo $this->escape($usuario->username);?></td>
+		<td>
+			<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$usuario->id));?>">Editar</a>
+			<a href="<?php echo $this->url(array('action'=>'delete', 'id'=>$usuario->id));?>">Apagar</a>
+		</td>
+	</tr>
 <?php endforeach; ?>
-</table>
+	</table>
+
+<hr></hr>
+<table class="tabela_padrao">
+	<caption>Usuarios Excluídos</caption>
+	<tr>
+		<th>Usuario</th>
+		<th>E-mail</th>
+		<th>Login</th>
+		<th>&nbsp;</th>
+	</tr>
+<?php foreach($this->usuarios as $usuario) : ?>
+	<tr>
+		<td><?php echo $this->escape($usuario->nome);?></td>
+		<td><?php echo $this->escape($usuario->email);?></td>
+		<td><?php echo $this->escape($usuario->username);?></td>
+		<td>
+			<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'restaurar',
+							'indicador_id'=>$indicador->id))?>'
+							class='my-button ui-state-default ui-corner-all '
+							title='Configurar'	>
+							<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>Restaurar
+						 </a>";
+			<a href="<?php echo $this->url(array('action'=>'delete', 'id'=>$usuario->id));?>">Apagar</a>
+		</td>
+	</tr>
+<?php endforeach; ?>
+	</table>	
