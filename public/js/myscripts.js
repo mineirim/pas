@@ -120,9 +120,11 @@ $(document).ready(function(){
 			        });
 		});
 
-				  
 
 });
+
+
+
 
 function showDescritivo(data,result,obj){
 	if(data.toolbar != undefined){

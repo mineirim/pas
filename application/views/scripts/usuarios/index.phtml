@@ -1,67 +1,144 @@
-<script language="javascript">
+<script>
+var lastsel;
+var lastsel2
+$(document).ready(function(){
+	$('.tabela_grid table').each(function (){
+		gr = $(this)[0]
+		pg = $('#pager_'+gr.id)[0]
+		parametros= $('#parametros_'+gr.id).val()
+		enableGrid(gr,pg,parametros)
+	})
+	
+	$("#t_habilitados").append("<input type='button' id='btn_new' value='Novo' style='height:20px;font-size:-3'/>");
+	$("#t_habilitados").append("<input type='button' id='btn_edit' value='Editar' style='height:20px;font-size:-3'/>");
+	$("#btn_new").click(function(){
+		$('#form_add').load('<?php echo $this->url(array('action'=>'add'));?>').dialog({
+			autoOpen: false,
+			height: 340,
+			width: 450,
+			modal: true,
+			top:0
+		});
+		$('#add_new').dialog('open')
+	})
+	$("#btn_edit").click(function(){
+		id = $('#habilitados').jqGrid('getGridParam','selrow')
+		if(id!= null ){
+			bt_edit(id)
+		}else{
+			alert ("Selecione um registro para editar")
+		}
+	})	
+});
+function bt_edit(id){
+	$('#form_edit').load('<?php echo $this->url(array('action'=>'edit'));?>/id/'+id).dialog({
+		autoOpen: false,
+		height: 340,
+		width: 450,
+		modal: true,
+		top:0
+	});
+	$('#form_edit').dialog('open')
+}
+function enableGrid(obj,pg, parametros)
+{
+	if(obj.id=='excluidos'){
+		p={del:false,add:false,edit:false,search:true, alertcap:' to edit:', alerttext:' . . . click on a row to highlight' }
+	}else{
+		p={del:true,add:false,edit:false,search:true, alertcap:' to edit:', alerttext:' . . . click on a row to highlight' }
+	}
+	$(obj).jqGrid({
+	        width: 600,
+	        height: 240,
+	        rownumbers: true, 
+	   		url:'<?php echo $this->baseUrl() ?>/usuarios/localizar/'+parametros,
+	   		mtype: 'GET',
+	        datatype: 'json',
+	   		colNames:['id', 'Nome','E-mail', 'login','Ações '],
+		   	colModel:[
+				{name:'id',index:'id', width:20, editable: false,search:false},
+		   		{name:'nome',index:'nome', width:160, editable: true,editoptions:{size:"20",maxlength:"30"}},
+		   		{name:'email',index:'email', width:180, editable: true, editrules:{email: true}, editoptions:{size:"30",maxlength:"50"}},
+		   		{name:'username',index:'username', width:100, editable: false},
+		   		{name:'act',index:'act', width:75,sortable:false,editable: false,search:false},
+		   		],
+		   	pager: pg,
+            sortname: 'nome',
+            sortorder: "asc",
+            viewrecords: true,
+            altRows: true,
+            viewsortcols: [true,'horizontal',true],
+		   	rowNum:10,
+			rowList : [20,30,50],
+            gridview: true,
+            hidegrid: true,
+            emptyrecords: "Nenhum usuário encontrado",
+            // footerrow:true,
+        	editurl:'<?php echo $this->baseUrl() ?>/usuarios/salvar',
+        	forceFit: true,
+			rownumWidth: 30,
+			caption: 'Usuários',
+			toolbar: [true,"top"],
+			gridComplete: function()
+							{
+								if(obj.id=='excluidos') return;
+								
+								var ids = $(obj).jqGrid('getDataIDs');
+								for(var i=0;i < ids.length;i++){
+									var cl = ids[i];
+									bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix">'
+									bar =bar+ '<a href="javascript:;" id="editar_'+ids[i]+'"  onclick="bt_edit('+ids[i]+');" rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></a>'
+									bar =bar+ '<a href="javascript:;" id="excluir_'+ids[i]+'"  rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-trash"></span></a></div>'
 
-$('.tabela_padrao').dataTable( {
-	"bPaginate": true,
-	"bLengthChange": false,
-	"bFilter": true,
-	"bSort": true,
-	"bInfo": true,
-	"bAutoWidth": false,
-	"bJQueryUI": true,
-	"oLanguage": {
-		"sLengthMenu": "Mostrar _MENU_ registros por página",
-		"sZeroRecords": "Não encontrado - desculpe",
-		"sInfo": "Mostrando _START_ até _END_ de _TOTAL_ registros",
-		"sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-		"sInfoFiltered": "(filtrado de _MAX_ registros totais)"
-	}	 } );
+									
+									$(obj).jqGrid('setRowData',ids[i],{act:bar});
 
+									$('#excluir_'+ids[i]).click(function(){
+											$(obj).jqGrid('delGridRow',ids[i]);
+										})
+									
+								}	
+							}
+
+	});
+
+	 $(obj).navGrid("#"+pg.id, p,
+			 {}, // edit options
+			 {}, // add options
+			 {top:20,left:150,reloadAfterSubmit:false,jqModal:false, closeOnEscape:true}, // del options
+			 {top:20,left:150,jqModal:false,closeOnEscape:true}, // search options
+			 {top:20,left:150,dataheight:200,width:400,jqModal:false,closeOnEscape:true}
+			 );
+	 $(obj).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
+	 if(obj.id=='excluidos'){
+	 	$(obj).jqGrid('setGridState','hidden').trigger("reloadGrid")
+	 }
+	 
+	
+}
+ 
 </script>
-<p><a href="<?php echo $this->url(array('action'=>'add'));?>">Adicionar Usuário</a></p>
-<table class="tabela_padrao">
-	<caption>Usuarios Cadastrados</caption>
-	<tr>
-		<th>Usuario</th>
-		<th>E-mail</th>
-		<th>Login</th>
-		<th>&nbsp;</th>
-	</tr>
-<?php foreach($this->usuarios as $usuario) : ?>
-	<tr>
-		<td><?php echo $this->escape($usuario->nome);?></td>
-		<td><?php echo $this->escape($usuario->email);?></td>
-		<td><?php echo $this->escape($usuario->username);?></td>
-		<td>
-			<a href="<?php echo $this->url(array('action'=>'edit', 'id'=>$usuario->id));?>">Editar</a>
-			<a href="<?php echo $this->url(array('action'=>'delete', 'id'=>$usuario->id));?>">Apagar</a>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>
 
-<hr></hr>
-<table class="tabela_padrao">
-	<caption>Usuarios Excluídos</caption>
-	<tr>
-		<th>Usuario</th>
-		<th>E-mail</th>
-		<th>Login</th>
-		<th>&nbsp;</th>
-	</tr>
-<?php foreach($this->usuarios as $usuario) : ?>
-	<tr>
-		<td><?php echo $this->escape($usuario->nome);?></td>
-		<td><?php echo $this->escape($usuario->email);?></td>
-		<td><?php echo $this->escape($usuario->username);?></td>
-		<td>
-			<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'restaurar',
-							'indicador_id'=>$indicador->id))?>'
-							class='my-button ui-state-default ui-corner-all '
-							title='Configurar'	>
-							<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>Restaurar
-						 </a>";
-			<a href="<?php echo $this->url(array('action'=>'delete', 'id'=>$usuario->id));?>">Apagar</a>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</table>	
+
+<div  id="form_add">
+
+</div>
+<div  id="form_edit">
+
+</div>
+
+
+<div class="tabela_grid">
+	<table  id="habilitados">
+	</table>
+	<div id="pager_habilitados" class="scroll" style="text-align:center;"></div>
+	<input type='hidden' id='parametros_habilitados' value='situacao_id/1'/>
+	
+	<h3>Usuários excluídos</h3>
+	<table  id="excluidos">
+	</table>
+	<div id="pager_excluidos" class="scroll" style="text-align:center;"></div>
+	<input type='hidden' id='parametros_excluidos' value='situacao_id/2'/>
+
+</div>
+

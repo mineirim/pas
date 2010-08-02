@@ -7,7 +7,7 @@ $tema =	'custom-theme' ;
 $this->jQuery ()->enable ();
 
 if ($this->jQuery ()->isEnabled ()) {
-	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
+	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.min.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
 	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.7.2.custom.css' );
 }
 /**
@@ -19,6 +19,7 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.positionBy.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.form.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqModal.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/ui.datepicker-pt-BR.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/grid.locale-pt-br.js')				
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqGrid.min.js')
@@ -43,6 +44,7 @@ if ( !$this->ckeditor ) {
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/site.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/ui.jqgrid.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.tooltip.css' );?>
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jqModal.css' );?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
 
@@ -83,10 +85,10 @@ echo $this->baseUrl ();
 <body>
 	<div id="topo" >
 		<div id="topo-portal">
-
+		<!-- 
 			<iframe width="100%" scrolling="no" height="50" frameborder="0" align="middle" target="_blank" src="http://portal.saude.sp.gov.br/barra-gov/barra.htm">
 			</iframe>
-
+		-->
 		</div>
 		<div id="topo-ico" style="float:left">
 			<img class="topo-logo" alt="" src="<?php echo $this->baseUrl (); ?>/images/titulo_ses.jpg"/>
