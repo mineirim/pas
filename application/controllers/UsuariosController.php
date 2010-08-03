@@ -86,6 +86,7 @@ class UsuariosController extends Zend_Controller_Action
 			} else {
 				$form->populate($formData);
 			}
+			
 		}
     }
     public function editAction()
@@ -213,6 +214,34 @@ class UsuariosController extends Zend_Controller_Action
 			$usuarios = new Model_Usuarios();
 			$this->view->usuario = $usuarios->getUsuario($id);
 		}
+
+        if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}		
+		
+    }
+    public function restoreAction()
+    {
+        $this->view->title = "Restaurar Usuário";
+		$this->view->headTitle($this->view->title, 'PREPEND');
+		if ($this->getRequest()->isPost()) {
+			$restore = $this->getRequest()->getPost('restore');
+			if ($restore == 'Sim') {
+				$id = $this->getRequest()->getPost('id');
+				$usuarios = new Model_Usuarios();
+				$usuarios->restoreUsuario($id);
+			}
+			$this->_redirect('usuarios');
+		} else {
+			$id = $this->_getParam('id');
+			$usuarios = new Model_Usuarios();
+			$this->view->usuario = $usuarios->getUsuario($id);
+		}
+
+        if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}		
+		
     }
     public function localizarAction(){
     	
@@ -260,6 +289,7 @@ class UsuariosController extends Zend_Controller_Action
 		$this->_helper->json($response);
     	
     }
+    /**
     public function salvarAction(){
     	$this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
@@ -287,5 +317,6 @@ class UsuariosController extends Zend_Controller_Action
     	}
 		$this->_helper->json($usuario);
     }
+    */
 }
 

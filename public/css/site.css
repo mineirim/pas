@@ -29,13 +29,25 @@ td{
 	
 }
 
+#tree{
+	float:left;
+	width:200px;
+    position: absolute;
+	top:170px;
+	float:inherit;
+	min-height: 200px;
+	overflow-x: scroll;
+	overflow-y: visible;
+	            
+
+}
+
 #corpo{
 
 	margin: 5px;
 	padding: 0;
 	overflow:   auto;
-	margin-left:30px;
-	
+	margin-left:200px;
 }
 #topo{
 	margin: 0;
@@ -728,3 +740,9 @@ select
     font-size: 1px;
     line-height: 1px;
 }
+
+#formtabs{
+	width: 670px;
+}
+
+

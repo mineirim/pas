@@ -1,0 +1,16 @@
+<div >
+<h2>Confirmar</h2>
+<hr></hr>
+<h3>Restaurar usuário
+'<?php echo $this->escape($this->usuario['username']); ?>  
+(<?php echo $this->escape($this->usuario['nome']); ?>)'?
+</h3>
+	<form action="<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'restore')); ?>" method="post">
+		<div style="left:50px; text-align: center;padding: 30px">
+			<input type="hidden" name="id" value="<?php echo $this->usuario['id']; ?>" />
+			<input type="submit" name="restore" value="Sim"  style="font-size: 1.4em"/>
+			<input type="submit" name="restore" value="Não"  style="font-size: 1.4em"/>
+		
+		</div>
+	</form>
+</div >

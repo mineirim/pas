@@ -2,53 +2,46 @@
 var lastsel;
 var lastsel2
 $(document).ready(function(){
-	$('.tabela_grid table').each(function (){
-		gr = $(this)[0]
-		pg = $('#pager_'+gr.id)[0]
-		parametros= $('#parametros_'+gr.id).val()
-		enableGrid(gr,pg,parametros)
-	})
+	gr = $('#habilitados');
+	pg = $("#pager_habilitados");
+	parametros = "situacao_id/1"
+	enableGrid(gr,pg,parametros)
+	gr = $('#excluidos');
+	pg = $("#pager_excluidos");
+	parametros = "situacao_id/2"
+	enableGrid(gr,pg,parametros)
+
 	
 	$("#t_habilitados").append("<input type='button' id='btn_new' value='Novo' style='height:20px;font-size:-3'/>");
-	$("#t_habilitados").append("<input type='button' id='btn_edit' value='Editar' style='height:20px;font-size:-3'/>");
+	
 	$("#btn_new").click(function(){
-		$('#form_add').load('<?php echo $this->url(array('action'=>'add'));?>').dialog({
-			autoOpen: false,
-			height: 340,
-			width: 450,
-			modal: true,
-			top:0
-		});
-		$('#add_new').dialog('open')
+		fn_acao(false,'add')
 	})
-	$("#btn_edit").click(function(){
-		id = $('#habilitados').jqGrid('getGridParam','selrow')
-		if(id!= null ){
-			bt_edit(id)
-		}else{
-			alert ("Selecione um registro para editar")
-		}
-	})	
 });
-function bt_edit(id){
-	$('#form_edit').load('<?php echo $this->url(array('action'=>'edit'));?>/id/'+id).dialog({
+
+function fn_acao(id,acao){
+	$('#form_acao').html('Aguarde...');
+
+	$('#form_acao').load('<?php echo $this->url(array('action'=>''));?>'+acao+'/id/'+id).dialog({
 		autoOpen: false,
+		title: "Controle de Usuários",
 		height: 340,
-		width: 450,
-		modal: true,
-		top:0
+		width: 550,
+		modal: true
 	});
-	$('#form_edit').dialog('open')
+	$('#form_acao').dialog('open')
+	
 }
+
 function enableGrid(obj,pg, parametros)
 {
 	if(obj.id=='excluidos'){
-		p={del:false,add:false,edit:false,search:true, alertcap:' to edit:', alerttext:' . . . click on a row to highlight' }
+		p={del:false,add:false,edit:false,search:true, alertcap:' para editar :', alerttext:' clique na linha para selecionar' }
 	}else{
-		p={del:true,add:false,edit:false,search:true, alertcap:' to edit:', alerttext:' . . . click on a row to highlight' }
+		p={del:true,add:false,edit:false,search:true, alertcap:' para editar:', alerttext:' . . . clique na linha para selecionar' }
 	}
 	$(obj).jqGrid({
-	        width: 600,
+	        width: 630,
 	        height: 240,
 	        rownumbers: true, 
 	   		url:'<?php echo $this->baseUrl() ?>/usuarios/localizar/'+parametros,
@@ -57,7 +50,7 @@ function enableGrid(obj,pg, parametros)
 	   		colNames:['id', 'Nome','E-mail', 'login','Ações '],
 		   	colModel:[
 				{name:'id',index:'id', width:20, editable: false,search:false},
-		   		{name:'nome',index:'nome', width:160, editable: true,editoptions:{size:"20",maxlength:"30"}},
+		   		{name:'nome',index:'nome', width:190, editable: true,editoptions:{size:"20",maxlength:"30"}},
 		   		{name:'email',index:'email', width:180, editable: true, editrules:{email: true}, editoptions:{size:"30",maxlength:"50"}},
 		   		{name:'username',index:'username', width:100, editable: false},
 		   		{name:'act',index:'act', width:75,sortable:false,editable: false,search:false},
@@ -70,10 +63,7 @@ function enableGrid(obj,pg, parametros)
             viewsortcols: [true,'horizontal',true],
 		   	rowNum:10,
 			rowList : [20,30,50],
-            gridview: true,
-            hidegrid: true,
             emptyrecords: "Nenhum usuário encontrado",
-            // footerrow:true,
         	editurl:'<?php echo $this->baseUrl() ?>/usuarios/salvar',
         	forceFit: true,
 			rownumWidth: 30,
@@ -81,22 +71,28 @@ function enableGrid(obj,pg, parametros)
 			toolbar: [true,"top"],
 			gridComplete: function()
 							{
-								if(obj.id=='excluidos') return;
-								
-								var ids = $(obj).jqGrid('getDataIDs');
-								for(var i=0;i < ids.length;i++){
-									var cl = ids[i];
-									bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix">'
-									bar =bar+ '<a href="javascript:;" id="editar_'+ids[i]+'"  onclick="bt_edit('+ids[i]+');" rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></a>'
-									bar =bar+ '<a href="javascript:;" id="excluir_'+ids[i]+'"  rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-trash"></span></a></div>'
-
-									
-									$(obj).jqGrid('setRowData',ids[i],{act:bar});
-
-									$('#excluir_'+ids[i]).click(function(){
-											$(obj).jqGrid('delGridRow',ids[i]);
-										})
-									
+								obj=this;
+								if(obj.id=='excluidos'){
+									var ids = $(obj).jqGrid('getDataIDs');
+									for(var i=0;i < ids.length;i++){
+										var cl = ids[i];
+										bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix">'
+										bar =bar+ '<a href="javascript:;" id="restaurar_'+cl+'"  onclick="fn_acao('+cl+',\'restore\');" rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-refresh"></span></a></div>'
+										
+										$(obj).jqGrid('setRowData',ids[i],{act:bar});
+									}
+								}else{
+									var ids = $(obj).jqGrid('getDataIDs');
+									for(var i=0;i < ids.length;i++){
+										var cl = ids[i];
+										bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix">'
+										bar =bar+ '<a href="javascript:;" id="editar_'+cl+'"  onclick="fn_acao('+cl+',\'edit\');" rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></a>'
+										bar =bar+ '<a href="javascript:;" id="excluir_'+cl+'" onclick="fn_acao('+cl+',\'delete\');"  rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-trash"></span></a></div>'
+										
+										$(obj).jqGrid('setRowData',ids[i],{act:bar});
+	
+										
+									}
 								}	
 							}
 
@@ -120,25 +116,28 @@ function enableGrid(obj,pg, parametros)
 </script>
 
 
-<div  id="form_add">
-
-</div>
-<div  id="form_edit">
+<div  id="form_acao">
 
 </div>
 
+<div id="formtabs" style="min-height: 200px">
+<ul>
+	<li><a href="#tabs-0"><b>Ativos</b></a></li>
+	<li><a href="#tabs-1"><b>Excluídos</b></a></li>
+</ul>
 
-<div class="tabela_grid">
+
+<div id="tabs-0" style="overflow: hidden">
 	<table  id="habilitados">
 	</table>
 	<div id="pager_habilitados" class="scroll" style="text-align:center;"></div>
-	<input type='hidden' id='parametros_habilitados' value='situacao_id/1'/>
 	
-	<h3>Usuários excluídos</h3>
+</div>
+<div id="tabs-1" style="overflow: hidden">	
 	<table  id="excluidos">
 	</table>
 	<div id="pager_excluidos" class="scroll" style="text-align:center;"></div>
 	<input type='hidden' id='parametros_excluidos' value='situacao_id/2'/>
 
 </div>
-
+</div>

@@ -3,7 +3,7 @@ $(document).ready(function(){
 		
 		
 		//$('#tabela').corner("round 8px").parent().css('padding', '5px').corner("round 10px");
-		
+		/**
 		$('.fg-button').hover(
 				function(){ 
 					$(this).addClass("ui-state-hover"); 
@@ -21,11 +21,25 @@ $(document).ready(function(){
 					$(this).removeClass("ui-state-hover"); 
 				}
 		);
+		*/
+		$('#tree').jstree({ 
+			"plugins" : [ "themes", "html_data", "ui", "cookies" ]
+		})
+		
+		$("#tree").jstree("set_theme","apple");
+		
+		
+		$(".bt-menu").click(function(){  
+		    
+			$("#corpo").load(this.href);  
+		    
+		}); 		
 		
 		$(function() {
 			
 			$("#formtabs").tabs({
-				collapsible: true				
+				collapsible: true
+				
 			});
 			enableTabs();
 		});
@@ -149,7 +163,6 @@ function showDescritivo(data,result,obj){
 function enableTabs(){
 	tabs=[];
 	$("#formtabs form").each( function(){
-		
 		dep = $(this).children('input#dependents');
 		if(dep.length>0){
 			tabs = dep[0].value.split(',')

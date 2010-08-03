@@ -6,7 +6,7 @@ class App_Myacl extends Zend_Acl {
 	private $_paginas;
 	public function __construct(Zend_Auth $auth) {
 		
-
+		
 		/**
 		 * verifica se existe usuário autenticado e aplica as regras
 		 */
@@ -105,8 +105,8 @@ class App_Myacl extends Zend_Acl {
 			
 			
 		}
-	
 		
 	}
+	
 }
 

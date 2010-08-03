@@ -104,6 +104,12 @@ class Model_Usuarios extends App_DefaultModel
 		$usuario->situacao_id = 2;
 		$usuario->save();
 	}
+	function restoreUsuario($id)
+	{
+		$usuario = $this->find($id)->current();
+		$usuario->situacao_id = 1;
+		$usuario->save();
+	}
 	private function makePassword($password){
 		$this->salt = md5(time());
 		$this->password_md5 = md5($password . $this->salt);

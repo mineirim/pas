@@ -24,7 +24,11 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/grid.locale-pt-br.js')				
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqGrid.min.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.tooltip.pack.js')
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.hotkeys.js')
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jstree.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
+				
 				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
 
 echo $this->JQuery ();
@@ -122,8 +126,14 @@ echo $this->baseUrl ();
 		<br/>
 		
 	</div>
-	
-	<div id="corpo" class="ui-widget ui-corner-all">
+	<div id='tree'  style="float: left;">
+			
+			<?php
+			echo $this->navigation ()->menu ()->setUlClass ( 'xx' )->setMaxDepth(4);
+			?>
+			
+	</div>
+	<div id="corpo" class="ui-widget ui-corner-all" style="float: left;">
 	
 	<h3><?php
 	echo $this->escape ( $this->title );
@@ -134,25 +144,24 @@ echo $this->baseUrl ();
 		
 	
 	</div>
-	 
+	 <!-- 
 	<div id="menu1">
 	 
-	<div id="barra" class='menu-barra ui-widget ui-widget-header '>
-		<div class="ui-state-default ui-corner-all" style="text-align:center">
-			<span class="ui-icon ui-icon-home">menu</span>
-			<font size="1">M<br>E<br>N<br>U<br></font>
-		</div> 
-	</div>
-	 
-	<div style="float: left;">
-		<ul>
-			<?php
-			echo $this->navigation ()->menu ()->setUlClass ( 'esconder' )->setMaxDepth(2);
-			?>
-		</ul>
-	</div>
+		<div id="barra" class='menu-barra ui-widget ui-widget-header '>
+			<div class="ui-state-default ui-corner-all" style="text-align:center">
+				<span class="ui-icon ui-icon-home">menu</span>
+				<font size="1">M<br>E<br>N<br>U<br></font>
+			</div> 
+		</div>
+		 
+		<div style="float: left;">
+			<ul>
+				
+			</ul>
+		</div>
 	
 	</div>
+	 -->
  	
 </body>
 </html>
