@@ -27,6 +27,9 @@ class IndicadoresController extends Zend_Controller_Action
         /* Initialize action controller here */
         $this->indicadores = new Model_Indicadores ( );
         $this->arr_campos = array('n' =>'Numerador','d'=>'Denominador','r'=>'Resultado');
+    	if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}
     }
 
     public function indexAction()

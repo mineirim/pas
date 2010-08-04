@@ -25,7 +25,9 @@ class ObjetivosEspecificosController extends Zend_Controller_Action
     	$this->formDescritivo->addElement($form_objetivoespecifico_id);
     	$this->view->formDescritivo = $this->formDescritivo;
     	
-    	 
+    	if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	} 
     }
 
     public function indexAction()

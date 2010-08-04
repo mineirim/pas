@@ -18,7 +18,9 @@ class MetasController extends Zend_Controller_Action
     	$this->form = new Form_Metas();
     	
     	
-    	
+    	if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}
     	 
     }
 

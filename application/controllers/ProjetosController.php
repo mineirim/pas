@@ -33,7 +33,9 @@ class ProjetosController extends Zend_Controller_Action {
 		$this->view->frmIndicador =$this->frmIndicador;    	
     	
     	    	
-		
+		if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}	
 	}
 	
 	public function indexAction() {

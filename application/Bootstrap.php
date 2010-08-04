@@ -115,43 +115,43 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					'module' => 'default',
 					'controller' => 'index',
 					'action' => 'index',
-					'order' => -100, // make sure home is the first page,
-					'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
+					'order' => -100 // make sure home is the first page,
+					
 					),
 					array(
 					'label' => 'Administração',
 					'module' => 'default',
 					'controller' => 'index',
 					'action' => 'index',
-					'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu',
+					
 					'pages' => array(
 									array(
 										'label' => 'Alterar senha',
 										'module' => 'default',
 										'controller' => 'usuarios',
 										'action' => 'changepassword',
-										'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+										'class'=>'bt-menu-tree'
 									),
 									array(
 										'label' => 'Usuários',
 										'module' => 'default',
 										'controller' => 'usuarios',
 										'action' => 'index',
-										'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu',
+										'class'=>'bt-menu-tree',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
 															'module' => 'default',
 															'controller' => 'usuarios',
 															'action' => 'index',
-															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
+															'class'=>'bt-menu-tree'
 														),
 														array(
 															'label' => 'Adicionar',
 															'module' => 'default',
 															'controller' => 'usuarios',
 															'action' => 'add',
-															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
+															'class'=>'bt-menu-tree'
 														)
 														
 													)
@@ -161,21 +161,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 										'module' => 'default',
 										'controller' => 'grupos',
 										'action' => 'index',
-										'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu',
+										'class'=>'bt-menu-tree',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
 															'module' => 'default',
 															'controller' => 'grupos',
 															'action' => 'index',
-															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
+															'class'=>'bt-menu-tree'
 														),
 														array(
 															'label' => 'Adicionar',
 															'module' => 'default',
 															'controller' => 'grupos',
 															'action' => 'add',
-															'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
+															'class'=>'bt-menu-tree'
 														)
 												   )
 									)
@@ -197,7 +197,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'module' => 'default',
 							'controller' => 'plano',
 							'action' => 'programas',
-							'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu'
+							'class'=>'bt-menu-tree'
 						);
 					
 		$pages_din['pages']=array();
@@ -209,7 +209,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'controller'=>'plano',
 							'action'=>'programa',
 							'params'=>array('programa_id'=>$programa->id),
-							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+							'class'=>'bt-menu-tree'
 							);
 							
 			/**
@@ -222,7 +222,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'controller'=>'plano',
 							'action'=>'projeto',
 							'params'=>array('projeto_id'=>$projeto->id),
-							'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+							'class'=>'bt-menu-tree'
 							);	
 				
 				/**
@@ -236,7 +236,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 								'controller'=>'plano',
 								'action'=>'objetivos-especificos',
 								'params'=>array('objetivo_especifico_id'=>$objetivo->id),
-								'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+								'class'=>'bt-menu-tree'
 								);
 					/**
 					 * navegação em metas
@@ -248,7 +248,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 								'controller'=>'plano',
 								'action'=>'meta',
 								'params'=>array('meta_id'=>$meta->id),
-								'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+								'class'=>'bt-menu-tree'
 								);
 						/**
 						 * navegação em operações
@@ -260,7 +260,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 											'controller'=>'plano',
 											'action'=>'operacao',
 											'params'=>array('operacao_id'=>$operacao->id),
-											'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+											'class'=>'bt-menu-tree'
 											);
 							/**
 							 * navegação em atividades
@@ -273,7 +273,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 											'controller'=>'plano',
 											'action'=>'atividade',
 											'params'=>array('atividade_id'=>$atividade->id),
-											'class'=>'ui-widget ui-widget-header ui-state-default ui-corner-all bt-menu'
+											'class'=>'bt-menu-tree'
 											);
 							$arr_operacao['pages'][]=$arr_atividades;			
 							}
@@ -293,13 +293,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							 'module'=>'default',
 							 'controller'=>'indicadores',
 							 'action'=>'index',
-							 'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu');
+							 'class'=>'bt-menu-tree');
 		$relatorios = array('label'=>'Relatórios',
 							 'title'=>'Relatórios',
 							 'module'=>'default',
 							 'controller'=>'relatorios',
 							 'action'=>'index',
-							 'class'=>'ui-widget ui-widget-header  ui-state-default ui-corner-all bt-menu');
+							 'class'=>'bt-menu-tree');
 		
 
 

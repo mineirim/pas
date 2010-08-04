@@ -24,7 +24,12 @@ class ProgramasController extends Zend_Controller_Action {
     	$this->view->formDescritivo = $this->formDescritivo;
 		$this->frmIndicador = new Form_Indicador();
 		$this->view->frmIndicador =$this->frmIndicador;    	
+
 		
+    	if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}
+    			
 	}
 	
 	public function indexAction() {

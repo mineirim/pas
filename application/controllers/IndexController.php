@@ -5,6 +5,9 @@ class IndexController extends Zend_Controller_Action
 
     public function init()
     {
+    	if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}
         /* Initialize action controller here */
     }
 

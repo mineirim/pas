@@ -9,7 +9,9 @@ class FavoritosController extends Zend_Controller_Action {
                     ->initContext();    	
         /* Initialize action controller here */
     	
-		
+		if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}
 	}
 	
 	/**

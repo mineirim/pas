@@ -13,6 +13,9 @@ class UsuariosController extends Zend_Controller_Action
 		
  		//if(!$auth->hasIdentity())
  			//$this->_redirect("auth");
+    	if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}
     }
 
 

@@ -1,0 +1,81 @@
+<ul id='grp_menu_0' class="navigation">
+
+<?php
+
+$html = array();
+$ix=0;
+
+foreach ($this->container as $page) 
+{
+	$ix++;
+    $html[] = "<li id='menu_$ix'>";
+    $html[] = $this->menu()->htmlify($page) . PHP_EOL;
+
+	$arr =submenu($page,$ix);
+	$html = array_merge($html,$arr);
+	
+    $html[] = "</li>";
+}
+
+echo join(PHP_EOL, $html);
+
+
+
+function submenu($page, $ix){
+	static $ixgrp=0;
+	$html = array();
+	if(!empty($page->pages)){
+		$ixgrp++;
+		$html[] = "<ul  id='grp_menu_$ixgrp'>";
+        foreach ($page->pages as $subpage) 
+        {
+        	$ix++;	
+            $html[] = "<li id='menu_$ix'>";
+            $html[] = $this->menu()->htmlify($subpage) . PHP_EOL;
+        }
+        $html[] = "</ul>";
+	}	
+	return $html;
+}
+?>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

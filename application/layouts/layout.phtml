@@ -126,42 +126,34 @@ echo $this->baseUrl ();
 		<br/>
 		
 	</div>
-	<div id='tree'  style="float: left;">
+	<table>
+	  <tr>
+	    <td>
+	      
+			<div  style="float: left;">
+				<div id='menu_tree'>
+					<?php
+					$partial = array('_navtree.phtml', 'default');
+					$this->navigation()->menu()->setPartial($partial);
+					echo $this->navigation ()->menu ();
+					?>
+				</div>	
+			</div>
+		</td>
+		<td>
+			<div id="corpo" class="ui-widget ui-corner-all" style="float: left;">
 			
-			<?php
-			echo $this->navigation ()->menu ()->setUlClass ( 'xx' )->setMaxDepth(4);
-			?>
-			
-	</div>
-	<div id="corpo" class="ui-widget ui-corner-all" style="float: left;">
-	
-	<h3><?php
-	echo $this->escape ( $this->title );
-	?></h3>
-		<?php
-		echo $this->layout ()->content;
-		?>
-		
-	
-	</div>
-	 <!-- 
-	<div id="menu1">
-	 
-		<div id="barra" class='menu-barra ui-widget ui-widget-header '>
-			<div class="ui-state-default ui-corner-all" style="text-align:center">
-				<span class="ui-icon ui-icon-home">menu</span>
-				<font size="1">M<br>E<br>N<br>U<br></font>
-			</div> 
-		</div>
-		 
-		<div style="float: left;">
-			<ul>
-				
-			</ul>
-		</div>
-	
-	</div>
-	 -->
- 	
+			<h3><?php
+			echo $this->escape ( $this->title );
+			?></h3>
+				<?php
+				echo $this->layout ()->content;
+				?>
+			</div>
+		</td>
+      </tr>
+	</table>
 </body>
 </html>
+
+

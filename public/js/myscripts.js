@@ -22,15 +22,15 @@ $(document).ready(function(){
 				}
 		);
 		*/
-		$('#tree').jstree({ 
+		$('#menu_tree').jstree({ 
 			"plugins" : [ "themes", "html_data", "ui", "cookies" ]
 		})
 		
-		$("#tree").jstree("set_theme","apple");
+		$("#menu_tree").jstree("set_theme","classic");
 		
 		
-		$(".bt-menu").click(function(){  
-		    
+		$(".bt-menu-tree").click(function(){  
+			$("#corpo").html('Aguarde...');
 			$("#corpo").load(this.href);  
 		    
 		}); 		

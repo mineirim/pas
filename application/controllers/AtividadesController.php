@@ -10,6 +10,10 @@ class AtividadesController extends Zend_Controller_Action {
         /* Initialize action controller here */
     	$this->form = new Form_Atividades();
     	$this->form->addElement('hidden','operacao_id');
+    	if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}
+    	
 		
 	}
 	

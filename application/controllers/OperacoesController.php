@@ -12,7 +12,9 @@ class OperacoesController extends Zend_Controller_Action {
 
     	
 		
-    	    	
+		if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}    	
 		
 	}
 	

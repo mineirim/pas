@@ -1,0 +1,116 @@
+<ul id='grp_menu_0' class="navigation">
+
+<?php
+
+$html = array();
+$ix=0;
+$ixgrp=0;
+foreach ($this->container as $page) 
+{
+	$ix++;
+    $html[] = "<li id='menu_$ix'>";
+    $html[] = $this->menu()->htmlify($page) . PHP_EOL;
+
+    if (!empty($page->pages))
+    {
+		$ixgrp++;
+        $html[] = "<ul  id='grp_menu_$ixgrp'>";
+        foreach ($page->pages as $subpage) 
+        {
+        	$ix++;	
+            $html[] = "<li id='menu_$ix'>";
+            $html[] = $this->menu()->htmlify($subpage) . PHP_EOL;
+                if (!empty($subpage->pages))
+			    {
+					$ixgrp++;
+			        $html[] = "<ul  id='grp_menu_$ixgrp'>";
+			        foreach ($subpage->pages as $subpage1) 
+			        {
+			        	$ix++;	
+			            $html[] = "<li id='menu_$ix'>";
+			            $html[] = $this->menu()->htmlify($subpage1) . PHP_EOL;
+			            
+					    if (!empty($subpage1->pages))
+					    {
+							$ixgrp++;
+					        $html[] = "<ul  id='grp_menu_$ixgrp'>";
+					        foreach ($subpage1->pages as $subpage2) 
+					        {
+					        	$ix++;	
+					            $html[] = "<li id='menu_$ix'>";
+					            $html[] = $this->menu()->htmlify($subpage2) . PHP_EOL;
+					            
+						        if (!empty($subpage2->pages))
+							    {
+									$ixgrp++;
+							        $html[] = "<ul  id='grp_menu_$ixgrp'>";
+							        foreach ($subpage2->pages as $subpage3) 
+							        {
+							        	$ix++;	
+							            $html[] = "<li id='menu_$ix'>";
+							            $html[] = $this->menu()->htmlify($subpage3) . PHP_EOL;
+							        }
+							        $html[] = "</ul>";
+							    }					            
+					            
+					            
+					        }
+					        $html[] = "</ul>";
+					    }
+								            
+			            
+			        }
+			        $html[] = "</ul>";
+			    }
+			            
+        }
+        $html[] = "</ul>";
+    }
+
+    $html[] = "</li>";
+}
+
+echo join(PHP_EOL, $html);
+
+?>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
