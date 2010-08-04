@@ -123,7 +123,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					'module' => 'default',
 					'controller' => 'index',
 					'action' => 'index',
-					
+					'class'=>'folder',
 					'pages' => array(
 									array(
 										'label' => 'Alterar senha',
@@ -137,7 +137,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 										'module' => 'default',
 										'controller' => 'usuarios',
 										'action' => 'index',
-										'class'=>'bt-menu-tree',
+										'class'=>'folder',
 										'pages' => array(
 														array(
 															'label' => 'Listar',

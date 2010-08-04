@@ -3,11 +3,11 @@ var lastsel;
 var lastsel2
 $(document).ready(function(){
 	gr = $('#habilitados');
-	pg = $("#pager_habilitados");
+	pg = "#pager_habilitados";
 	parametros = "situacao_id/1"
 	enableGrid(gr,pg,parametros)
 	gr = $('#excluidos');
-	pg = $("#pager_excluidos");
+	pg = "#pager_excluidos";
 	parametros = "situacao_id/2"
 	enableGrid(gr,pg,parametros)
 
@@ -61,7 +61,7 @@ function enableGrid(obj,pg, parametros)
             viewrecords: true,
             altRows: true,
             viewsortcols: [true,'horizontal',true],
-		   	rowNum:10,
+		   	rowNum:8,
 			rowList : [20,30,50],
             emptyrecords: "Nenhum usuário encontrado",
         	editurl:'<?php echo $this->baseUrl() ?>/usuarios/salvar',
@@ -98,16 +98,18 @@ function enableGrid(obj,pg, parametros)
 
 	});
 
-	 $(obj).navGrid("#"+pg.id, p,
+	 $(obj).navGrid(pg, p,
 			 {}, // edit options
 			 {}, // add options
 			 {top:20,left:150,reloadAfterSubmit:false,jqModal:false, closeOnEscape:true}, // del options
 			 {top:20,left:150,jqModal:false,closeOnEscape:true}, // search options
 			 {top:20,left:150,dataheight:200,width:400,jqModal:false,closeOnEscape:true}
 			 );
-	 $(obj).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
+	 
 	 if(obj.id=='excluidos'){
 	 	$(obj).jqGrid('setGridState','hidden').trigger("reloadGrid")
+	 }else{
+		 $(obj).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
 	 }
 	 
 	

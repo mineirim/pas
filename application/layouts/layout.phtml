@@ -26,7 +26,7 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.tooltip.pack.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.hotkeys.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jstree.js')
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.treeview.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
 				
 				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
@@ -49,6 +49,8 @@ if ( !$this->ckeditor ) {
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/ui.jqgrid.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.tooltip.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jqModal.css' );?>
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.treeview.css' );?>
+
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
 
@@ -115,7 +117,7 @@ echo $this->baseUrl ();
 			&nbsp;&nbsp;
 			<?php echo $this->myTooltip(); ?>
 		</div>
-		<div style="position: absolute; top: 100px; left: 15px; width: 800px;" >
+		<div  style="position: absolute; top: 100px; left: 15px; width: 800px;" >
 			<font size="1">
 			<?php
 			echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
@@ -130,7 +132,7 @@ echo $this->baseUrl ();
 	  <tr>
 	    <td>
 	      
-			<div  style="float: left;">
+			<div  style="float: left;margin-top:50px;min-height: 300px " class="ui-widget ui-widget-content ui-corner-all">
 				<div id='menu_tree'>
 					<?php
 					$partial = array('_navtree.phtml', 'default');

@@ -22,19 +22,24 @@ $(document).ready(function(){
 				}
 		);
 		*/
-		$('#menu_tree').jstree({ 
-			"plugins" : [ "themes", "html_data", "ui", "cookies" ]
-		})
+	
+	
+		$('#menu_tree').treeview({
+			animated: "fast",
+			collapsed: true,
+			unique: true,
+			persist: "cookie"
+		});
 		
-		$("#menu_tree").jstree("set_theme","classic");
 		
 		
+/**		
 		$(".bt-menu-tree").click(function(){  
 			$("#corpo").html('Aguarde...');
 			$("#corpo").load(this.href);  
 		    
 		}); 		
-		
+	*/	
 		$(function() {
 			
 			$("#formtabs").tabs({

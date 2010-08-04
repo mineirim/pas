@@ -1,4 +1,4 @@
-<ul id='grp_menu_0' class="navigation">
+<ul id='grp_menu_0' class="navigation filetree">
 
 <?php
 
@@ -8,8 +8,8 @@ $ixgrp=0;
 foreach ($this->container as $page) 
 {
 	$ix++;
-    $html[] = "<li id='menu_$ix'>";
-    $html[] = $this->menu()->htmlify($page) . PHP_EOL;
+    $html[] = "<li id='menu_$ix'><span class='folder'>";
+    $html[] = $this->menu()->htmlify($page) . PHP_EOL."</span>";
 
     if (!empty($page->pages))
     {
@@ -18,8 +18,8 @@ foreach ($this->container as $page)
         foreach ($page->pages as $subpage) 
         {
         	$ix++;	
-            $html[] = "<li id='menu_$ix'>";
-            $html[] = $this->menu()->htmlify($subpage) . PHP_EOL;
+            $html[] = "<li id='menu_$ix'><span class='folder' >";
+            $html[] = $this->menu()->htmlify($subpage)."</span>" . PHP_EOL;
                 if (!empty($subpage->pages))
 			    {
 					$ixgrp++;
@@ -27,8 +27,8 @@ foreach ($this->container as $page)
 			        foreach ($subpage->pages as $subpage1) 
 			        {
 			        	$ix++;	
-			            $html[] = "<li id='menu_$ix'>";
-			            $html[] = $this->menu()->htmlify($subpage1) . PHP_EOL;
+			            $html[] = "<li id='menu_$ix'><span class='folder' >";
+			            $html[] = $this->menu()->htmlify($subpage1)."</span>" . PHP_EOL;
 			            
 					    if (!empty($subpage1->pages))
 					    {
@@ -37,8 +37,8 @@ foreach ($this->container as $page)
 					        foreach ($subpage1->pages as $subpage2) 
 					        {
 					        	$ix++;	
-					            $html[] = "<li id='menu_$ix'>";
-					            $html[] = $this->menu()->htmlify($subpage2) . PHP_EOL;
+					            $html[] = "<li id='menu_$ix'><span class='folder' >";
+					            $html[] = $this->menu()->htmlify($subpage2)."</span>" . PHP_EOL;
 					            
 						        if (!empty($subpage2->pages))
 							    {
@@ -47,7 +47,7 @@ foreach ($this->container as $page)
 							        foreach ($subpage2->pages as $subpage3) 
 							        {
 							        	$ix++;	
-							            $html[] = "<li id='menu_$ix'>";
+							            $html[] = "<li id='menu_$ix'><span class='file' >";
 							            $html[] = $this->menu()->htmlify($subpage3) . PHP_EOL;
 							        }
 							        $html[] = "</ul>";
