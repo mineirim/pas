@@ -19,6 +19,7 @@ class Form_ObjetivosEspecificos extends Zend_Form
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
 			->setAttrib('rows',4)
+			->setAttrib('cols',70)
 			->addErrorMessage('Descrição não pode ficar vazio');
 			
 		$menu = new Zend_Form_Element_Text('menu');
@@ -27,6 +28,7 @@ class Form_ObjetivosEspecificos extends Zend_Form
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
+			->setAttrib('cols',70)
 			->addErrorMessage('Menu não pode ficar vazio');
 			
 		$recursos = new Zend_Form_Element_Textarea('recursos');
@@ -35,12 +37,14 @@ class Form_ObjetivosEspecificos extends Zend_Form
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
 			->setAttrib('rows',4)
+			->setAttrib('cols',70)
 			->addErrorMessage('Recursos não pode ficar vazio');
 			
 		$cronograma = new Zend_Form_Element_Textarea('cronograma');
 		$cronograma->setLabel('Cronograma')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
+			->setAttrib('cols',70)
 			->setAttrib('rows',4);
 			
 			

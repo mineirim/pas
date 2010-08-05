@@ -16,7 +16,8 @@ class Form_Geral extends Zend_Form
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
-			->setAttrib('rows',4);
+			->setAttrib('rows',4)
+			->setAttrib('cols',70);
 		
 		$menu = new Zend_Form_Element_Text('menu');
 		$menu->setLabel('Descrição no menu')
@@ -29,7 +30,8 @@ class Form_Geral extends Zend_Form
 		$interfaces->setLabel('Interfaces')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
-			->setAttrib('rows',4);
+			->setAttrib('rows',4)
+			->setAttrib('cols',70);
 		
 			
 			

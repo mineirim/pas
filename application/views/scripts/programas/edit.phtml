@@ -1,4 +1,4 @@
-<div id="formtabs" style="width: 800px; height: 100%">
+<div id="formtabs" style="height: 100%">
 <ul>
 	<li><a href="#tabs-0">Programa</a></li>
 	<li><a href="#tabs-1">Objetivos</a></li>
@@ -68,9 +68,13 @@ echo $this->form->getId ();
 		<div style='display: none'>
 			<?php echo $this->formDescritivo->id?>
 			<input type=hidden name='programa_id'	value='<?php echo $this->programa->id?>'>
-			</div>
-			<?php	echo $this->formDescritivo->descricao;	?>
-			<?php	echo $this->formDescritivo->submit;	?>			
+		</div>
+		<fieldset>
+		<div style='clear:both'>
+		<?php	echo $this->formDescritivo->descricao;	?>
+		</div>
+		<?php	echo $this->formDescritivo->submit;	?>
+		</fieldset>			
 		</form>
 <table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
 	<tr>
@@ -80,7 +84,7 @@ echo $this->form->getId ();
 	<?php
 			foreach ( $this->programa->findModel_ObjetivosPrograma () as $objetivo ) {
 				?>
-			<tr>
+			<tr class='lst'>
 		<td><?php	echo $this->lineToolbar ( 'programas', $objetivo )?></td>
 		<td><?php	echo $objetivo->descricao;	?></td>
 	</tr>
@@ -99,8 +103,7 @@ echo $this->form->getId ();
 			<?php
 			if (isset ( $this->programa )) {
 				?>
-			<form id='frmmetas'
-		enctype='<?php
+			<form id='frmmetas' enctype='<?php
 				echo $this->formDescritivo->getEnctype ();
 				?>'
 		action='<?php
@@ -114,9 +117,15 @@ echo $this->form->getId ();
 		             value='<?php
 				     echo $this->programa->id?>'>
 	         </div>
+	         <fieldset>
+	         <div style='clear:both'>
 				<?php echo $this->formDescritivo->descricao; ?>
+			</div>
+			
+				<?php echo $this->formDescritivo->submit;?>
 				
-				<?php echo $this->formDescritivo->submit;?>			
+				
+			</fieldset>			
 			</form>
 			<br>
 			<table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
@@ -127,7 +136,7 @@ echo $this->form->getId ();
 				<?php
 						foreach ( $this->programa->findModel_MetasPrograma () as $meta ) {
 							?>
-						<tr>
+						<tr class='lst'>
 							<td><?php echo $this->lineToolbar ( 'programas', $meta )?></td>
 							<td><?php echo $meta->descricao; ?></td>
 						</tr>
@@ -145,10 +154,18 @@ echo $this->form->getId ();
 						<?php echo $this->frmIndicador->id?>
 						<input type=hidden name='programa_id' value='<?php echo $this->programa->id?>'>
 					</div>
+					
+					<fieldset>
+					<div style='clear:both'>
 					<?php echo $this->frmIndicador->descricao;?>
 					<br>
+					
+					
 					<?php echo $this->frmIndicador->tipo_indicador_id;	?>			
-					<?php echo $this->frmIndicador->submit;	?>			
+					</div>
+					<?php echo $this->formDescritivo->submit;?>
+					
+					</fieldset>			
 				</form>
                 </div>
 				
@@ -163,7 +180,7 @@ echo $this->form->getId ();
 				foreach ( $this->programa->findManyToManyRowset ( 'Model_Indicadores', 'Model_IndicadoresPrograma' ) as $indicador ) {
 					if($indicador->situacao_id==1){	
 				?>
-						<tr>
+						<tr class='lst'>
 						<td style="width: 2%"><?php	echo $this->lineToolbar ( 'programas', $indicador )?></td>
 						<td style="width: 2%"><?php	echo $this->indicadoresToolbar ( $indicador )?>	</td>
 						<td align="left"><?php echo $indicador->descricao;	?></td>

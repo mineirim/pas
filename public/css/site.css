@@ -32,15 +32,13 @@ td{
 	
 }
 
-#tree{
-	float:left;
+#menu_tree{
 	width:200px;
-    position: absolute;
-	top:170px;
 	float:inherit;
 	min-height: 200px;
 	overflow-x: scroll;
 	overflow-y: visible;
+	max-width: 200px;
 	            
 
 }
@@ -744,7 +742,15 @@ select
 }
 
 #formtabs{
-	width: 670px;
+	width: 540px !important; 
 }
 
 
+table.bordasimples {border-collapse: collapse; width: 90%}
+
+table.bordasimples tr td,table.bordasimples tr th {border:1px solid #FF0000;vertical-align: middle}
+
+
+.lst{
+ background-color: #ece9d8;
+}

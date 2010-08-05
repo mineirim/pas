@@ -1,4 +1,4 @@
-<div id="formtabs" style="width: 800px; height:100%">
+<div id="formtabs" style="height:100%">
 	<ul>
 		<li><a href="#tabs-0" >Projeto</a></li>
 		<li><a href="#tabs-1">Objetivos</a></li>
@@ -46,8 +46,14 @@
 			<?php echo $this->formDescritivo->id ?>
 			<input type=hidden name='projeto_id' value='<?php echo $this->projeto->id?>'>
 			</div>
+			<fieldset>
+			<div style='clear:both'>
 			<?php echo $this->formDescritivo->descricao;?>
-			<?php echo $this->formDescritivo->submit;?>			
+			</div>
+			
+			<?php echo $this->formDescritivo->submit;?>
+					
+			</fieldset>	
 		</form>	
 		<table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
 			<tr>
@@ -57,7 +63,7 @@
 	<?php  
 			foreach($this->projeto->findModel_ObjetivosProjeto() as $objetivo){
 	?>
-			<tr>
+			<tr class='lst'>
 					<td><?php echo $this->lineToolbar('projetos',$objetivo)?></td>
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
@@ -75,9 +81,13 @@
 			<?php echo $this->formDescritivo->id ?>
 			<input type=hidden name='projeto_id' value='<?php echo $this->projeto->id?>'>
 			</div>
+			<fieldset>
+			<div style='clear:both'>
 			<?php echo $this->formDescritivo->descricao;?>
+			</div>
+			<?php echo $this->formDescritivo->submit;?>
 			
-			<?php echo $this->formDescritivo->submit;?>			
+			</fieldset>			
 		</form>	
 		<br>
 		<table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
@@ -88,7 +98,7 @@
 	<?php  
 			foreach($this->projeto->findModel_MetasProjeto() as $meta){
 	?>
-			<tr >
+			<tr  class='lst'>
 				<td><?php echo $this->lineToolbar('projetos',$meta)?></td>
 				<td><?php echo $meta->descricao;?></td>
 			</tr>
@@ -108,8 +118,11 @@
 				</div>
 				<?php echo $this->frmIndicador->descricao;?>
 				<br>
+				
 				<?php echo $this->frmIndicador->tipo_indicador_id;	?>
-				<?php echo $this->frmIndicador->submit;?>			
+				<br></br>
+				<?php echo $this->frmIndicador->submit;?>
+							
 			</form>	
             </div>
 			<br>
@@ -123,7 +136,7 @@
 				foreach($this->projeto->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresProjeto') as $indicador){
 					if($indicador->situacao_id==1){
 		?>
-				<tr>
+				<tr class='lst'>
 					<td width="2%"><?php echo $this->lineToolbar('projetos',$indicador)?></td>
 					<td width="2%"><?php echo $this->indicadoresToolbar($indicador) ?></td>
 					<td><?php echo $indicador->descricao;?></td>

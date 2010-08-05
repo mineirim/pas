@@ -20,6 +20,7 @@ class Form_Indicador extends Zend_Form_SubForm
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
+			->setAttrib('cols',70)
 			->setAttrib('rows',2);
 		
 		$tipo_indicador_id = new Zend_Form_Element_Radio('tipo_indicador_id');

@@ -1,28 +1,6 @@
 
 $(document).ready(function(){
 		
-		
-		//$('#tabela').corner("round 8px").parent().css('padding', '5px').corner("round 10px");
-		/**
-		$('.fg-button').hover(
-				function(){ 
-					$(this).addClass("ui-state-hover"); 
-				},
-				function(){ 
-					$(this).removeClass("ui-state-hover"); 
-				}
-			);
-		
-		$('.bt-menu').hover(
-				function(){ 
-					$(this).addClass("ui-state-hover"); 
-				},
-				function(){ 
-					$(this).removeClass("ui-state-hover"); 
-				}
-		);
-		*/
-	
 	
 		$('#menu_tree').treeview({
 			animated: "fast",
@@ -33,13 +11,6 @@ $(document).ready(function(){
 		
 		
 		
-/**		
-		$(".bt-menu-tree").click(function(){  
-			$("#corpo").html('Aguarde...');
-			$("#corpo").load(this.href);  
-		    
-		}); 		
-	*/	
 		$(function() {
 			
 			$("#formtabs").tabs({
@@ -84,6 +55,8 @@ $(document).ready(function(){
 		$(".editdescription").live('click',function(e)
 		{
 			e.preventDefault();
+			e.stopPropagation();
+
 			$this = $(this)
 			$tpobjeto = this.id.split('-')[1]
 			
@@ -93,7 +66,7 @@ $(document).ready(function(){
             }	
 			$.getJSON(this.href,
 			        function(data){
-					  $this.parents('tr').remove()
+					  $this.parents('tr.lst').remove()
 					  $('#frm'+$tpobjeto).find('#id').val(data.id)
 					  $('#frm'+$tpobjeto).find('#descricao').val(data.descricao)
 					  if(data.tipo_indicador_id != undefined )
@@ -117,7 +90,7 @@ $(document).ready(function(){
             }	
 			$.getJSON(this.href,
 			        function(data){
-					  $this.parents('tr').remove()
+					  $this.parents('tr.lst').remove()
 		          
 			        });
 
@@ -149,7 +122,7 @@ function showDescritivo(data,result,obj){
 	if(data.toolbar != undefined){
 		tabela = obj.attr('id');
 		tabela = tabela.substr(3);
-		$("#tb"+tabela).append("<tr><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>")
+		$("#tb"+tabela).append("<tr class='lst'><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>")
 		obj[0].descricao.value="";
 		
 	}else{
@@ -159,7 +132,7 @@ function showDescritivo(data,result,obj){
 		if (data.descricao != undefined){
 			tabela = obj.attr('id');
 			tabela = tabela.substr(3);
-			$("#tb"+tabela).append("<tr><td></td><td>"+data.descricao+"</td></tr>")
+			$("#tb"+tabela).append("<tr class='lst'><td></td><td>"+data.descricao+"</td></tr>")
 			obj[0].descricao.value="";
 		}
 	}

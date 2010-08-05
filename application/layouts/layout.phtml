@@ -7,7 +7,7 @@ $tema =	'custom-theme' ;
 $this->jQuery ()->enable ();
 
 if ($this->jQuery ()->isEnabled ()) {
-	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.min.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
+	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
 	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.7.2.custom.css' );
 }
 /**
@@ -53,34 +53,6 @@ if ( !$this->ckeditor ) {
 
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
-
-<!--[if IE]>
-<style type="text/css" media="screen">
-body {
-behavior: url(<?php echo $this->baseUrl ();?>/css/csshover.htc); /* call hover behaviour file */
-} 
-#menu1 ul li {
-float: left; /* cure IE5.x "whitespace in lists" problem */
-width: 100%;
-}
-#menu1 ul li a {
-height: 1%; /* make links honour display: block; properly */
-} 
- 
-#menu1 a, #menu1 h2 {
-font: bold 0.7em/1.4em arial, helvetica, sans-serif; 
-/* if required use em's for IE as it won't resize pixels */
-} 
-
-.ui-widget{
-    font-size: 1.1em;
-}
-#menu1 ul li{
- font-size:13px !important;
-}
-</style>
-<![endif]-->
-
 
 <style type="text/css">
 @import url("<?php
@@ -130,9 +102,9 @@ echo $this->baseUrl ();
 	</div>
 	<table>
 	  <tr>
-	    <td>
+	    <td style='min-width:210px;'>
 	      
-			<div  style="float: left;margin-top:50px;min-height: 300px " class="ui-widget ui-widget-content ui-corner-all">
+			<div  style="float: left;margin-top:30px;min-height: 200px " class="ui-widget ui-widget-content ui-corner-all">
 				<div id='menu_tree'>
 					<?php
 					$partial = array('_navtree.phtml', 'default');
@@ -142,7 +114,7 @@ echo $this->baseUrl ();
 				</div>	
 			</div>
 		</td>
-		<td>
+		<td style='max-width:580px;'>
 			<div id="corpo" class="ui-widget ui-corner-all" style="float: left;">
 			
 			<h3><?php

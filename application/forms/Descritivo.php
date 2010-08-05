@@ -20,7 +20,9 @@ class Form_Descritivo extends Zend_Form_SubForm
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
-			->setAttrib('rows',2);
+			->setAttrib('rows',2)
+			->setAttrib('cols',70)
+			->setAttrib('style','clear:both');
 		
 		$remover = new Zend_Form_Element_Checkbox('remover');
 		$remover->removeDecorator('label');

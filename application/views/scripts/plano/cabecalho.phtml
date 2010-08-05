@@ -76,8 +76,10 @@
 					<td class='removedui-state-highlight' style='padding-left:15px'>
 					<?php 
 						$select = $this->objeto->select();
-						$select->order('id'); 
-						foreach ($this->objeto->findDependentRowset('Model_Estrategias',null,$select) as $estrategia){?>
+						$select->order('id');
+						$select->where('situacao_id=1'); 
+						foreach ($this->objeto->findDependentRowset('Model_Estrategias',null,$select) as $estrategia){
+						?>
 							<li><div class="texto-descreve-niveis"><?php echo $estrategia->descricao;?></div></li>
 						<?php }
 					?>
@@ -91,7 +93,9 @@
 						<?php
 						$select = $this->objeto->select();
 						$select->order('id'); 
-						foreach ($this->objeto->findDependentRowset('Model_Parcerias',null,$select) as $parceria){?>
+						$select->where('situacao_id=1');
+						foreach ($this->objeto->findDependentRowset('Model_Parcerias',null,$select) as $parceria){
+						?>
 							<li><div class="texto-descreve-niveis"><?php echo $parceria->descricao;?></div></li>
 						<?php }?>
 					</td>

@@ -2,9 +2,14 @@
 			action='<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'edit'));?>' 
 			method="post">
 	<?php echo $this->form->id;?>
+	<br>
 	<?php echo $this->form->nome?>
+	<br>
 	<?php echo $this->form->email?>
-	
+	<br>
+	<fieldset>
 	<?php echo $this->form->grupos?>
+	</fieldset>
+	<br>
 	<?php echo $this->form->submit?>
 </form>

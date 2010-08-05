@@ -5,6 +5,9 @@ class Form_Usuario extends Zend_Form
 	{
 		
 		parent::__construct($options);
+		
+		$this->removeDecorator("DtDdWrapper");
+		
 		$translate = Zend_Registry::get('translate');
         $this->setTranslator($translate);
 		$translate = Zend_Registry::get('translate');
@@ -16,7 +19,9 @@ class Form_Usuario extends Zend_Form
 			->setAttrib('size',50)
 			->setRequired(true)
 			->addFilter('StripTags')
+			->removeDecorator("DtDdWrapper")
 			->addFilter('StringTrim')
+			->setDecorators(array( 'ViewHelper', 'Errors', 'Label'))
 			->addValidator('NotEmpty');
 		$email = new Zend_Form_Element_Text('email');
 		$email_validate = new Zend_Validate_EmailAddress();
@@ -24,12 +29,17 @@ class Form_Usuario extends Zend_Form
 		$email->setLabel('E-mail')
 			->setRequired(true)
 			->setAttrib('size',50)
+			->removeDecorator('DtDdWrapper')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator($email_validate )
 			->addValidator('NotEmpty');
+		$email->setDecorators(array( 'ViewHelper', 'Errors', 'Label'));
 		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setAttrib('id', 'submitbutton');
+		$submit->setAttrib('id', 'submitbutton')->setDecorators(array( 'ViewHelper', 'Errors', 'Label'));
+		
+		
+		
 		$this->addElements(array($id, $nome, $email, $this->getGrupos() ,$submit));
 	}
 	public function getGrupos() {
@@ -50,7 +60,8 @@ class Form_Usuario extends Zend_Form
 		foreach($grupos->fetchAll($where) as $p) 
 			$formGrupos->addMultiOptions(array($p->id => " ".$p->descricao));
 		$formGrupos->setLabel ( "Grupos:" )
-		->setRequired ( true );
+					->setDecorators(array( 'ViewHelper', 'Errors', 'Label'))
+					->setRequired ( true );
 		return $formGrupos;
 	}
 	public function addUsernameAndPassword(){
@@ -59,12 +70,14 @@ class Form_Usuario extends Zend_Form
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
+			->setDecorators(array( 'ViewHelper', 'Errors', 'Label'))
 			->addValidator('NotEmpty');
 		$password = new Zend_Form_Element_Password('password');	
 		$password->setLabel('Senha')
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
+			->setDecorators(array( 'ViewHelper', 'Errors', 'Label'))
 			->addValidator('NotEmpty');
 			
 			$this->addElements(array($username,$password));
