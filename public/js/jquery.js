@@ -4951,7 +4951,11 @@ jQuery.extend({
 		// This function can be overriden by calling jQuery.ajaxSetup
 		xhr: window.XMLHttpRequest && (window.location.protocol !== "file:" || !window.ActiveXObject) ?
 			function() {
-				return new window.XMLHttpRequest();
+				if(!$.browser.msie) {
+					return new window.XMLHttpRequest();
+				} else {
+					return new window.ActiveXObject("Microsoft.XMLHTTP");
+				}
 			} :
 			function() {
 				try {

@@ -15,16 +15,12 @@ if ($this->jQuery ()->isEnabled ()) {
  */
 $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.bgiframe.js' )
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.dimensions.js' )
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.positionBy.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.form.js' )
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqModal.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/ui.datepicker-pt-BR.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/grid.locale-pt-br.js')				
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqGrid.min.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.tooltip.pack.js')
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.hotkeys.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.treeview.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
@@ -53,6 +49,38 @@ if ( !$this->ckeditor ) {
 
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
+
+
+
+<!--[if IE]>
+<style type="text/css" media="screen">
+body {
+behavior: url(<?php echo $this->baseUrl ();?>/css/csshover.htc); /* call hover behaviour file */
+} 
+#menu1 ul li {
+float: left; /* cure IE5.x "whitespace in lists" problem */
+width: 100%;
+}
+#menu1 ul li a {
+height: 1%; /* make links honour display: block; properly */
+} 
+ 
+#menu1 a, #menu1 h2 {
+font: bold 0.7em/1.4em arial, helvetica, sans-serif; 
+/* if required use em's for IE as it won't resize pixels */
+} 
+
+.ui-widget{
+    font-size: 1.1em;
+}
+.ui-widget .ui-widget{
+    font-size: 1em;
+}
+#menu1 ul li{
+ font-size:13px !important;
+}
+</style>
+<![endif]-->
 
 <style type="text/css">
 @import url("<?php

@@ -41,7 +41,7 @@ function enableGrid(obj,pg, parametros)
 		p={del:true,add:false,edit:false,search:true, alertcap:' para editar:', alerttext:' . . . clique na linha para selecionar' }
 	}
 	$(obj).jqGrid({
-	        width: 630,
+	        width: 520,
 	        height: 240,
 	        rownumbers: true, 
 	   		url:'<?php echo $this->baseUrl() ?>/usuarios/localizar/'+parametros,
@@ -49,9 +49,9 @@ function enableGrid(obj,pg, parametros)
 	        datatype: 'json',
 	   		colNames:['id', 'Nome','E-mail', 'login','Ações '],
 		   	colModel:[
-				{name:'id',index:'id', width:20, editable: false,search:false},
-		   		{name:'nome',index:'nome', width:190, editable: true,editoptions:{size:"20",maxlength:"30"}},
-		   		{name:'email',index:'email', width:180, editable: true, editrules:{email: true}, editoptions:{size:"30",maxlength:"50"}},
+				{name:'id',index:'id', width:10,hidden: true , editable: false,search:false},
+		   		{name:'nome',index:'nome', width:170, editable: true,editoptions:{size:"20",maxlength:"30"}},
+		   		{name:'email',index:'email', width:170, editable: true, editrules:{email: true}, editoptions:{size:"30",maxlength:"50"}},
 		   		{name:'username',index:'username', width:100, editable: false},
 		   		{name:'act',index:'act', width:75,sortable:false,editable: false,search:false},
 		   		],
@@ -85,8 +85,8 @@ function enableGrid(obj,pg, parametros)
 									var ids = $(obj).jqGrid('getDataIDs');
 									for(var i=0;i < ids.length;i++){
 										var cl = ids[i];
-										bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix">'
-										bar =bar+ '<a href="javascript:;" id="editar_'+cl+'"  onclick="fn_acao('+cl+',\'edit\');" rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></a>'
+										bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix" style="white-space:nowrap;width:100%">'
+										bar =bar+ '<a href="javascript:;" id="editar_'+cl+'"  onclick="fn_acao('+cl+',\'edit\');" rel="nofollow"  class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></a>'
 										bar =bar+ '<a href="javascript:;" id="excluir_'+cl+'" onclick="fn_acao('+cl+',\'delete\');"  rel="nofollow" class="fg-button ui-state-default fg-button-icon-left ui-corner-all"><span class="ui-icon ui-icon-trash"></span></a></div>'
 										
 										$(obj).jqGrid('setRowData',ids[i],{act:bar});
