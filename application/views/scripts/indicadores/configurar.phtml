@@ -1,5 +1,12 @@
 
-
+<style>
+<!--
+.optional{
+	font-weight: bold;
+	font-size: 9pt;
+}
+-->
+</style>
 <h3>Indicador: <?php echo $this->indicador->descricao;?></h3>
 <div style="border: thin solid black;overflow:auto; padding:10px;">
 		<form enctype='<?php echo $this->form->getEnctype();?>' 
@@ -12,40 +19,49 @@
 			<?php echo $this->form->id;?>
 			<?php echo $this->form->indicador_id;?>
 			</div>
-			<?php echo $this->form->tipo_periodo_id;?>
-			
-			<br></br>
-			
-			<?php echo $this->form->base;?>
-            
-            <br>
-            <fieldset style='clear: both;'>
-            <legend>Campos para preenchimento</legend>
-                <br></br>
-            <?php echo $this->form->campos;?>
-			</fieldset>
-            <br>
-            <fieldset style='clear: both;'>
-                <legend>Data inicial de preenchimento do indicador</legend>
-            <?php echo $this->form->mes;?> / <?php echo $this->form->ano;?> 
-            </fieldset>
-            <br></br>
-			<?php echo $this->form->submit;?>
-            
-			<br/>
+			<table width="100%">
+				<tr>
+					<td width="60%">
+						<?php echo $this->form->tipo_periodo_id;?>
+					</td>
+					<td>
+						<?php echo $this->form->base;?>
+	            	</td>
+				</tr>
+				<tr style="padding:10px" >
+					<td>
+			            <fieldset style='clear: both;'>
+			            <legend>Campos para preenchimento</legend>
+			                <br></br>
+			            <?php echo $this->form->campos;?>
+						</fieldset>
+					</td>
+					<td>
+			            <fieldset style='clear: both;'>
+			                <legend>Data inicial de preenchimento do indicador</legend>
+			            <?php echo $this->form->mes;?> / <?php echo $this->form->ano;?> 
+			            </fieldset>
+	            	</td>
+				</tr>
+	            <tr>
+					<td colspan="2">
+				<?php echo $this->form->submit;?>
+	            	</td>
+				</tr>
+	            
+			</table>
 		</form>
 </div>
-<br/>
-<a href='<?php echo $this->baseUrl().$this->urlback; ?>'> Voltar</a>
-<br/>
 <table id='tbconfiguracoes'>
-	<tr>
+	<tr >
 		<td></td>
-		<td>Tipo</td>
-		<td>Base</td>
+		<td style='font-weight: bold'>Tipo</td>
+		<td style='font-weight: bold'>Base</td>
 	</tr>
-	<?php foreach($this->indicador->findDependentRowset('Model_IndicadoresConfiguracoes') as $ic){?>
-		<tr>
+	<?php
+	$cycle=$this->cycle(array('ui-state-hover','ui-state-active'));  
+	foreach($this->indicador->findDependentRowset('Model_IndicadoresConfiguracoes') as $ic){?>
+		<tr class="lst <?php echo $cycle->next()?>'">
 			<td>
 			<a href='<?php echo $this->url(array('controller'=>'changestatus','action'=>'delete', 'model'=>'Model_IndicadoresConfiguracoes', 'id'=>$ic->id))?>'
 					class='my-button ui-state-default ui-corner-all deletedescription'
@@ -65,6 +81,12 @@
 		</tr>
 	<?php }?>
 </table>
+
+<br/>
+<a href='<?php echo $this->baseUrl().$this->urlback; ?>'> Voltar</a>
+<br/>
+
+
 <script>
 if($("#base").val()==1){
 	$("#campos-nd").attr('disabled','disabled');

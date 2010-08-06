@@ -62,10 +62,11 @@
 				<th>Estratégias</th>
 			</tr>
 	<?php  
+			$cycle=$this->cycle(array('ui-state-hover','ui-state-active')); 
 			foreach($this->objetivo_especifico->findModel_Estrategias() as $estrategia){
 				if($estrategia->situacao_id==2) continue;
 	?>
-			<tr class='lst'>
+			<tr class='lst <?php echo $cycle->next()?>'>
 				<td><?php echo $this->lineToolbar('objetivos-especificos',$estrategia)?></td>
 				<td><?php echo $estrategia->descricao;?></td>
 			</tr>
@@ -104,7 +105,7 @@
 			foreach($this->objetivo_especifico->findModel_Parcerias() as $parceria){
 				if($parceria->situacao_id==2) continue;
 	?>
-			<tr class='lst'>
+			<tr class='lst <?php echo $cycle->next()?>'>
 				<td><?php echo $this->lineToolbar('objetivos-especificos',$parceria)?></td>
 				<td><?php echo $parceria->descricao;?></td>
 			</tr>

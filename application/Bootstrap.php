@@ -123,7 +123,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					'module' => 'default',
 					'controller' => 'index',
 					'action' => 'index',
-					'class'=>'folder',
+					'class'=>'',
 					'pages' => array(
 									array(
 										'label' => 'Alterar senha',
@@ -137,7 +137,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 										'module' => 'default',
 										'controller' => 'usuarios',
 										'action' => 'index',
-										'class'=>'folder',
+										'class'=>'',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
@@ -243,7 +243,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					 */
 					foreach($metas->fetchAll('situacao_id=1 and objetivo_especifico_id='.$objetivo->id) as $meta){
 						$metaarray  = array(
-								'label'=>'meta',
+								'label'=>substr($meta->descricao,0,15)."...",
 								'module'=>'default',
 								'controller'=>'plano',
 								'action'=>'meta',

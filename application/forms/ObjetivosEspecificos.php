@@ -12,15 +12,19 @@ class Form_ObjetivosEspecificos extends Zend_Form
 		
 		$projeto_id = new Zend_Form_Element_Hidden('projeto_id');
 		
+		$validatamanho = new Zend_Validate_StringLength(0,200);
+		$validatamanho->setMessage("A descrição deve deve conter entre %min% e %max% caracteres");
+		$validatamanho->setDisableTranslator(true);
 		$descricao = new Zend_Form_Element_Textarea('descricao');
+		
 		$descricao->setLabel('Descrição')
 			->setRequired(true)
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
+			->addValidator($validatamanho)
 			->setAttrib('rows',4)
-			->setAttrib('cols',70)
-			->addErrorMessage('Descrição não pode ficar vazio');
+			->setAttrib('cols',70);
 			
 		$menu = new Zend_Form_Element_Text('menu');
 		$menu->setLabel('Menu')
@@ -28,6 +32,8 @@ class Form_ObjetivosEspecificos extends Zend_Form
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
 			->addValidator('NotEmpty')
+			->setAttrib('size','20')
+			->setAttrib('maxlength','20')
 			->setAttrib('cols',70)
 			->addErrorMessage('Menu não pode ficar vazio');
 			

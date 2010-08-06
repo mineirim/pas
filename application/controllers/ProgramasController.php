@@ -165,6 +165,7 @@ class ProgramasController extends Zend_Controller_Action {
     	
     	if ($this->getRequest ()->isPost ()) 
     	{
+    		$this->formDescritivo->descricao->addValidator(new Zend_Validate_StringLength(0,500));
     		$formData = $this->getRequest ()->getPost ();
 			if ($this->formDescritivo->isValid ( $formData )) 
 			{

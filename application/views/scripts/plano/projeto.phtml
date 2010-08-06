@@ -70,14 +70,14 @@
 
 		<table width="98%" cellpadding="0" cellspacing="0" >
 			<thead class="ui-widget removedui-widget-header">
-				<tr>
+				<tr class=" ui-state-hover">
 				<td></td>
 				<td colspan="3">
-				<div class="titulos-tabela"><?php echo strtoupper($this->tableheader);?></div>
+				<div class="titulos-tabela ui-state-hover"><?php echo strtoupper($this->tableheader);?></div>
 				</td>
 				</tr>
 
-				<tr class="even">
+				<tr class=" ui-state-hover">
 					<td><?php echo $this->myToolbar('projetos','toptable');?></td>
 					<td  class="subtitulos-tabela">Descrição</td>
 					<td  class="subtitulos-tabela" width="70px">Realiz.</td>
@@ -91,9 +91,9 @@
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
-				$loopCount=0; 
+				$cycle=$this->cycle(array('ui-state-default','ui-state-active'));
 				foreach ($this->projetos as $projeto){?>
-				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>" >
+				<tr class="<?php echo $cycle->next()?>" >
 					<td class="texto"  width="4%">
 						<?php echo $this->myToolbar ( 'projetos' , 'line', $projeto->id  );?>
 					</td>
@@ -127,7 +127,6 @@
 			       </tr>
 				
 				<?php
-				$loopCount++; 
 				}?>
 			</tbody>
 		</table>
@@ -175,13 +174,13 @@
 		
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<thead class="ui-widget removedui-widget-header">
-				<tr>
+				<tr class=" ui-state-hover">
 				<td></td>
 				<td colspan="3">
-				<div class="titulos-tabela">OBJETIVOS ESPECÍFICOS</div>
+				<div class="titulos-tabela ui-state-hover">OBJETIVOS ESPECÍFICOS</div>
 				</td>
 				</tr>
-				<tr class="even">
+				<tr class=" ui-state-hover">
 					<td width="40px"><?php echo $this->myToolbar('objetivos-especificos','toptable');?></td>
 					<td class="subtitulos-tabela" >Descrição</td>
 					<td class="subtitulos-tabela" width="70px">Realiz.</td>
@@ -195,9 +194,9 @@
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
-				$loopCount=0; 
+				$cycle=$this->cycle(array('ui-state-default','ui-state-active'));
 				foreach ($this->objetivos_especificos as $objetivos_especificos){?>
-				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
+				<tr class="<?php echo $cycle->next()?>">
 					<td class="texto"  width="4%">
 						<?php echo $this->myToolbar ( 'objetivos-especificos' , 'line', $objetivos_especificos->id  );?>
 					</td>
@@ -223,8 +222,7 @@
 			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
 				
-				<?php
-				$loopCount++; 
+				<?php 
 				}?>
 			</tbody>
 		</table>

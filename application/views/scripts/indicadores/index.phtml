@@ -1,43 +1,52 @@
 
-
-<table class="ui-widget ui-widget-content ">
-	<caption>Indicadores Cadastrados</caption>
-	<tr>
-	<th></th>
-	<th></th>
-	<th>Indicador</th>
-	</tr>
-	<?php foreach($this->indicadores as $indicador){?>
-		<tr>
-			<td>
-				<?php echo $this->indicadoresToolbar($indicador) ?>
-			</td>
-			<td><?php echo $indicador->id;?></td>
-			<td><?php echo $indicador->descricao;?></td>
-		</tr>
-	<?php }?>
-</table>
-
-<br/>
-<table class="ui-widget ui-widget-content ">
-	<caption>Indicadores Excluídos</caption>
-	<tr>
-	<th></th>
-	<th></th>
-	<th>Indicador</th>
-	</tr>
-	<?php foreach($this->indicadores_excluidos as $indicador){?>
-		<tr>
-			<td>
-				<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'restaurar',
-							'indicador_id'=>$indicador->id))?>'
-							class='my-button ui-state-default ui-corner-all '
-							title='Configurar'	>
-							<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>
-						 </a>";
-			</td>
-			<td><?php echo $indicador->id;?></td>
-			<td><?php echo $indicador->descricao;?></td>
-		</tr>
-	<?php }?>
-</table>
+<div id="formtabs" style="min-height: 200px">
+	<ul>
+		<li><a href="#tabs-0"><b>Ativos</b></a></li>
+		<li><a href="#tabs-1"><b>Excluídos</b></a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<table class="ui-widget ui-widget-content ">
+			<caption>Indicadores Cadastrados</caption>
+			<tr>
+			<th></th>
+			<th></th>
+			<th>Indicador </th>
+			</tr>
+			<?php
+			$cycle=$this->cycle(array('ui-state-hover','ui-state-active')); 
+			foreach($this->indicadores as $indicador){?>
+				<tr class=<?php echo $cycle->next()?>>
+					<td>
+						<?php echo $this->indicadoresToolbar($indicador) ?>
+					</td>
+					<td><?php echo $indicador->id;?></td>
+					<td><?php echo $indicador->descricao;?></td>
+				</tr>
+			<?php }?>
+		</table>
+	</div>
+	<div id="tabs-1" style="overflow: hidden">
+		<table class="ui-widget ui-widget-content ">
+			<caption>Indicadores Excluídos</caption>
+			<tr>
+			<th></th>
+			<th></th>
+			<th>Indicador</th>
+			</tr>
+			<?php foreach($this->indicadores_excluidos as $indicador){?>
+				<tr class=<?php echo $cycle->next()?>>
+					<td>
+						<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'restaurar',
+									'indicador_id'=>$indicador->id))?>'
+									class='my-button ui-state-default ui-corner-all '
+									title='Restaurar'	>
+									<span class='ui-icon ui-icon-arrowrefresh-1-e'></span>
+								 </a>
+					</td>
+					<td><?php echo $indicador->id;?></td>
+					<td><?php echo $indicador->descricao;?></td>
+				</tr>
+			<?php }?>
+		</table>
+	</div>
+</div>

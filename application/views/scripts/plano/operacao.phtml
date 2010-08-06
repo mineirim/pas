@@ -83,14 +83,14 @@
 		
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<thead class="ui-widget removedui-widget-header">
-					<tr class="even">
-					<tr>
+					<tr class=" ui-state-hover">
+					
 					<td></td>
-					<td colspan="5">
-					<div class="titulos-tabela">ATIVIDADES</div>
+					<td colspan="6">
+					<div class="titulos-tabela ui-state-hover">ATIVIDADES</div>
 					</td>
 					</tr>
-
+					<tr class=" ui-state-hover">
 					<td width="4px"><?php echo $this->myToolbar('atividades','toptable');?></td>
 					<td  class="subtitulos-tabela" width="55%">Descrição</td>
 					<td  class="subtitulos-tabela" width="70px;">Data Início</td>
@@ -107,9 +107,9 @@
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
-				$loopCount=0; 
+				$cycle=$this->cycle(array('ui-state-default','ui-state-active')); 
 				foreach ($this->atividades as $atividade){?>
-				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
+				<tr class="<?php echo $cycle->next()?>">
 					<td class="texto">
 						<?php echo $this->myToolbar ( 'atividades' , 'line', $atividade->id  );?>
 					</td>
@@ -156,8 +156,7 @@
 			   	<td></td>
 		       	<td colspan="5"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 		       	</tr>
-				<?php
-				$loopCount++; 
+				<?php 
 				}?>
 			</tbody>
 		</table>

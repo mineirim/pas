@@ -78,13 +78,13 @@
 		
 
 		<table width='98%' cellpadding="0" cellspacing="0" >
-			<tr>
+			<tr  class=" ui-state-hover">
 			<td></td>
 			<td colspan="3">
-			<div class="titulos-tabela">METAS</div>
+			<div class="titulos-tabela ui-state-hover">METAS</div>
 			</td>
 			</tr>
-			<tr class="even">
+			<tr class=" ui-state-hover">
 					<td width="4%"><?php echo $this->myToolbar('metas','toptable');?></td>
 					<td  class="subtitulos-tabela">Descrição</td>
 					<td  class="subtitulos-tabela" width="70px">Realiz.</td>
@@ -98,9 +98,9 @@
 			$select = $this->objetivo_especifico->select();
 			$select->order('id'); 
 			$select->where('situacao_id=1');
-			$loopCount=0;
+			$cycle=$this->cycle(array('ui-state-default','ui-state-active'));
 			foreach ($this->objetivo_especifico->findDependentRowset('Model_Metas',null,$select) as $meta){?>
-				<tr class="<?= ($loopCount++%2 ? 'even' : 'odd'); ?>">
+				<tr class="<?php echo $cycle->next()?>">
 					<td>
 					<?php echo $this->myToolbar ( 'metas', 'line', $meta->id );	?>
 					</td>

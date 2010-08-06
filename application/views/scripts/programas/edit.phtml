@@ -82,9 +82,10 @@ echo $this->form->getId ();
 		<th>Objetivos</th>
 	</tr>
 	<?php
+			$cycle=$this->cycle(array('ui-state-hover','ui-state-active')); 
 			foreach ( $this->programa->findModel_ObjetivosPrograma () as $objetivo ) {
 				?>
-			<tr class='lst'>
+			<tr class='lst <?php echo $cycle->next()?>'>
 		<td><?php	echo $this->lineToolbar ( 'programas', $objetivo )?></td>
 		<td><?php	echo $objetivo->descricao;	?></td>
 	</tr>
@@ -136,7 +137,7 @@ echo $this->form->getId ();
 				<?php
 						foreach ( $this->programa->findModel_MetasPrograma () as $meta ) {
 							?>
-						<tr class='lst'>
+						<tr class='lst <?php echo $cycle->next()?>'>
 							<td><?php echo $this->lineToolbar ( 'programas', $meta )?></td>
 							<td><?php echo $meta->descricao; ?></td>
 						</tr>
@@ -180,7 +181,7 @@ echo $this->form->getId ();
 				foreach ( $this->programa->findManyToManyRowset ( 'Model_Indicadores', 'Model_IndicadoresPrograma' ) as $indicador ) {
 					if($indicador->situacao_id==1){	
 				?>
-						<tr class='lst'>
+						<tr class='lst <?php echo $cycle->next()?>'>
 						<td style="width: 2%"><?php	echo $this->lineToolbar ( 'programas', $indicador )?></td>
 						<td style="width: 2%"><?php	echo $this->indicadoresToolbar ( $indicador )?>	</td>
 						<td align="left"><?php echo $indicador->descricao;	?></td>

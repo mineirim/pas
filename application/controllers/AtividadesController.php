@@ -156,11 +156,12 @@ class AtividadesController extends Zend_Controller_Action {
 				$atividade->situacao_id=2;
 				$atividade->save();
 			}
-			$this->_redirect('plano/operacoes');
+			
+			$this->_redirect('plano/operacao/operacao_id/'.$atividade->operacao_id);
 		}elseif ($id > 0) {
 			
 			$atividade = $atividades->fetchRow('id='.$id);
-			$this->view->operacao = $atividade;
+			$this->view->atividade = $atividade;
 		}
 		
 		$form->populate($atividade->toArray());

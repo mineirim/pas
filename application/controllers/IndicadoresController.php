@@ -34,7 +34,8 @@ class IndicadoresController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->view->indicadores = $this->indicadores->fetchAll ( null, 'id' );
+        $this->view->indicadores = $this->indicadores->fetchAll ( "situacao_id=1", 'id' );
+        $this->view->indicadores_excluidos = $this->indicadores->fetchAll ( "situacao_id=2", 'id' );
     }
 
     public function editAction()
@@ -111,7 +112,19 @@ class IndicadoresController extends Zend_Controller_Action
 		$form->populate($indicador->toArray());
 		$this->view->form = $form;        
     }
-
+    public function restaurarAction()
+    {
+        
+		
+		$id = $this->_getParam('indicador_id', 0);
+		$indicadores = new Model_Indicadores();
+		$indicador = $indicadores->fetchRow('id='.$id);
+		$indicador->situacao_id=1;
+		$indicador->save();
+	 
+		$this->_redirect('indicadores');
+    }
+    
     public function localizarAction()
     {
     	$indicador_configuracao_id = $this->_getParam('indicador_configuracao_id');

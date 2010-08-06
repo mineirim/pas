@@ -22,14 +22,14 @@
 
 		<table  width="100%" align="center" cellpadding="0" cellspacing="0" >
 			
-			<thead class="ui-widget removedui-widget-header">
-				<tr>
+			<thead class="ui-widget ui-widget-header ">
+				<tr class='ui-state-hover'>
 				<td></td>
 				<td colspan="3">
-				<div class="titulos-tabela">PROGRAMAS</div>
+				<div class="titulos-tabela ui-state-hover">PROGRAMAS</div>
 				</td>
 				</tr>
-				<tr class='even'>
+				<tr class='ui-state-hover'>
 					<td nowrap="nowrap">
 						<?php echo $this->myToolbar ( 'programas', 'toptable' );?>
 					</td>
@@ -46,10 +46,11 @@
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
-				$loopCount=0;
+				$cycle=$this->cycle(array('ui-state-default','ui-state-active')); 
+				
 				foreach ( $this->programas as $programa ) {
 					?>
-				<tr class="<?= ($loopCount%2 ? 'odd' : 'even'); ?>">
+				<tr class=" <?php echo $cycle->next()?>">
 					<td width="4%" >
 						<?php
 						echo $this->myToolbar ( 'programas', 'line', $programa->id );
@@ -75,14 +76,13 @@
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
 						</a> 
 			       	</td>
-					</tr>
+				</tr>
 
 				   <tr>
 				   <td></td>
 			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
 				<?php
-				$loopCount++;
 				}
 				?>
 			</tbody>

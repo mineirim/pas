@@ -304,11 +304,11 @@ div.inner {
 .ui-widget { font-family: Verdana,Arial,Helvetica,sans-serif; }
 
 .odd{
-	background-color:  #F7F6F4;
+	background-color:  #F8F6F4;
 }
 .even{
 	
-	/*background-color:  #F2F0FF*/;
+	//background-color:  #F2F0FF;
 }
 .text-header{
 	font-size: 110%;
@@ -751,6 +751,3 @@ table.bordasimples {border-collapse: collapse; width: 90%}
 table.bordasimples tr td,table.bordasimples tr th {border:1px solid #FF0000;vertical-align: middle}
 
 
-.lst{
- background-color: #ece9d8;
-}

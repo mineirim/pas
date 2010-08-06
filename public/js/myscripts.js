@@ -5,7 +5,7 @@ $(document).ready(function(){
 		$('#menu_tree').treeview({
 			animated: "fast",
 			collapsed: true,
-			unique: true,
+			unique: false,
 			persist: "cookie"
 		});
 		

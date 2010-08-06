@@ -61,9 +61,10 @@
 				<th>Objetivos</th>
 			</tr>
 	<?php  
+			$cycle=$this->cycle(array('ui-state-hover','ui-state-active'));
 			foreach($this->projeto->findModel_ObjetivosProjeto() as $objetivo){
 	?>
-			<tr class='lst'>
+			<tr class='lst <?php echo $cycle->next()?>'>
 					<td><?php echo $this->lineToolbar('projetos',$objetivo)?></td>
 				<td><?php echo $objetivo->descricao;?></td>
 			</tr>
@@ -95,10 +96,12 @@
 				<th width="5%"></th>
 				<th>Metas</th>
 			</tr>
-	<?php  
+	<?php
+			$cycle=$this->cycle(array('ui-state-hover','ui-state-active'));  
 			foreach($this->projeto->findModel_MetasProjeto() as $meta){
 	?>
-			<tr  class='lst'>
+	
+			<tr  class='lst <?php echo $cycle->next()?>'>
 				<td><?php echo $this->lineToolbar('projetos',$meta)?></td>
 				<td><?php echo $meta->descricao;?></td>
 			</tr>
@@ -136,7 +139,7 @@
 				foreach($this->projeto->findManyToManyRowset('Model_Indicadores', 'Model_IndicadoresProjeto') as $indicador){
 					if($indicador->situacao_id==1){
 		?>
-				<tr class='lst'>
+				<tr class='lst <?php echo $cycle->next()?>'>
 					<td width="2%"><?php echo $this->lineToolbar('projetos',$indicador)?></td>
 					<td width="2%"><?php echo $this->indicadoresToolbar($indicador) ?></td>
 					<td><?php echo $indicador->descricao;?></td>
