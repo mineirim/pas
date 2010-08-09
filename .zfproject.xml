@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <projectProfile>
   <projectDirectory>
-    <projectProfileFile/>
-    <applicationDirectory>
+    <projectProfileFile filesystemName=".zfproject.xml"/>
+    <applicationDirectory classNamePrefix="Application_">
       <apisDirectory enabled="false"/>
       <configsDirectory>
         <applicationConfigFile type="ini"/>
@@ -61,6 +61,10 @@
         <controllerFile controllerName="indicador">
           <actionMethod actionName="index"/>
           <actionMethod actionName="show"/>
+        </controllerFile>
+        <controllerFile controllerName="Reports">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="trimestral"/>
         </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
@@ -158,11 +162,17 @@
           <viewControllerScriptsDirectory forControllerName="indicador">
             <viewScriptFile forActionName="show"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Reports">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Reports">
+            <viewScriptFile forActionName="trimestral"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
       </viewsDirectory>
-      <bootstrapFile/>
+      <bootstrapFile filesystemName="Bootstrap.php"/>
     </applicationDirectory>
     <dataDirectory enabled="false">
       <cacheDirectory enabled="false"/>
@@ -179,33 +189,34 @@
       <publicStylesheetsDirectory enabled="false"/>
       <publicScriptsDirectory enabled="false"/>
       <publicImagesDirectory enabled="false"/>
-      <publicIndexFile/>
-      <htaccessFile/>
+      <publicIndexFile filesystemName="index.php"/>
+      <htaccessFile filesystemName=".htaccess"/>
     </publicDirectory>
     <projectProvidersDirectory enabled="false"/>
     <temporaryDirectory enabled="false"/>
     <testsDirectory>
-      <testPHPUnitConfigFile/>
+      <testPHPUnitConfigFile filesystemName="phpunit.xml"/>
       <testApplicationDirectory>
-        <testApplicationBootstrapFile/>
+        <testApplicationBootstrapFile filesystemName="bootstrap.php"/>
         <testApplicationControllerDirectory>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
-          <testApplicationControllerFile/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ReportsControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>
-        <testLibraryBootstrapFile/>
+        <testLibraryBootstrapFile filesystemName="bootstrap.php"/>
       </testLibraryDirectory>
     </testsDirectory>
   </projectDirectory>

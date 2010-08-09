@@ -1,0 +1,70 @@
+<script type="text/javascript">
+	$(function() {
+		$("#slider").slider({
+			value:$("#percentual").val(),
+			min: 0,
+			max: 100,
+			step: 5,
+			slide: function(event, ui) {
+				$("#percentual").val(ui.value);
+			}
+		});
+
+		$('#trimestre').live('change',function(){
+			parametros = 'trimestre='+$(this).val(); 
+			$.ajax({
+				url: '<?php echo $this->url(array('controller'=>'metas', 'action'=>'procurartrimestre'))?>',
+				data:parametros,
+				type: "POST",
+	            success:function(dados){
+				if (typeof(dados) === "object"){
+	        		  $("#id").val(dados.id);
+	        		  $("#meta_id").val(dados.meta_id);
+	        		  $("#percentual").val(dados.percentual);
+	        		  $("#avaliacao_descritiva").val(dados.avaliacao_descritiva);
+	        		  $("#slider").slider("value",dados.percentual);
+	        		  
+	         	   }
+	            },
+	            error: function(XMLHttpRequest, textStatus, errorThrown){
+	         	   
+	         	   alert('Não encontrado')
+	         	   
+	         	   }
+				})
+			});
+		
+	});
+	</script>
+<div id="formtabs">
+	<ul>
+		<li><a href="#tabs-0" >Configurar relatório trimestral</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'metas', 'action'=>'salvartrimestre'));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->form->meta_id;?>
+			<?php echo $this->form->id;?>
+			</div>
+			<fieldset>
+			<?php echo $this->form->trimestre;?>
+			<br></br>
+			
+			</fieldset><br>
+			
+			<div id="slider" style='width: 200px;'></div>
+			<?php echo $this->form->percentual;?>
+			
+			<p></p>
+			<fieldset>
+			<?php echo $this->form->avaliacao_descritiva;?>
+			</fieldset>
+			<input type="submit" name="submit" value="Salvar" class='by-ajax'>
+		</form>
+		
+	</div>
+</div>
+<a href='<?php echo $this->url(array('controller'=>'plano', 'action'=>'objetivos-especificos'))?>'>Voltar</a>
+

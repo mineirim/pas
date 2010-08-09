@@ -110,6 +110,13 @@ class Zend_View_Helper_MyToolbar {
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Meta</span>Adicionar Meta</a>";
 			
+		}elseif($this->_controller=='metas'){
+			$url = $this->view->url(array('controller'=>'metas','action'=>'preencherelatorio'));
+			$toolbar .= "<a href='$url'
+					title='Preencher relatório trimestral' 
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all by-ajax'>
+					<span class='ui-icon ui-icon-pencil'>Preencher relatório</span>Preencher relatório</a>";
+			
 		}
 		
 		$ret = $divsini.$toolbar.$divsfim;
@@ -130,9 +137,20 @@ class Zend_View_Helper_MyToolbar {
 	}
 	
 	private function getLineBar(){
+		$trimestral='';
+		
+		$width = 55;
+		if($this->_controller=='metas'){
+			$width = 80;
+			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id))."'
+						class='my-button ui-state-default ui-corner-all by-ajax '
+						title='Configurar meta para relatório trimestral'>
+						<span class='ui-icon ui-icon-calendar '></span>
+						</a>";
+		}
 		
 		$toolbar = "
-		<div style='width:55px;'>
+		<div style='width:".$width."px;'>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit','id'=>$this->_id))."'
 					class='my-button ui-state-default ui-corner-all '
 					title='Editar' 
@@ -147,8 +165,10 @@ class Zend_View_Helper_MyToolbar {
 		>
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>
+		$trimestral
 		</div>
 		";
+		
 		return $toolbar ;
 		
 	}

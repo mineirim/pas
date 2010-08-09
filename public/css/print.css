@@ -1,1 +1,10 @@
-#menu1, #topo-portal, topo-buttons		{display: none;}
+#menu1, #topo-portal, topo-buttons, .treeview {display: none;}
+
+
+
+.borda-externa{
+	width: 180mm;
+	height: 260mm;
+	border: 1px solid black;
+	background-color: blue;
+}

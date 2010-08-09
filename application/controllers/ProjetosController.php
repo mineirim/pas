@@ -210,6 +210,7 @@ class ProjetosController extends Zend_Controller_Action {
     			$returns['toolbar']=$toolbar;
     			$returns['obj'] = $objetivoProjeto->toArray();
     			$return = Zend_Json_Encoder::encode($returns);
+    			return $return;
 			}else{
 				$this->formDescritivo->populate($formData);
 				$return = $this->formDescritivo->processAjax($this->_request->getPost());

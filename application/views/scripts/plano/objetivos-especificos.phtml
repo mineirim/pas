@@ -79,7 +79,7 @@
 
 		<table width='98%' cellpadding="0" cellspacing="0" >
 			<tr  class=" ui-state-hover">
-			<td></td>
+			<td style='width: 100px; min-width: 90px !important'></td>
 			<td colspan="3">
 			<div class="titulos-tabela ui-state-hover">METAS</div>
 			</td>
@@ -101,7 +101,7 @@
 			$cycle=$this->cycle(array('ui-state-default','ui-state-active'));
 			foreach ($this->objetivo_especifico->findDependentRowset('Model_Metas',null,$select) as $meta){?>
 				<tr class="<?php echo $cycle->next()?>">
-					<td>
+					<td >
 					<?php echo $this->myToolbar ( 'metas', 'line', $meta->id );	?>
 					</td>
 					<td >

@@ -48,6 +48,13 @@
 			       </tr>
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->meta,
 													 'nome'=>'Meta', 'acao'=>'meta', 'detalhar'=>false));?>
+						 
+			<tr style="border-bottom: thin solid black" class="odd">
+				 <td colspan="2">
+				 <?php echo $this->myToolbar('metas','top',$this->meta->id);?>
+				 </td>
+			</tr>
+													 
 		
 	</table>
 <!--FIM DA TABELA COM BORDAS ARREDONDADAS-->	</td>

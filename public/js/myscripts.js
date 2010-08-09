@@ -10,7 +10,7 @@ $(document).ready(function(){
 		});
 		
 		
-		
+
 		$(function() {
 			
 			$("#formtabs").tabs({
@@ -19,10 +19,57 @@ $(document).ready(function(){
 			});
 			enableTabs();
 		});
+		$('a.by-ajax').live('click',function(event){
+			event.preventDefault();
+			$('#formulario_ajax').html('Aguarde...');
+
+			$('#formulario_ajax').load(this.href+'/format/html',function(){
+										$("#formtabs").tabs({
+											collapsible: true
+											
+										});
+										enableTabs();
+			}).dialog({
+				autoOpen: false,
+				title: this.title,
+				height: 380,
+				width: 580,
+				modal: true
+			});
+			$('#formulario_ajax').dialog('open');
+			return false;
+		});
 		
-		$("#formtabs input.byajax").click(function(e){
-			e.preventDefault();
-			isvalidform(this, e)
+		$("input.by-ajax").live('click',function(e){
+			
+			url=$(this).parents('form').attr('action');
+			data = $(this).parents('form').serialize();
+            $.ajax({  
+                type: "POST",  
+                url: url,  
+                data: data,  
+               success: function(data, status,xhr){
+            		if (typeof(data) === "object"){
+            			if(data.status){
+            				/**
+            				 * TODO implementar timer para sumir com a flash message
+            				 */
+            				$('#flash-m').html(data.status)
+            			}
+            		}
+               }  ,
+               complete:function(XMLHttpRequest, textStatus){
+            	   if(textStatus=='success'){
+           				$('#formulario_ajax').dialog('close');
+            	   }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown){
+            	   
+            	   alert('erro')
+            	   
+            	   }
+
+           });  
 			return false;
 		})
 		
@@ -158,19 +205,6 @@ function enableTabs(){
 }
 
 
-function isvalidform(obj, e)
-{
-
-    var options = {
-        success:       showResponse,
-        dataType:	'json',
-        url:       '/poa2010/public/acoes/validar'    
-    }; 
-    // bind form using 'ajaxForm'
-    formulario  = obj.parent('form');
-    $(formulario).ajaxSubmit(options)
-    
-}
 function showResponse(responseText, statusText,formulario)
 {
     $('.form-errors').remove();
