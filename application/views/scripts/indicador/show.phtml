@@ -37,7 +37,7 @@
         		$competencia = $resultado->competencia;
         	} 
 		?>
-		<tr class='<?php echo $this->cycle(array("odd","even"))->next()?>"'>
+		<tr class='<?php echo $this->cycle(array("ui-state-default","ui-state-active"))->next()?>"'>
 			<td><?php echo $competencia;?></td>
 			<?php if(in_array('n', $campos)){?>
 				<td><?php echo $resultado->numerador;?></td>
