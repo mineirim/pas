@@ -7,7 +7,7 @@
     $this->label = isset($this->label) ? $this->label : $this->nome;	
      											
 	?>
-		<tr style="border-bottom: thin solid black"  class="even">
+		<tr style="border-bottom: thin solid black"  class="ui-state-active">
 			<td class='removedui-widget-header text-header' width="13%"><div class="titulo-nivel2"><?php echo $this->label?></div></td>
 			<td class='removedui-state-highlight' style='padding-left:15px'>
 				<font size="2"><a href='<?php echo $href?>' style="float:left"> <?php echo $this->objeto->descricao?></a></font>
@@ -18,7 +18,7 @@
 		 	if ((strtolower($this->nome) == "programa")||(strtolower($this->nome) == "projeto")){
 			 	?>
 				
-				<tr style="border-bottom: thin solid black" class="odd">	
+				<tr style="border-bottom: thin solid black" class="ui-state-default">	
 					<td class='removedui-widget-header text-header' ><div class="subtitulos-descreve-niveis">OBJETIVOS DO <?php echo strtoupper($this->nome); ?>:</div></td>
 					<td class='removedui-state-highlight' style='padding-left:15px'>
 					<?php 
@@ -28,7 +28,7 @@
 					?>
 					</td>
 				</tr>
-				<tr style="border-bottom: thin solid black" class="even"> 	
+				<tr style="border-bottom: thin solid black" class="ui-state-active"> 	
 					<td class='removedui-widget-header text-header'  ><div class="subtitulos-descreve-niveis">METAS DO <?php echo strtoupper($this->nome); ?>:</div></td>
 					<td class='removedui-state-highlight' style='padding-left:15px'>
 					<?php 
@@ -41,7 +41,7 @@
 				</tr>
 
 
-				<tr style="border-bottom: thin solid black" class="odd"> 	
+				<tr style="border-bottom: thin solid black" class="ui-state-default"> 	
 					<td class='removedui-widget-header text-header'  ><div class="subtitulos-descreve-niveis">INDICADORES DO <?php echo strtoupper($this->nome); ?>:</div></td>
 					<td class='removedui-state-highlight' style='padding-left:15px'>
 					<?php 
@@ -59,7 +59,7 @@
 					
 					</td>
 				</tr>
-				<tr style="border-bottom: thin solid black"  class="even">
+				<tr style="border-bottom: thin solid black"  class="ui-state-active">
 					<td class='removedui-widget-header text-header'><div class="subtitulos-descreve-niveis">INTERFACES:</div></td>
 					<td class='removedui-state-highlight' style='padding-left:15px'>
 						<div class="texto-descreve-niveis"><?php echo $this->objeto->interfaces?></div>
@@ -71,7 +71,7 @@
 		 	<?php 
 		 	if (strtolower($this->nome)== "objetivo_especifico"){
 		 		?>
-				<tr style="border-bottom: thin solid black" class="odd"> 	
+				<tr style="border-bottom: thin solid black" class="ui-state-default"> 	
 					<td class='removedui-widget-header text-header'  ><div class="subtitulos-descreve-niveis">ESTRATÉGIAS:</div></td>
 					<td class='removedui-state-highlight' style='padding-left:15px'>
 					<?php 
@@ -86,7 +86,7 @@
 					</td>
 				</tr>
 				
-				<tr  class="even" >
+				<tr  class="ui-state-active" >
 					<td><div class="subtitulos-descreve-niveis">PARCERIAS:</div></td>
 
 					<td  class='removedui-state-highlight' style='padding-left:15px'>
@@ -105,7 +105,7 @@
 				<?php 
 		 	} // objetivo específico
 		 	?>
-			<tr style="border-bottom: thin solid black" class="odd">
+			<tr style="border-bottom: thin solid black" class="ui-state-default">
 				 <td colspan="2">
 				 <?php echo $this->myToolbar(strtolower($this->nome).'s','top',$this->objeto->id);?>
 				 </td>
