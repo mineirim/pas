@@ -1,13 +1,265 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<link rel="stylesheet" type="text/css" href="/public/css/print.css" media="print" />
-<link rel="stylesheet" type="text/css" href="/public/css/print.css" media="screen" />
-</head>
-<body>
-<div class='borda-externa'>
-	<div class='interno titulo'>
-		<h2>RELATÓRIO TRIMESTRAL DE METAS</h2>
+
+	
+	<?php foreach ($this->programas as $programa){?>
+	<div class='borda-externa'>
+	<div class='interno titulo' style='height: 15mm'>
+		<h3>RELATÓRIO TRIMESTRAL DE METAS</h2>
 	</div>
-</div>
-</body>
-</html>
+	<div class='separador'></div>
+	<div class='interno' >
+		<table width="100%">
+			<tr >
+				<th class='ui-state-default'>
+					PROGRAMA:
+				</th>
+			</tr>
+			<tr >
+				<td>
+					<?php echo nl2br($programa->descricao);?>
+					
+				</td>
+			</tr>
+			<tr >
+				<td colspan="2" class='separador'>
+					
+				</td>
+			</tr>
+			<tr >
+				<th class='sub ui-state-default'>
+					Objetivos:
+				</th>
+			</tr>
+			<tr >				
+				<td class='sub'>
+					<ul>
+					<?php
+					$objetivos = $programa->findModel_ObjetivosPrograma(); 
+					foreach ($objetivos as $objetivo ){?>
+						<li>
+							<?php echo nl2br($objetivo->descricao);?>
+						</li>
+					<?php }?>
+					</ul>
+				</td>
+			</tr>
+			<tr >
+				<th class='sub ui-state-default'>
+					Interfaces:
+				</th>
+			</tr>
+			<tr >				
+				<td class='sub'>
+					<ul>
+						<li>
+							<?php echo nl2br($programa->interfaces)?>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+		<div class='separador' style='border-bottom-style: solid;'></div>
+		
+	</div>
+	
+	
+	<?php 
+	$this->select_projetos->reset('where');
+	$this->select_projetos->where("id in(".implode(",",$this->projeto_ids).")");
+	$projetos = $programa->findModel_Projetos($this->select_projetos);
+	$num_projeto = 0;
+	foreach ($projetos as $projeto)
+	{
+		$num_projeto++;
+		?>
+		<div class='interno' <?php if($num_projeto>1) echo "style='page-break-before:always'";?> >
+			<table width="100%">
+				<tr >
+					<th class='ui-state-default'>
+						PROJETO:
+					</th>
+				</tr>
+				<tr >
+					<td>
+						<?php echo nl2br($projeto->descricao)?>
+						
+					</td>
+				</tr>
+				<tr >
+					<td colspan="2" class='separador'>
+						
+					</td>
+				</tr>
+				<tr >
+					<th class='sub ui-state-default'>
+						Objetivos:
+					</th>
+				</tr>
+				<tr >				
+					<td class='sub'>
+						<ul>
+						<?php
+						$objetivos = $projeto->findModel_ObjetivosProjeto(); 
+						foreach ($objetivos as $objetivo ){?>
+							<li>
+								<?php echo nl2br($objetivo->descricao)?>
+							</li>
+						<?php }?>
+						</ul>
+					</td>
+				</tr>
+				<tr >
+					<th class='sub ui-state-default'>
+						Interfaces:
+					</th>
+				</tr>
+				<tr >				
+					<td class='sub'>
+						<ul>
+							<li>
+								<?php echo nl2br($projeto->interfaces)?>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+			<div class='separador' style='border-bottom-style: solid;'></div>
+			
+		</div>
+		
+		
+		
+		<?php
+		$this->select_objetivos->reset('where');
+		$this->select_objetivos->where("id in(".implode(",",$this->objetivo_especifico_ids).")");
+		$objetivos_especificos = $projeto->findModel_ObjetivosEspecificos($this->select_objetivos);
+		foreach ($objetivos_especificos as $objetivo_especifico)
+		{ 
+		?>
+			<div class='interno'>
+				<table width="100%">
+					<tr >
+						<th  class='sub ui-state-default'>
+							Objetivo Específico:
+						</th>
+					</tr>
+					<tr >
+						<td  class='sub'>
+							<?php echo nl2br($objetivo_especifico->descricao);?>
+							<br/>
+						</td>
+					</tr>
+					<tr >
+						<th  class='sub ui-state-default'>
+							Recursos:
+						</th>
+					</tr>
+					<tr >
+						<td  class='sub'>
+							<?php echo nl2br($objetivo_especifico->recursos)?>
+							<br/>
+						</td>
+					</tr>
+					<tr >
+						<th  class='sub ui-state-default'>
+							Cronograma:
+						</th>
+					</tr>
+					<tr >
+						<td  class='sub'>
+							<?php echo nl2br($objetivo_especifico->cronograma)?>
+							<br/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<?php
+			$this->select_metas->reset('where');
+			$this->select_metas->where("id in(".implode(",",$this->meta_ids).")");
+			$metas = $objetivo_especifico->findModel_Metas($this->select_metas);
+			foreach ($metas as $meta)
+			{ 
+				$this->select_trimestre->reset('where');
+				$this->select_trimestre->where("trimestre = $this->trimestre");
+				$meta_trimestre = $meta->findModel_MetasTrimestres($this->select_trimestre)->current();
+				$operacoes = $meta->findModel_Operacoes();
+			?>
+			
+				<div class='separador' style='border-bottom-style: solid;'></div>
+				<div class='interno'>
+					<table width="100%">
+						<tr >
+							<th  class='sub ui-state-default'>
+								<div style='float:left'>Meta:</div><div style='float:right;width:70mm'>Percentual de execução: <?php echo $meta_trimestre->percentual;?>%</div>
+							</th>
+						</tr>
+						<tr >
+							<td  class='sub'>
+								<?php echo $meta->descricao?>
+							</td>
+						</tr>
+						<tr >
+							<td  class='sub'>
+								<table class='subtabela'  width="100%">
+									<tr >
+										<th  class='sub ui-state-default'>
+											Operação:
+										</th>
+										<th  class='sub ui-state-default'>
+											Atividade
+										</th>
+										<th  class='sub ui-state-default'>
+											Data Conclusão
+										</th>
+									</tr>
+									<?php 
+									foreach ($operacoes as $operacao)
+									{
+										$atividades = $operacao->findModel_Atividades();
+									?>
+										<tr >
+											<td  class='sub' rowspan="<?php echo count($atividades)?>">
+												<?php echo $operacao->descricao?>
+											</td>
+											<?php
+											$ix = 0;
+											foreach ($atividades as $atividade){
+												if(($atividade->conclusao_data)){
+													$dataconclusao = new Zend_Date($atividade->conclusao_data);
+													$dataconclusao = $dataconclusao->get(Zend_Date::DATE_SHORT);
+												}else{
+													$dataconclusao ="não cocluído";
+												}
+												if($ix!=0)
+													echo "<tr >"
+											?>
+											<td  class='sub'>
+												<?php echo nl2br($atividade->descricao);?>
+											</td>
+											<td  class='sub'>
+												<?php echo $dataconclusao;?>
+											</td>
+										</tr>				
+										<?php
+											$ix++; 
+											}?>		
+									<?php }?>
+								</table>
+							</td>
+						</tr>
+						<tr >	
+							<th class='sub ui-state-default'>Avaliação descritiva da execução:</th>
+						</tr>
+						<tr >
+							<td  class='sub'>
+								<?php echo nl2br($meta_trimestre->avaliacao_descritiva);?>
+							</td>
+						</tr>
+					</table>
+				
+				</div>
+      <?php }//foreach da meta?>
+	<?php }//foreach do objetivo?>
+<?php } //foreach do projeto?>
+	</div>
+<?php }?>

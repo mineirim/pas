@@ -1,0 +1,9 @@
+<h3>Checklist do relatório trimestral</h3>
+<p>As seguintes metas foram definidas para o relatório trimestral, mas não estão preenchidas/avaliadas</p>
+<div id='pendencias'>
+	<ul id='grp_menu_0' class="pendentes" style='margin-left: 1em;'>
+	<?php echo $this->checklist($this->trimestre)?>
+	</ul>
+</div>
+
+<a href="<?php echo $this->url(array('controller'=>'relatorios', 'action'=>'index'));?>">Voltar</a>

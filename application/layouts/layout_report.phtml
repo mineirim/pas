@@ -1,0 +1,81 @@
+<?php echo $this->doctype ( 'XHTML1_TRANSITIONAL' );?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<?php
+$mysession = new Zend_Session_Namespace ( 'temas' );
+$tema =	'custom-theme' ;
+$this->jQuery ()->enable ();
+
+if ($this->jQuery ()->isEnabled ()) {
+	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
+	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.7.2.custom.css' );
+}
+/**
+ * ZendX_JQuery_View_Helper_JQuery_Container $this->JQuery()
+ */
+$this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.treeview.js');
+
+echo $this->JQuery ();
+
+
+?> 
+<?php echo $this->headMeta ();?>
+<?php echo $this->headTitle ();?>
+
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.treeview.css' );?>
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/print.css' );?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
+
+
+
+<!--[if IE]>
+<style type="text/css" media="screen">
+body {
+behavior: url(<?php echo $this->baseUrl ();?>/css/csshover.htc); /* call hover behaviour file */
+} 
+#menu1 ul li {
+float: left; /* cure IE5.x "whitespace in lists" problem */
+width: 100%;
+}
+#menu1 ul li a {
+height: 1%; /* make links honour display: block; properly */
+} 
+ 
+#menu1 a, #menu1 h2 {
+font: bold 0.7em/1.4em arial, helvetica, sans-serif; 
+/* if required use em's for IE as it won't resize pixels */
+} 
+
+.ui-widget{
+    font-size: 1.1em;
+}
+.ui-widget .ui-widget{
+    font-size: 1em;
+}
+#menu1 ul li{
+ font-size:13px !important;
+}
+</style>
+<![endif]-->
+
+<style type="text/css">
+@import url("<?php
+echo $this->baseUrl ();
+?>/css/nao-ie.css") all;
+</style>
+</head>
+<body>
+	
+		<?php
+		echo $this->layout ()->content;
+		?>				
+	
+</body>
+
+</html>
+
+

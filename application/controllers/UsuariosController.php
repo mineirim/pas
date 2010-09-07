@@ -247,6 +247,31 @@ class UsuariosController extends Zend_Controller_Action
     	}		
 		
     }
+    public function resetAction()
+    {
+        $this->view->title = "Resetar Senha";
+		$this->view->headTitle($this->view->title, 'PREPEND');
+		if ($this->getRequest()->isPost()) {
+			$restore = $this->getRequest()->getPost('reset');
+			if ($restore == 'Sim') {
+				$id = $this->getRequest()->getPost('id');
+				$dados =array('id'=>$id,  'password'=>'saudesp');
+				$usuarios = new Model_Usuarios();
+				$usuarios->updatePassword($dados,'id='.$id  );
+				
+			}
+			$this->_redirect('usuarios');
+		} else {
+			$id = $this->_getParam('id');
+			$usuarios = new Model_Usuarios();
+			$this->view->usuario = $usuarios->getUsuario($id);
+		}
+
+        if ($this->_request->isXmlHttpRequest()) {
+       		$this->_helper->layout()->disableLayout();
+    	}		
+		
+    }    
     public function localizarAction(){
     	
     	$model_usuarios = new Model_Usuarios();

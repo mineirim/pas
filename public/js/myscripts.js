@@ -80,20 +80,20 @@ $(document).ready(function(){
 		//$(".progressbar").append('<span style="position:relative;top:-1.2em">50</span>')
 		
 		$(
-				function()
+			function()
+			{
+				$(".submit_descritivo").click(function(e)
 				{
-					$(".submit_descritivo").click(function(e)
-					{
-						e.preventDefault()
-					    var options = {
-					        success:       showDescritivo,
-					        dataType:	'json'
-					    }; 
-					    // bind form using 'ajaxForm'
-					    formulario  = $(this).parents('form');
-					    $(formulario).ajaxSubmit(options)				
-					});
-				}
+					e.preventDefault()
+				    var options = {
+				        success:       showDescritivo,
+				        dataType:	'json'
+				    }; 
+				    // bind form using 'ajaxForm'
+				    formulario  = $(this).parents('form');
+				    $(formulario).ajaxSubmit(options)				
+				});
+			}
 		);
 			
 		/*
@@ -171,7 +171,7 @@ function showDescritivo(data,result,obj){
 		tabela = tabela.substr(3);
 		$("#tb"+tabela).append("<tr class='lst'><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>")
 		obj[0].descricao.value="";
-		
+		obj[0].id.value="";
 	}else{
 		/**
 		 * enquanto ajusta todos os scriptis de add
@@ -181,6 +181,7 @@ function showDescritivo(data,result,obj){
 			tabela = tabela.substr(3);
 			$("#tb"+tabela).append("<tr class='lst'><td></td><td>"+data.descricao+"</td></tr>")
 			obj[0].descricao.value="";
+			obj[0].id.value="";
 		}
 	}
 }
