@@ -181,7 +181,7 @@ class UsuariosController extends Zend_Controller_Action
 					
 					
 					$usuarios->updatePassword($dados,'id='.$id  );
-					$this->_redirect('usuarios');
+					$this->_redirect('index');
 				} else {
 					
 					$form->populate($formData);
@@ -196,7 +196,7 @@ class UsuariosController extends Zend_Controller_Action
 		
 			}
 		}else{
-			$this->_redirect('usuarios');
+			$this->_redirect('index');
 		}		
 						
 		
