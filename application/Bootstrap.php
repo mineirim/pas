@@ -299,7 +299,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							 'module'=>'default',
 							 'controller'=>'relatorios',
 							 'action'=>'index',
-							 'class'=>'bt-menu-tree');
+							 'class'=>'bt-menu-tree'
+												
+		);
 		
 
 

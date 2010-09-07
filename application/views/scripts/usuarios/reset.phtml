@@ -1,0 +1,17 @@
+<div >
+<h2>Confirmar</h2>
+<hr></hr>
+<h3>Resetar senha do usuário
+'<?php echo $this->escape($this->usuario['username']); ?>  
+(<?php echo $this->escape($this->usuario['nome']); ?>)'?
+</h3>
+<p>Este procedimento definirá a senha do usuário para o padrão 'saudesp'</p>
+	<form action="<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'reset')); ?>" method="post">
+		<div style="left:50px; text-align: center;padding: 30px">
+			<input type="hidden" name="id" value="<?php echo $this->usuario['id']; ?>" />
+			<input type="submit" name="reset" value="Sim"  style="font-size: 1.4em"/>
+			<input type="submit" name="reset" value="Não"  style="font-size: 1.4em"/>
+		
+		</div>
+	</form>
+</div >
