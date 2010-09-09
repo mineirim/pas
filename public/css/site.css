@@ -20,6 +20,11 @@ table{
 	
 	
 }
+#flash-m{
+	font-weight: bold;
+	color: green;
+	font-size: 1.2em;
+}
 #pendencias ul{
 	padding-left: 1.8em;
 }
