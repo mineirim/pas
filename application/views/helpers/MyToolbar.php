@@ -111,12 +111,16 @@ class Zend_View_Helper_MyToolbar {
 					<span class='ui-icon ui-icon-plus'>Adicionar Meta</span>Adicionar Meta</a>";
 			
 		}elseif($this->_controller=='metas'){
+			$url = $this->view->url(array('controller'=>'metas','action'=>'addindicador'));
+			$toolbar .= "<a href='$url'
+					title='Vincular Indicadores' 
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all by-ajax'>
+					<span class='ui-icon ui-icon-pencil'>Preencher relatório</span>Indicadores</a>";
 			$url = $this->view->url(array('controller'=>'metas','action'=>'preencherelatorio'));
 			$toolbar .= "<a href='$url'
 					title='Preencher relatório trimestral' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all by-ajax'>
 					<span class='ui-icon ui-icon-pencil'>Preencher relatório</span>Preencher relatório</a>";
-			
 		}
 		
 		$ret = $divsini.$toolbar.$divsfim;

@@ -54,7 +54,7 @@ $(document).ready(function(){
             				/**
             				 * TODO implementar timer para sumir com a flash message
             				 */
-            				$('#flash-m').html(data.status)
+            				$('#flash-m').html(data.status).fadeOut(3000);
             			}
             		}
                }  ,

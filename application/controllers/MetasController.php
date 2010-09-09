@@ -17,6 +17,7 @@ class MetasController extends Zend_Controller_Action
         			->addActionContext('settrimestral',array('html','json'))
         			->addActionContext('preencherelatorio',array('html','json'))
         			->addActionContext('procurartrimestre',array('json'))
+        			->addActionContext('addindicador',array('json','html'))
                     ->initContext();    	
         /* Initialize action controller here */
     	
@@ -207,16 +208,11 @@ class MetasController extends Zend_Controller_Action
 				}
 			}
     	}else{
-    		
     		$meta_id = $this->_getParam('meta_id');
-    		
     		$metas_trimestres = $model_metas_trimestres->fetchAll('situacao_id=1 and meta_id='.$meta_id, 'trimestre');
-    		
     		$trimestres=array();
-    		
     		foreach ($metas_trimestres as $trimestre)
     			$trimestres[]=$trimestre->trimestre;
-			
     		$form->trimestres_ids->setValue($trimestres);
     		$form->meta_id->setValue($this->_getParam('meta_id'));
     	}
@@ -308,7 +304,96 @@ class MetasController extends Zend_Controller_Action
 		
     
     }
-
+	public function addindicadorAction()
+	{
+		$form = new Zend_Form();
+		$form_meta_id = new Zend_Form_Element_Hidden('meta_id');
+    	$form_meta_id->setRequired(true)->addValidator('NotEmpty');
+		$form->addElement($form_meta_id);
+		
+		$model_metas = new Model_Metas();
+		$meta_id = $this->_getParam('meta_id');
+		$meta = $model_metas->fetchRow("id=$meta_id");
+		
+		$projeto = $meta->findParentModel_ObjetivosEspecificos()->findParentModel_Projetos();
+		$indicadores_projeto = $projeto->findModel_IndicadoresProjeto();
+		
+		
+		$indicador_ids = new Zend_Form_Element_MultiCheckbox('indicador_ids');
+		$indicadores = array();
+		foreach ($indicadores_projeto as $ip) {
+			$indicador_ids->addMultiOption($ip->indicador_id,$ip->findParentModel_Indicadores()->descricao);
+			$indicadores[] = $ip;
+		}
+		
+		$programa= $projeto->findParentModel_Programas();
+		$indicadores_programa = $programa->findModel_IndicadoresPrograma();
+		foreach ($indicadores_programa as $ip) {
+			$indicador_ids->addMultiOption($ip->indicador_id,$ip->findParentModel_Indicadores()->descricao);
+			$indicadores[] = $ip;
+		}
+		
+		
+		$form->addElement($indicador_ids);
+		$this->view->form = $form;
+		$model_indicador_metas = new Model_IndicadoresMeta();
+		if ($this->getRequest ()->isPost ()) 
+    	{
+    		$formData = $this->getRequest ()->getPost ();
+			if ($form->isValid ( $formData )) 
+			{
+				$meta_id = $form->getValue('meta_id');
+				$indicador_ids=$form->getValue('indicador_ids');
+				
+				$meta = $model_metas->find($meta_id)->current();
+				$objetivo_especifico_id = $meta->objetivo_especifico_id;
+				$projeto_id= $meta->findParentRow('Model_ObjetivosEspecificos')->projeto_id;
+				$programa_id= $meta->findParentRow('Model_ObjetivosEspecificos')->findParentRow('Model_Projetos')->programa_id;
+				
+				foreach ($indicadores as $indicador){
+					$where = "meta_id=$meta_id and indicador_id = ".$indicador->indicador_id;
+					if(! in_array($indicador->indicador_id,$indicador_ids)){
+						$model_indicador_metas->delete($where);
+					}else{
+						$indicador_meta = $model_indicador_metas->fetchRow($where);
+						if(!$indicador_meta){
+							$data = array('meta_id'=>$meta_id,
+									'indicador_id'=>$indicador->indicador_id
+							);
+							$model_indicador_metas->insert($data);
+						}
+					}
+					
+				}
+				
+				if(!$this->_request->isXmlHttpRequest()){
+					$this->_helper->redirector->gotoSimple('metas','plano',false,
+														array('meta_id' => $meta_id));
+				}else{
+					$retorno = array('retorno'=>'sucesso','status'=>"Salvo com sucesso", 'msg'=>'Salvo com sucesso!!');
+					$this->_helper->json($retorno);
+					 return;
+				}
+			}else{
+				$form->populate($formData);
+				if($this->_request->isXmlHttpRequest()){
+					$this->_helper->json(array('retorno'=>'falha', 'status'=> 'Erro ao validar formulário'));
+				}
+			}
+    	}else{
+    		$meta_id = $this->_getParam('meta_id');
+    		$indicadores_meta = $model_indicador_metas->fetchAll('meta_id='.$meta_id, 'indicador_id');
+    		$indicador_ids=array();
+    		foreach ($indicadores_meta as $indicador_meta)
+    			$indicador_ids[]=$indicador_meta->indicador_id;
+    		$form->indicador_ids->setValue($indicador_ids);
+    		$form->meta_id->setValue($this->_getParam('meta_id'));
+    		
+			if ($this->_request->isXmlHttpRequest()) {
+		        $this->_helper->layout()->disableLayout();
+	    	}
+    	}
+	}
     
 	public function deleteAction(){
 		$this->view->title = "Excluir";
@@ -365,5 +450,6 @@ class MetasController extends Zend_Controller_Action
 		
 	}
 
+	
 }
 
