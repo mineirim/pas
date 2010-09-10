@@ -206,13 +206,16 @@ class UsuariosController extends Zend_Controller_Action
         $this->view->title = "Apagar Usuário";
 		$this->view->headTitle($this->view->title, 'PREPEND');
 		if ($this->getRequest()->isPost()) {
-			$del = $this->getRequest()->getPost('del');
-			if ($del == 'Sim') {
-				$id = $this->getRequest()->getPost('id');
-				$usuarios = new Model_Usuarios();
-				$usuarios->deleteUsuario($id);
+			$id = $this->getRequest()->getPost('id');
+			//não se pode apagar o usuário administrador
+			if($id!=2){
+				$del = $this->getRequest()->getPost('del');
+				if ($del == 'Sim') {
+					$usuarios = new Model_Usuarios();
+					$usuarios->deleteUsuario($id);
+				}
+				$this->_redirect('usuarios');
 			}
-			$this->_redirect('usuarios');
 		} else {
 			$id = $this->_getParam('id');
 			$usuarios = new Model_Usuarios();
