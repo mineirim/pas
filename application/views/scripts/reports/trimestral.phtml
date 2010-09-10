@@ -3,7 +3,7 @@
 	<?php foreach ($this->programas as $programa){?>
 	<div class='borda-externa'>
 	<div class='interno titulo' style='height: 15mm'>
-		<h3>RELATÓRIO TRIMESTRAL DE METAS</h2>
+		<h3>RELATÓRIO TRIMESTRAL DA PROGRAMAÇÃO ANUAL DE SAÚDE, 2010, SES SP</h2>
 	</div>
 	<div class='separador'></div>
 	<div class='interno' >
@@ -228,7 +228,7 @@
 													$dataconclusao = new Zend_Date($atividade->conclusao_data);
 													$dataconclusao = $dataconclusao->get(Zend_Date::DATE_SHORT);
 												}else{
-													$dataconclusao ="não cocluído";
+													$dataconclusao ="";
 												}
 												if($ix!=0)
 													echo "<tr >"
