@@ -66,10 +66,87 @@
           <actionMethod actionName="index"/>
           <actionMethod actionName="trimestral"/>
         </controllerFile>
+        <controllerFile controllerName="Cargos">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
-      <modelsDirectory/>
-      <modulesDirectory enabled="false"/>
+      <modelsDirectory>
+        <modelFile modelName="Cargos"/>
+      </modelsDirectory>
+      <modulesDirectory enabled="false">
+        <moduleDirectory moduleName="relatorios">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory>
+            <controllerFile controllerName="Index">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="create"/>
+            </controllerFile>
+          </controllersDirectory>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory/>
+          <viewsDirectory>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+        <moduleDirectory moduleName="admin">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory>
+            <controllerFile controllerName="Setores">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Cargos">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="create"/>
+              <actionMethod actionName="update"/>
+              <actionMethod actionName="delete"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+            </controllerFile>
+          </controllersDirectory>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory/>
+          <viewsDirectory>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Setores">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="create"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="update"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="delete"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="get"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="put"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="post"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+      </modulesDirectory>
       <viewsDirectory>
         <viewScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="index">
@@ -168,6 +245,12 @@
           <viewControllerScriptsDirectory forControllerName="Reports">
             <viewScriptFile forActionName="trimestral"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Cargos">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="create"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -213,6 +296,10 @@
           <testApplicationControllerFile filesystemName="ControllerTest.php"/>
           <testApplicationControllerFile filesystemName="ControllerTest.php"/>
           <testApplicationControllerFile filesystemName="ReportsControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="IndexControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="CargosControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="SetoresControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="CargosControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

@@ -236,3 +236,28 @@ function updateId(responseXML,statusText,formulario){
     $('#formtabs').tabs('select', selected+1);
     
 }
+
+
+
+
+GridPadrao = {
+   		mtype			: 'GET',
+        datatype		: 'json',
+	    width         	:  520,
+	    height        	: 230,
+        rownumbers		: true,
+	    rowNum          :-1,
+	    rowList         :[],
+	    pginput         : false,
+	    pgbuttons       : false,
+	    sortname        : 'id',
+	    viewrecords     : true
+	}
+
+
+Mensageiro ={
+		onComplete : function()
+		{ 
+			alert('completou');
+		}
+	}

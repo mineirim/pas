@@ -3,17 +3,17 @@
 <head>
 <?php
 $mysession = new Zend_Session_Namespace ( 'temas' );
-$tema =	'custom-theme' ;
+$tema =	'cupertino' ;
 $this->jQuery ()->enable ();
 
 if ($this->jQuery ()->isEnabled ()) {
 	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
-	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.7.2.custom.css' );
+	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.8.5.custom.css' );
 }
 /**
  * ZendX_JQuery_View_Helper_JQuery_Container $this->JQuery()
  */
-$this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
+$this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.min.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.bgiframe.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.form.js' )

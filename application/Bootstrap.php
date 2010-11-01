@@ -14,7 +14,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $autoloader->pushAutoloader(array('ezcBase', 'autoload'), 'ezc');
 		
 		
-		
 		return $moduleloader;
 	}
 
@@ -73,7 +72,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		            'ViewRenderer'
 		);
 		
-		
+		$viewRenderer->view->addHelperPath(APPLICATION_PATH . '/views/helpers', 'My_View_Helper');
 		
 		$viewRenderer->setView($view); 		
 	}
@@ -120,35 +119,35 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					),
 					array(
 					'label' => 'Administração',
-					'module' => 'default',
+					'module' => 'admin',
 					'controller' => 'index',
 					'action' => 'index',
 					'class'=>'',
 					'pages' => array(
 									array(
 										'label' => 'Alterar senha',
-										'module' => 'default',
+										'module' => 'admin',
 										'controller' => 'usuarios',
 										'action' => 'changepassword',
 										'class'=>'bt-menu-tree'
 									),
 									array(
 										'label' => 'Usuários',
-										'module' => 'default',
+										'module' => 'admin',
 										'controller' => 'usuarios',
 										'action' => 'index',
 										'class'=>'',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
-															'module' => 'default',
+															'module' => 'admin',
 															'controller' => 'usuarios',
 															'action' => 'index',
 															'class'=>'bt-menu-tree'
 														),
 														array(
 															'label' => 'Adicionar',
-															'module' => 'default',
+															'module' => 'admin',
 															'controller' => 'usuarios',
 															'action' => 'add',
 															'class'=>'bt-menu-tree'
@@ -158,21 +157,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 									),
 									array(
 										'label' => 'Grupos',
-										'module' => 'default',
+										'module' => 'admin',
 										'controller' => 'grupos',
 										'action' => 'index',
 										'class'=>'bt-menu-tree',
 										'pages' => array(
 														array(
 															'label' => 'Listar',
-															'module' => 'default',
+															'module' => 'admin',
 															'controller' => 'grupos',
 															'action' => 'index',
 															'class'=>'bt-menu-tree'
 														),
 														array(
 															'label' => 'Adicionar',
-															'module' => 'default',
+															'module' => 'admin',
 															'controller' => 'grupos',
 															'action' => 'add',
 															'class'=>'bt-menu-tree'

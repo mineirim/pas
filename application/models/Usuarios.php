@@ -5,6 +5,7 @@ class Model_Usuarios extends App_DefaultModel
 	protected $_dependentTables = array('Model_UsuariosGrupos');
 	private $password_md5;
 	private $salt;
+	protected $_rowClass = "Model_Row_Usuario";
 	public function init(){
 		parent::init();
 		$this->_schema = "public";
