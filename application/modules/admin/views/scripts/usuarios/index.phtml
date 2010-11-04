@@ -50,7 +50,7 @@ UsuariosGrid = function(){
 	this.viewrecords	= true;
 	this.altRows		= true;
 	this.viewsortcols	= [true,'horizontal',true];
-	this.rowNum			= 8;
+	this.rowNum		= 8;
 	this.rowList 		= [20,30,50];
 	this.emptyrecords	= "Nenhum usuário encontrado";
 	this.editurl		= "<?php echo $this->url(array('action'=>'')) ?>/salvar";
@@ -59,7 +59,7 @@ UsuariosGrid = function(){
 	this.caption		= 'Usuários';
 	//this.toolbar		= [true,"top"];
 	this.toppager		= true;
-    this.cloneToTop		= true;
+        this.cloneToTop		= true;
    	this.colNames=['id', 'Nome','E-mail', 'login','Ações '];
    	this.colModel=[
 					{name:'id', index:'id', width:'10', hidden: true, search:false},

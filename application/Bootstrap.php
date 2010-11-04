@@ -76,7 +76,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		
 		$viewRenderer->setView($view); 		
 	}
-
+/**
 	function _initAcl() {
 		$front = Zend_Controller_Front::getInstance ();
 		$front->throwExceptions ( true );
@@ -94,6 +94,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		
 	
 	}
+	*/
 	/*
 	protected function _initMenu() {
 		if (Zend_Auth::getInstance ()->hasIdentity ()) {
@@ -107,6 +108,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 	}
 	*/
 	protected function _initMenu() {
+		            
 		$pages = array(
 					array(
 					'label' => 'Home',
@@ -182,6 +184,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 					)
 					
 		);
+		
+		
+		/**
 		$programas = new Model_Programas();
 		$projetos = new Model_Projetos();
 		$objetivos_especificos = new Model_ObjetivosEspecificos();
@@ -211,9 +216,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'class'=>'bt-menu-tree'
 							);
 							
-			/**
-			 * navegação dos projetos
-			 */				
+			
+			// navegação dos projetos
 			foreach($projetos->fetchAll('situacao_id=1 and projeto_id is null and programa_id='.$programa->id,'id') as $projeto)
 			{
 				$pgs = array('label'=>$projeto->menu,
@@ -224,10 +228,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 							'class'=>'bt-menu-tree'
 							);	
 				
-				/**
-				 * navegação em objetivos específicos 
-				 */
-							
+                // navegação em objetivos específicos 
 				foreach($objetivos_especificos->fetchAll('situacao_id=1 and projeto_id='.$projeto->id) as $objetivo){
 					$objesp = array(
 								'label'=>$objetivo->menu,
@@ -237,9 +238,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 								'params'=>array('objetivo_especifico_id'=>$objetivo->id),
 								'class'=>'bt-menu-tree'
 								);
-					/**
-					 * navegação em metas
-					 */
+					// navegação em metas
 					foreach($metas->fetchAll('situacao_id=1 and objetivo_especifico_id='.$objetivo->id) as $meta){
 						$metaarray  = array(
 								'label'=>substr($meta->descricao,0,15)."...",
@@ -249,9 +248,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 								'params'=>array('meta_id'=>$meta->id),
 								'class'=>'bt-menu-tree'
 								);
-						/**
-						 * navegação em operações
-						 */
+						// navegação em operações
 						foreach($operacoes->fetchAll('situacao_id=1 and meta_id='.$meta->id) as $operacao){
 							$arr_operacao = array(
 											'label'=>'operacao',
@@ -261,9 +258,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 											'params'=>array('operacao_id'=>$operacao->id),
 											'class'=>'bt-menu-tree'
 											);
-							/**
-							 * navegação em atividades
-							 */
+							// navegação em atividades
 											
 							foreach($atividades->fetchAll('situacao_id=1 and operacao_id='.$operacao->id) as $atividade){
 							$arr_atividades = array(
@@ -287,6 +282,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 			}
 			$pages_din['pages'][]=$arr;
 		}
+		*/
 		$indicadores = array('label'=>'Indicadores',
 							 'title'=>'Indicadores',
 							 'module'=>'default',
@@ -305,7 +301,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
 
 		
-		$pages[]=$pages_din;
+		//$pages[]=$pages_din;
 		$pages[]=$indicadores;
 		$pages[]=$relatorios;
 		

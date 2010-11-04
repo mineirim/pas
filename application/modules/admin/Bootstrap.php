@@ -10,13 +10,5 @@ class Admin_Bootstrap extends Zend_Application_Module_Bootstrap
 		));
 		return $autoloader;
 	}
-	protected function _initRestRoute() {
-	    $this->bootstrap('frontController');
-	    $frontController = Zend_Controller_Front::getInstance();
-	    $restRoute = new Zend_Rest_Route($frontController, 
-	    					array(), 
-	    					array('admin')
-	    					);
-	    $frontController->getRouter()->addRoute('rest', $restRoute);
-	}
+
 }

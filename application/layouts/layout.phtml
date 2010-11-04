@@ -15,16 +15,14 @@ if ($this->jQuery ()->isEnabled ()) {
  */
 $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.min.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.bgiframe.js' )
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.corner.js' )
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.form.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/ui.datepicker-pt-BR.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/grid.locale-pt-br.js')				
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqGrid.min.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.tooltip.pack.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.treeview.js')
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.contextmenu.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
-				
 				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
 
 echo $this->JQuery ();
@@ -33,7 +31,7 @@ echo $this->JQuery ();
  * ckeditor para ajudas.
  */
 if ( !$this->ckeditor ) { 
-	echo $this->headScript()->appendFile( $this->baseUrl().'/js/ckeditor/ckeditor.js');
+	//echo $this->headScript()->appendFile( $this->baseUrl().'/js/ckeditor/ckeditor.js');
 }
 
 
@@ -98,9 +96,10 @@ echo $this->baseUrl ();
 		</div>
 		<div id="topo-ico" style="float:left">
 			<img class="topo-logo" alt="" src="<?php echo $this->baseUrl (); ?>/images/titulo_ses.jpg"/>
-			<div style="float:left; padding-left: 80px;" class="titulo" >
-				<font size="4"><b>Programação Anual de Saúde - PAS-E 2010</b></font>
+			<div style="float:left; padding-left: 80px; font-size: 1.5em; font-weight: bold" class="titulo" >
+				Programação Anual de Saúde - PAS-E 2010
 			</div>
+                        <div style='text-align:center; clear: both'><span id='flash-m'></span></div>
 		</div>
 		<div id="topo-buttons" style="position: absolute; top: 100px; right: 55px; width: 115px;" >
 			<?php 
@@ -115,19 +114,13 @@ echo $this->baseUrl ();
 								<img alt='Visualizar Marcadores' src='". $this->baseUrl() ."/images/seebookmark.jpg' width='23' height='23' border='0'/></a>";								
 			?>
 			&nbsp;&nbsp;
-			<?php echo $this->myTooltip(); ?>
+			<?php //echo $this->myTooltip(); ?>
 		</div>
-		<div  style="position: absolute; top: 100px; left: 15px; width: 800px;" >
-			<font size="1">
+		<div  style="position: absolute; top: 100px; left: 15px; width: 800px; font-size: 0.9em" >
 			<?php
 			echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
 			?>
-			</font>
-			<br><div style='text-align:center; width: 100%'><span id='flash-m'></span></div> </br>
 		</div>
-		
-		<br/>
-		
 	</div>
 	<table>
 	  <tr>
