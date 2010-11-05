@@ -43,6 +43,9 @@ class Admin_SetoresController extends Zend_Controller_Action
     public function updateAction()
     {
         $setor = $this->_getParam('setor');
+        if($setor['setor_id']=='')
+        	unset($setor['setor_id']);
+        
         $id = $this->_getParam('id');
         $model_setor = new Model_Setores();
 
@@ -64,7 +67,9 @@ class Admin_SetoresController extends Zend_Controller_Action
 
     public function getAction()
     {
-
+		$model_setores = new Model_Setores();
+		$setores = $model_setores->fetchAll();
+		$this->view->dados =$setores;
     }
 
     public function get2gridAction()
@@ -94,7 +99,7 @@ class Admin_SetoresController extends Zend_Controller_Action
 		$response->records = $count;
 		
 		foreach ( $setores as $setor ) {
-			$response->rows [] = array ('id' => $setor->id, 'nome' => $setor->nome, 'sigla' => $setor->sigla, 'descricao' => $setor->descricao );
+			$response->rows [] = array ('id' => $setor->id, 'nome' => $setor->nome, 'sigla' => $setor->sigla, 'descricao' => $setor->descricao, 'setor_id'=>$setor->setor_id );
 		}
 		
 		$this->view->dados = $response;

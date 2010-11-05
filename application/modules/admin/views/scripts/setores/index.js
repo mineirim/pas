@@ -3,7 +3,7 @@ function GridSetores(gridtable,paginator,parametros){
     this.gridtable		= gridtable;
     this.paginator 		= paginator;
     this.parametros	 	= parametros;
-    this.colNames=['id','Setor','Sigla','Descrição'];
+    this.colNames=['id','Setor','Sigla','Descrição', 'Setor superior'];
     this.colModel=[
 				    {
 				        name:'setor[id]',
@@ -68,9 +68,21 @@ function GridSetores(gridtable,paginator,parametros){
 				        editrules:{
 				            required:true
 				        }
+				    },
+				    {
+				    	name:'setor[setor_id]',
+				        index:'setor_id',
+				        jsonmap : 'setor_id',
+					    editable: true,
+						edittype:"select",
+						editoptions:{
+							dataUrl:'<?php echo $this->url(array("action"=>"get")); ?>?format=html'
+						},
+						formoptions:{ elmprefix:"&nbsp;&nbsp;&nbsp;&nbsp;" }
 				    }
 				    ];
     this.caption =   "Setores";
+    this.recreateForm =true;
     this.afterInsertRow  = function(rowid, rowdata, rowelem)
     {
         $('#' + rowid).contextMenu('MenuSetores', contextSetores);
@@ -241,7 +253,3 @@ function Setores(){
 		
     };
 }
-
-
-
-
