@@ -259,7 +259,8 @@ GridPadrao = {
     viewrecords     : true,
     toppager        : true,
     cloneToTop      : true,
-    forceFit        : true
+    forceFit        : true,
+    jsonReader: { repeatitems : false, root:"rows" }
 }
 
 

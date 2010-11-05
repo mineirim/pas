@@ -2,7 +2,7 @@
 <table id="tb-cargos"></table>
 <div id="pg-cargos"></div>
 
-<div class="contextMenu" id="MenuJqGrid" >
+<div class="contextMenu" id="MenuCargos" >
     <ul class="cm-ul ui-widget">
         <li id="add" >
             <span style="float:left" class="ui-icon ui-icon-document"></span> Novo
@@ -16,7 +16,7 @@
         </li>
     </ul>
 </div>
-<div class="contextMenu" id="MenuJqGrid-geral" >
+<div class="contextMenu" id="MenuCargos-geral" >
     <ul class="cm-ul ui-widget">
         <li id="add" >
             <span style="float:left" class="ui-icon ui-icon-document"></span> Novo
@@ -24,7 +24,12 @@
     </ul>
 </div>
 <script type="text/javascript" >
-<?php 
-include('index.js');
-?>
+
+$(function(){
+	$.getScript('<?php echo $this->url();?>?format=js', function(r){
+	    cargos = new Cargos();
+	    cargos.init();
+	    cargos.createGrid();
+		});
+});
 </script>

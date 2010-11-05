@@ -1,12 +1,12 @@
 
-function GridCargos(gridtable,paginator,parametros){
+function GridSetores(gridtable,paginator,parametros){
     this.gridtable		= gridtable;
     this.paginator 		= paginator;
     this.parametros	 	= parametros;
-    this.colNames=['id','Cargo','Descrição'];
+    this.colNames=['id','Setor','Sigla','Descrição'];
     this.colModel=[
 				    {
-				        name:'cargo[id]',
+				        name:'setor[id]',
 				        index:'id',
 				        jsonmap : 'id' ,
 				        width:15,
@@ -17,7 +17,7 @@ function GridCargos(gridtable,paginator,parametros){
 				        }
 				    },
 				    {
-				        name:'cargo[nome]',
+				        name:'setor[nome]',
 				        index:'nome',
 				        editable:true,
 				        jsonmap : 'nome',
@@ -26,7 +26,7 @@ function GridCargos(gridtable,paginator,parametros){
 				        },
 				        formoptions:
 				        {
-				            label: "Cargo",
+				            label: "Nome",
 				            elmprefix:"(*)"
 				        },
 				        editrules:{
@@ -34,7 +34,24 @@ function GridCargos(gridtable,paginator,parametros){
 				        }
 				    },
 				    {
-				        name:'cargo[descricao]',
+				        name:'setor[sigla]',
+				        index:'sigla',
+				        editable:true,
+				        jsonmap : 'sigla',
+				        editoptions:{
+				            size:60
+				        },
+				        formoptions:
+				        {
+				            label: "Sigla",
+				            elmprefix:"(*)"
+				        },
+				        editrules:{
+				            required:true
+				        }
+				    },
+				    {
+				        name:'setor[descricao]',
 				        index:'descricao',
 				        editable:true,
 				        jsonmap : 'descricao',
@@ -53,17 +70,17 @@ function GridCargos(gridtable,paginator,parametros){
 				        }
 				    }
 				    ];
-    this.caption =   "Cargos";
+    this.caption =   "Setores";
     this.afterInsertRow  = function(rowid, rowdata, rowelem)
     {
-        $('#' + rowid).contextMenu('MenuCargos', contextCargos);
+        $('#' + rowid).contextMenu('MenuSetores', contextSetores);
     };
     this.init = function(){
     	this.pager =this.paginator
         $.extend(this, GridPadrao);
         this.url='<?php echo $this->url(array("action"=>"get2grid")); ?>?format=json';
         var self = this;
-        $("#tb-cargos").jqGrid(self);
+        $("#tb-setores").jqGrid(self);
         this.initBar();
 
     };
@@ -81,7 +98,7 @@ function GridCargos(gridtable,paginator,parametros){
                 buttonicon:"ui-icon-document",
                 onClickButton: function()
                 {
-                    cargos.formNew();
+                    setores.formNew();
                 }
 
             });
@@ -92,7 +109,7 @@ function GridCargos(gridtable,paginator,parametros){
                 buttonicon:"ui-icon-pencil",
                 onClickButton:function()
                 {
-                    cargos.formEdit();
+                    setores.formEdit();
                 }
             });
         $(this.gridtable).jqGrid(
@@ -103,38 +120,38 @@ function GridCargos(gridtable,paginator,parametros){
                 buttonicon:"ui-icon-trash",
                 width: 100,
                 onClickButton: function(){
-                    cargos.formDelete();
+                    setores.formDelete();
                 }
             });
     };
     // Configurações do menu de contexto
-    var contextCargos = {
+    var contextSetores = {
         bindings: {
             'add': function(t) {
-                cargos.formNew();
+                setores.formNew();
             },
             'delete': function(t) {
-                cargos.formDelete(t.id);
+                setores.formDelete(t.id);
             },
             'edit': function(t) {
-                cargos.formEdit(t.id);
+                setores.formEdit(t.id);
             }
         }
     };
     this.gridComplete	= function()
     {
-        $('#gview_tb-cargos .ui-jqgrid-bdiv').contextMenu('MenuCargos-geral', contextCargos);
+        $('#gview_tb-setores .ui-jqgrid-bdiv').contextMenu('MenuSetores-geral', contextSetores);
     }
 }
 
-function Cargos(){
+function Setores(){
     this.init = function(){};
     this.createGrid = function(){
-        grid = new GridCargos('#tb-cargos','#pg-cargos');
+        grid = new GridSetores('#tb-setores','#pg-setores');
         grid.init();
     };
     this.formNew =  function(){
-        $("#tb-cargos").editGridRow("new",
+        $("#tb-setores").editGridRow("new",
         {
             url              :'<?php echo $this->url(array("action"=>"create")); ?>?format=json',
             mtype            :'POST',
@@ -150,11 +167,11 @@ function Cargos(){
     };
     this.formEdit = function(id)
     {
-        var gsr = id ? id : $("#tb-cargos").jqGrid('getGridParam','selrow');
+        var gsr = id ? id : $("#tb-setores").jqGrid('getGridParam','selrow');
         if(gsr)
         {
             edit_url = '<?php echo $this->url(array("action"=>"update"));?>/'+gsr+'?format=json'
-            jQuery("#tb-cargos").jqGrid(
+            jQuery("#tb-setores").jqGrid(
                 'editGridRow',
                 gsr,
                 {
@@ -190,11 +207,11 @@ function Cargos(){
     };
     this.formDelete = function(id)
     {
-        var gsr = id ? id : $("#tb-cargos").jqGrid('getGridParam','selrow');
+        var gsr = id ? id : $("#tb-setores").jqGrid('getGridParam','selrow');
         if(gsr)
         {
             edit_url = '<?php echo $this->url(array("action"=>"delete"));?>/id/'+gsr+'?format=json'
-            jQuery("#tb-cargos").jqGrid(
+            jQuery("#tb-setores").jqGrid(
                 'delGridRow',
                 gsr,
                 {

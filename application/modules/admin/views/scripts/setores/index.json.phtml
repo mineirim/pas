@@ -1,0 +1,12 @@
+<?php
+$response = array();
+$response['page'] = 1;
+        $response['total'] = 10;
+        $response['records'] = count($this->cargos);
+$i=0;        
+foreach ($this->cargos as $cargo) {
+            $response['rows'][$i]['id']=$cargo->id; //id
+            $response['rows'][$i]['cell']=array($cargo->id,$cargo->nome,$cargo->descricao);
+            $i++;
+        }
+$this->json($response);

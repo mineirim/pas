@@ -179,7 +179,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 															'class'=>'bt-menu-tree'
 														)
 												   )
+									),
+									array(
+										'label' => 'Cargos',
+										'module' => 'admin',
+										'controller' => 'cargos',
+										'action' => 'index',
+										'class'=>'bt-menu-tree'
+									),
+									array(
+										'label' => 'Setores',
+										'module' => 'admin',
+										'controller' => 'setores',
+										'action' => 'index',
+										'class'=>'bt-menu-tree'
 									)
+									
 								)
 					)
 					
