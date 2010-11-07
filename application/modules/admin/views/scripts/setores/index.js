@@ -1,9 +1,11 @@
 
 function GridSetores(gridtable,paginator,parametros){
+	this.loadonce		= true;
     this.gridtable		= gridtable;
     this.paginator 		= paginator;
     this.parametros	 	= parametros;
-    this.colNames=['id','Setor','Sigla','Descrição', 'Setor superior'];
+    this.ExpandColumn  = "setor[nome]";
+    this.colNames=['id','Setor','Sigla','Descrição', 'Vínculo'];
     this.colModel=[
 				    {
 				        name:'setor[id]',
@@ -51,8 +53,8 @@ function GridSetores(gridtable,paginator,parametros){
 				        }
 				    },
 				    {
-				        name:'setor[descricao]',
-				        index:'descricao',
+				        name	:'setor[descricao]',
+				        index	:'descricao',
 				        editable:true,
 				        jsonmap : 'descricao',
 				        edittype:"textarea",
@@ -70,26 +72,35 @@ function GridSetores(gridtable,paginator,parametros){
 				        }
 				    },
 				    {
-				    	name:'setor[setor_id]',
-				        index:'setor_id',
+				    	name	:'setor[setor_id]',
+				        index	:'setor_id',
 				        jsonmap : 'setor_id',
+				        hidden	: true,
 					    editable: true,
 						edittype:"select",
 						editoptions:{
-							dataUrl:'<?php echo $this->url(array("action"=>"get")); ?>?format=html'
+							dataUrl:'<?php echo $this->url(array("action"=>"get")); ?>?format=html',
+							dataInit :  function(element)
+							{
+								var gsr = $("#tb-setores").jqGrid('getGridParam','selrow');
+								setTimeout(function() {$(element).val(parseInt(gsr,10));},100);
+							}
 						},
-						formoptions:{ elmprefix:"&nbsp;&nbsp;&nbsp;&nbsp;" }
+						formoptions:{ elmprefix:"&nbsp;&nbsp;&nbsp;&nbsp;" },
+						editrules	: {edithidden:true}
+						
 				    }
 				    ];
     this.caption =   "Setores";
     this.recreateForm =true;
+    
     this.afterInsertRow  = function(rowid, rowdata, rowelem)
     {
         $('#' + rowid).contextMenu('MenuSetores', contextSetores);
     };
     this.init = function(){
     	this.pager =this.paginator
-        $.extend(this, GridPadrao);
+        $.extend(this, TreeGridPadrao);
         this.url='<?php echo $this->url(array("action"=>"get2grid")); ?>?format=json';
         var self = this;
         $("#tb-setores").jqGrid(self);
@@ -139,6 +150,7 @@ function GridSetores(gridtable,paginator,parametros){
     // Configurações do menu de contexto
     var contextSetores = {
         bindings: {
+        	
             'add': function(t) {
                 setores.formNew();
             },
@@ -162,21 +174,38 @@ function Setores(){
         grid = new GridSetores('#tb-setores','#pg-setores');
         grid.init();
     };
-    this.formNew =  function(){
+    /**
+     * Adiciona novo elemento 
+     */
+    this.formNew =  function(from){
         $("#tb-setores").editGridRow("new",
         {
             url              :'<?php echo $this->url(array("action"=>"create")); ?>?format=json',
             mtype            :'POST',
             modal             : true,
-            closeAfterAdd    :true,
-            reloadAfterSubmit:true,
-            closeOnEscape    :true,
-            height           :250,
-            width            :530,
-            afterComplete    : Mensageiro.onComplete
+            closeAfterAdd    : true,
+            reloadAfterSubmit: true,
+            closeOnEscape    : true,
+            recreateForm	 : true,
+            height           : 250,
+            width            : 530,
+            afterComplete    :  function(response, postdata, formid)
+			{
+				Mensageiro.onComplete(response, postdata, formid);
+            	$("#tb-setores").trigger("reloadGrid");
+			},
+			errorTextFormat	  : function(response,b)
+			{
+				Mensageiro.onError(response);
+				var json = eval('(' + response.responseText + ')');
+				return json.errormessage
+			}
         }
         );
     };
+    /**
+     * Edita a linha selecionada
+     */
     this.formEdit = function(id)
     {
         var gsr = id ? id : $("#tb-setores").jqGrid('getGridParam','selrow');
@@ -195,7 +224,13 @@ function Setores(){
                     closeOnEscape     : true,
                     height            : 250,
                     width             : 530,
-                    afterComplete     : Mensageiro.onComplete
+                    afterComplete     : Mensageiro.onComplete,
+                    errorTextFormat	  : function(response,b)
+                    {
+                    	Mensageiro.onError(response);
+                    	var json = eval('(' + response.responseText + ')');
+                    	return json.errormessage
+                    }
                 }
                 );
         } else {
@@ -217,6 +252,10 @@ function Setores(){
         }
 
     };
+    /**
+     * APAGA A LINHA SELECIONADA
+     * @TODO implementar a lista de setores a serem deletado recursivamente
+     */
     this.formDelete = function(id)
     {
         var gsr = id ? id : $("#tb-setores").jqGrid('getGridParam','selrow');
@@ -228,7 +267,7 @@ function Setores(){
                 gsr,
                 {
                     url               : edit_url,
-                    mtype             : 'DELETE',
+                    mtype             : 'POST',
                     modal             : 'true',
                     topinfo           : 'Apagar',
                     closeAfterEdit    : true,

@@ -29,14 +29,14 @@ class Admin_SetoresController extends Zend_Controller_Action
         $model_setores = new Model_Setores();
 
         try {
-                $model_setores->insert ( $setor );
+                $setor['id'] = $model_setores->insert ( $setor );
                 $this->view->response = array ('dados' => $setor,
                                                                                 'notice' => 'Dados inseridos com sucesso',
                                                                                 'descricao' => $setor ['nome'] );
         } catch ( Exception $e ) {
                 $this->getResponse ()->setHttpResponseCode ( 501 );
                 $this->getResponse()->setException($e);
-                $this->view->response = array ('notice' => 'Erro ago gravar dados', 'erros' => $e->getMessage () );
+                $this->view->response = array ('notice' => 'Erro ao gravar dados', 'errormessage' => $e->getMessage () );
         }
     }
 
@@ -56,50 +56,83 @@ class Admin_SetoresController extends Zend_Controller_Action
                                     'descricao' =>  $setor['nome']);
         }catch (Exception $e){
             $this->getResponse ()->setHttpResponseCode ( 501 );
-            $this->view->response =array('notice'=>'Erro ago gravar dados', 'erros' => $e->getMessage() );
+            $this->view->response =array('notice'=>'Erro ao gravar dados', 'errormessage' => $e->getMessage() );
         }
     }
 
     public function deleteAction()
     {
-        // action body
+        $id = $this->_getParam('id');
+        $model_setor = new Model_Setores();
+        try{
+	        $setor = $model_setor->fetchRow('id='.$id);
+	        $setor->situacao_id=2;
+	        $setor->save();
+	        $this->view->response =  array('dados' => $setor,
+                                    'notice'    =>  'Setor apagado com sucesso',
+                                    'descricao' =>  $setor->nome);
+        }catch (Exception $e){
+            $this->getResponse ()->setHttpResponseCode ( 501 );
+            $this->view->response =array('notice'=>'Erro ao gravar dados', 'errormessage' => $e->getMessage() );
+        } 
     }
 
     public function getAction()
     {
-		$model_setores = new Model_Setores();
-		$setores = $model_setores->fetchAll();
+    	$model_setores = new Model_Setores();
+    	$n_level=0;
+	    if ($this->_getParam('nodeid')){
+	    	$setores = $model_setores->fetchAll("setor_id=".$this->_getParam('nodeid'));
+	      	$n_level= $this->_getParam('n_level')+1;
+	    }else{
+	      $setores = $model_setores->fetchAll();
+	      $n_level=0;
+	    }    	
+		
+		
 		$this->view->dados =$setores;
     }
 
     public function get2gridAction()
     {
-        $response = new stdClass ();
-		$this->_helper->layout->disableLayout ();
+    	$response = new stdClass ();
+    	$model_setores = new Model_Setores();
+    	$this->_helper->layout->disableLayout ();
 		$page = $this->_request->getParam ( "page", 1 );
 		$limit = $this->_request->getParam ( "rows" );
 		$sidx = $this->_request->getParam ( "sidx", 1 );
 		$sord = $this->_request->getParam ( "sord" );
-		$model_setores = new Model_Setores ();
-		$setores = $model_setores->fetchAll ();
-		$count = count ( $setores );
-		if ($count > 0) {
-			$total_pages = ceil ( $count / $limit );
-		} else {
-			$total_pages = 0;
-		}
+    	$nodeid = $this->_getParam('nodeid');
+    	
+   	
 		
-		if ($page > $total_pages)
-			$page = $total_pages;
+    	$n_level=0;
+	    if ($nodeid){
+	    	$setores = $model_setores->fetchAll("situacao_id=1 and setor_id=".$nodeid);
+	      	$n_level= $this->_getParam('n_level')+1;
+	    }else{
+	      	$setores = $model_setores->fetchAll('situacao_id=1 and setor_id is null');
+	      	$n_level=0;
+	    }     	
+    	
 		
-		$setores = $model_setores->fetchAll ( null, "$sidx $sord", $limit, ($page * $limit - $limit) );
-		
-		$response->page = $page;
-		$response->total = $total_pages;
-		$response->records = $count;
+		$response->page = 1;
+		$response->total = 1;
+		$response->records = count($setores);
 		
 		foreach ( $setores as $setor ) {
-			$response->rows [] = array ('id' => $setor->id, 'nome' => $setor->nome, 'sigla' => $setor->sigla, 'descricao' => $setor->descricao, 'setor_id'=>$setor->setor_id );
+			$leaf = count($setor->findModel_Setores())==0;
+			$response->rows [] = array ('id' => $setor->id, 
+											'nome' => $setor->nome, 
+											'sigla' => $setor->sigla, 
+											'descricao' => $setor->descricao, 
+											'setor_id'=>$setor->setor_id,
+											'level'  => $n_level, 
+											'isLeaf' => $leaf, 
+											'parent' => $setor->setor_id, 
+											'colapsed' => false
+			 );
+		
 		}
 		
 		$this->view->dados = $response;

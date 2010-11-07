@@ -25,11 +25,11 @@ class ChangestatusController extends Zend_Controller_Action {
 	    $this->_helper->viewRenderer->setNoRender(true);		
 	}
 	public function indexAction() {
-		// TODO Auto-generated ChangestatusController::indexAction() default action
+		
 	}
 	public function deleteAction()
 	{
-		
+		$objetos = new stdClass();
 		$model = $this->_getParam('model');
 		$id = $this->_getParam('id');
 		

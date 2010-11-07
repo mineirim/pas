@@ -261,8 +261,38 @@ GridPadrao = {
     cloneToTop      : true,
     forceFit        : true,
     jsonReader: { repeatitems : false, root:"rows" }
-}
+};
 
+TreeGridPadrao = {
+	    mtype           : 'GET',
+	    datatype        : 'json',
+	    width           :  520,
+	    height          : 230,
+		treeGridModel 	: 'adjacency',
+		treeGrid      	: true,
+		ExpandColClick	: false,
+		rowNum          :-1,
+		rowList         :[],
+		pginput         : false,
+		pgbuttons       : false,
+		sortname        : 'id',
+		viewrecords     : true,
+		toppager        : true,
+	    cloneToTop      : true,
+	    forceFit        : true,
+		jsonReader     : {
+		              repeatitems : false,
+		              id:"id",
+		              root:"rows"
+		},
+		treeReader : {
+		 level_field: "level",
+		 parent_id_field: "parent",
+		 leaf_field: "isLeaf",
+		 expanded_field: "expanded"
+		}
+
+};
 
 Mensageiro ={
     onComplete : function (response)
@@ -275,12 +305,36 @@ Mensageiro ={
         if(json.notice){
             obj.mensagem ='<h3>'+json.notice+'</h3>';
         }
+        if(json.errormessage){
+        	obj.errors +=json.errormessage; 
+        }
         if(json.errors) {
             success = false;
-            for(i=0; i < json.errors.length; i++) {
+            
+            for(i in json.errors) {
                 message += json.errors[i] + '<br/>';
             }
-            obj.errors = message
+            obj.errors += message
+        }
+        $('#flash-m').html(obj.mensagem+'<br>'+obj.errors).fadeIn(1000);
+        $('#flash-m').fadeOut(5000)
+    },
+    onError : function(response){
+    	var json = eval('(' + response.responseText + ')');
+        obj={
+            mensagem:'',
+            errors:''
+        };
+        if(json.errormessage){
+        	obj.mensagem +=json.errormessage; 
+        }
+        if(json.errors) {
+            success = false;
+            
+            for(i in json.errors) {
+                message += json.errors[i] + '<br/>';
+            }
+            obj.errors += message
         }
         $('#flash-m').html(obj.mensagem+'<br>'+obj.errors).fadeIn(1000);
         $('#flash-m').fadeOut(5000)
