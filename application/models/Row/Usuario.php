@@ -9,14 +9,16 @@ require_once ('Zend/Db/Table/Row/Abstract.php');
  * 
  */
 class Model_Row_Usuario extends Zend_Db_Table_Row_Abstract implements Zend_Acl_Role_Interface {
-	/**
-	 * 
-	 */
-	public function getRoleId() {
-		return $this->username;
-	}
+    public function getRoleId() {
+            return $this->username;
+    }
 
-
+    public function  toArray() {
+        $data = parent::toArray();
+        unset ($data['password']);
+        unset ($data['salt']);
+        return $data;
+    }
 }
 
 ?>

@@ -25,13 +25,13 @@
 </div>
 
 <script type="text/javascript" >
-<?php include_once'index.js';?>
+
 $(function(){
-	//$.getScript('<?php echo $this->url();?>?format=js', function(r){
+	$.getScript('<?php echo $this->url();?>?format=js', function(r){
 	    setores = new Setores();
 	    setores.init();
 	    setores.createGrid();
-		//});
+		});
 
 });
 </script>

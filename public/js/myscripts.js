@@ -11,14 +11,14 @@ $(document).ready(function(){
 		
 		
 
-    $(function() {
 			
-        $("#formtabs").tabs({
-            collapsible: true
-				
-        });
-        enableTabs();
+    $("#formtabs").tabs({
+        collapsible: true
+
     });
+    enableTabs();
+    
+
     $('a.by-ajax').live('click',function(event){
         event.preventDefault();
         $('#formulario_ajax').html('Aguarde...');
@@ -255,7 +255,6 @@ GridPadrao = {
     rowList         :[],
     pginput         : false,
     pgbuttons       : false,
-    sortname        : 'id',
     viewrecords     : true,
     toppager        : true,
     cloneToTop      : true,
@@ -275,7 +274,6 @@ TreeGridPadrao = {
 		rowList         :[],
 		pginput         : false,
 		pgbuttons       : false,
-		sortname        : 'id',
 		viewrecords     : true,
 		toppager        : true,
 	    cloneToTop      : true,

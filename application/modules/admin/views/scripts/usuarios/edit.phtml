@@ -1,15 +1,30 @@
-<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>' 
-			action='<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'edit'));?>' 
-			method="post">
-	<?php echo $this->form->id;?>
-	<br>
-	<?php echo $this->form->nome?>
-	<br>
-	<?php echo $this->form->email?>
-	<br>
-	<fieldset>
-	<?php echo $this->form->grupos?>
-	</fieldset>
-	<br>
-	<?php echo $this->form->submit?>
+<form id='<?php echo $this->form->getId() ;?>'
+    enctype='<?php echo $this->form->getEnctype();?>'
+    action='<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'update'));?>?format=json'
+    method="post">
+    <div class="formtabs" style="height:100%">
+            <ul>
+                    <li><a href="#tab-cadastro" >Cadastro</a></li>
+                    <li><a href="#tab-permissao">Permissões</a></li>
+            </ul>
+            <div id="tab-cadastro" style="overflow: hidden">
+
+                <?php echo $this->form->usuario->id;?>
+                <br>
+                <?php echo $this->form->usuario->nome?>
+                <br>
+                <?php echo $this->form->usuario->email?>
+                
+                <br>
+            </div>
+            <div id="tab-permissao" style="overflow: hidden">
+                <br>
+                <fieldset>
+                    <legend>Grupos</legend>
+                <?php echo $this->form->grupos?>
+                </fieldset>
+                
+            </div>
+    <?php echo $this->form->submit?>
+    </div>
 </form>

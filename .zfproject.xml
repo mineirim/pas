@@ -118,6 +118,10 @@
               <actionMethod actionName="post"/>
               <actionMethod actionName="get2grid"/>
             </controllerFile>
+            <controllerFile controllerName="Usuarios">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="update"/>
+            </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory/>
@@ -149,6 +153,12 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Cargos">
                 <viewScriptFile forActionName="get2grid"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="update"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -324,6 +334,7 @@
           <testApplicationControllerFile filesystemName="CargosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="SetoresControllerTest.php"/>
           <testApplicationControllerFile filesystemName="CargosControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="UsuariosControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

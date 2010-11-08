@@ -76,7 +76,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		
 		$viewRenderer->setView($view); 		
 	}
-/**
+
 	function _initAcl() {
 		$front = Zend_Controller_Front::getInstance ();
 		$front->throwExceptions ( true );
@@ -94,7 +94,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 		
 	
 	}
-	*/
+	
 	/*
 	protected function _initMenu() {
 		if (Zend_Auth::getInstance ()->hasIdentity ()) {
