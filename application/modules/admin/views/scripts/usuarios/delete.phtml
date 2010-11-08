@@ -1,15 +1,15 @@
 <div >
 <h2>Confirmar exclusão</h2>
-<hr></hr>
+<hr/>
 <h3>Apagar usuário '<?php echo $this->escape($this->usuario['username']); ?>  
 (<?php echo $this->escape($this->usuario['nome']); ?>)'?
 </h3>
-<form action="<?php echo $this->url(array('controller'=>'usuarios', 'action'=>'delete')); ?>" method="post">
+<form action="<?php echo $this->url(array('action'=>'delete')); ?>?format=json" method="post">
 <div style="left:50px; text-align: center;padding: 30px">
 
 <input type="hidden" name="id" value="<?php echo $this->usuario['id']; ?>" />
-<input type="submit" name="del" value="Sim" style="font-size: 1.4em"/>
-<input type="submit" name="del" value="Não"  style="font-size: 1.4em"/>
+<input type="submit" name="del" value="Sim" class="by-ajax" style="font-size: 1.4em"/>
+<input type="submit" name="del" value="Não" class="by-ajax" style="font-size: 1.4em"/>
 
 </div>
 </form>

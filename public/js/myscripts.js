@@ -1,88 +1,118 @@
-
+var controleGeral;
 $(document).ready(function(){
-		
-	
-    $('#menu_tree').treeview({
-        animated: "fast",
-        collapsed: true,
-        unique: false,
-        persist: "cookie"
-    });
-		
-		
+    controleGeral = new ControleGeral();
+    controleGeral.init();
+});
 
-			
-    $("#formtabs").tabs({
-        collapsible: true
+/**
+ *Classe responsável por iniciar todos os controles padronizados da aplicação
+ *ex: quando clicar num botão com a classe tal, executar tal evento
+ **/
+function ControleGeral(){
 
-    });
-    enableTabs();
-    
+    this.init =  function()
+    {
+        this.criaMenuTree();
+        this.criaTabs();
+        this.cliques()
+    };
 
-    $('a.by-ajax').live('click',function(event){
-        event.preventDefault();
-        $('#formulario_ajax').html('Aguarde...');
-
-        $('#formulario_ajax').load(this.href+'/format/html',function(){
-            $("#formtabs").tabs({
-                collapsible: true
-											
-            });
-            enableTabs();
-        }).dialog({
-            autoOpen: false,
-            title: this.title,
-            height: 380,
-            width: 580,
-            modal: true
+    this.criaMenuTree = function()
+    {
+       $('#menu_tree').treeview({
+            animated: "fast",
+            collapsed: true,
+            unique: false,
+            persist: "cookie"
         });
-        $('#formulario_ajax').dialog('open');
-        return false;
-    });
-		
-    $("input.by-ajax").live('click',function(e){
-			
-        url=$(this).parents('form').attr('action');
-        data = $(this).parents('form').serialize();
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            success: function(data, status,xhr){
-                if (typeof(data) === "object"){
-                    if(data.status){
-                        /**
-            				 * TODO implementar timer para sumir com a flash message
-            				 */
-                        $('#flash-m').html(data.status).fadeOut(3000);
+
+    };
+    this.criaTabs = function()
+    {
+        $("#formtabs").tabs({collapsible: true});
+        enableTabs();
+        $(".datepick").datepicker({
+            dateformat:"dd-mm-yy"
+        });
+
+        $('.tooltip').tooltip();
+    }
+    /**
+     *Verifica se existem dependencias das tabs em relação à primeira
+     */
+    function enableTabs(){
+        tabs=[];
+        $("#formtabs form").each( function(){
+            dep = $(this).children('input#dependents');
+            if(dep.length>0){
+                tabs = dep[0].value.split(',')
+                id = this.elements['id'].value
+                if(id==""){
+                    for(i=0; i<tabs.length ;i++){
+                        tabs[i]=parseInt(tabs[i])
                     }
+                    $("#formtabs").tabs('option', 'disabled', tabs);
+                }else{
+                    $("#formtabs").tabs('option', 'disabled', []);
                 }
-            } ,
-            complete:function(XMLHttpRequest, textStatus){
-                if(textStatus=='success'){
-                    $('#formulario_ajax').dialog('close');
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-            	   
-                alert('erro')
-            	   
             }
-
         });
-        return false;
-    })
-		
-    $(".progressbar").progressbar({
-        value: 50
-    });
-		
-    //$(".progressbar").append('<span style="position:relative;top:-1.2em">50</span>')
-		
-    $(
-        function()
-        {
-            $(".submit_descritivo").click(function(e)
+    }
+
+    this.cliques = function(){
+        $('a.by-ajax').live('click',
+            function(event){
+                event.preventDefault();
+                $('#formulario_ajax').html('Aguarde...');
+
+                $('#formulario_ajax').load(this.href+'/format/html',function(){
+                    $("#formtabs").tabs({
+                        collapsible: true
+
+                    });
+                    enableTabs();
+                }).dialog({
+                    autoOpen: false,
+                    title: this.title,
+                    height: 380,
+                    width: 580,
+                    modal: true
+                });
+                $('#formulario_ajax').dialog('open');
+                return false;
+            }
+        );
+        // responsável por enviar formulários com através do clique do botão com a classe 'by-ajax'
+        $("input.by-ajax").live('click',function(e){
+            url=$(this).parents('form').attr('action');
+            // por padrão, o jquery não envia o valor para o botão clicado
+            // este pedaço de código corrige este problema
+            clicked = $(this).attr("name") + "=" + $(this).val();
+            data = $(this).parents('form').serialize() + "&" + clicked;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(data, status,xhr){
+                    Mensageiro.onSuccess(data);
+                } ,
+                complete:function(XMLHttpRequest, textStatus){
+                    if(textStatus=='success'){
+                        $('#formulario_ajax').dialog('close');
+                        Mensageiro.onComplete(XMLHttpRequest)
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+
+                    alert('erro')
+
+                }
+
+            });
+            return false;
+        });
+
+        $(".submit_descritivo").click(function(e)
             {
                 e.preventDefault()
                 var options = {
@@ -92,80 +122,53 @@ $(document).ready(function(){
                 // bind form using 'ajaxForm'
                 formulario  = $(this).parents('form');
                 $(formulario).ajaxSubmit(options)
-            });
-        }
-        );
-			
-    /*
-		 * edição de objetos via ajax
-		*/
-    $(".editdescription").live('click',function(e)
-    {
-        e.preventDefault();
-        e.stopPropagation();
+        });
+        $(".editdescription").live('click',function(e)
+            {
+                e.preventDefault();
+                e.stopPropagation();
 
-        $this = $(this)
-        $tpobjeto = this.id.split('-')[1]
-			
-        if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
+                $this = $(this)
+                $tpobjeto = this.id.split('-')[1]
+
+                if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
+                {
+                    $tpobjeto = $tpobjeto + 's'
+                }
+                $.getJSON(this.href,
+                    function(data){
+                        $this.parents('tr.lst').remove()
+                        $('#frm'+$tpobjeto).find('#id').val(data.id)
+                        $('#frm'+$tpobjeto).find('#descricao').val(data.descricao)
+                        if(data.tipo_indicador_id != undefined )
+                            $("#tipo_indicador_id-"+data.tipo_indicador_id).attr('checked','checked')
+                    });
+        });
+
+        $(".deletedescription").live('click',function(e)
         {
-            $tpobjeto = $tpobjeto + 's'
-        }
-        $.getJSON(this.href,
-            function(data){
-                $this.parents('tr.lst').remove()
-                $('#frm'+$tpobjeto).find('#id').val(data.id)
-                $('#frm'+$tpobjeto).find('#descricao').val(data.descricao)
-                if(data.tipo_indicador_id != undefined )
-                    $("#tipo_indicador_id-"+data.tipo_indicador_id).attr('checked','checked')
-			          
-            });
+            e.preventDefault();
+            $this = $(this)
+            $tpobjeto = this.id.split('-')[1]
+            if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
+            {
+                $tpobjeto = $tpobjeto + 's'
+            }
+            $.getJSON(this.href,
+                function(data){
+                    $this.parents('tr.lst').remove();
+                });
+        });
+        $("#categoria.alterar-categoria").live('change',function(e){
+            url = $("#url_categoria").val()+'/categoria_id/'+$(this).val();
+            $.getJSON(url,
+                function(data){
+                    alert ("Indicador Atualizado:  "+data.categoria)
 
-			
-    });
-
-			
-		   
-    $(".deletedescription").live('click',function(e)
-    {
-        e.preventDefault();
-        $this = $(this)
-        $tpobjeto = this.id.split('-')[1]
-        if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
-        {
-            $tpobjeto = $tpobjeto + 's'
-        }
-        $.getJSON(this.href,
-            function(data){
-                $this.parents('tr.lst').remove()
-		          
-            });
-
-			
-    });
-    $(".datepick").datepicker({
-        dateformat:"dd-mm-yy"
-    });
-		
-		
-		
-    $('.tooltip').tooltip();
-		
-		
-    $("#categoria.alterar-categoria").live('change',function(e){
-        url = $("#url_categoria").val()+'/categoria_id/'+$(this).val();
-        $.getJSON(url,
-            function(data){
-                alert ("Indicador Atualizado:  "+data.categoria)
-		          
-            });
-    });
-
-
-});
-
-
-
+                });
+        });
+    }
+}
 
 function showDescritivo(data,result,obj){
     if(data.toolbar != undefined){
@@ -188,24 +191,6 @@ function showDescritivo(data,result,obj){
     }
 }
 
-function enableTabs(){
-    tabs=[];
-    $("#formtabs form").each( function(){
-        dep = $(this).children('input#dependents');
-        if(dep.length>0){
-            tabs = dep[0].value.split(',')
-            id = this.elements['id'].value
-            if(id==""){
-                for(i=0; i<tabs.length ;i++){
-                    tabs[i]=parseInt(tabs[i])
-                }
-                $("#formtabs").tabs('option', 'disabled', tabs);
-            }else{
-                $("#formtabs").tabs('option', 'disabled', []);
-            }
-        }
-    });
-}
 
 
 function showResponse(responseText, statusText,formulario)
@@ -259,7 +244,7 @@ GridPadrao = {
     toppager        : true,
     cloneToTop      : true,
     forceFit        : true,
-    jsonReader: { repeatitems : false, root:"rows" }
+    jsonReader: {repeatitems : false, root:"rows"}
 };
 
 TreeGridPadrao = {
@@ -267,28 +252,28 @@ TreeGridPadrao = {
 	    datatype        : 'json',
 	    width           :  520,
 	    height          : 230,
-		treeGridModel 	: 'adjacency',
-		treeGrid      	: true,
-		ExpandColClick	: false,
-		rowNum          :-1,
-		rowList         :[],
-		pginput         : false,
-		pgbuttons       : false,
-		viewrecords     : true,
-		toppager        : true,
+            treeGridModel 	: 'adjacency',
+            treeGrid      	: true,
+            ExpandColClick	: false,
+            rowNum          :-1,
+            rowList         :[],
+            pginput         : false,
+            pgbuttons       : false,
+            viewrecords     : true,
+            toppager        : true,
 	    cloneToTop      : true,
 	    forceFit        : true,
-		jsonReader     : {
-		              repeatitems : false,
-		              id:"id",
-		              root:"rows"
-		},
-		treeReader : {
-		 level_field: "level",
-		 parent_id_field: "parent",
-		 leaf_field: "isLeaf",
-		 expanded_field: "expanded"
-		}
+            jsonReader     : {
+                          repeatitems : false,
+                          id:"id",
+                          root:"rows"
+            },
+            treeReader : {
+                         level_field: "level",
+                         parent_id_field: "parent",
+                         leaf_field: "isLeaf",
+                         expanded_field: "expanded"
+            }
 
 };
 
@@ -317,7 +302,17 @@ Mensageiro ={
         $('#flash-m').html(obj.mensagem+'<br>'+obj.errors).fadeIn(1000);
         $('#flash-m').fadeOut(5000)
     },
-    onError : function(response){
+    onSuccess : function(data)
+    {
+        if (typeof(data) === "object"){
+            if(data.status){
+                $('#flash-m').html(data.status).fadeOut(3000);
+            }
+        }
+
+    },
+    onError : function(response)
+    {
     	var json = eval('(' + response.responseText + ')');
         obj={
             mensagem:'',

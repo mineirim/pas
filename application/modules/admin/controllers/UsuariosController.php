@@ -11,6 +11,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                 ->addActionContext('create', array('html', 'json', 'xml'))
                 ->addActionContext('update', array('html', 'json', 'xml'))
                 ->addActionContext('delete', array('html', 'json', 'xml'))
+                ->addActionContext('restore', array('html', 'json', 'xml'))
                 ->addActionContext('get', array('html', 'json', 'xml'))
                 ->addActionContext('get2grid', array('html', 'json', 'xml'))
                 ->addActionContext('salvar', array('json', 'xml'))
@@ -181,28 +182,33 @@ class Admin_UsuariosController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
-        $this->view->title = "Apagar Usuário";
-        $this->view->headTitle($this->view->title, 'PREPEND');
         if ($this->getRequest()->isPost()) {
             $id = $this->getRequest()->getPost('id');
             //não se pode apagar o usuário administrador
             if ($id != 2) {
+                $usuarios = new Model_Usuarios();
+                $usuario = $usuarios->fetchRow('id='.$id);
                 $del = $this->getRequest()->getPost('del');
                 if ($del == 'Sim') {
-                    $usuarios = new Model_Usuarios();
                     $usuarios->deleteUsuario($id);
                 }
-                $this->_redirect('usuarios');
+                if($this->_getParam('format')=='json'){
+                    $this->view->response = array('dados' => $usuario->toArray(),
+                            'notice' => 'Dados atualizados com sucesso',
+                            'descricao' => $usuario->nome);
+                    $this->render('padrao');
+                }else{
+                    $this->_redirect('admin/usuarios');
+                }
             }
         } else {
+            $this->view->title = "Apagar Usuário";
+            $this->view->headTitle($this->view->title, 'PREPEND');
             $id = $this->_getParam('id');
             $usuarios = new Model_Usuarios();
             $this->view->usuario = $usuarios->getUsuario($id);
         }
 
-        if ($this->_request->isXmlHttpRequest()) {
-            $this->_helper->layout()->disableLayout();
-        }
     }
 
     public function restoreAction() {
@@ -210,17 +216,16 @@ class Admin_UsuariosController extends Zend_Controller_Action {
             $restore = $this->getRequest()->getPost('restore');
             $id = $this->getRequest()->getPost('id');
             $model_usuarios = new Model_Usuarios();
+            $usuario = $model_usuarios->fetchRow('id='.$id);
             if ($restore == 'Sim') {
-                
                 $model_usuarios->restoreUsuario($id);
-                $usuario = $model_usuarios->fetchRow('id='.$id);
             }
             if($this->_getParam('format')=='json'){
                 $this->view->response = array('dados' => $usuario->toArray(),
                         'notice' => 'Dados atualizados com sucesso',
-                        'descricao' => $dados['nome']);
+                        'descricao' => $usuario->nome);
             }else{
-                $this->_redirect('usuarios');
+                $this->_redirect('admin/usuarios');
             }
         } else {
             $this->view->title = "Restaurar Usuário";

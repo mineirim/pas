@@ -41,10 +41,10 @@ UsuariosGrid = function(){
     };
     this.gridComplete	= function()
     {
-
+        self = this;
         $("#"+this.id+" .fn_action > a").bind('click',function(){
             arr= this.id.split('_');
-            fn_acao(arr[1],arr[0]);
+            self.fn_acao(arr[1],arr[0] );
         });
 
     };
@@ -68,7 +68,7 @@ UsuariosGrid = function(){
                 buttonicon:"ui-icon-document",
                 onClickButton: function()
                 {
-                    fn_acao(false,'add');
+                    self.fn_acao(false,'add');
                 }
 
             });
@@ -103,7 +103,7 @@ UsuariosGrid = function(){
         index:'nome',
         width:'170'
     },
-{
+    {
         name:'email',
         index:'email',
         width:170
@@ -143,35 +143,30 @@ UsuariosGrid = function(){
         });
 
     };
-    var fn_acao = function (id,acao)
+    this.fn_acao = function (id,acao)
     {
-        $('#form_acao').html('Aguarde...');
+        self = this;
+        $('#formulario_ajax').html('Aguarde...');
 
-        $('#form_acao').load("<?php echo $this->url(array('action'=>''));?>"+acao+"/id/"+id,
+        $('#formulario_ajax').load("<?php echo $this->url(array('action'=>''));?>"+acao+"/id/"+id,
                 function()
                 {
                      $(".formtabs").tabs({
                         collapsible: true
                         });
-                     $("#submit-ajax").live('click',function(){
-
-                        $('#frm-usuario').ajaxSubmit({
-                        type: 'post',
-                        success: function(a,b,c){
-                            alert(a.responseText)
-                        }
-                        });
-
-                     })
                 }
         ).dialog({
             autoOpen: false,
             title: "Controle de Usuários",
             height: 340,
             width: 550,
-            modal: true
+            modal: true,
+            close: function(ev, ui)
+                    {
+                        $(self.gridtable).jqGrid().trigger("reloadGrid")
+                    }
         });
-        $('#form_acao').dialog('open')
+        $('#formulario_ajax').dialog('open')
 
     };
 };
