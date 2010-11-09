@@ -103,9 +103,7 @@ function ControleGeral(){
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown){
-
-                    alert('erro')
-
+                    Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
                 }
 
             });
@@ -311,7 +309,7 @@ Mensageiro ={
         }
 
     },
-    onError : function(response)
+    onError : function(response,textStatus,errorThrown)
     {
     	var json = eval('(' + response.responseText + ')');
         obj={
@@ -322,13 +320,29 @@ Mensageiro ={
         	obj.mensagem +=json.errormessage; 
         }
         if(json.errors) {
+            /**
+             * TODO implementar recursividade dos erros
+             *
             success = false;
-            
-            for(i in json.errors) {
-                message += json.errors[i] + '<br/>';
-            }
+            message += jQuery().serialize(json.errors)+ '<br/>';
             obj.errors += message
+            */
         }
+        $( "<div title='Erro'></div>" )
+            .html(obj.mensagem+'<br>'+obj.errors)
+            .dialog(
+            {
+                modal: true,
+                buttons:
+                {
+                    Ok: function()
+                    {
+                        $( this ).dialog( "destroy" );
+                        $( this ).remove();
+                    }
+                }
+            });
+
         $('#flash-m').html(obj.mensagem+'<br>'+obj.errors).fadeIn(1000);
         $('#flash-m').fadeOut(5000)
     }

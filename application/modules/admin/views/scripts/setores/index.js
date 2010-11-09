@@ -1,6 +1,6 @@
 
 function GridSetores(gridtable,paginator,parametros){
-	this.loadonce		= true;
+    this.loadonce		= true;
     this.gridtable		= gridtable;
     this.paginator 		= paginator;
     this.parametros	 	= parametros;

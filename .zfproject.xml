@@ -121,6 +121,7 @@
             <controllerFile controllerName="Usuarios">
               <actionMethod actionName="index"/>
               <actionMethod actionName="update"/>
+              <actionMethod actionName="create"/>
             </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
@@ -159,6 +160,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Usuarios">
                 <viewScriptFile forActionName="update"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Usuarios">
+                <viewScriptFile forActionName="create"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>

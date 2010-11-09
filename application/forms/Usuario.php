@@ -2,7 +2,7 @@
 
 class Form_Usuario extends ZendX_JQuery_Form {
 
-    public function __construct($options = null) {
+    public function __construct($options = null,$novo=null) {
 
         parent::__construct($options);
 
@@ -47,6 +47,28 @@ class Form_Usuario extends ZendX_JQuery_Form {
                 ->setDecorators(array('ViewHelper', 'Errors'))
                 ->setValue("Salvar");
 
+
+        if($novo){
+            $username = new Zend_Form_Element_Text('username');
+            $username->setLabel('Login')
+                    ->setRequired(true)
+                    ->addFilter('StripTags')
+                    ->addFilter('StringTrim')
+                    ->setDecorators(array('ViewHelper', 'Errors', 'Label'))
+                    ->addValidator('NotEmpty');
+            $subform->addElement($username);
+            $password = new Zend_Form_Element_Password('password');
+            $password->setLabel('Senha')
+                    ->setRequired(true)
+                    ->addFilter('StripTags')
+                    ->addFilter('StringTrim')
+                    ->setDecorators(array('ViewHelper', 'Errors', 'Label'))
+                    ->addValidator('NotEmpty');
+            $subform->addElement($password);
+        }
+
+
+
         $this->addSubForm($subform, 'usuario');
         $this->addElements(array($this->getGrupos(), $submit));
     }
@@ -71,25 +93,6 @@ class Form_Usuario extends ZendX_JQuery_Form {
         $formGrupos->setDecorators(array('ViewHelper', 'Errors'))
                 ->setRequired(true);
         return $formGrupos;
-    }
-
-    public function addUsernameAndPassword() {
-        $username = new Zend_Form_Element_Text('username');
-        $username->setLabel('Login')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->setDecorators(array('ViewHelper', 'Errors', 'Label'))
-                ->addValidator('NotEmpty');
-        $password = new Zend_Form_Element_Password('password');
-        $password->setLabel('Senha')
-                ->setRequired(true)
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->setDecorators(array('ViewHelper', 'Errors', 'Label'))
-                ->addValidator('NotEmpty');
-
-        $this->addElements(array($username, $password));
     }
 
 }

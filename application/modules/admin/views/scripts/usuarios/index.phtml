@@ -1,21 +1,9 @@
 <script type="text/javascript">
 <?php    include_once 'index.js'; ?>
 $(document).ready(function(){
-	gridtable = '#habilitados';
-	paginator = "#pager_habilitados";
-	parametros = "situacao_id/1";
-
-	gridHabilitados = new UsuariosGrid();
-	
-	gridHabilitados.init(gridtable,paginator,parametros)
-	gridHabilitados.initTopBar();
-	
-	gridtable = $('#excluidos');
-	paginator = "#pager_excluidos";
-	parametros = "situacao_id/2"
-	
-	gridExcluidos = new UsuariosGrid();
-	gridExcluidos.init(gridtable,paginator,parametros)
+    usuarios = new Usuarios();
+    usuarios.init();
+    usuarios.createGrid();
 	
 });
 </script>

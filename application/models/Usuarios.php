@@ -22,26 +22,22 @@ class Model_Usuarios extends App_DefaultModel
 	}
 	public function addUsuario($dados, array $grupos)
 	{
-		$this->getAdapter()->beginTransaction();
-		
-
-		$this->makePassword($dados['password']);
-
-		$dados['password']=$this->password_md5;
-		$dados['salt']=$this->salt;
-		$id = parent::insert($dados);
-
-	    foreach($grupos as $g) {
-			$usuarioGrupo= new Model_UsuariosGrupos();
-			$pg=array (
-			'grupo_id' => $g,
-			'usuario_id' => $id
-			);
-			$usuarioGrupo ->insert( $pg);
-		}
-		
-    	$this->getAdapter()->commit();		
-		
+            $this->getAdapter()->beginTransaction();
+            $this->makePassword($dados['password']);
+            $dados['password']=$this->password_md5;
+            $dados['salt']=$this->salt;
+            $id = parent::insert($dados);
+	    foreach($grupos as $g)
+            {
+                $usuarioGrupo= new Model_UsuariosGrupos();
+                $pg=array (
+                'grupo_id' => $g,
+                'usuario_id' => $id
+                );
+                $usuarioGrupo ->insert( $pg);
+            }
+            $this->getAdapter()->commit();
+            return $id;
 	}
 	function updatePassword(array $dados,  $where){
 		

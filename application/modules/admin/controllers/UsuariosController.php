@@ -8,10 +8,12 @@ class Admin_UsuariosController extends Zend_Controller_Action {
         $ajaxContext->addContext('js', array('suffix' => 'js'));
         $ajaxContext->setAutoJsonSerialization(false);
         $ajaxContext->addActionContext('index', array('json', 'xml', 'js'))
+                ->addActionContext('add', array('html', 'json', 'xml'))
                 ->addActionContext('create', array('html', 'json', 'xml'))
                 ->addActionContext('update', array('html', 'json', 'xml'))
                 ->addActionContext('delete', array('html', 'json', 'xml'))
                 ->addActionContext('restore', array('html', 'json', 'xml'))
+                ->addActionContext('reset', array('html', 'json', 'xml'))
                 ->addActionContext('get', array('html', 'json', 'xml'))
                 ->addActionContext('get2grid', array('html', 'json', 'xml'))
                 ->addActionContext('salvar', array('json', 'xml'))
@@ -35,61 +37,88 @@ class Admin_UsuariosController extends Zend_Controller_Action {
     public function addAction() {
         $this->view->title = "Adicionar usuário";
         $this->view->headTitle($this->view->title, 'PREPEND');
-        $form = new Form_Usuario();
+        $form = new Form_Usuario(null,'new');
         $form->submit->setLabel('Adicionar');
-        $form->addUsernameAndPassword();
-        $form->password->addValidator('NotEmpty')->setRequired(true);
-        $form->username->addValidator('NotEmpty')->setRequired(true);
         $this->view->form = $form;
+        
+    }
+/**
+ * @todo definir senha padrão para saudesp
+ */
+    public function createAction() {
+        $form = new Form_Usuario(null,'new');
         if ($this->getRequest()->isPost()) {
+            $model_usuarios = new Model_Usuarios();
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
-                $nome = $form->getValue('nome');
-                $username = $form->getValue('username');
-                $password = $form->getValue('password');
-                $email = $form->getValue('email');
-
-                $dados = array('nome' => $nome, 'username' => $username, 'password' => $password, 'email' => $email);
+                $dados = $form->getValue('usuario');
                 $grupos = $form->getValue('grupos');
-
-                $usuarios = new Model_Usuarios();
-                $usuarios->addUsuario($dados, $grupos);
-                $this->_redirect('usuarios');
+                try{
+                    $id = $model_usuarios->addUsuario($dados, $grupos);
+                    $usuario = $model_usuarios->fetchRow('id=' . $id);
+                    $this->view->response = array('dados' => $usuario->toArray(),
+                        'notice' => 'Usuário inserido com sucesso',
+                        'descricao' => $dados['nome']);
+                } catch (Exception $e) {
+                    $this->getResponse()->setHttpResponseCode(501);
+                    $this->view->response = array('notice' => 'Erro ao gravar dados',
+                        'errormessage' => $e->getMessage());
+                }
             } else {
-                $form->populate($formData);
+                
+                $this->getResponse()->setHttpResponseCode(501);
+                $this->view->response = array('notice' => 'Erro ao gravar dados',
+                    'errormessage' => "Erro de validação",
+                    'errors' => $form->getErrors()
+                );
             }
+        }  else {
+            $this->getResponse()->setHttpResponseCode(501);
+            $this->view->response = array('notice' => 'Erro ao gravar dados',
+                'errormessage' => "Metodo esperado: POST"
+            );
         }
-        if ($this->_request->isXmlHttpRequest()) {
-            $this->_helper->layout()->disableLayout();
+        if (!$this->_getParam('format') == 'json') {
+            $this->_redirect('admin/usuarios');
         }
     }
-
-    public function adicionarAction() {
-        $this->view->title = "Adicionar usuário";
-        $this->view->headTitle($this->view->title, 'PREPEND');
+    public function updateAction() {
         $form = new Form_Usuario();
-        $form->submit->setLabel('Adicionar');
-        $form->addUsernameAndPassword();
-        $form->password->addValidator('NotEmpty')->setRequired(true);
-        $form->username->addValidator('NotEmpty')->setRequired(true);
-        $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
-                $nome = $form->getValue('nome');
-                $username = $form->getValue('username');
-                $password = $form->getValue('password');
-                $email = $form->getValue('email');
-
-                $dados = array('nome' => $nome, 'username' => $username, 'password' => $password, 'email' => $email);
+                $dados = $form->getValue('usuario'); // array('id' => $id, 'nome' => $nome, 'email' => $email);
                 $grupos = $form->getValue('grupos');
-
-                $usuarios = new Model_Usuarios();
-                $usuarios->addUsuario($dados, $grupos);
-                $this->_redirect('usuarios');
+                $id = (int) $dados['id'];
+                try {
+                    $usuarios = new Model_Usuarios();
+                    $usuarios->updateUsuario($dados, $grupos, 'id=' . $id);
+                    $usuario = $usuarios->fetchRow('id=' . $id);
+                    $this->view->response = array('dados' => $usuario->toArray(),
+                        'notice' => 'Dados atualizados com sucesso',
+                        'descricao' => $dados['nome']);
+                } catch (Exception $e) {
+                    $this->getResponse()->setHttpResponseCode(501);
+                    $this->getResponse()->setException($e);
+                    $this->view->response = array('notice' => 'Erro ao gravar dados',
+                        'errormessage' => $e->getMessage());
+                }
             } else {
-                $form->populate($formData);
+                $this->getResponse()->setHttpResponseCode(501);
+                $this->view->response = array('notice' => 'Erro ao gravar dados',
+                    'errormessage' => $e->getMessage(),
+                    'errors' => $form->getErrors()
+                );
             }
+        }else{
+            $this->view->response = array('notice' => 'Erro ao gravar dados',
+                'errormessage' => 'Metodo esperado: POST'
+            );
+        }
+        if ($this->_getParam('format') == 'json') {
+                    $this->render('padrao');
+        }else{
+            $this->_redirect('admin/usuarios');
         }
     }
 
@@ -115,11 +144,11 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                 'errormessage' => "Informe um código de usuário para editar");
             $this->restoreAction("erro.phtml");
         }
-        if ($this->_request->isXmlHttpRequest()) {
-            $this->_helper->layout()->disableLayout();
-        }
     }
 
+    /**
+     * @todo implementar a função de alterar password segundo novos padrões
+     */
     public function changepasswordAction() {
         $usuarios = new Model_Usuarios();
 
@@ -187,17 +216,17 @@ class Admin_UsuariosController extends Zend_Controller_Action {
             //não se pode apagar o usuário administrador
             if ($id != 2) {
                 $usuarios = new Model_Usuarios();
-                $usuario = $usuarios->fetchRow('id='.$id);
+                $usuario = $usuarios->fetchRow('id=' . $id);
                 $del = $this->getRequest()->getPost('del');
                 if ($del == 'Sim') {
                     $usuarios->deleteUsuario($id);
                 }
-                if($this->_getParam('format')=='json'){
+                if ($this->_getParam('format') == 'json') {
                     $this->view->response = array('dados' => $usuario->toArray(),
-                            'notice' => 'Dados atualizados com sucesso',
-                            'descricao' => $usuario->nome);
+                        'notice' => 'Dados atualizados com sucesso',
+                        'descricao' => $usuario->nome);
                     $this->render('padrao');
-                }else{
+                } else {
                     $this->_redirect('admin/usuarios');
                 }
             }
@@ -208,7 +237,6 @@ class Admin_UsuariosController extends Zend_Controller_Action {
             $usuarios = new Model_Usuarios();
             $this->view->usuario = $usuarios->getUsuario($id);
         }
-
     }
 
     public function restoreAction() {
@@ -216,15 +244,15 @@ class Admin_UsuariosController extends Zend_Controller_Action {
             $restore = $this->getRequest()->getPost('restore');
             $id = $this->getRequest()->getPost('id');
             $model_usuarios = new Model_Usuarios();
-            $usuario = $model_usuarios->fetchRow('id='.$id);
+            $usuario = $model_usuarios->fetchRow('id=' . $id);
             if ($restore == 'Sim') {
                 $model_usuarios->restoreUsuario($id);
             }
-            if($this->_getParam('format')=='json'){
+            if ($this->_getParam('format') == 'json') {
                 $this->view->response = array('dados' => $usuario->toArray(),
-                        'notice' => 'Dados atualizados com sucesso',
-                        'descricao' => $usuario->nome);
-            }else{
+                    'notice' => 'Dados atualizados com sucesso',
+                    'descricao' => $usuario->nome);
+            } else {
                 $this->_redirect('admin/usuarios');
             }
         } else {
@@ -235,29 +263,33 @@ class Admin_UsuariosController extends Zend_Controller_Action {
             $model_usuarios = new Model_Usuarios();
             $this->view->usuario = $model_usuarios->getUsuario($id);
         }
-
     }
 
     public function resetAction() {
-        $this->view->title = "Resetar Senha";
-        $this->view->headTitle($this->view->title, 'PREPEND');
+        
         if ($this->getRequest()->isPost()) {
-            $restore = $this->getRequest()->getPost('reset');
-            if ($restore == 'Sim') {
-                $id = $this->getRequest()->getPost('id');
-                $dados = array('id' => $id, 'password' => 'saudesp');
-                $usuarios = new Model_Usuarios();
-                $usuarios->updatePassword($dados, 'id=' . $id);
+            $reset = $this->getRequest()->getPost('reset');
+            $id = $this->getRequest()->getPost('id');
+            $dados = array('id' => $id, 'password' => 'saudesp');
+            if ($reset == 'Sim') {
+                $model_usuarios = new Model_Usuarios();
+                $model_usuarios->updatePassword($dados, 'id=' . $id);
+                $usuario = $model_usuarios->fetchRow('id=' . $id);
+                if ($this->_getParam('format') == 'json') {
+                    $this->view->response = array('dados' => $usuario->toArray(),
+                        'notice' => 'Dados atualizados com sucesso',
+                        'descricao' => $usuario->nome);
+                    $this->render('padrao');
+                } else {
+                    $this->_redirect('admin/usuarios');
+                }
             }
-            $this->_redirect('usuarios');
         } else {
+            $this->view->title = "Resetar Senha";
+            $this->view->headTitle($this->view->title, 'PREPEND');
             $id = $this->_getParam('id');
             $usuarios = new Model_Usuarios();
             $this->view->usuario = $usuarios->getUsuario($id);
-        }
-
-        if ($this->_request->isXmlHttpRequest()) {
-            $this->_helper->layout()->disableLayout();
         }
     }
 
@@ -300,37 +332,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
         $this->_helper->json($response);
     }
 
-    public function updateAction() {
-        $form = new Form_Usuario();
-        if ($this->getRequest()->isPost()) {
-            $formData = $this->getRequest()->getPost();
-            if ($form->isValid($formData)) {
 
-                $dados = $form->getValue('usuario'); // array('id' => $id, 'nome' => $nome, 'email' => $email);
-                $grupos = $form->getValue('grupos');
-                $id = (int) $dados['id'];
-                try {
-                    $usuarios = new Model_Usuarios();
-                    $usuarios->updateUsuario($dados, $grupos, 'id=' . $id);
-                    $usuario = $usuarios->fetchRow('id=' . $id);
-                    $this->view->response = array('dados' => $usuario->toArray(),
-                        'notice' => 'Dados atualizados com sucesso',
-                        'descricao' => $dados['nome']);
-                } catch (Exception $e) {
-                    $this->getResponse()->setHttpResponseCode(501);
-                    $this->getResponse()->setException($e);
-                    $this->view->response = array('notice' => 'Erro ao gravar dados',
-                        'errormessage' => $e->getMessage());
-                }
-            } else {
-                $this->getResponse()->setHttpResponseCode(501);
-                $this->view->response = array('notice' => 'Erro ao gravar dados',
-                    'errormessage' => $e->getMessage(),
-                    'errors' => $form->getErrors()
-                );
-            }
-        }
-    }
 
 }
 
