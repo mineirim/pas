@@ -1,14 +1,10 @@
 
 $(document).ready(function(){
 		
+	tree = new MyTree();
+	tree.create_json();
+
 	
-		$('#menu_tree').treeview({
-			animated: "fast",
-			collapsed: true,
-			unique: false,
-			persist: "cookie"
-		});
-		
 		
 
 		$(function() {
@@ -57,7 +53,7 @@ $(document).ready(function(){
             				$('#flash-m').html(data.status).fadeOut(3000);
             			}
             		}
-               }  ,
+               } ,
                complete:function(XMLHttpRequest, textStatus){
             	   if(textStatus=='success'){
            				$('#formulario_ajax').dialog('close');
@@ -211,7 +207,7 @@ function showResponse(responseText, statusText,formulario)
     $('.form-errors').remove();
     if (responseText == true)
     {
-    	options = {params : 'format=xml', success: updateId }
+    	options = {params : 'format=xml', success: updateId}
      	//formulario.ajaxSubmit(options)
     	formulario.submit();
     }
@@ -234,5 +230,111 @@ function updateId(responseXML,statusText,formulario){
     tabs =$('#formtabs').tabs();
     selected = tabs.tabs('option', 'selected'); 
     $('#formtabs').tabs('select', selected+1);
+    
+}
+
+
+
+function MyTree(){
+    this.init = function(){
+        $("#menu-tree").jstree({
+            //"core" : { "initially_open" : [ "root" ] },
+            "html_data" : {
+                "data" : $(".menu-tree").html()
+            },
+            "themes" : {
+                "theme" : "classic",
+                "dots" : true,
+                "icons" : true
+            },
+            "plugins" : [ "themes", "html_data" , "ui", "cookies" ],
+            cookie_options : {
+                auto_save:true
+            }
+	        
+        });
+        $("#menu-tree").delegate("a","click", function (e) {
+            document.location.href = this.href;
+        });
+		
+        $("#menu-tree").bind("select_node.jstree",
+            function(e,data)
+            {
+            //acrescentar eventos do onclick
+            }
+            );
+    };
+    this.create_json = function(){
+        $.getJSON(baseUrl+'/treemenu', function(data){
+            $("#menu_tree").jstree({
+                "correct_state" : true,
+    		"json_data" : {"data" :data},
+    		"themes" : {
+                    "theme" : "classic",
+                    "dots" : true,
+                    "icons" : true
+                },
+            "plugins" : [ "themes", "json_data", "cookies" ]
+            });
+        });
+    }
+    this.create = function(){
+    	$("#menu_tree").jstree({
+    		"correct_state" : true,
+    		"json_data" : {
+    			"data" : [
+    				{ 
+    					"data" : "Administração", 
+    					"state" : "closed",
+    					"attr" : {"id" : "li-admin"},
+    					"children" : [ 
+    					               {'data' :{'title':"Alterar Senha",
+    					            	   		 "attr" : {"href" : "/public/usuarios/changepassword"}
+    					               			}
+    					               },
+    					               {'data' :{'title':"Usuários", "attr" : {"href" : "/public/usuarios"}
+    					               }},
+    					               {'data' :{'title':"Grupos",   "attr" : {"href" : "/public/grupos"}}}
+    					             ]
+    				},
+    				{ 
+    					"attr" : {"id" : "plano-root"},
+    					"state" : "closed",
+    					"data" : { 
+    						"title" : "Plano", 
+    						"attr" : {"href" : "/public/plano/programas"} 
+    					} 
+    				},
+    				{ 
+    					"attr" : {"id" : "li-indicadores"}, 
+    					"data" : { 
+    						"title" : "Indicadores", 
+    						"attr" : {"href" : "/public/indicadores"} 
+    					} 
+    				},
+    				{ 
+    					"attr" : {"id" : "li-relatorios"}, 
+    					"data" : { 
+    						"title" : "Relatorios", 
+    						"attr" : {"href" : "/public/relatorios"} 
+    					} 
+    				}
+    			],
+    			"ajax" : {"url" : "/public/treemenu?format=json",
+		    				"data" : function (n) { 
+										return {node : n.attr("id") ? n.attr("id") : 0, openeds : $.cookie('jstree_open')}; 
+	    							}
+    					 }
+    		},
+    		"themes" : {
+                "theme" : "classic",
+                "dots" : true,
+                "icons" : true
+            },
+            "plugins" : [ "themes", "json_data", "cookies" ]
+    		
+    	});    	
+    }
+
     
 }

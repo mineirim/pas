@@ -1,6 +1,9 @@
 <?php echo $this->doctype ( 'XHTML1_TRANSITIONAL' );?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+    <script type="text/javascript">
+        var baseUrl = '<?php echo$this->baseUrl ()?>'
+    </script>
 <?php
 $mysession = new Zend_Session_Namespace ( 'temas' );
 $tema =	'custom-theme' ;
@@ -22,7 +25,7 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jqGrid.min.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.tooltip.pack.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
-				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.treeview.js')
+				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jstree.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
 				
 				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
@@ -135,11 +138,6 @@ echo $this->baseUrl ();
 	      
 			<div  style="float: left;margin-top:30px;min-height: 200px " class="ui-widget ui-widget-content ui-corner-all">
 				<div id='menu_tree'>
-					<?php
-					$partial = array('_navtree.phtml', 'default');
-					$this->navigation()->menu()->setPartial($partial);
-					echo $this->navigation ()->menu ();
-					?>
 				</div>	
 			</div>
 		</td>
