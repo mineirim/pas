@@ -68,15 +68,7 @@ UsuariosGrid = function(){
         this.sortname       = 'nome',
         $(this.gridtable).jqGrid(this);
 
-        p={
-            del:false,
-            add:false,
-            edit:false,
-            search:false,
-            alertcap:' para editar :',
-            alerttext:' clique na linha para selecionar',
-            'cloneToTop':true
-        }
+        p={del:false,add:false,edit:false,search:false,alertcap:' para editar :',alerttext:' clique na linha para selecionar','cloneToTop':true}
         $(this.gridtable).navGrid(this.paginator, p);
 
 

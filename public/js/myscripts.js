@@ -65,7 +65,7 @@ function ControleGeral(){
                 event.preventDefault();
                 $('#formulario_ajax').html('Aguarde...');
 
-                $('#formulario_ajax').load(this.href+'/format/html',function(){
+                $('#formulario_ajax').load(this.href+'?format=html',function(){
                     $("#formtabs").tabs({
                         collapsible: true
 

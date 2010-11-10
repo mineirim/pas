@@ -9,7 +9,7 @@
   $user = Zend_Auth::getInstance()->getIdentity();
 ?>  
 Usuário logado: <?php echo $user->nome;?>.<br />  
-<a href="<?php echo $this->url(array('module'=>'admin', 'controller'=>'usuarios','action'=>'changepassword'));?> ">Alterar senha</a>
+<a href="<?php echo $this->url(array('module'=>'admin', 'controller'=>'usuarios','action'=>'changepassword'));?> " class="by-ajax">Alterar senha</a>
  | 
 <a href="<?php echo $this->url(array('controller'=>'auth','action'=>'logout'));?> ">Sair</a>  
 <?php endif; ?>  

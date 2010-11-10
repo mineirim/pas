@@ -16,7 +16,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                 ->addActionContext('reset', array('html', 'json', 'xml'))
                 ->addActionContext('get', array('html', 'json', 'xml'))
                 ->addActionContext('get2grid', array('html', 'json', 'xml'))
-                ->addActionContext('salvar', array('json', 'xml'))
+                ->addActionContext('changepassword',array('html', 'json', 'xml'))
                 ->addActionContext('localizar', array('html', 'json', 'xml'))
                 ->initContext();
 
@@ -146,59 +146,47 @@ class Admin_UsuariosController extends Zend_Controller_Action {
         }
     }
 
-    /**
-     * @todo implementar a função de alterar password segundo novos padrões
-     */
+
     public function changepasswordAction() {
         $usuarios = new Model_Usuarios();
-
-
         $auth = Zend_Auth::getInstance ();
         $id_auth = $auth->getIdentity()->id;
-
-
         if ($id_auth) {
-
-            $this->view->usuario = $usuarios->find($id_auth)->current();
-
-            $this->view->title = "Alterar senha";
-            $this->view->headTitle($this->view->title, 'PREPEND');
             $form = new Zend_Form();
             $id = new Zend_Form_Element_Hidden('id');
-            $id->setRequired(true)
-                    ->addFilter('StripTags')
-                    ->addFilter('StringTrim')
-                    ->addValidator('NotEmpty');
+            $id->setRequired(true)->addFilter('StripTags')->addFilter('StringTrim')->addValidator('NotEmpty');
             $password = new Zend_Form_Element_Password('password');
-
-            $password->setLabel("Nova senha")
-                    ->setRequired(true)
-                    ->addFilter('StripTags')
-                    ->addFilter('StringTrim')
-                    ->addValidator('NotEmpty');
+            $password->setLabel("Nova senha")->setRequired(true)->addFilter('StripTags')->addFilter('StringTrim')->addValidator('NotEmpty');
             $confirm = new Zend_Form_Element_Password('confirm');
             $confirm->setLabel("Confirmar senha");
             $submit = new Zend_Form_Element_Submit('submit');
-            $submit->setLabel('Alterar');
+            $submit->setLabel('Alterar')->setAttrib('class', 'by-ajax');
             $form->addElements(array($id, $password, $confirm, $submit));
-            $this->view->form = $form;
             if ($this->getRequest()->isPost()) {
                 $formData = $this->getRequest()->getPost();
                 if ($form->isValid($formData)) {
                     $id = (int) $form->getValue('id');
                     $password = $form->getValue('password');
-
                     $dados = array('id' => $id, 'password' => $password);
-
-
                     $usuarios->updatePassword($dados, 'id=' . $id);
-                    $this->_redirect('index');
+                    $usuario = $usuarios->fetchRow('id=' . $id);
+                    $this->view->response = array('dados' => $usuario->toArray(),
+                        'notice' => 'Senha alterada com sucesso',
+                        'descricao' => $usuario->nome);
                 } else {
-
-                    $form->populate($formData);
+                    $this->getResponse()->setHttpResponseCode(501);
+                    $this->view->response = array('notice' => 'Erro ao alterar senha',
+                        'errormessage' => 'senha inválida',
+                        'errors' => $form->getErrors()
+                    );
+                    
                 }
+                $this->render('padrao');
             } else {
-
+                $this->view->usuario = $usuarios->find($id_auth)->current();
+                $this->view->title = "Alterar senha";
+                $this->view->headTitle($this->view->title, 'PREPEND');
+                $this->view->form = $form;
                 $id = $id_auth;
                 if ($id > 0) {
                     $usuarios = new Model_Usuarios();
