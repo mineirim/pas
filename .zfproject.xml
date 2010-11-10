@@ -69,6 +69,9 @@
         <controllerFile controllerName="Cargos">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Treemenu">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -289,6 +292,9 @@
           <viewControllerScriptsDirectory forControllerName="Setores">
             <viewScriptFile forActionName="get2grid"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Treemenu">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -339,6 +345,7 @@
           <testApplicationControllerFile filesystemName="SetoresControllerTest.php"/>
           <testApplicationControllerFile filesystemName="CargosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="UsuariosControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="TreemenuControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>
