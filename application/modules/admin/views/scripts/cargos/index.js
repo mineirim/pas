@@ -3,6 +3,8 @@ function GridCargos(gridtable,paginator,parametros){
     this.gridtable		= gridtable;
     this.paginator 		= paginator;
     this.parametros	 	= parametros;
+    this.sortname		= 'nome';
+    this.sortorder		= "asc";
     this.colNames=['id','Cargo','Descrição'];
     this.colModel=[
 				    {

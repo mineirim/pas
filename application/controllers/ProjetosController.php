@@ -55,6 +55,13 @@ class ProjetosController extends Zend_Controller_Action {
 		$programa_id = $this->_getParam ( 'programa_id' );
 		$projeto_id = $this->_getParam ( 'projeto_id' );
 		
+		if(!$programa_id && $projeto_id){
+			$model_projetos = new Model_Projetos ( );
+			$projeto = $model_projetos->fetchRow('id='.$projeto_id);
+			$programa_id = $projeto->programa_id;
+		}
+		
+		
 		$this->view->form = $this->form;
 		
 		if ($programa_id) 
@@ -65,7 +72,7 @@ class ProjetosController extends Zend_Controller_Action {
 			
 			$this->render ( 'edit' );
 		} else {
-			$this->_redirect('erro');
+			$this->_redirect('error');
 		}
 	}
 	
