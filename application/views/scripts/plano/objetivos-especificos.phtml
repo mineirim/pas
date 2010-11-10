@@ -98,7 +98,7 @@
 			$select = $this->objetivo_especifico->select();
 			$select->order('id'); 
 			$select->where('situacao_id=1');
-			$cycle=$this->cycle(array('ui-state-default','ui-state-active'));
+			$cycle=$this->cycle(array('',''));
 			foreach ($this->objetivo_especifico->findDependentRowset('Model_Metas',null,$select) as $meta){?>
 				<tr class="<?php echo $cycle->next()?>">
 					<td >
