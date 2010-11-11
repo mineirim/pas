@@ -29,25 +29,26 @@ class Zend_View_Helper_LineProgressbar extends Zend_View_Helper_BaseUrl {
 	}
 	private function getLineProgressbar($nivel, $id)
 	{
-		$pesodenominador = 0;
-		$pesototal = 0;
-		$atividades = new Model_Atividades ();
-		if ($nivel == 7){
-			$resultado = $atividades->fetchRow("id=" . $id);
-			$pesodenominador = 100; 
-			if ($resultado->conclusao_data){
-				$pesototal = 100; // atividade realizada
-			} else {
-				$pesototal = 0; // atividade não realizada	
-			}	
-		} else {
-			if ($nivel == 6){
-				$pesodenominador = 100; // operação sempre terá denominador 100
-			} else {
-				$pesodenominador = $atividades->calculovalor($nivel, $id, 2);
-			}
-			$pesototal = $atividades->calculovalor($nivel, $id, 1);
-		}
+            $pesodenominador = 0;
+            $pesototal = 0;
+            $atividades = new Model_Atividades ();
+            if ($nivel == 7){
+                    $resultado = $atividades->fetchRow("id=" . $id);
+                    $pesodenominador = 100;
+                    if ($resultado->conclusao_data){
+                            $pesototal = 100; // atividade realizada
+                    } else {
+                            $pesototal = 0; // atividade não realizada
+                    }
+            } else {
+                    if ($nivel == 6){
+                            $pesodenominador = 100; // operação sempre terá denominador 100
+                    } else {
+                            $pesodenominador = $atividades->calculovalor($nivel, $id, 2);
+                    }
+                    $pesototal = $atividades->calculovalor($nivel, $id, 1);
+            }
+            
 	    if (($pesototal >= 0) && ($pesototal <= ((5*$pesodenominador)/100))){
 	        $frente = 1;
 	        $fundo = 34;

@@ -260,7 +260,7 @@ div.inner {
 .my-button{
 	display: block;
 	outline: 0; 
-	margin:0 4px 0 0; 
+	margin: 0 !important;
 	padding: .1em .1em; 
 	text-decoration:none !important; 
 	cursor:pointer; 
@@ -772,17 +772,17 @@ td.tb-corner{
 td.tb-corner-top-left{
     min-width:5px !important;
     max-width: 5px !important;
-    background-image: url("/images/curva-sup-esq.jpg");
+    background-image: url("../images/curva-sup-esq.jpg");
     min-height: 14px;
 }
 td.tb-corner-top-right{
     min-width:7px !important;
     max-width: 5px !important;
-    background-image: url("/images/curva-sup-dir.jpg");
+    background-image: url("../images/curva-sup-dir.jpg");
 }
 td.tb-corner-top-center{
     background-repeat:repeat-x !important;
-    background-image: url("/images/linha-sup-horiz.jpg");
+    background-image: url("../images/linha-sup-horiz.jpg");
     min-height: 14px !important;
 }
 
@@ -793,27 +793,27 @@ td.tb-corner-top-center{
     min-width:5px !important;
     max-width:5px !important;
     background-repeat:repeat-y;
-    background-image: url("/images/linha-esq-vert.jpg");
+    background-image: url("../images/linha-esq-vert.jpg");
 }
 .tb-corner-side-right{
     background-repeat:repeat-y;
-    background-image: url("/images/linha-dir-vert.jpg");
+    background-image: url("../images/linha-dir-vert.jpg");
 }
 td.tb-corner-botton-left{
     background-repeat:no-repeat;
     min-width:5px !important;
-    background-image: url("/images/curva-inf-esq.jpg");
+    background-image: url("../images/curva-inf-esq.jpg");
     min-height: 11px;
 }
 td.tb-corner-botton-center{
     background-repeat:repeat-x !important;
-    background-image: url("/images/linha-inf-horiz.jpg");
+    background-image: url("../images/linha-inf-horiz.jpg");
     min-height: 14px !important;
 }
 td.tb-corner-botton-right{
     background-repeat:no-repeat;
     min-width:5px !important;
     max-width:5px !important;
-    background-image: url("/images/curva-inf-dir.jpg");
+    background-image: url("../images/curva-inf-dir.jpg");
     min-height: 11px;
 }

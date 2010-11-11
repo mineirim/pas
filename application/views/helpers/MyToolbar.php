@@ -127,23 +127,17 @@ class Zend_View_Helper_MyToolbar {
 		return $ret;
 	}
 	private function getTopTableBar(){
-		$divsini = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix" style="text-align:center">';
-		$divsfim ='	</div>';
-		$toolbar = "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add'))."'
-					title='Novo' 
-					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-					<span class='ui-icon ui-icon-document'>Novo</span>Novo</a>";
-		
-		
-		
-		$ret = $divsini.$toolbar.$divsfim;
-		return $ret;
+		$toolbar = "<button value='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add'))."'
+					title='Novo'
+                                        alt='ui-icon-document'
+					class='my-jq-button button-ajax'>Novo</a>";
+		return $toolbar;
 	}
 	
 	private function getLineBar(){
 		$trimestral='';
 		
-		$width = 55;
+		$width = 40;
 		if($this->_controller=='metas'){
 			$width = 80;
 			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id))."'
@@ -156,7 +150,7 @@ class Zend_View_Helper_MyToolbar {
 		$toolbar = "
 		<div style='width:".$width."px;'>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit','id'=>$this->_id))."'
-					class='my-button '
+					class='my-button by-ajax'
 					title='Editar' 
 					
 					>

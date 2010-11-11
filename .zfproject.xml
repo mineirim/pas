@@ -78,6 +78,9 @@
           <actionMethod actionName="programa"/>
           <actionMethod actionName="projeto"/>
         </controllerFile>
+        <controllerFile controllerName="Execucao">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -313,6 +316,9 @@
           <viewControllerScriptsDirectory forControllerName="Instrumentos">
             <viewScriptFile forActionName="projeto"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Execucao">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -365,6 +371,7 @@
           <testApplicationControllerFile filesystemName="UsuariosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="TreemenuControllerTest.php"/>
           <testApplicationControllerFile filesystemName="InstrumentosControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ExecucaoControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

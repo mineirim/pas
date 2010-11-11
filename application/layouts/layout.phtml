@@ -6,12 +6,12 @@
 </script>
 <?php
 $mysession = new Zend_Session_Namespace ( 'temas' );
-$tema =	'cupertino' ;
+$tema =	'custom-theme' ;
 $this->jQuery ()->enable ();
 
 if ($this->jQuery ()->isEnabled ()) {
 	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
-	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.8.5.custom.css' );
+	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.8.6.custom.css' );
 }
 /**
  * ZendX_JQuery_View_Helper_JQuery_Container $this->JQuery()

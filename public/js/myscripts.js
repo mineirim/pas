@@ -14,7 +14,9 @@ function ControleGeral(){
     {
         this.criaMenuTree();
         this.criaTabs();
-        this.cliques()
+        this.cliques();
+        this.percentual_execucao();
+
     };
 
     this.criaMenuTree = function()
@@ -57,6 +59,18 @@ function ControleGeral(){
     }
 
     this.cliques = function(){
+        $('button.my-jq-button').each(function(k,v){
+            self = this;
+            $(v).button({
+                icons:{primary: $(v).attr('alt')}
+            });
+            $(v).css({'font-size': '0.85em'});
+        })
+        $('button.my-jq-button').live('click',function(){
+            alert($(this).val());
+            return false;
+        })
+
         $('a.by-ajax').live('click',
             function(event){
                 event.preventDefault();
@@ -162,6 +176,18 @@ function ControleGeral(){
 
                 });
         });
+    }
+    this.percentual_execucao = function(){
+        if($('#progresso').val() != 'undefined'){
+            url = baseUrl+'/execucao/from/'+$('#progresso').val();
+            $.getJSON(url,function(data){
+                $("data").each(function(k,v){
+                    $('.execucao').progressbar({
+			value: v
+                    });
+                })
+            })
+        }
     }
 }
 
