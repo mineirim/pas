@@ -7,7 +7,7 @@
                     <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 		</tr>
 		<?php
-			if($this->nivel=='Projeto') 
+			if($this->nivel=='Projeto')
 				echo $this->partial('plano/cabecalho.phtml',
                                                     array('objeto'=>$this->projeto,
 							 'nome'=>'Projeto', 'acao'=>'Projeto', 'detalhar'=>true));
@@ -34,7 +34,7 @@
 			       <td></td>
 			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
-				
+
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
@@ -53,26 +53,26 @@
 					</div>
 					</td>
 					<td align="center">
-						<?php 
+						<?php
 						if (!$projeto->projeto_id){
-							echo $this->lineProgressbar ( 2, $projeto->id  ); // Projetos 
+							echo $this->lineProgressbar ( 2, $projeto->id  ); // Projetos
 						} else {
-							echo $this->lineProgressbar ( 3, $projeto->id  ); // Sub Projetos 
+							echo $this->lineProgressbar ( 3, $projeto->id  ); // Sub Projetos
 						}
-						
+
 						?>
 					</td>
 					<td  align="center">
 						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'projeto_id' => $projeto->id ) );?>">
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
-						</a> 
+						</a>
 					</td>
 				</tr>
 				   <tr>
 				   <td></td>
 			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
-				
+
 				<?php
 				}?>
 			</tbody>
@@ -84,7 +84,7 @@
 
 	<?php if(count($this->objetivos_especificos)){?>
 	<div id="tabela" >
-	
+
 		<table width="100%" cellpadding="0" cellspacing="0">
 			<thead class="ui-widget removedui-widget-header">
 				<tr class=" ui-state-hover">
@@ -103,7 +103,7 @@
 				   <td></td>
 			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
-				
+
 			</thead>
 			<tbody class="ui-widget ui-widget-content ">
 				<?php
@@ -127,15 +127,15 @@
 					<td align="center">
 						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'objetivo_especifico_id' => $objetivos_especificos->id ) );?>">
 							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
-						</a> 
+						</a>
 					</td>
 				</tr>
 				   <tr>
 				   <td></td>
 			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
 			       </tr>
-				
-				<?php 
+
+				<?php
 				}?>
 			</tbody>
 		</table>

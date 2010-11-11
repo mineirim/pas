@@ -72,6 +72,12 @@
         <controllerFile controllerName="Treemenu">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Instrumentos">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="programas"/>
+          <actionMethod actionName="programa"/>
+          <actionMethod actionName="projeto"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -295,6 +301,18 @@
           <viewControllerScriptsDirectory forControllerName="Treemenu">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Instrumentos">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Instrumentos">
+            <viewScriptFile forActionName="programas"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Instrumentos">
+            <viewScriptFile forActionName="programa"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Instrumentos">
+            <viewScriptFile forActionName="projeto"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -346,6 +364,7 @@
           <testApplicationControllerFile filesystemName="CargosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="UsuariosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="TreemenuControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="InstrumentosControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

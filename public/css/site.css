@@ -553,7 +553,7 @@ div.inner {
 	padding-bottom: 3px;
 	background-image:url(../images/seta-vermelha.gif);
 	background-repeat:no-repeat;
-		}
+}
 		
 		.texto-tabela
 {
@@ -759,3 +759,61 @@ table.bordasimples {border-collapse: collapse; width: 90%}
 table.bordasimples tr td,table.bordasimples tr th {border:1px solid #FF0000;vertical-align: middle}
 
 
+table.borda-arredondada{
+    width: 99%;
+    border:0;
+    padding: 0;
+    border-spacing: 0;
+    min-height: 400px
+}
+td.tb-corner{
+        background-repeat:no-repeat;
+}
+td.tb-corner-top-left{
+    min-width:5px !important;
+    max-width: 5px !important;
+    background-image: url("/images/curva-sup-esq.jpg");
+    min-height: 14px;
+}
+td.tb-corner-top-right{
+    min-width:7px !important;
+    max-width: 5px !important;
+    background-image: url("/images/curva-sup-dir.jpg");
+}
+td.tb-corner-top-center{
+    background-repeat:repeat-x !important;
+    background-image: url("/images/linha-sup-horiz.jpg");
+    min-height: 14px !important;
+}
+
+.tb-corner-side{
+    vertical-align: top;
+}
+.tb-corner-side-left{
+    min-width:5px !important;
+    max-width:5px !important;
+    background-repeat:repeat-y;
+    background-image: url("/images/linha-esq-vert.jpg");
+}
+.tb-corner-side-right{
+    background-repeat:repeat-y;
+    background-image: url("/images/linha-dir-vert.jpg");
+}
+td.tb-corner-botton-left{
+    background-repeat:no-repeat;
+    min-width:5px !important;
+    background-image: url("/images/curva-inf-esq.jpg");
+    min-height: 11px;
+}
+td.tb-corner-botton-center{
+    background-repeat:repeat-x !important;
+    background-image: url("/images/linha-inf-horiz.jpg");
+    min-height: 14px !important;
+}
+td.tb-corner-botton-right{
+    background-repeat:no-repeat;
+    min-width:5px !important;
+    max-width:5px !important;
+    background-image: url("/images/curva-inf-dir.jpg");
+    min-height: 11px;
+}

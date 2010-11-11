@@ -128,25 +128,49 @@ echo $this->baseUrl ();
 	<table>
 	  <tr>
 	    <td style='min-width:210px;'>
-	      
-			<div  style="float: left;margin-top:30px;min-height: 200px " class="ui-widget ui-widget-content ui-corner-all">
-				<div id='menu_tree'>
+                <div  style="float: left;margin-top:30px;min-height: 200px " class="ui-widget ui-widget-content ui-corner-all">
+                        <div id='menu_tree'>
 
-				</div>	
-			</div>
-		</td>
-		<td style='max-width:580px;'>
-			<div id="corpo" class="ui-widget ui-corner-all" style="float: left;">
-			
-			<h3><?php
-			echo $this->escape ( $this->title );
-			?></h3>
-				<?php
-				echo $this->layout ()->content;
-				?>
-			</div>
-		</td>
-      </tr>
+                        </div>
+                </div>
+            </td>
+            <td style='max-width:580px;'>
+                <div id="corpo" class="ui-widget ui-corner-all" style="float: left;width: 580px">
+                    <h3><?php echo $this->escape ( $this->title );?></h3>
+                    <div style="height: 100%">
+                        <!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
+                        <table class="borda-arredondada">
+                          <tr class="top">
+                              <td class="tb-corner tb-corner-top-left" width="5px">
+                               </td>
+                               <td class="tb-corner tb-corner-top-center" height="14px">
+                               </td>
+                               <td class="tb-corner tb-corner-top-right" >
+                               </td>
+                          </tr>
+                          <tr class="tb-corner-side">
+                               <td class="tb-corner-side-left">
+                               </td>
+                               <td class="titulos-miolo" height="400px">
+                                    <?php
+                                    echo $this->layout ()->content;
+                                    ?>
+                               </td>
+                        <!--FIM DA TABELA COM BORDAS ARREDONDADAS-->
+                              <td class="tb-corner-side-right" ></td>
+                          </tr>
+                          <tr>
+                              <td class="tb-corner-botton-left" height="11px">
+                              </td>
+                              <td class="tb-corner-botton-center" >
+                                    </td>
+                              <td class="tb-corner-botton-right"></td>
+                          </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+          </tr>
 	</table>
 	<div id='formulario_ajax'></div>
 </body>

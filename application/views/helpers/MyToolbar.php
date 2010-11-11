@@ -147,7 +147,7 @@ class Zend_View_Helper_MyToolbar {
 		if($this->_controller=='metas'){
 			$width = 80;
 			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id))."'
-						class='my-button ui-state-default ui-corner-all by-ajax '
+						class='my-button by-ajax '
 						title='Configurar meta para relatório trimestral'>
 						<span class='ui-icon ui-icon-calendar '></span>
 						</a>";
@@ -156,17 +156,15 @@ class Zend_View_Helper_MyToolbar {
 		$toolbar = "
 		<div style='width:".$width."px;'>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit','id'=>$this->_id))."'
-					class='my-button ui-state-default ui-corner-all '
+					class='my-button '
 					title='Editar' 
 					
 					>
 					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','id'=>$this->_id))."'
-		class='my-button ui-state-default ui-corner-all '
-		title='Excluir' 
-		
-		>
+		class='my-button '
+		title='Excluir' >
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>
 		$trimestral

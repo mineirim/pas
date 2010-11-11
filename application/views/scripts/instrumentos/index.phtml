@@ -1,0 +1,47 @@
+
+
+<table  width="100%" align="center" cellpadding="0" cellspacing="0" >
+    <caption style="font-size: 1.2em" class="ui-widget ui-widget-header">LISTA DE PROGRAMAS</caption>
+    <thead class="ui-widget ui-widget-header ">
+        <tr class='ui-state-hover'>
+            <td nowrap="nowrap">
+                <?php echo $this->myToolbar('programas', 'toptable'); ?>
+            </td>
+            <td  class="subtitulos-tabela" width="38px"></td>
+            <td class="subtitulos-tabela">Programa</td>
+            <td  class="subtitulos-tabela"  style="text-align:center"  width="40px">
+                <img alt="" src="<?php echo $this->baseUrl(); ?>/images/impressora-miolo.gif">
+            </td>
+        </tr>
+    </thead>
+    <tbody class="ui-widget">
+<?php
+      foreach ($this->programas as $programa) :
+?>
+            <tr >
+                <td style="padding: 0">
+                <?php
+                    echo $this->myToolbar('programas', 'line', $programa->id);
+                ?>
+                </td>
+                <td align="center">
+                    <?php echo $this->lineProgressbar(1, $programa->id); // Programas ?>
+                </td>
+
+                <td>
+                        <a href=
+                            '<?php echo $this->url(array('action' => 'programa', 'programa_id' => $programa->id)); ?>'>
+                            <?php echo $programa->descricao; ?>
+                        </a>
+                </td>
+                <td align="center">
+                    <a href="<?php echo $this->url(array('controller' => 'relatorios', 'action' => 'relatorioplano', 'programa_id' => $programa->id)); ?>">
+                        <img alt="" src="<?php echo $this->baseUrl(); ?>/images/impressora-miolo.gif" border="0">
+                    </a>
+                </td>
+            </tr>
+        <?php
+            endforeach;
+        ?>
+    </tbody>
+</table>
