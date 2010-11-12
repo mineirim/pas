@@ -15,14 +15,13 @@
 		</tr>
 		<?php 
 		 if($this->detalhar){
-		 	if ((strtolower($this->nome) == "programa")||(strtolower($this->nome) == "projeto")){
+		 	if ((strtolower($this->nome) == "programa")||(strtolower($this->nome) == "projeto")):
 			 	?>
-				
 				<tr style="border-bottom: thin solid black" > 	
-					<td class='text-header'  ><div class="subtitulos-descreve-niveis">INDICADORES DO <?php echo strtoupper($this->nome); ?>:</div></td>
+					<td class='text-header'  ><div class="subtitulos-descreve-niveis">INDICADORES </div></td>
 					<td  style='padding-left:15px'>
 					<?php 
-						foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador){
+						foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador):
 							if($indicador->situacao_id==2) continue; 
 						?>
 							<li>
@@ -30,10 +29,7 @@
 									<?php echo $this->cabecalhoIndicador($indicador,strtolower($this->nome))?>
 								</div>
 							</li>
-					<?php 	
-						}
-					?>
-					
+					<?php endforeach; ?>
 					</td>
 				</tr>
 				<tr style="border-bottom: thin solid black"  c>
@@ -43,7 +39,7 @@
 					</td>
 				</tr>
 				<?php 
-		 	} // programas e projetos
+		 	endif // programas e projetos
 		 	?>
 		 	<?php 
 		 	if (strtolower($this->nome)== "objetivo_especifico"){

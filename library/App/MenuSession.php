@@ -61,7 +61,7 @@ class App_MenuSession {
 							'label' => 'Plano',
 							'title' => 'Plano',
 							'module' => 'default',
-							'controller' => 'plano',
+							'controller' => 'instrumentos',
 							'action' => 'programas',
 							'class'=>'bt-menu-tree'
 						);
@@ -72,7 +72,7 @@ class App_MenuSession {
 		{
 			$arr =array('label'=>$programa->menu,
 							'module'=>'default',
-							'controller'=>'plano',
+							'controller' => 'instrumentos',
 							'action'=>'programa',
 							'params'=>array('programa_id'=>$programa->id),
 							'class'=>'bt-menu-tree'
@@ -85,7 +85,7 @@ class App_MenuSession {
 			{
 				$pgs = array('label'=>$projeto->menu,
 							'module'=>'default',
-							'controller'=>'plano',
+							'controller' => 'instrumentos',
 							'action'=>'projeto',
 							'params'=>array('projeto_id'=>$projeto->id),
 							'class'=>'bt-menu-tree'
@@ -99,7 +99,7 @@ class App_MenuSession {
 					$objesp = array(
 								'label'=>$objetivo->menu,
 								'module'=>'default',
-								'controller'=>'plano',
+								'controller' => 'instrumentos',
 								'action'=>'objetivos-especificos',
 								'params'=>array('objetivo_especifico_id'=>$objetivo->id),
 								'class'=>'bt-menu-tree'
@@ -111,7 +111,7 @@ class App_MenuSession {
 						$metaarray  = array(
 								'label'=>substr($meta->descricao,0,15)."...",
 								'module'=>'default',
-								'controller'=>'plano',
+								'controller' => 'instrumentos',
 								'action'=>'meta',
 								'params'=>array('meta_id'=>$meta->id),
 								'class'=>'bt-menu-tree'
@@ -123,7 +123,7 @@ class App_MenuSession {
 							$arr_operacao = array(
 											'label'=>'operacao',
 											'module'=>'default',
-											'controller'=>'plano',
+											'controller' => 'instrumentos',
 											'action'=>'operacao',
 											'params'=>array('operacao_id'=>$operacao->id),
 											'class'=>'bt-menu-tree'
@@ -136,7 +136,7 @@ class App_MenuSession {
 							$arr_atividades = array(
 											'label'=>'atividade',
 											'module'=>'default',
-											'controller'=>'plano',
+											'controller' => 'instrumentos',
 											'action'=>'atividade',
 											'params'=>array('atividade_id'=>$atividade->id),
 											'class'=>'bt-menu-tree'

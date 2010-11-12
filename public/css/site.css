@@ -817,3 +817,13 @@ td.tb-corner-botton-right{
     background-image: url("../images/curva-inf-dir.jpg");
     min-height: 11px;
 }
+table.tb-corpo{
+    border: thin solid #dddddd;
+}
+table.tb-corpo td{
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 5px;
+}
+span.descricao_item{
+    float:left; width: 95%; text-align: justify;
+}

@@ -125,17 +125,18 @@ echo $this->baseUrl ();
 			?>
 		</div>
 	</div>
-	<table>
+    <table width="100%">
 	  <tr>
-	    <td style='min-width:210px;'>
-                <div  style="float: left;margin-top:30px;min-height: 200px " class="ui-widget ui-widget-content ui-corner-all">
-                        <div id='menu_tree'>
+	    <td style='min-width:210px;max-width:210px; min-height: 300px'>
+                <div  style="float: left;margin-top:30px;min-height: 300px"
+                      class="ui-widget ui-widget-content ui-corner-all">
+                        <div id='menu_tree' style="overflow-x: hidden;min-height: 280px; margin-top: 10px">
 
                         </div>
                 </div>
             </td>
-            <td style='max-width:580px;'>
-                <div id="corpo" class="ui-widget ui-corner-all" style="float: left;width: 580px">
+            <td style='min-width:580px;width:90%'>
+                <div id="corpo" class="ui-widget ui-corner-all" style="float: left;width: 100%">
                     <h3><?php echo $this->escape ( $this->title );?></h3>
                     <div style="height: 100%">
                         <!--INICIO DA TABELA COM BORDA ARREDONDADAS-->

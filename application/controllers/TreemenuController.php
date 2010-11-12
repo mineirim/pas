@@ -16,7 +16,7 @@ class TreemenuController extends Zend_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $menus = array();
         $mysession = new Zend_Session_Namespace('menu');
-
+        
         if (!isset($mysession->treemenu)) {
 
             $mysession->treemenu = array(array('data' => 'Administração', 'state' => 'closed',
@@ -40,7 +40,7 @@ class TreemenuController extends Zend_Controller_Action {
                     "state" => "closed",
                     "data" => array(
                         "title" => "Plano",
-                        "attr" => array("href" => $this->_helper->url('programas', 'plano'))
+                        "attr" => array("href" => $this->_helper->url('index', 'instrumentos'))
                     ),
                     "children" => $this->getArray(array('root'))
                 ),
@@ -71,7 +71,7 @@ class TreemenuController extends Zend_Controller_Action {
             $model_programas = new Model_Programas();
             $programas = $model_programas->fetchAll("situacao_id=1", 'ordem');
             foreach ($programas as $programa) {
-                $url = $this->_helper->url('programa', 'plano', 'default', array('programa_id' => $programa->id));
+                $url = $this->_helper->url('programa', 'instrumentos', 'default', array('programa_id' => $programa->id));
                 $parent = array("attr" => array("id" => "programa-" . $programa->id . "-json"), 'data' => array('title' => $programa->menu, 'attr' => array('href' => $url)), 'state' => 'closed');
 
                 $path = array('programa', $programa->id, 'json');
@@ -84,7 +84,7 @@ class TreemenuController extends Zend_Controller_Action {
             $model = new Model_Projetos();
             $objetos = $model->fetchAll("situacao_id=1 AND projeto_id is null AND programa_id=" . $arr_node[1], 'ordem');
             foreach ($objetos as $objeto) {
-                $url = $this->_helper->url('projeto', 'plano', 'default', array('projeto_id' => $objeto->id));
+                $url = $this->_helper->url('projeto', 'instrumentos', 'default', array('projeto_id' => $objeto->id));
                 $parent = array("attr" => array("id" => "projeto-" . $objeto->id . "-json"), 'data' => array('title' => $objeto->menu, 'attr' => array('href' => $url)), 'state' => 'closed');
                 $path = array('projeto', $objeto->id, 'json');
                 $child = $this->getArray($path);
@@ -98,7 +98,7 @@ class TreemenuController extends Zend_Controller_Action {
             if (count($subprojetos) > 0) {
                 $objetos = $subprojetos;
                 foreach ($objetos as $objeto) {
-                    $url = $this->_helper->url('projeto', 'plano', 'default', array('projeto_id' => $objeto->id));
+                    $url = $this->_helper->url('projeto', 'instrumentos', 'default', array('projeto_id' => $objeto->id));
                     $parent = array("attr" => array("id" => "projeto-" . $objeto->id . "-json"), 'data' => array('title' => $objeto->menu, 'attr' => array('href' => $url)), 'state' => 'closed');
                     $path = array('objetivo', $objeto->id, 'json');
                     $child = $this->getArray($path);
@@ -109,7 +109,7 @@ class TreemenuController extends Zend_Controller_Action {
                 $model = new Model_ObjetivosEspecificos();
                 $objetos = $model->fetchAll("situacao_id=1 AND projeto_id =" . $arr_node[1], 'ordem');
                 foreach ($objetos as $objeto) {
-                    $url = $this->_helper->url('objetivos-especificos', 'plano', 'default', array('objetivo_especifico_id' => $objeto->id));
+                    $url = $this->_helper->url('objetivos-especificos', 'instrumentos', 'default', array('objetivo_especifico_id' => $objeto->id));
                     $parent = array("attr" => array("id" => "objetivo-" . $objeto->id . "-json"), 'data' => array('title' => $objeto->menu, 'attr' => array('href' => $url)), 'state' => 'closed');
                     $path = array('meta', $objeto->id, 'json');
                     $child = $this->getArray($path);
@@ -121,7 +121,7 @@ class TreemenuController extends Zend_Controller_Action {
             $model = new Model_Metas();
             $objetos = $model->fetchAll("situacao_id=1 AND objetivo_especifico_id=" . $arr_node[1], 'id');
             foreach ($objetos as $objeto) {
-                $url = $this->_helper->url('meta', 'plano', 'default', array('meta_id' => $objeto->id));
+                $url = $this->_helper->url('meta', 'instrumentos', 'default', array('meta_id' => $objeto->id));
                 $parent = array("attr" => array("id" => "meta-" . $objeto->id . "-json"), 'data' => array('title' => substr($objeto->descricao, 0, 15) . "...", 'attr' => array('href' => $url)), 'state' => 'closed');
                 /* não mostra operações no menu
                   $path = array('operacao',$objeto->id,'json');
@@ -134,7 +134,7 @@ class TreemenuController extends Zend_Controller_Action {
             $model = new Model_Operacoes();
             $objetos = $model->fetchAll("situacao_id=1 AND meta_id=" . $arr_node[1], 'id');
             foreach ($objetos as $objeto) {
-                $url = $this->_helper->url('operacao', 'plano', 'default', array('operacao_id' => $objeto->id));
+                $url = $this->_helper->url('operacao', 'instrumentos', 'default', array('operacao_id' => $objeto->id));
                 $menus[] = array("attr" => array("id" => "operacao-" . $objeto->id . "-json"), 'data' => array('title' => substr($objeto->descricao, 0, 15) . "...", 'attr' => array('href' => $url)));
             }
         }

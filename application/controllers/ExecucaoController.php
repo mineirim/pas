@@ -7,7 +7,7 @@ class ExecucaoController extends Zend_Controller_Action
     {
         $ajaxContext = $this->_helper->ajaxContext;
         $ajaxContext->setAutoJsonSerialization(false);
-        $ajaxContext->addActionContext('index', array('json', 'xml', 'js'))
+        $ajaxContext->addActionContext('index', array('json', 'xml'))
                 ->initContext();
 
         
@@ -62,8 +62,8 @@ class ExecucaoController extends Zend_Controller_Action
                         $pesototal = 0; // atividade não realizada
                 }
         } else {
-
             foreach ($objetos as $objeto) {
+                $id=$objeto->id;
                 if ($nivel == 6){
                         $pesodenominador = 100; // operação sempre terá denominador 100
                 } else {
@@ -71,7 +71,7 @@ class ExecucaoController extends Zend_Controller_Action
                 }
                 $pesototal = $atividades->calculovalor($nivel, $id, 1);
                 $ix = $objeto->id;
-                $my_json->$ix = $pesototal;
+                $my_json->$ix = $pesodenominador>0?($pesototal/$pesodenominador)*100:0;
 
             }
                 

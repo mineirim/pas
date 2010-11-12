@@ -137,7 +137,7 @@ class Zend_View_Helper_MyToolbar {
 	private function getLineBar(){
 		$trimestral='';
 		
-		$width = 40;
+		$width = 55;
 		if($this->_controller=='metas'){
 			$width = 80;
 			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id))."'
@@ -161,10 +161,16 @@ class Zend_View_Helper_MyToolbar {
 		title='Excluir' >
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>
+                <a href='".$this->view->url(array('controller'=>'relatorios','action'=>'relatorioplano','programa_id'=>$this->_id))."'
+		class='my-button '
+		title='Excluir' >
+		<span class='ui-icon ui-icon-print '></span>
+		</a>
 		$trimestral
 		</div>
 		";
-		
+
+
 		return $toolbar ;
 		
 	}

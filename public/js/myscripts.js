@@ -176,13 +176,30 @@ function ControleGeral(){
 
                 });
         });
+
+        /**
+         *efeito de highlight em tabela
+         */
+      $(".tb-corpo tr").hover(
+       function()
+       {
+        $(this).addClass("ui-state-highlight");
+       },
+       function()
+       {
+        $(this).removeClass("ui-state-highlight");
+       }
+      )
+
+
     }
     this.percentual_execucao = function(){
         if($('#progresso').val() != 'undefined'){
-            url = baseUrl+'/execucao/from/'+$('#progresso').val();
-            $.getJSON(url,function(data){
-                $("data").each(function(k,v){
-                    $('.execucao').progressbar({
+            url = baseUrl+'/execucao/index/from/'
+            parametros = {progresso:$('#progresso').val(), parent_id: $('#parent_id').val()}
+            $.getJSON(url,parametros,function(data){
+                $.each(data, function(k,v){
+                    $("#progbar-"+k).progressbar({
 			value: v
                     });
                 })
