@@ -22,8 +22,8 @@ class ProgramasController extends Zend_Controller_Action {
     	$form_programa_id->setRequired(true)->addValidator('NotEmpty');
     	$this->formDescritivo->addElement($form_programa_id);
     	$this->view->formDescritivo = $this->formDescritivo;
-		$this->frmIndicador = new Form_Indicador();
-		$this->view->frmIndicador =$this->frmIndicador;    	
+        $this->frmIndicador = new Form_Indicador();
+        $this->view->frmIndicador =$this->frmIndicador;
 
 		
     	if ($this->_request->isXmlHttpRequest()) {
@@ -34,7 +34,6 @@ class ProgramasController extends Zend_Controller_Action {
 	
 	public function indexAction() {
 		$programas = new Model_Programas ( );
-		
 		$this->view->programas = $programas->fetchAll ( null, 'id' );
 	}
 	

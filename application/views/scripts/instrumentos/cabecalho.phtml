@@ -1,0 +1,75 @@
+<?php
+$this->campo_id = isset($this->campo_id) ? $this->campo_id : strtolower($this->nome).'_id'; 
+$href = $this->url(array('controller'=>'instrumentos',
+                        'action'=>strtolower($this->acao) ,
+                        $this->campo_id=>$this->objeto->id));
+$this->label = isset($this->label) ? $this->label : $this->nome;
+?>
+        <tr style="border-bottom: thin solid black"  >
+                <td class='text-header' width="60px"><div class="titulo-nivel2"><?php echo $this->label?></div></td>
+                <td style='padding-left:15px'>
+                        <a href='<?php echo $href?>' style="float:left"> <?php echo $this->objeto->descricao?></a>
+                </td>
+        </tr>
+        <?php
+         if($this->detalhar): //if-detalhar
+                if ((strtolower($this->nome) == "programa")||(strtolower($this->nome) == "projeto")): //programas e projetos ?>
+                    <tr style="border-bottom: thin solid black" >
+                        <td class='text-header'  ><div class="subtitulos-descreve-niveis">INDICADORES </div></td>
+                        <td  style='padding-left:15px'>
+                        <?php
+                            foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador):
+                                if($indicador->situacao_id==2) continue; ?>
+                                <div class="texto-descreve-niveis">
+                                    <span class="ui-icon ui-icon-triangle-1-e" style="float:left"></span>
+                                    <span class="descricao_item"><?php echo $this->cabecalhoIndicador($indicador,strtolower($this->nome))?></span><br>
+                                </div>
+                        <?php endforeach; ?>
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: thin solid black"  c>
+                        <td ><div class="subtitulos-descreve-niveis">INTERFACES:</div></td>
+                        <td style='padding-left:15px'>
+                            <div class="texto-descreve-niveis"><?php echo $this->objeto->interfaces?></div>
+                        </td>
+                    </tr>
+    <?php      endif; // programas e projetos ?>
+                <?php
+                if (strtolower($this->nome)== "objetivo_especifico"): //if-objetivo-especifico
+                        ?>
+                        <tr style="border-bottom: thin solid black" >
+                            <td class='text-header'  ><div class="subtitulos-descreve-niveis">ESTRATÉGIAS:</div></td>
+                            <td style='padding-left:15px'>
+                            <?php
+                                $select = $this->objeto->select();
+                                $select->order('id');
+                                $select->where('situacao_id=1');
+                                foreach ($this->objeto->findDependentRowset('Model_Estrategias',null,$select) as $estrategia):
+                                    echo '<li><div class="texto-descreve-niveis">' . $estrategia->descricao . '</div></li>';
+                                endforeach; ?>
+                            </td>
+                        </tr>
+                        <tr  >
+                            <td><div class="subtitulos-descreve-niveis">PARCERIAS:</div></td>
+                            <td   style='padding-left:15px'>
+                                <?php
+                                $select = $this->objeto->select();
+                                $select->order('id');
+                                $select->where('situacao_id=1');
+                                foreach ($this->objeto->findDependentRowset('Model_Parcerias',null,$select) as $parceria):
+                                    echo '<li><div class="texto-descreve-niveis">' . $parceria->descricao .'</div></li>';
+                                endforeach;?>
+                            </td>
+                        </tr>
+         <?php endif; // objetivo específico
+                if(strtolower($this->nome) == "projeto"): //mostra barra
+               ?>
+                 <tr style="border-bottom: thin solid black" class="ui-state-default">
+                     <td colspan="2">
+                     <?php echo $this->myToolbar(strtolower($this->nome).'s','top',$this->objeto->id);?>
+                     </td>
+                 </tr>
+ <?php
+                endif;//mostra barra
+         endif;//if-detalhar?>
+

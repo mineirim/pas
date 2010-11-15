@@ -85,8 +85,8 @@ function ControleGeral(){
                 }).dialog({
                     autoOpen: false,
                     title: this.title,
-                    height: 380,
-                    width: 580,
+                    height: 450,
+                    width: 600,
                     modal: true
                 });
                 $('#formulario_ajax').dialog('open');

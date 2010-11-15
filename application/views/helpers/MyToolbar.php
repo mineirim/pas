@@ -54,9 +54,9 @@ class Zend_View_Helper_MyToolbar {
 			$obj = $objs->fetchRow('id='.$this->_id);
 			
 			if(isset($obj->responsavel_id)){
-				if($obj->responsavel_id!==$auth->getIdentity ()->id){
-					return;
-				}
+                            if($obj->responsavel_id!==$auth->getIdentity ()->id){
+                                    return;
+                            }
 			}
 		}				
 			
@@ -89,29 +89,29 @@ class Zend_View_Helper_MyToolbar {
 		
 		
 		if($this->_controller=='programas'){
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'add'))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'add','module'=>'programacao' ))."'
 					title='Adicionar Projeto' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Projeto</a>";
 			
 		}elseif($this->_controller=='projetos'){
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'objetivos-especificos','action'=>'add'))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'objetivos-especificos','action'=>'add', 'module'=>'programacao' ))."'
 					title='Adicionar Objetivo' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Objetivo</span>Adicionar Objetivo</a>";
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add', 'projeto_id'=>$this->_id ))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add', 'module'=>'programacao', 'projeto_id'=>$this->_id ))."'
 					title='Adicionar Subprojeto' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Subprojeto</span>Adicionar Subprojeto</a>";
 		}elseif($this->_controller=='objetivos-especificos'){
 
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'metas','action'=>'add'))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'metas','action'=>'add', 'module'=>'programacao' ))."'
 					title='Adicionar Meta' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Meta</span>Adicionar Meta</a>";
 			
 		}elseif($this->_controller=='metas'){
-			$url = $this->view->url(array('controller'=>'metas','action'=>'addindicador'));
+			$url = $this->view->url(array('controller'=>'metas','action'=>'addindicador', 'module'=>'programacao' ));
 			$toolbar .= "<a href='$url'
 					title='Vincular Indicadores' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all by-ajax'>
@@ -149,19 +149,19 @@ class Zend_View_Helper_MyToolbar {
 		
 		$toolbar = "
 		<div style='width:".$width."px;'>
-		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit','id'=>$this->_id))."'
+		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit', 'module'=>'programacao', 'id'=>$this->_id))."'
 					class='my-button by-ajax'
 					title='Editar' 
 					
 					>
 					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
-		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','id'=>$this->_id))."'
+		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','module'=>'programacao', 'id'=>$this->_id))."'
 		class='my-button '
 		title='Excluir' >
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>
-                <a href='".$this->view->url(array('controller'=>'relatorios','action'=>'relatorioplano','programa_id'=>$this->_id))."'
+                <a href='".$this->view->url(array('controller'=>'relatorios','action'=>'relatorioplano','module'=>'relatorios', 'programa_id'=>$this->_id))."'
 		class='my-button '
 		title='Excluir' >
 		<span class='ui-icon ui-icon-print '></span>

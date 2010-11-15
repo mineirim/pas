@@ -1,5 +1,4 @@
 <?php
-
 class Form_Geral extends Zend_Form
 {
 	public function __construct($options = null,$name='programa' )
@@ -37,7 +36,8 @@ class Form_Geral extends Zend_Form
 			
 			
 		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setAttrib('id', 'submitbutton');
+		$submit->setAttrib('id', 'submitbutton')
+                        ->setAttrib('class', 'by-ajax');
 		$this->addElements(array($id, $descricao, $menu, $interfaces, $this->getResponsaveis(), $submit));
 	}
 	public function getResponsaveis() {

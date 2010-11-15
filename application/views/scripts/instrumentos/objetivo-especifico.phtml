@@ -1,0 +1,81 @@
+<?php
+/**
+ * campo usado para cálculo assincrono do progresso
+ */
+echo '<input type="hidden" id="progresso" name="progresso" value="'.$this->nivel_id.'">';
+echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->parent_id.'">';
+?>
+<div>
+
+    <table class="tb-cabecalho" >
+        <!--  class='ui-widget ui-widget-content ui-corner-all removedui-state-highlight tb-header' -->
+        <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->programa,
+                                                                                                 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+        <tr>
+            <td class="espacador" colspan="2">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->projeto,
+                                                                                                 'nome'=>'Projeto', 'acao'=>'Projeto', 'detalhar'=>($this->nivel=='Projeto')));?>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="espacador" colspan="2" style="padding-left: 30px">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->objetivo_especifico,
+                                                                                                'label'=>'Objetivo Específico', 'nome'=>'objetivo_especifico', 'campo_id'=>'objetivo_especifico_id', 'acao'=>'objetivo-especifico', 'detalhar'=>($this->nivel=='ObjetivoEspecifico')));?>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+    <div style="height: 5px;width: 100%"></div>
+    
+    <?php if($this->objetivo_especifico){ ?>
+	<div >
+            <table cellpadding="0" cellspacing="0"  class="tb-corpo">
+                <caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> METAS</caption>
+                <thead class="ui-widget ui-widget-header ">
+                    <tr class=" ui-state-hover">
+                        <td  class="subtitulos-tabela">Descrição</td>
+                        <td  class="subtitulos-tabela" width="70px"></td>
+                        <td width="4%"><?php echo $this->myToolbar('metas','toptable');?></td>
+                    </tr>
+                </thead>
+                <tbody class="ui-widget">
+                <?php
+                $select = $this->objetivo_especifico->select();
+                $select->order('id');
+                $select->where('situacao_id=1');
+                $cycle=$this->cycle(array('',''));
+                foreach ($this->objetivo_especifico->findDependentRowset('Model_Metas',null,$select) as $meta){?>
+                    <tr class="<?php echo $cycle->next()?>">
+                        <td >
+                        <div >
+                            <a href=
+                            '<?php echo $this->url ( array ('action' => 'meta', 'meta_id' => $meta->id ) );?>'>
+                                 <span class="ui-icon ui-icon-play" style="float:left"></span>
+                                <span class="descricao_item"><?php echo $meta->descricao;?> </span>
+                            </a>
+                        </div>
+                         </td>
+                         <td>
+                            <div id="progbar-<?php echo $meta->id;?>" style="height:10px; " class="execucao"></div>
+                        </td>
+                        <td >
+                            <?php echo $this->myToolbar ( 'metas', 'line', $meta->id );	?>
+                        </td>
+                    </tr>
+
+                <?php }?>
+                </tbody>
+            </table>
+
+
+	</div>
+	<?php }?>
+
+
+
+
+</div>

@@ -4,17 +4,17 @@ class Admin_CargosController extends Zend_Controller_Action
 {
 
     public function init() {
-		$ajaxContext = $this->_helper->ajaxContext;
-		$ajaxContext->addContext ( 'js', array ('suffix' => 'js' ) );
-		$ajaxContext->setAutoJsonSerialization ( false );
-		$ajaxContext->addActionContext ( 'index', array ('json', 'xml', 'js' ) )
-					->addActionContext ( 'create', array ('html', 'json', 'xml' ) )
-					->addActionContext ( 'update', array ('html', 'json', 'xml' ) )
-					->addActionContext ( 'delete', array ('html', 'json', 'xml' ) )
-					->addActionContext ( 'get', array ('html', 'json', 'xml' ) )
-					->addActionContext ( 'get2grid', array ('html', 'json', 'xml' ) )
-					->initContext ();
-	}
+        $ajaxContext = $this->_helper->ajaxContext;
+        $ajaxContext->addContext ( 'js', array ('suffix' => 'js' ) );
+        $ajaxContext->setAutoJsonSerialization ( false );
+        $ajaxContext->addActionContext ( 'index', array ('json', 'xml', 'js' ) )
+                    ->addActionContext ( 'create', array ('html', 'json', 'xml' ) )
+                    ->addActionContext ( 'update', array ('html', 'json', 'xml' ) )
+                    ->addActionContext ( 'delete', array ('html', 'json', 'xml' ) )
+                    ->addActionContext ( 'get', array ('html', 'json', 'xml' ) )
+                    ->addActionContext ( 'get2grid', array ('html', 'json', 'xml' ) )
+                    ->initContext ();
+    }
 
     public function indexAction()
     {
