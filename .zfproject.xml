@@ -194,6 +194,7 @@
               <actionMethod actionName="delete"/>
               <actionMethod actionName="get"/>
               <actionMethod actionName="edit"/>
+              <actionMethod actionName="save"/>
             </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
@@ -217,6 +218,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Programas">
                 <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Programas">
+                <viewScriptFile forActionName="save"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>

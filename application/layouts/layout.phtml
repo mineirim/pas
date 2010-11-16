@@ -97,14 +97,14 @@ echo $this->baseUrl ();
 			</iframe>
 		-->
 		</div>
-		<div id="topo-ico" style="float:left">
+		<div id="topo-ico" style="float:left;clear: both">
 			<img class="topo-logo" alt="" src="<?php echo $this->baseUrl (); ?>/images/titulo_ses.jpg"/>
 			<div style="float:left; padding-left: 80px; font-size: 1.5em; font-weight: bold" class="titulo" >
 				Programação Anual de Saúde - PAS-E 2010
 			</div>
                         <div style='text-align:center; clear: both'><span id='flash-m'></span></div>
 		</div>
-		<div id="topo-buttons" style="position: absolute; top: 100px; right: 55px; width: 115px;" >
+		<div id="topo-buttons" style="float: right; right: 55px; width: 115px;" >
 			<?php 
 			echo "<a href='".$this->url(array('controller'=>'favoritos','action'=>'add')) ."'
 								title='Adicionar Favorito'> 
@@ -119,7 +119,7 @@ echo $this->baseUrl ();
 			&nbsp;&nbsp;
 			<?php //echo $this->myTooltip(); ?>
 		</div>
-		<div  style="position: absolute; top: 100px; left: 15px; width: 800px; font-size: 0.9em" >
+		<div  style="float: left; width: 800px; font-size: 0.9em" >
 			<?php
 			echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
 			?>
@@ -127,12 +127,40 @@ echo $this->baseUrl ();
 	</div>
     <table width="100%">
 	  <tr>
-	    <td style='min-width:210px;max-width:210px; min-height: 300px'>
-                <div  style="float: left;margin-top:30px;min-height: 300px"
-                      class="ui-widget ui-widget-content ui-corner-all">
-                        <div id='menu_tree' style="overflow-x: hidden;min-height: 280px; margin-top: 10px">
+	    <td style='min-width:240px;max-width:240px; min-height: 300px'>
+                <div style="margin-top: 5px; padding: 0;overflow:   auto;">
+                <h3></h3>
+                    <div style="height: 100%">
+                        <!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
+                        <table class="borda-arredondada">
+                          <tr class="top">
+                              <td class="tb-corner tb-corner-top-left" width="5px">
+                               </td>
+                               <td class="tb-corner tb-corner-top-center" height="14px">
+                               </td>
+                               <td class="tb-corner tb-corner-top-right" >
+                               </td>
+                          </tr>
+                          <tr class="tb-corner-side">
+                               <td class="tb-corner-side-left">
+                               </td>
+                               <td class="titulos-miolo" height="400px">
+                                    <div id='menu_tree' style="overflow-x: hidden;min-height: 280px; margin-top: 10px">
+                                    </div>
+                               </td>
+                        <!--FIM DA TABELA COM BORDAS ARREDONDADAS-->
+                              <td class="tb-corner-side-right" ></td>
+                          </tr>
+                          <tr>
+                              <td class="tb-corner-botton-left" height="11px">
+                              </td>
+                              <td class="tb-corner-botton-center" >
+                                    </td>
+                              <td class="tb-corner-botton-right"></td>
+                          </tr>
+                        </table>
+                    </div>
 
-                        </div>
                 </div>
             </td>
             <td style='min-width:580px;width:90%'>

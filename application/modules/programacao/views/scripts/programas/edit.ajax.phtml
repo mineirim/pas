@@ -2,12 +2,11 @@
     <ul>
         <li><a href="#tabs-0">Programa</a></li>
         <li><a href="#tabs-1">Objetivos</a></li>
-        <li><a href="#tabs-2">Metas</a></li>
     </ul>
     <div id="tabs-0" style="overflow: hidden">
         <form id='<?php echo $this->form->getId();?>'
               enctype='<?php echo $this->form->getEnctype();?>'
-              action='<?php echo $this->url(array('controller' => 'programas', 'action' => 'update'));?>'
+              action='<?php echo $this->url(array('controller' => 'programas', 'action' => 'save'));?>?format=json'
               method="post"><input type="hidden" id="dependents" value="1,2,3" />
             <div style='display: none'>
                 <?php echo $this->form->id ?>
@@ -90,48 +89,5 @@
 
 
             </div>
-            <div id="tabs-2" style="overflow: hidden">
 
-<?php
-                if (isset($this->programa)) {
-?>
-                    <form id='frmmetas' enctype='<?php
-                    echo $this->formDescritivo->getEnctype();
-?>'
-                          action='<?php
-                    echo $this->url(array('controller' => 'programas', 'action' => 'addmeta'));
-?>'
-                    method="post">
-                  <div style='display: none'>
-<?php echo $this->formDescritivo->id ?>
-                      <input type=hidden name='programa_id'
-                             value='<?php echo $this->programa->id ?>'>
-                </div>
-                <fieldset>
-                    <div style='clear:both'>
-<?php echo $this->formDescritivo->descricao; ?>
-                </div>
-
-                    <?php echo $this->formDescritivo->submit; ?>
-
-
-            </fieldset>
-        </form>
-        <br>
-        <table width="100%" id="tbmetas" class='ui-widget ui-widget-panel'>
-            <tr>
-                <th width="5%"></th>
-                <th>Metas</th>
-            </tr>
-<?php
-                    foreach ($this->programa->findModel_MetasPrograma() as $meta) {
-?>
-                    <tr class='lst <?php echo $cycle->next() ?>'>
-                            <td><?php echo $this->lineToolbar('programas', $meta) ?></td>
-                            <td><?php echo $meta->descricao; ?></td>
-                        </tr>
-<?php } ?>
-                </table>
-<?php } ?>
-        </div>
     </div>

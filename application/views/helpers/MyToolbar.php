@@ -91,13 +91,13 @@ class Zend_View_Helper_MyToolbar {
 		if($this->_controller=='programas'){
 			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'add','module'=>'programacao' ))."'
 					title='Adicionar Projeto' 
-					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Projeto</a>";
 			
 		}elseif($this->_controller=='projetos'){
 			$toolbar .= "<a href='".$this->view->url(array('controller'=>'objetivos-especificos','action'=>'add', 'module'=>'programacao' ))."'
 					title='Adicionar Objetivo' 
-					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Objetivo</span>Adicionar Objetivo</a>";
 			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add', 'module'=>'programacao', 'projeto_id'=>$this->_id ))."'
 					title='Adicionar Subprojeto' 
@@ -107,19 +107,19 @@ class Zend_View_Helper_MyToolbar {
 
 			$toolbar .= "<a href='".$this->view->url(array('controller'=>'metas','action'=>'add', 'module'=>'programacao' ))."'
 					title='Adicionar Meta' 
-					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Meta</span>Adicionar Meta</a>";
 			
 		}elseif($this->_controller=='metas'){
 			$url = $this->view->url(array('controller'=>'metas','action'=>'addindicador', 'module'=>'programacao' ));
 			$toolbar .= "<a href='$url'
 					title='Vincular Indicadores' 
-					class='fg-button ui-state-default fg-button-icon-left ui-corner-all by-ajax'>
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-pencil'>Preencher relatório</span>Indicadores</a>";
 			$url = $this->view->url(array('controller'=>'metas','action'=>'preencherelatorio'));
 			$toolbar .= "<a href='$url'
 					title='Preencher relatório trimestral' 
-					class='fg-button ui-state-default fg-button-icon-left ui-corner-all by-ajax'>
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-pencil'>Preencher relatório</span>Preencher relatório</a>";
 		}
 		
@@ -141,7 +141,7 @@ class Zend_View_Helper_MyToolbar {
 		if($this->_controller=='metas'){
 			$width = 80;
 			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id))."'
-						class='my-button by-ajax '
+						class='my-button ajax-form-load '
 						title='Configurar meta para relatório trimestral'>
 						<span class='ui-icon ui-icon-calendar '></span>
 						</a>";
@@ -150,14 +150,14 @@ class Zend_View_Helper_MyToolbar {
 		$toolbar = "
 		<div style='width:".$width."px;'>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit', 'module'=>'programacao', 'id'=>$this->_id))."'
-					class='my-button by-ajax'
+					class='my-button ajax-form-load'
 					title='Editar' 
 					
 					>
 					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
 		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','module'=>'programacao', 'id'=>$this->_id))."'
-		class='my-button '
+		class='my-button ajax-form-load'
 		title='Excluir' >
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>

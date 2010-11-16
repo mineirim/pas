@@ -16,7 +16,6 @@ function ControleGeral(){
         this.criaTabs();
         this.cliques();
         this.percentual_execucao();
-
     };
 
     this.criaMenuTree = function()
@@ -57,7 +56,17 @@ function ControleGeral(){
             }
         });
     }
-
+    /**
+     *habilita a função de autoload de código javascript para tags especificadas
+     **/
+    this.enableAutoLoad= function(){
+        $('a.ajax-form-load').live('click',
+            function(event){
+                event.preventDefault();
+                Carregador.carrega(this.href+'?format=js', 'text/javascript')
+            }
+        );
+    }
     this.cliques = function(){
         $('button.my-jq-button').each(function(k,v){
             $(v).button({
@@ -70,7 +79,7 @@ function ControleGeral(){
             return false;
         })
 
-        $('a.by-ajax').live('click',
+        $('a.ajax-form-load').live('click',
             function(event){
                 event.preventDefault();
                 $('#formulario_ajax').html('Aguarde...');
@@ -108,7 +117,6 @@ function ControleGeral(){
                 } ,
                 complete:function(XMLHttpRequest, textStatus){
                     if(textStatus=='success'){
-                        $('#formulario_ajax').dialog('close');
                         Mensageiro.onComplete(XMLHttpRequest)
                     }
                 },
@@ -180,14 +188,8 @@ function ControleGeral(){
          *efeito de highlight em tabela
          */
       $(".tb-corpo tr").hover(
-       function()
-       {
-        $(this).addClass("ui-state-highlight");
-       },
-       function()
-       {
-        $(this).removeClass("ui-state-highlight");
-       }
+                    function(){$(this).addClass("ui-state-highlight");},
+                    function(){$(this).removeClass("ui-state-highlight");}
       )
 
 
@@ -338,6 +340,19 @@ Mensageiro ={
         }
         $('#flash-m').html(obj.mensagem+'<br>'+obj.errors).fadeIn(1000);
         $('#flash-m').fadeOut(5000)
+
+        if(!json.keepOpened==true){
+            $('#formulario_ajax').dialog('close');
+        }
+        /**
+         *quando é feita alguma alteração no formulário, ele obrigatoriamente passa pelo onComplete
+         *quando o retorno do json diz para dar refresh na pagina, ele adiciona uma funçao à caixa de diálogo
+         */
+        if(json.refreshPage){
+            $('#formulario_ajax').dialog({close: function(ev, ui){
+                    location.reload();}
+            });
+        }
     },
     onSuccess : function(data)
     {
@@ -491,3 +506,52 @@ function MyTree(){
 
 
 }
+
+
+
+
+/**
+ * responsável por carregar automaticamente arquivos javascript específicos de cada pagina
+ */
+Carregador = {
+    arquivos:[]
+    ,head : $("head")
+    ,carrega: function(url, type){
+        if(this.arquivos[url])
+            return;
+
+        var jsExpr = new RegExp( "js$", "i" );
+        var cssExpr = new RegExp( "css$", "i" );
+        if( type == null )
+        if( jsExpr.test( url ) )
+            type = 'text/javascript';
+        else if( cssExpr.test( url ) )
+            type = 'text/css';
+
+        var tag = null;
+        switch( type ){
+            case 'text/javascript' :
+                tag = document.createElement( 'script' );
+                tag.type = type;
+                tag.src = url;
+                break;
+            case 'text/css' :
+                tag = document.createElement( 'link' );
+                tag.rel = 'stylesheet';
+                tag.type = type;
+                tag.href = 'stylesheets/'+url;
+                break;
+        }
+        //head.append("<script src=\"" + url + "\" type=\"text/javascript\"></scr" + "ipt>");
+        this.head.append(tag)
+        this.arquivos[url]=true;
+    }
+}
+
+
+
+String.prototype.capitalize = function(){
+    return this.replace(/\S+/g, function(a){
+        return a.charAt(0).toUpperCase() + a.slice(1).toLowerCase();
+    });
+};

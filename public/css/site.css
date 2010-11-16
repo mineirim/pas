@@ -52,7 +52,6 @@ td{
 }
 
 #corpo{
-
     margin: 5px;
     padding: 0;
     overflow:   auto;
@@ -66,16 +65,16 @@ td{
 }
 #topo-portal {
     height:25px;
-    position:absolute;
     width:100%;
+    clear: both;
 }
 #topo-ico {
     float:left;
     height:30px;
     margin:30px 0 0 10px;
     padding:33px 0 14px !important;
-    position:absolute;
     width:740px;
+    clear: both;
 }
 #topo-ico .topo-logo {
     float:left;
