@@ -83,7 +83,6 @@ class Programacao_ProgramasController extends Zend_Controller_Action
                 }
                 $programa = $programas->fetchRow('id=' . $id);
                 $this->view->programa = $programa;
-                $this->form->submit->setAttrib('class', 'byajax');
                 $this->form->populate($programa->toArray());
             } else {
 

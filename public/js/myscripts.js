@@ -60,7 +60,6 @@ function ControleGeral(){
 
     this.cliques = function(){
         $('button.my-jq-button').each(function(k,v){
-            self = this;
             $(v).button({
                 icons:{primary: $(v).attr('alt')}
             });
@@ -424,9 +423,9 @@ function MyTree(){
                 "correct_state" : true,
     		"json_data" : {"data" :data},
     		"themes" : {
-                    "theme" : "classic",
+                    "theme" : "custom",
                     "dots" : true,
-                    "icons" : true
+                    "icons" : false
                 },
             "plugins" : [ "themes", "json_data", "cookies" ]
             });
