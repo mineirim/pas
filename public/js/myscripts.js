@@ -78,7 +78,7 @@ function ControleGeral(){
             alert($(this).val());
             return false;
         })
-
+        $('.dialog-form-close').live('click',function(){ $('#formulario_ajax').dialog('close'); })
         $('a.ajax-form-load').live('click',
             function(event){
                 event.preventDefault();
@@ -340,10 +340,6 @@ Mensageiro ={
         }
         $('#flash-m').html(obj.mensagem+'<br>'+obj.errors).fadeIn(1000);
         $('#flash-m').fadeOut(5000)
-
-        if(!json.keepOpened==true){
-            $('#formulario_ajax').dialog('close');
-        }
         /**
          *quando é feita alguma alteração no formulário, ele obrigatoriamente passa pelo onComplete
          *quando o retorno do json diz para dar refresh na pagina, ele adiciona uma funçao à caixa de diálogo
@@ -352,6 +348,9 @@ Mensageiro ={
             $('#formulario_ajax').dialog({close: function(ev, ui){
                     location.reload();}
             });
+        }
+        if(!json.keepOpened==true){
+            $('#formulario_ajax').dialog('close');
         }
     },
     onSuccess : function(data)

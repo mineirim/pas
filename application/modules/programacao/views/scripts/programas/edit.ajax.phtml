@@ -7,7 +7,8 @@
         <form id='<?php echo $this->form->getId();?>'
               enctype='<?php echo $this->form->getEnctype();?>'
               action='<?php echo $this->url(array('controller' => 'programas', 'action' => 'save'));?>?format=json'
-              method="post"><input type="hidden" id="dependents" value="1,2,3" />
+              method="post">
+            <input type="hidden" id="dependents" value="1,2,3" />
             <div style='display: none'>
                 <?php echo $this->form->id ?>
             </div>
@@ -39,7 +40,7 @@
                 </tr>
                 <tr>
                     <td>
-<?php echo $this->form->submit; ?>
+                        <?php echo $this->form->submit; ?>
                     </td>
                 </tr>
             </table>

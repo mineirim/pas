@@ -133,7 +133,11 @@ class ProgramasController extends Zend_Controller_Action {
 		
 		$form = new Zend_Form();
 		$form->addElement('hidden','id');
-		$form->addElement('submit','ok');
+                $submit = new Zend_Form_Element_Submit('submit');
+                $submit->setAttrib('class', 'by-ajax')->setValue('Confirmar');
+                $close = new Zend_Form_Element_Button('close_dialog');
+                $close->setAttrib('class', 'close-dialog')->setValue('Cancelar');
+		$form->addElement($close);
 		
 		$programas = new Model_Programas();
 		

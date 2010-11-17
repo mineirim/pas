@@ -57,7 +57,43 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
-        // action body
+
+		$form = new Zend_Form();
+		$form->addElement('hidden','id');
+		$submit = new Zend_Form_Element_Submit('submit');
+                $submit->setAttrib('class', 'by-ajax')->setLabel('Confirmar');
+                $form->addElement($submit);
+                $close = new Zend_Form_Element_Button('dialog_close');
+                $close->setAttrib('class', 'dialog-form-close')->setLabel('Cancelar');
+		$form->addElement($close);
+		$programas = new Model_Programas();
+
+		if ($this->getRequest()->isPost()) {
+                    if ($form->isValid($this->getRequest()->getPost())) {
+                        $id = $form->getValue('id');
+                        $programa = $programas->fetchRow('id='.$id);
+                        $programa->situacao_id=2;
+                        $programa->save();
+                        $this->_helper->viewRenderer->setNoRender(true);
+                        $response = array('dados' => $programa,
+                            'notice' => 'Programa apagado com sucesso',
+                            'descricao' => $programa->menu,
+                            'keepOpened' => true,
+                            'refreshPage' =>true
+                    );
+                        echo Zend_Json::encode($programa);
+                    }
+		}elseif ((int)$this->_getParam('id', 0) > 0) {
+                    $this->view->title = "Excluir";
+                    $this->view->headTitle($this->view->title, 'PREPEND') ;
+                    $id = $this->_getParam('id', 0);
+                    $programa = $programas->fetchRow('id='.$id);
+                    $this->view->programa = $programa;
+                    $form->populate($programa->toArray());
+                    $this->view->form = $form;
+		}
+
+
     }
 
     public function getAction() {
