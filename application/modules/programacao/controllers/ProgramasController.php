@@ -57,31 +57,31 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
     }
 
     public function deleteAction() {
-
-		$form = new Zend_Form();
-		$form->addElement('hidden','id');
-		$submit = new Zend_Form_Element_Submit('submit');
-                $submit->setAttrib('class', 'by-ajax')->setLabel('Confirmar');
-                $form->addElement($submit);
-                $close = new Zend_Form_Element_Button('dialog_close');
-                $close->setAttrib('class', 'dialog-form-close')->setLabel('Cancelar');
-		$form->addElement($close);
+                $form = new Programacao_Form_Delete();
 		$programas = new Model_Programas();
 
 		if ($this->getRequest()->isPost()) {
+                    $this->_helper->viewRenderer->setNoRender(true);
                     if ($form->isValid($this->getRequest()->getPost())) {
+                        
                         $id = $form->getValue('id');
-                        $programa = $programas->fetchRow('id='.$id);
-                        $programa->situacao_id=2;
-                        $programa->save();
-                        $this->_helper->viewRenderer->setNoRender(true);
-                        $response = array('dados' => $programa,
-                            'notice' => 'Programa apagado com sucesso',
-                            'descricao' => $programa->menu,
-                            'keepOpened' => true,
-                            'refreshPage' =>true
-                    );
-                        echo Zend_Json::encode($programa);
+                        $this->view->response = array();
+                        
+                        try{
+                            $programas->update(array('situacao_id'=>2), 'id='.$id);
+                            $programa = $programas->fetchRow('id='.$id);
+                            $this->view->response = array('dados' => $programa->toArray(),
+                                'notice' => 'Programa apagado com sucesso',
+                                'descricao' => $programa->menu,
+                                'keepOpened' => true,
+                                'refreshPage' =>true
+                            );
+                        }  catch (Exception $e){
+                            $this->getResponse()->setHttpResponseCode(501);
+                            $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Dados inválidos',
+                                                    'errors'=>$this->form->getErrors());
+                        }
+                        $this->render('save');
                     }
 		}elseif ((int)$this->_getParam('id', 0) > 0) {
                     $this->view->title = "Excluir";
