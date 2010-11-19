@@ -5,10 +5,7 @@
               enctype='<?php echo $this->form->getEnctype();?>'
               action='<?php echo $this->url(array('controller' => 'programas', 'action' => 'delete'));?>?format=json'
               method="post">
-<?php
-echo $this->form->id;
-
-?>
+<?php echo $this->form->id;?>
     <table>
         <tr>
             <td><?php echo $this->form->submit; ?></td>
