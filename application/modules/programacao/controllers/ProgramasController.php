@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Marcone Costa
+ * 
+ */
 class Programacao_ProgramasController extends Zend_Controller_Action {
 
     public function init() {
@@ -12,15 +16,13 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
                 ->addActionContext('delete', array('html', 'json', 'xml'))
                 ->addActionContext('get', array('html', 'json', 'xml'))
                 ->addActionContext('save', array('html', 'json', 'xml'))
+                ->addActionContext('addobjetivo', array('html', 'json', 'xml'))
                 ->initContext();
         if ($this->_request->isXmlHttpRequest())
             $this->_helper->layout()->disableLayout();
 
-        $this->form = new Form_Geral();
-        $this->formDescritivo = new Form_Descritivo();
-        
-        $this->form->menu->setRequired(true)
-                ->addValidator('NotEmpty');
+        $this->form = new Programacao_Form_Programa();
+        $this->formDescritivo = new Programacao_Form_Descritivo();
 
         /**
          *  @var Elemento que representa o id do programa nos forms descritivos(objetivos e metas)
@@ -29,8 +31,6 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
         $form_programa_id->setRequired(true)->addValidator('NotEmpty');
         $this->formDescritivo->addElement($form_programa_id);
         $this->view->formDescritivo = $this->formDescritivo;
-
-
     }
 
     public function indexAction() {
@@ -47,9 +47,11 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
             $this->render('edit');
         }
     }
+
     /**
      * Mantido por questões de padronização
      * substituido pelo método save
+     * 
      */
     public function updateAction() {
         $this->saveAction();
@@ -59,45 +61,41 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
     public function deleteAction() {
         $form = new Programacao_Form_Delete();
         $programas = new Model_Programas();
-
         if ($this->getRequest()->isPost()) {
             $this->_helper->viewRenderer->setNoRender(true);
             if ($form->isValid($this->getRequest()->getPost())) {
                 $id = $form->getValue('id');
                 $this->view->response = array();
-                try{
-                    $programas->update(array('situacao_id'=>2), 'id='.$id);
-                    $programa = $programas->fetchRow('id='.$id);
+                try {
+                    $programas->update(array('situacao_id' => 2), 'id=' . $id);
+                    $programa = $programas->fetchRow('id=' . $id);
                     $this->view->response = array('dados' => $programa->toArray(),
                         'notice' => 'Programa apagado com sucesso',
                         'descricao' => $programa->menu,
-                        'keepOpened' => true,
-                        'refreshPage' =>true
+                        'keepOpened' => false,
+                        'refreshPage' => true
                     );
-                }  catch (Exception $e){
+                } catch (Exception $e) {
                     $this->getResponse()->setHttpResponseCode(501);
                     $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Dados inválidos',
-                                            'errors'=>$this->form->getErrors());
+                        'errors' => $this->form->getErrors());
                 }
                 $this->render('save');
             }
-        }elseif ((int)$this->_getParam('id', 0) > 0) {
+        } elseif ((int) $this->_getParam('id', 0) > 0) {
             $this->view->title = "Excluir";
-            $this->view->headTitle($this->view->title, 'PREPEND') ;
+            $this->view->headTitle($this->view->title, 'PREPEND');
             $id = $this->_getParam('id', 0);
-            $programa = $programas->fetchRow('id='.$id);
+            $programa = $programas->fetchRow('id=' . $id);
             $this->view->programa = $programa;
             $form->populate($programa->toArray());
             $this->view->form = $form;
         }
-
-
     }
 
     public function getAction() {
         // action body
     }
-
 
     public function editAction() {
         $id = $this->_getParam('id');
@@ -121,37 +119,76 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
     }
 
     public function saveAction() {
-        $this->view->form = $this->form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($this->form->isValid($formData)) {
-                $id = $this->form->getValue('id');
-                $dados = $this->form->getDados();
-                $programas = new Model_Programas ( );
-
-                if ($this->form->getValue('id') == '') {
-                    $id = $programas->insert($dados);
-                } else {
-                    $id = $this->form->getValue('id');
-                    $programas->update($dados, 'id=' . $id);
-                }
-                $programa = $programas->fetchRow('id=' . $id);
-                $this->view->programa = $programa;
-                $this->view->response = array('dados' => $programa,
-                            'notice' => 'Dados atualizados com sucesso',
-                            'descricao' => $programa->menu,
-                            'keepOpened' => true,
-                            'refreshPage' =>true
+                try {
+                    $dados = $this->form->getValue('programa');
+                    unset($dados['id']);
+                    $id = $this->form->programa->getValue('id');
+                    $model_programas = new Model_Programas ( );
+                    if ($id == '') {
+                        $id = $model_programas->insert($dados);
+                        $newid = $id;
+                    } else {
+                        $model_programas->update($dados, 'id=' . $id);
+                    }
+                    $programa = $model_programas->fetchRow('id=' . $id);
+                    $this->view->programa = $programa;
+                    $this->view->response = array('dados' => $programa->toArray(),
+                        'notice' => 'Dados atualizados com sucesso',
+                        'descricao' => $programa->menu,
+                        'keepOpened' => true,
+                        'refreshPage' => true
                     );
+                    if(isset($newid)){
+                    	$this->view->response['newid']=$newid; 
+                    }
+                } catch (Exception $e) {
+                    $this->getResponse()->setHttpResponseCode(501);
+                    $this->view->response = array('notice' => 'Erro ao gravar dados', 
+                    								'errormessage' => $e->getMessage());
+                }
             } else {
                 $this->getResponse()->setHttpResponseCode(501);
-                $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Dados inválidos',
-                                                'errors'=>$this->form->getErrors());
+                $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Formulário com dados inválidos',
+                    'errors' => $this->form->processAjax($formData) );
             }
-        }else{
-             $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Método esperado: POST');
+        } else {
+            $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Método esperado: POST');
         }
     }
 
-}
+    public function addobjetivoAction() {
+        if ($this->getRequest()->isPost()) {
+            $this->formDescritivo->descricao->addValidator(new Zend_Validate_StringLength(0, 500));
+            $formData = $this->getRequest()->getPost();
+            if ($this->formDescritivo->isValid($formData)) {
+                $dados = $this->formDescritivo->getDados();
+                $dados['programa_id'] = $this->formDescritivo->getValue('programa_id');
+                $model_objetivosPrograma = new Model_ObjetivosPrograma();
+                if ($this->formDescritivo->getValue('id') == '') {
+                    $id = $model_objetivosPrograma->insert($dados);
+                } else {
+                    $id = $this->formDescritivo->getValue('id');
+                    $model_objetivosPrograma->update($dados, 'id=' . $id);
+                }
 
+                $objetivoPrograma = $model_objetivosPrograma->fetchRow('id=' . $id);
+                $returns = array();
+                $toolbar = $this->view->lineToolbar('programas', $objetivoPrograma);
+                $returns['toolbar'] = $toolbar;
+                $returns['obj'] = $objetivoPrograma->toArray();
+                $return = Zend_Json_Encoder::encode($returns);
+            } else {
+                $this->formDescritivo->populate($formData);
+                $return = $this->formDescritivo->processAjax($this->_request->getPost());
+            }
+        }
+        
+        $this->_helper->viewRenderer->setNoRender(true);
+        echo $return;
+        
+    }
+
+}

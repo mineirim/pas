@@ -1,6 +1,6 @@
 <?php
 
-class Form_Descritivo_desabilitado extends Zend_Form_SubForm
+class Programacao_Form_Descritivo extends Zend_Form_SubForm
 {
 	public function __construct($options = null )
 	{

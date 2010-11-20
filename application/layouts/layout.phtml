@@ -1,5 +1,5 @@
 <?php echo $this->doctype ( 'XHTML1_TRANSITIONAL' );?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <script type="text/javascript">
     var baseUrl = '<?php echo$this->baseUrl ()?>'
@@ -25,19 +25,15 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.min.js'
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jstree.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.contextmenu.js')
-				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' )
-				->addStylesheet ( $this->baseUrl () . '/css/jquery.jdMenu.css' );
+				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' );
 
 echo $this->JQuery ();
-
 /*
  * ckeditor para ajudas.
  */
 if ( !$this->ckeditor ) { 
 	//echo $this->headScript()->appendFile( $this->baseUrl().'/js/ckeditor/ckeditor.js');
 }
-
-
 
 ?> 
 <?php echo $this->headMeta ();?>
@@ -92,7 +88,7 @@ echo $this->baseUrl ();
 <body>
 	<div id="topo" >
 		<div id="topo-portal">
-			<iframe width="100%" scrolling="no" height="50" frameborder="0" align="middle" target="_blank" src="http://portal.saude.sp.gov.br/barra-gov/barra.htm">
+			<iframe width="100%" scrolling="no" height="50" frameborder="0" align="middle" src="http://portal.saude.sp.gov.br/barra-gov/barra.htm">
 			</iframe>
 		</div>
 		<div id="topo-ico" style="float:left;clear: both">
@@ -125,8 +121,8 @@ echo $this->baseUrl ();
 	</div>
     <table width="100%">
 	  <tr>
-	    <td style='min-width:240px;max-width:240px; min-height: 300px'>
-                <div style="margin-top: 5px; padding: 0;overflow:   auto;">
+	    <td style='min-width:200px;max-width:200px; min-height: 300px'>
+                <div style="margin-top: 5px; padding: 0;overflow:   hidden;">
                 <h3></h3>
                     <div style="height: 100%">
                         <!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
@@ -140,9 +136,7 @@ echo $this->baseUrl ();
                                </td>
                           </tr>
                           <tr class="tb-corner-side">
-                               <td class="tb-corner-side-left">
-                               </td>
-                               <td class="titulos-miolo" height="400px">
+                               <td class="tb-corner-side-left-menu titulos-miolo" colspan="2" height="400px" >
                                     <div id='menu_tree' style="overflow-x: hidden;min-height: 280px; margin-top: 10px">
                                     </div>
                                </td>

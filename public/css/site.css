@@ -41,14 +41,12 @@ td{
 }
 
 #menu_tree{
-    width:200px;
+    width:100%;
     float:inherit;
     min-height: 200px;
-    overflow-x: scroll;
-    overflow-y: visible;
-    max-width: 200px;
-
-
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-width: 183px;
 }
 
 #corpo{
@@ -253,7 +251,9 @@ div.inner {
     padding-right: 40px;
 }
 
-
+.my-jq-button{
+	font-size: 0.85em
+}
 
 
 .my-button{
@@ -789,6 +789,13 @@ td.tb-corner-top-center{
     background-repeat:repeat-y;
     background-image: url("../images/linha-esq-vert.jpg");
 }
+.tb-corner-side-left-menu{
+    min-width:183px !important;
+    max-width:183px !important;
+    background-repeat:repeat-y;
+    background-image: url("../images/linha-esq-vert.jpg");
+}
+
 .tb-corner-side-right{
     background-repeat:repeat-y;
     background-image: url("../images/linha-dir-vert.jpg");

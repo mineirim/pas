@@ -10,32 +10,32 @@
               method="post">
             <input type="hidden" id="dependents" value="1,2,3" />
             <div style='display: none'>
-                <?php echo $this->form->id ?>
+                <?php echo $this->form->programa->id ?>
             </div>
             <table width="100%" border="0">
                 <tr>
                     <td>
-<?php echo $this->form->descricao; ?>
+<?php echo $this->form->programa->descricao; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-<?php echo $this->form->menu; ?>
+<?php echo $this->form->programa->menu; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-<?php echo $this->form->meta; ?>
+<?php echo $this->form->programa->meta; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-<?php echo $this->form->interfaces; ?>
+<?php echo $this->form->programa->interfaces; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-<?php echo $this->form->responsavel_id; ?>
+<?php echo $this->form->programa->responsavel_id; ?>
                     </td>
                 </tr>
                 <tr>
@@ -45,50 +45,44 @@
                 </tr>
             </table>
         </form>
-
     </div>
-
     <div id="tabs-1" style="overflow: hidden">
-<?php
-    if (isset($this->programa)) {
-?>
         <form id='frmobjetivos'
               enctype='<?php echo $this->formDescritivo->getEnctype(); ?>'
-              action='<?php echo $this->url(array('controller' => 'programas', 'action' => 'addobjetivo')); ?>'
+              action='<?php echo $this->url(array('action' => 'addobjetivo')); ?>?format=json'
               method="post">
                 <div style='display: none'>
-<?php echo $this->formDescritivo->id ?>
-                            <input type=hidden name='programa_id'	value='<?php echo $this->programa->id ?>'>
+					<?php echo $this->formDescritivo->id ?>
+                	<input type=hidden name="programa_id" class="sync-parent-id" value='<?php if(isset($this->programa->id)) echo $this->programa->id ?>'>
                 </div>
                 <fieldset>
                     <div style='clear:both'>
-<?php echo $this->formDescritivo->descricao; ?>
+						<?php echo $this->formDescritivo->descricao; ?>
                     </div>
-<?php echo $this->formDescritivo->submit; ?>
+					<?php echo $this->formDescritivo->submit; ?>
             </fieldset>
         </form>
-        <table width="100%" id="tbobjetivos" class='ui-widget ui-widget-panel'>
-            <tr>
-                <th></th>
-                <th>Objetivos</th>
-            </tr>
+        <table width="100%" id="tbobjetivos" class="tb-corpo">
+        	<thead class="ui-widget ui-widget-header ">
+	            <tr>
+	                <th></th>
+	                <th>Objetivos</th>
+	            </tr>
+            </thead>
+			<tbody class="ui-widget">            
 <?php
-                    $cycle = $this->cycle(array('ui-state-hover', 'ui-state-active'));
-                    foreach ($this->programa->findModel_ObjetivosPrograma() as $objetivo) {
-?>
-                        <tr class='lst <?php echo $cycle->next() ?>'>
-                            <td><?php echo $this->lineToolbar('programas', $objetivo) ?></td>
-                            <td><?php echo $objetivo->descricao; ?></td>
-                        </tr>
-<?php
-                    }
-?>
-                </table>
-<?php
-                }
-?>
-
-
+                    $cycle = $this->cycle(array('', ''));
+                    if(isset($this->programa)):
+	                    foreach ($this->programa->findModel_ObjetivosPrograma() as $objetivo) :
+	?>
+	                        <tr class='lst <?php echo $cycle->next() ?>'>
+	                            <td><?php echo $this->lineToolbar('programas', $objetivo) ?></td>
+	                            <td><?php echo $objetivo->descricao; ?></td>
+	                        </tr>
+			<?php   
+						endforeach;
+					endif;?>
+			</tbody>
+       </table>
             </div>
-
     </div>

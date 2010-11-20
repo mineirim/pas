@@ -72,12 +72,27 @@ function ControleGeral(){
             $(v).button({
                 icons:{primary: $(v).attr('alt')}
             });
-            $(v).css({'font-size': '0.85em'});
-        })
-        $('button.my-jq-button').live('click',function(){
-            alert($(this).val());
+        });
+        $('button.ajax-form-load').live('click',function(event){
+            event.preventDefault();
+            $('#formulario_ajax').html('Aguarde...');
+
+            $('#formulario_ajax').load(this.value+'?format=html',function(){
+                $("#formtabs").tabs({
+                    collapsible: true
+
+                });
+                enableTabs();
+            }).dialog({
+                autoOpen: false,
+                title: this.title,
+                height: 450,
+                width: 600,
+                modal: true
+            });
+            $('#formulario_ajax').dialog('open');
             return false;
-        })
+        });
         $('.dialog-form-close').live('click',function(){ $('#formulario_ajax').dialog('close'); })
         $('a.ajax-form-load').live('click',
             function(event){
@@ -103,6 +118,7 @@ function ControleGeral(){
         );
         // responsável por enviar formulários com através do clique do botão com a classe 'by-ajax'
         $("input.by-ajax").live('click',function(e){
+        	frm = $(this).parents('form');
             url=$(this).parents('form').attr('action');
             // por padrão, o jquery não envia o valor para o botão clicado
             // este pedaço de código corrige este problema
@@ -113,6 +129,13 @@ function ControleGeral(){
                 url: url,
                 data: data,
                 success: function(data, status,xhr){
+                	if(data.newid){
+                		$('#'+frm.attr('id')+' #id').val(data.newid);
+                		$('.sync-parent-id').each(function(){ 
+                			$(this).val(data.newid)
+                			});
+                		enableTabs();
+                	}
                     Mensageiro.onSuccess(data);
                 } ,
                 complete:function(XMLHttpRequest, textStatus){
@@ -128,34 +151,59 @@ function ControleGeral(){
             return false;
         });
 
-        $(".submit_descritivo").click(function(e)
-            {
-                e.preventDefault()
-                var options = {
-                    success:       showDescritivo,
-                    dataType:	'json'
-                };
-                // bind form using 'ajaxForm'
-                formulario  = $(this).parents('form');
-                $(formulario).ajaxSubmit(options)
+        $(".submit_descritivo").live('click',function(e)
+         {
+        	e.preventDefault()
+        	var frm = $(this).parents('form');
+        	url=$(this).parents('form').attr('action');
+            data = $(this).parents('form').serialize() ;
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(data, status,xhr){
+                    if(data.toolbar != undefined){
+                        tabela = frm.attr('id');
+                        tabela = tabela.substr(3);
+                        $("#tb"+tabela).append("<tr class='lst'><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>");
+                    	$("#"+frm.attr('id')+" #id").val("");
+                    	$("#"+frm.attr('id')+" #descricao").val("");
+                    }else{
+                        /**
+                		 * enquanto ajusta todos os scriptis de add
+                		 */
+                        if (data.descricao != undefined){
+                            tabela = frm.attr('id');
+                            tabela = tabela.substr(3);
+                            $("#tb"+tabela).append("<tr class='lst'><td></td><td>"+data.descricao+"</td></tr>");
+                        	$("#"+frm.attr('id')+" #id").val("");
+                        	$("#"+frm.attr('id')+" #descricao").val("");
+                        }
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+                }
+            });
+
         });
         $(".editdescription").live('click',function(e)
             {
                 e.preventDefault();
                 e.stopPropagation();
 
-                $this = $(this)
-                $tpobjeto = this.id.split('-')[1]
+                self = $(this)
+                tpobjeto = this.id.split('-')[1]
 
-                if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
+                if(tpobjeto.substr(tpobjeto.length-1,1)!='s')
                 {
-                    $tpobjeto = $tpobjeto + 's'
+                	tpobjeto = tpobjeto + 's'
                 }
                 $.getJSON(this.href,
                     function(data){
-                        $this.parents('tr.lst').remove()
-                        $('#frm'+$tpobjeto).find('#id').val(data.id)
-                        $('#frm'+$tpobjeto).find('#descricao').val(data.descricao)
+                		self.parents('tr.lst').remove()
+                        $('#frm'+tpobjeto+' #id').val(data.id)
+                        $('#frm'+tpobjeto+' #descricao').val(data.descricao)
                         if(data.tipo_indicador_id != undefined )
                             $("#tipo_indicador_id-"+data.tipo_indicador_id).attr('checked','checked')
                     });
@@ -165,10 +213,10 @@ function ControleGeral(){
         {
             e.preventDefault();
             $this = $(this)
-            $tpobjeto = this.id.split('-')[1]
-            if($tpobjeto.substr($tpobjeto.length-1,1)!='s')
+            tpobjeto = this.id.split('-')[1]
+            if(tpobjeto.substr(tpobjeto.length-1,1)!='s')
             {
-                $tpobjeto = $tpobjeto + 's'
+                tpobjeto = tpobjeto + 's'
             }
             $.getJSON(this.href,
                 function(data){
@@ -187,13 +235,18 @@ function ControleGeral(){
         /**
          *efeito de highlight em tabela
          */
-      $(".tb-corpo tr").hover(
-                    function(){$(this).addClass("ui-state-highlight");},
-                    function(){$(this).removeClass("ui-state-highlight");}
-      )
+      $(".tb-corpo tr").live({
+          mouseenter: function()
+              {
+        	  	$(this).addClass("ui-state-highlight");
+              },
+           mouseleave: function()
+              {
+        	   	$(this).removeClass("ui-state-highlight");
+              }
+          });
 
-
-    }
+    };
     this.percentual_execucao = function(){
         if($('#progresso').val() != 'undefined'){
             url = baseUrl+'/execucao/index/from/'
@@ -209,26 +262,7 @@ function ControleGeral(){
     }
 }
 
-function showDescritivo(data,result,obj){
-    if(data.toolbar != undefined){
-        tabela = obj.attr('id');
-        tabela = tabela.substr(3);
-        $("#tb"+tabela).append("<tr class='lst'><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>")
-        obj[0].descricao.value="";
-        obj[0].id.value="";
-    }else{
-        /**
-		 * enquanto ajusta todos os scriptis de add
-		 */
-        if (data.descricao != undefined){
-            tabela = obj.attr('id');
-            tabela = tabela.substr(3);
-            $("#tb"+tabela).append("<tr class='lst'><td></td><td>"+data.descricao+"</td></tr>")
-            obj[0].descricao.value="";
-            obj[0].id.value="";
-        }
-    }
-}
+
 
 
 

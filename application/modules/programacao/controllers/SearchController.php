@@ -1,6 +1,6 @@
 <?php
 
-class SearchController extends Zend_Controller_Action
+class Programacao_SearchController extends Zend_Controller_Action
 {
 	public function init() {
 		$ajaxContext = $this->_helper->ajaxContext;

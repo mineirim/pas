@@ -195,6 +195,13 @@
               <actionMethod actionName="get"/>
               <actionMethod actionName="edit"/>
               <actionMethod actionName="save"/>
+              <actionMethod actionName="addobjetivo"/>
+            </controllerFile>
+            <controllerFile controllerName="Search">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Changestatus">
+              <actionMethod actionName="index"/>
             </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
@@ -221,6 +228,15 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Programas">
                 <viewScriptFile forActionName="save"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Programas">
+                <viewScriptFile forActionName="addobjetivo"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Search">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Changestatus">
+                <viewScriptFile forActionName="index"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -425,6 +441,8 @@
           <testApplicationControllerFile filesystemName="InstrumentosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="ExecucaoControllerTest.php"/>
           <testApplicationControllerFile filesystemName="ProgramasControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="SearchControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ChangestatusControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

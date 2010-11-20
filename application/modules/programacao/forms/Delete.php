@@ -14,7 +14,7 @@ class Programacao_Form_Delete extends Zend_Form
             $close = new Zend_Form_Element_Button('dialog_close');
             $close->setAttrib('class', 'dialog-form-close')
                     ->setLabel('Cancelar')
-                    ->setDecorators(array('ViewHelper', 'Errors', 'Label'));;
+                    ->setDecorators(array('ViewHelper', 'Errors'));;
 
             $this->addElement($id);
             $this->addElement($submit);

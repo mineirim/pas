@@ -89,23 +89,23 @@ class Zend_View_Helper_MyToolbar {
 		
 		
 		if($this->_controller=='programas'){
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'add','module'=>'programacao' ))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'create','module'=>'programacao' ))."'
 					title='Adicionar Projeto' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Projeto</a>";
 			
 		}elseif($this->_controller=='projetos'){
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'objetivos-especificos','action'=>'add', 'module'=>'programacao' ))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'objetivos-especificos','action'=>'create', 'module'=>'programacao' ))."'
 					title='Adicionar Objetivo' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Objetivo</span>Adicionar Objetivo</a>";
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add', 'module'=>'programacao', 'projeto_id'=>$this->_id ))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'create', 'module'=>'programacao', 'projeto_id'=>$this->_id ))."'
 					title='Adicionar Subprojeto' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Subprojeto</span>Adicionar Subprojeto</a>";
 		}elseif($this->_controller=='objetivos-especificos'){
 
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'metas','action'=>'add', 'module'=>'programacao' ))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'metas','action'=>'create', 'module'=>'programacao' ))."'
 					title='Adicionar Meta' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Meta</span>Adicionar Meta</a>";
@@ -127,10 +127,10 @@ class Zend_View_Helper_MyToolbar {
 		return $ret;
 	}
 	private function getTopTableBar(){
-		$toolbar = "<button value='".$this->view->url(array('controller'=>$this->_controller,'action'=>'add'))."'
+		$toolbar = "<button value='".$this->view->url(array('controller'=>$this->_controller,'action'=>'create','module'=>'programacao'))."'
 					title='Novo'
                                         alt='ui-icon-document'
-					class='my-jq-button button-ajax'>Novo</a>";
+					class='my-jq-button button-ajax ajax-form-load'>Novo</a>";
 		return $toolbar;
 	}
 	

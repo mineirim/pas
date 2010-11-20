@@ -66,14 +66,14 @@ class Zend_View_Helper_LineToolbar {
 		$toolbar = "
 		<div style='width:55px;'>
 		<a href='".$this->view->url(array('controller'=>'search','action'=>'object','id'=>$this->_obj->id,'classe'=>$this->_obj->getTableClass()))."'
-					class='my-button ui-state-default ui-corner-all editdescription'
+					class='my-button editdescription'
 					title='Editar' 
 					id='edit-$id_a' 
 					>
 					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
 		<a href='".$this->view->url(array('controller'=>'changestatus','action'=>'delete', 'model'=>$this->_obj->getTableClass(),'id'=>$this->_obj->id))."'
-		class='my-button ui-state-default ui-corner-all deletedescription '
+		class='my-button deletedescription '
 		title='Excluir' 
 		id='delete-$id_a-".$this->_obj->id."'>
 		<span class='ui-icon ui-icon-trash '></span>

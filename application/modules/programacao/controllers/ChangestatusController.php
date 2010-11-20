@@ -1,25 +1,13 @@
 <?php
 
-/**
- * ChangestatusController
- * 
- * Classe utilizada para alterar o status/situação de qualquer objeto
- * 
- * @author Marcone
- *  
- */
+class Programacao_ChangestatusController extends Zend_Controller_Action
+{
 
-require_once 'Zend/Controller/Action.php';
-
-
-class ChangestatusController extends Zend_Controller_Action {
-	
-	
 	public function init()
 	{
 		$ajaxContext = $this->_helper->ajaxContext;
-        $ajaxContext->addActionContext('delete', 'json')
-        			->addActionContext('restore',array('json','xml'))
+        $ajaxContext->addActionContext('delete', array('html', 'json','xml'))
+        			->addActionContext('restore',array('html', 'json','xml'))
                     ->initContext();    	
 		$this->_helper->layout()->disableLayout();
 	    $this->_helper->viewRenderer->setNoRender(true);		
@@ -52,6 +40,8 @@ class ChangestatusController extends Zend_Controller_Action {
     	echo $return;
     	
 	}
+	
+
 
 }
 
