@@ -110,7 +110,6 @@ class PlanoController extends Zend_Controller_Action
      */
     public function operacaoAction()
     {
-      	
       	$operacoes = new Model_Operacoes();
 		$atividades = new Model_Atividades();
 		$atividadesprazo = new Model_AtividadesPrazo();
@@ -142,7 +141,6 @@ class PlanoController extends Zend_Controller_Action
      */
     public function atividadeAction()
     {
-      	
       	$operacoes = new Model_Operacoes();
 		$atividades = new Model_Atividades();
 		$atividadesprazo = new Model_AtividadesPrazo();

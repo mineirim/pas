@@ -8,22 +8,23 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 <table  class="tb-cabecalho">
 
         <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->programa,
-                                                                                                 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+                                                                        'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
         <tr>
             <td class="espacador" colspan="2">
                 <table class="espacador-table">
                     <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->projeto,
-                                                                                                 'nome'=>'Projeto', 'acao'=>'Projeto',  'detalhar'=>($this->nivel=='Projeto')));?>
+                                                                                    'nome'=>'Projeto', 'acao'=>'Projeto',  'detalhar'=>($this->nivel=='Projeto')));?>
                 </table>
             </td>
         </tr>
         <tr>
             <td class="espacador" colspan="2" style="padding-left: 30px">
                 <table class="espacador-table">
-                    <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->objetivo_especifico,
-                                                                                                 'nome'=>'objetivo-especifico', 'detalhar'=>($this->nivel=='ObjetivoEspecifico'),
-                                                                                                 'label'=>'Objetivo Específico', 'acao'=>'objetivo-especifico',
-                                                                                                 'campo_id'=>'objetivo_especifico_id' ));?>
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',
+                    							array('objeto'=>$this->objetivo_especifico,
+                                                       'nome'=>'objetivo-especifico', 'detalhar'=>($this->nivel=='ObjetivoEspecifico'),
+                                                       'label'=>'Objetivo Específico', 'acao'=>'objetivo-especifico',
+                                                       'campo_id'=>'objetivo_especifico_id' ));?>
                 </table>
             </td>
         </tr>
@@ -46,7 +47,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 <div style="height: 5px;width: 100%"></div>
 <div id="tabela" >
 
-        <table cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0"  class="tb-corpo">
             <caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> OPERAÇÕES</caption>
             <thead class="ui-widget ui-widget-header ">
                 <tr class=" ui-state-hover">
@@ -60,7 +61,6 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                 $cycle=$this->cycle(array('',''));
                 foreach ($this->operacoes as $operacao){?>
                 <tr class="<?php echo $cycle->next()?>">
-
                         <td>
                             <div >
                                 <a href='<?php echo $this->url ( array ('action' => 'operacao', 'operacao_id' => $operacao->id ) );?>'>

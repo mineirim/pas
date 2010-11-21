@@ -47,19 +47,25 @@ class ExecucaoController extends Zend_Controller_Action
                 $model_objetos = new Model_Operacoes();
                 $objetos = $model_objetos->fetchAll("situacao_id=1 and meta_id=$parent_id");
                 break;
+            case 7:
+                $model_objetos = new Model_Atividades();
+                $objetos = $model_objetos->fetchAll("situacao_id=1 and operacao_id=$parent_id");
+                break;
             default:
                 break;
         }
         $my_json = new stdClass();
         $atividades = new Model_Atividades ();
         if ($nivel == 7){
-                $id = $this->_getParam('id');
-                $resultado = $atividades->fetchRow("id=" . $id);
-                $pesodenominador = 100;
-                if ($resultado->conclusao_data){
-                        $pesototal = 100; // atividade realizada
-                } else {
-                        $pesototal = 0; // atividade não realizada
+                foreach ($objetos as $resultado){
+	                $pesodenominador = 100;
+	                if ($resultado->conclusao_data){
+	                        $pesototal = 100; // atividade realizada
+	                } else {
+	                        $pesototal = 0; // atividade não realizada
+	                }
+	                $ix = $resultado->id;
+                	$my_json->$ix = $resultado;
                 }
         } else {
             foreach ($objetos as $objeto) {
@@ -72,12 +78,8 @@ class ExecucaoController extends Zend_Controller_Action
                 $pesototal = $atividades->calculovalor($nivel, $id, 1);
                 $ix = $objeto->id;
                 $my_json->$ix = $pesodenominador>0?($pesototal/$pesodenominador)*100:0;
-
             }
-                
         }
         echo $this->_helper->_json($my_json);
     }
-
 }
-

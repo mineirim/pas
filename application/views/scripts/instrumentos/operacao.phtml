@@ -1,0 +1,109 @@
+<?php
+/**
+ * campo usado para cálculo assincrono do progresso
+ */
+echo '<input type="hidden" id="progresso" name="progresso" value="'.$this->nivel_id.'">';
+echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->parent_id.'">';
+?>
+<table  class="tb-cabecalho">
+
+        <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->programa,
+                                                                        'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+        <tr>
+            <td class="espacador" colspan="2">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->projeto,
+                                                                                    'nome'=>'Projeto', 'acao'=>'Projeto',  'detalhar'=>($this->nivel=='Projeto')));?>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="espacador" colspan="2" style="padding-left: 30px">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',
+                    							array('objeto'=>$this->objetivo_especifico,
+                                                       'nome'=>'objetivo-especifico', 'detalhar'=>($this->nivel=='ObjetivoEspecifico'),
+                                                       'label'=>'Objetivo Específico', 'acao'=>'objetivo-especifico',
+                                                       'campo_id'=>'objetivo_especifico_id' ));?>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="espacador" colspan="2" style="padding-left: 45px">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->meta,
+                                                                                                 'nome'=>'Meta', 'acao'=>'meta', 'detalhar'=>false));?>
+                </table>
+            </td>
+        </tr>
+		<tr>
+            <td class="espacador" colspan="2" style="padding-left: 60px">
+                <table class="espacador-table">
+					<?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->operacao,
+													 'nome'=>'Operacao', 'label'=>'Operação', 'acao'=>'operacao', 'campo_id'=>'operacao_id', 'detalhar'=>false));?>
+	                </table>
+            </td>
+        </tr>
+</table>	
+
+	
+		<table cellpadding="0" cellspacing="0" class="tb-corpo">
+			<caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> ATIVIDADES</caption>
+			<thead class="ui-widget ui-widget-header ">
+                <tr class=" ui-state-hover">
+                        <td class="subtitulos-tabela" width="55%">Descrição</td>
+						<td  class="subtitulos-tabela" width="70px;">Data Início</td>
+						<td  class="subtitulos-tabela" width="100px;">Data Término</td>
+						<td  class="subtitulos-tabela" width="70px;">Valor</td>
+                        <td class="subtitulos-tabela" width="50px;"></td>
+                        <td width="4px"><?php echo $this->myToolbar('atividades','toptable');?></td>
+                </tr>
+            </thead>
+			<tbody class="ui-widget ">
+				<?php
+				$cycle=$this->cycle(array('','')); 
+				foreach ($this->atividades as $atividade){?>
+				<tr class="<?php echo $cycle->next()?>">
+					<td>
+					<div class="texto-tabela-com-seta">
+						<a href=
+							'<?php echo $this->url ( array ('controller' => 'instrumentos', 'action' => 'atividade', 'atividade_id' => $atividade->id ));?>'>
+							<span class="ui-icon ui-icon-play" style="float:left"></span>
+                            <span class="descricao_item"><?php echo $atividade->descricao;?></span>
+						</a>
+					</div>
+					</td>
+					<td class="texto">
+						<?php 
+						$data =  new Zend_Date($atividade->inicio_data,Zend_Date::ISO_8601);
+						echo $data->toString('dd/MM/yyyy');
+						?>				
+					</td>
+					<td class="texto">
+						<?php 
+						$resultado = $this->atividadeprazo->fetchAll('atividade_id=' . $atividade->id, 'id ASC');
+						$prazo = '';
+						foreach($resultado as $atividadeprazo){ 
+							$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+						}
+						if (!$prazo){
+							$prazo =  new Zend_Date($atividade->prazo_data,Zend_Date::ISO_8601);
+						}
+						echo $prazo->toString('dd/MM/yyyy');
+						?>				
+					</td>
+					<td class="texto">
+						<?php echo $atividade->valor;?>
+					</td>
+					<td>
+						<div id="progbar-<?php echo $atividade->id;?>" style="height:10px; " class="execucao"></div>
+					</td>
+					<td class="texto">
+						<?php echo $this->myToolbar ( 'atividades' , 'line', $atividade->id  );?>
+					</td>
+				</tr>
+				<?php 
+				}?>
+			</tbody>
+		</table>
+	

@@ -1,0 +1,271 @@
+
+	<table class="tb-cabecalho">
+	<?php echo $this->partial('instrumentos/cabecalho.phtml',
+								array('objeto'=>$this->programa, 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+        <tr>
+            <td class="espacador" colspan="2">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->projeto,
+                                                       'nome'=>'Projeto', 'acao'=>'Projeto',  'detalhar'=>($this->nivel=='Projeto')));?>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="espacador" colspan="2" style="padding-left: 30px">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',
+                    							array('objeto'=>$this->objetivo_especifico,
+                                                       'nome'=>'objetivo-especifico', 'detalhar'=>($this->nivel=='ObjetivoEspecifico'),
+                                                       'label'=>'Objetivo Específico', 'acao'=>'objetivo-especifico',
+                                                       'campo_id'=>'objetivo_especifico_id' ));?>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td class="espacador" colspan="2" style="padding-left: 45px">
+                <table class="espacador-table">
+                    <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->meta,
+                                                                              'nome'=>'Meta', 'acao'=>'meta', 'detalhar'=>false));?>
+                </table>
+            </td>
+        </tr>
+		<tr>
+            <td class="espacador" colspan="2" style="padding-left: 60px">
+                <table class="espacador-table">
+					<?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->operacao,
+													 'nome'=>'Operacao', 'label'=>'Operação', 'acao'=>'operacao', 'campo_id'=>'operacao_id', 'detalhar'=>false));?>
+	                </table>
+            </td>
+        </tr>	
+	</table>
+	
+<br>
+
+<div id="formtabs" style="width: 98%; height:100%">
+	<ul>
+		<li><a href="#tabs-0" >Atividade</a></li>
+		<li><a href="#tabs-1" >Histórico</a></li>
+		<li><a href="#tabs-2" >Depende de...</a></li>
+		<li><a href="#tabs-3" >Dependentes</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+	<table>
+		<tr>
+			<td colspan="2">
+			<?php 
+				$mysession = new Zend_Session_Namespace ( 'mysession' );
+				$acl = $mysession->acl;
+			
+				$auth = Zend_Auth::getInstance();
+				if ($auth->hasIdentity ()) {
+					$role = $auth->getIdentity ()->username;
+				} else {
+					$role = 'guest';
+				}
+				
+				if (!$this->atividade->conclusao_data){
+						// botão para concluir atividade
+					$resource = 'concluir';
+					if (! $acl->has ( $resource )) 
+						$resource = null;
+					
+					if($acl->isAllowed($role,$resource) ||
+							!$resource){ 
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'concluir', 'id'=>$this->atividade->id))."'
+								title='Concluir Atividade' 
+								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+								<span class='ui-icon ui-icon-check'>Concluir Atividade</span>Concluir Atividade</a>";
+					}
+				} else {
+					$resource = 'reativar';
+					if (! $acl->has ( $resource )) 
+						$resource = null;
+					
+					if($acl->isAllowed($role,$resource) ||
+							!$resource){ 
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'reativar', 'id'=>$this->atividade->id))."'
+								title='Reativar Atividade' 
+								class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+								<span class='ui-icon ui-icon-arrowreturnthick-1-e'>Reativar Atividade</span>Reativar Atividade</a>";
+					}
+				} // if conclusao_data
+			
+			?>
+			</td>
+		</tr>
+
+		<tr>
+			<th><font size="2">Atividade</font></th>
+			<td><font size="2"><?php echo $this->atividade->id . " - " . $this->atividade->descricao?></font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Responsável</font></th>
+			<td><font size="2"><?php echo $this->atividade->responsavel?></font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Intersecao</font></th>
+			<td><font size="2"><?php echo $this->atividade->intersecao?></font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Data de Início</font></th>
+			<td><font size="2"><?php echo $this->atividade->inicio_data?></font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Data de Término</font></th>
+			<td><font size="2">
+				<?php
+				$prazo = '';
+				foreach($this->atividadeprazo as $atividadeprazo){ 
+					$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+				}
+				if ($prazo){
+						echo $prazo->toString('dd/MM/yyyy');
+				} else {
+						echo $this->atividade->prazo_data;
+				} // if
+				?>
+			</font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Valor</font></th>
+			<td><font size="2"><?php echo $this->atividade->valor?></font></td>
+		</tr>
+		<tr>
+			<th><font size="2">Andamento<br>da Execução</font></th>
+			<td><font size="2"><?php echo $this->atividade->andamento?></font></td>
+		</tr>
+		<?php 
+		if ($this->atividade->conclusao_data){
+		?>
+		<tr>
+			<th><font size="2">Data de Conclusão</font></th>
+			<td><font size="2"><?php 
+			$conclusao = new Zend_Date($this->atividade->conclusao_data,Zend_Date::ISO_8601);
+			echo $conclusao->toString('dd/MM/yyyy');
+			?></font></td>
+		</tr>
+		<?php 
+		} // if
+		?>
+	</table>
+
+	</div>
+
+	<div id="tabs-1" style="overflow: hidden">
+		<table border="2">
+			<tr>
+				<td colspan="2"><font size="2"><b>POSTERGAÇÕES</b></font></td>
+			</tr>
+			<tr>
+				<td><font size="2"><b>Data</b></font></td>
+				<td><font size="2"><b>Motivo da Postergação</b></font></td>
+			</tr>
+			<?php
+			foreach($this->atividadeprazo as $atividadeprazo){ 
+			?>
+				<tr>
+					<td><font size="2">
+					<?php 
+					$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
+					echo $prazo->toString('dd/MM/yyyy');
+					?>
+					</font></td>
+					<td><font size="2"><?php echo $atividadeprazo->motivopostergacao; ?></font></td>
+				</tr>
+			<?php 	
+			} // foreach
+			// *** só é possível adicionar prazos quando a atividade ainda não foi concluida.
+			if (!$this->atividade->conclusao_data){
+				?>
+				<tr>
+				<td colspan="2">
+				<?php 
+				// verificando se usuário pode adicionar prazo.
+				$resource = 'addprazo';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+					
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
+							title='Adicionar Prazo' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+							<span class='ui-icon ui-icon-plus'>Adicionar Prazo</span>Adicionar Prazo</a>";
+				} // if do acl.
+				?>
+				</td>
+				</tr>
+				<?php 
+			} // if
+			?>
+		</table>	
+	</div>	
+	
+	<div id="tabs-2" style="overflow: hidden">
+		<table border="2">
+			<tr>
+				<td colspan="2"><font size="2"><b>VINCULAÇÕES</b></font></td>
+			</tr>
+			<tr>
+				<td><font size="2"><b>Atividade</b></font></td>
+				<td><font size="2"><b>Observações</b></font></td>
+				<td><font size="2"><b>&nbsp;</b></font></td>
+			</tr>
+			<?php
+			foreach($this->atividadevinculada as $atividadesvinculadas){ 
+				$vinculacao = $this->atividades->fetchRow ( 'id=' . $atividadesvinculadas->depende_atividade_id, 'id' );
+				?>
+				<tr>
+					<td><font size="2"><a title='<?php echo $atividadesvinculadas->depende_atividade_id . " - " . $vinculacao->descricao; ?>' href='<?php echo $this->url ( array ('controller' => 'instrumentos', 'action' => 'atividade', 'atividade_id' => $atividadesvinculadas->depende_atividade_id ) );?>'><?php echo $atividadesvinculadas->depende_atividade_id; ?></a></font></td>
+					<td><font size="2"><?php echo $atividadesvinculadas->observacoes; ?></font></td>
+					<td><font size="2">
+					<?php 
+					// verificando se usuário pode excluir prazo.
+					$resource = 'deletevinculacao';
+					if (! $acl->has ( $resource )) 
+						$resource = null;
+						
+					if($acl->isAllowed($role,$resource) ||
+							!$resource){ 
+					
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'deletevinculacao', 'id'=>$atividadesvinculadas->id))."'
+								title='Excluir Vinculação' 
+								class='my-button ui-state-default ui-corner-all'>
+								<span class='ui-icon ui-icon-trash'>Excluir Vinculação</span></a>";
+					} // if do acl.
+					?>
+					</font></td>
+				</tr>
+				<?php 	
+			} // foreach
+			// *** só é possível adicionar vinculações quando a atividade ainda não foi concluida.
+			if (!$this->atividade->conclusao_data){
+				?>
+				<tr>
+				<td colspan="2">
+				<?php 
+				// verificando se usuário pode adicionar vinculação.
+				$resource = 'addvinculacao';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+					
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id))."'
+							title='Adicionar Vinculação' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+							<span class='ui-icon ui-icon-plus'>Adicionar Vinculação</span>Adicionar Vinculação</a>";
+				}
+				?>
+				</td>
+				</tr>
+				<?php 
+			} // if
+			?>
+		</table>	
+	
+	</div>
+
+	<div id="tabs-3" style="overflow: hidden">
+	</div>
+</div>
