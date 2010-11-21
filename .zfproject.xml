@@ -203,6 +203,26 @@
             <controllerFile controllerName="Changestatus">
               <actionMethod actionName="index"/>
             </controllerFile>
+            <controllerFile controllerName="Projetos">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="create"/>
+              <actionMethod actionName="update"/>
+              <actionMethod actionName="delete"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="edit"/>
+              <actionMethod actionName="save"/>
+              <actionMethod actionName="addobjetivo"/>
+            </controllerFile>
+            <controllerFile controllerName="ObjetivosEspecificos">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="create"/>
+              <actionMethod actionName="update"/>
+              <actionMethod actionName="delete"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="edit"/>
+              <actionMethod actionName="save"/>
+              <actionMethod actionName="addparceria"/>
+            </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory/>
@@ -237,6 +257,54 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Changestatus">
                 <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="create"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="update"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="delete"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="get"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="save"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="addobjetivo"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="create"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="update"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="delete"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="get"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="save"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="ObjetivosEspecificos">
+                <viewScriptFile forActionName="addparceria"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -443,6 +511,8 @@
           <testApplicationControllerFile filesystemName="ProgramasControllerTest.php"/>
           <testApplicationControllerFile filesystemName="SearchControllerTest.php"/>
           <testApplicationControllerFile filesystemName="ChangestatusControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ProjetosControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ObjetivosEspecificosControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

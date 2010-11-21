@@ -1,12 +1,10 @@
 <?php
 
-/**
- * @author Marcone Costa
- * 
- */
-class Programacao_ProgramasController extends Zend_Controller_Action {
+class Programacao_ProjetosController extends Zend_Controller_Action
+{
 
-    public function init() {
+    public function init()
+    {
         $ajaxContext = $this->_helper->ajaxContext;
         $ajaxContext->addContext('js', array('suffix' => 'js'));
         $ajaxContext->setAutoJsonSerialization(false);
@@ -21,57 +19,72 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
         if ($this->_request->isXmlHttpRequest())
             $this->_helper->layout()->disableLayout();
 
-        $this->form = new Programacao_Form_Programa();
+        $this->form = new Programacao_Form_Projeto();
         $this->formDescritivo = new Programacao_Form_Descritivo();
 
         /**
          *  @var Elemento que representa o id do programa nos forms descritivos(objetivos e metas)
          */
-        $form_programa_id = new Zend_Form_Element_Hidden('programa_id');
-        $form_programa_id->setRequired(true)->addValidator('NotEmpty');
-        $this->formDescritivo->addElement($form_programa_id);
+        $form_projeto_id = new Zend_Form_Element_Hidden('projeto_id');
+        $form_projeto_id->setRequired(true)->addValidator('NotEmpty');
+        $this->formDescritivo->addElement($form_projeto_id);
         $this->view->formDescritivo = $this->formDescritivo;
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         // action body
     }
 
-    public function createAction() {
+    public function createAction()
+    {
+		$programa_id = $this->_getParam ( 'programa_id' );
+		$projeto_id = $this->_getParam ( 'projeto_id' );
+		
+		if(!$programa_id && $projeto_id){
+			$model_projetos = new Model_Projetos ( );
+			$projeto = $model_projetos->fetchRow('id='.$projeto_id);
+			$programa_id = $projeto->programa_id;
+		}
+    	
         if ($this->getRequest()->isPost()) {
             $this->saveAction();
             $this->render('save');
         } else {
-            $this->form->submit->setLabel('Salvar');
-            $this->view->form = $this->form;
-            $this->render('edit');
+        	if ($programa_id) 
+			{
+				$this->form->projeto->programa_id->setValue($programa_id);
+				$this->form->projeto->projeto_id->setValue( $projeto_id);
+	            $this->form->submit->setLabel('Salvar');
+	            $this->view->form = $this->form;
+	            $this->render('edit');
+			}else {
+				$this->_helper->viewRenderer->setNoRender(true);
+				echo "<h1>Esperado informar o código do programa";
+			}
         }
     }
 
-    /**
-     * Mantido por questões de padronização
-     * substituido pelo método save
-     * 
-     */
-    public function updateAction() {
+    public function updateAction()
+    {
         $this->saveAction();
         $this->render('save');
     }
 
-    public function deleteAction() {
+    public function deleteAction()
+    {
         $form = new Programacao_Form_Delete();
-        $programas = new Model_Programas();
+        $model_projetos = new Model_Projetos();
         if ($this->getRequest()->isPost()) {
-            $this->_helper->viewRenderer->setNoRender(true);
             if ($form->isValid($this->getRequest()->getPost())) {
                 $id = $form->getValue('id');
                 $this->view->response = array();
                 try {
-                    $programas->update(array('situacao_id' => 2), 'id=' . $id);
-                    $programa = $programas->fetchRow('id=' . $id);
-                    $this->view->response = array('dados' => $programa->toArray(),
-                        'notice' => 'Programa apagado com sucesso',
-                        'descricao' => $programa->menu,
+                    $model_projetos->update(array('situacao_id' => 2), 'id=' . $id);
+                    $projeto = $model_projetos->fetchRow('id=' . $id);
+                    $this->view->response = array('dados' => $projeto->toArray(),
+                        'notice' => 'Projeto apagado com sucesso',
+                        'descricao' => $projeto->menu,
                         'keepOpened' => false,
                         'refreshPage' => true
                     );
@@ -86,26 +99,28 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
             $this->view->title = "Excluir";
             $this->view->headTitle($this->view->title, 'PREPEND');
             $id = $this->_getParam('id', 0);
-            $programa = $programas->fetchRow('id=' . $id);
-            $this->view->programa = $programa;
-            $form->populate($programa->toArray());
+            $projeto = $model_projetos->fetchRow('id=' . $id);
+            $this->view->projeto = $projeto;
+            $form->populate($projeto->toArray());
             $this->view->form = $form;
         }
     }
 
-    public function getAction() {
+    public function getAction()
+    {
         // action body
     }
 
-    public function editAction() {
+    public function editAction()
+    {
         $id = $this->_getParam('id');
         if ($id > 0) {
             $this->form->submit->setLabel('Salvar');
-            $model_programas = new Model_Programas();
-            $programa = $model_programas->fetchRow('situacao_id=1 AND id=' . $id);
-            if ($programa) {
-                $this->form->populate($programa->toArray());
-                $this->view->programa = $programa;
+            $model_projetos = new Model_Projetos();
+            $projeto = $model_projetos->fetchRow('situacao_id=1 AND id=' . $id);
+            if ($projeto) {
+                $this->form->populate($projeto->toArray());
+                $this->view->projeto = $projeto;
                 $this->view->form = $this->form;
                 $this->render('edit');
             } else {
@@ -118,26 +133,30 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
         }
     }
 
-    public function saveAction() {
-        if ($this->getRequest()->isPost()) {
+    public function saveAction()
+    {
+    	if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($this->form->isValid($formData)) {
                 try {
-                    $dados = $this->form->getValue('programa');
+                    $dados = $this->form->getValue('projeto');
                     unset($dados['id']);
-                    $id = $this->form->programa->getValue('id');
-                    $model_programas = new Model_Programas ( );
+                    if ($dados['projeto_id']=="")
+                    	unset($dados['projeto_id']);
+                    $id = $this->form->projeto->getValue('id');
+                    
+                    $model_projetos = new Model_Projetos ( );
                     if ($id == '') {
-                        $id = $model_programas->insert($dados);
+                        $id = $model_projetos->insert($dados);
                         $newid = $id;
                     } else {
-                        $model_programas->update($dados, 'id=' . $id);
+                        $model_projetos->update($dados, 'id=' . $id);
                     }
-                    $programa = $model_programas->fetchRow('id=' . $id);
-                    $this->view->programa = $programa;
-                    $this->view->response = array('dados' => $programa->toArray(),
+                    $projeto = $model_projetos->fetchRow('id=' . $id);
+                    $this->view->projeto = $projeto;
+                    $this->view->response = array('dados' => $projeto->toArray(),
                         'notice' => 'Dados atualizados com sucesso',
-                        'descricao' => $programa->menu,
+                        'descricao' => $projeto->menu,
                         'keepOpened' => true,
                         'refreshPage' => true
                     );
@@ -159,26 +178,27 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
         }
     }
 
-    public function addobjetivoAction() {
+    public function addobjetivoAction()
+    {
         if ($this->getRequest()->isPost()) {
             $this->formDescritivo->descricao->addValidator(new Zend_Validate_StringLength(0, 500));
             $formData = $this->getRequest()->getPost();
             if ($this->formDescritivo->isValid($formData)) {
                 $dados = $this->formDescritivo->getDados();
-                $dados['programa_id'] = $this->formDescritivo->getValue('programa_id');
-                $model_objetivosPrograma = new Model_ObjetivosPrograma();
+                $dados['projeto_id'] = $this->formDescritivo->getValue('projeto_id');
+                $model_objetivosProjetos = new Model_ObjetivosProjeto();
                 if ($this->formDescritivo->getValue('id') == '') {
-                    $id = $model_objetivosPrograma->insert($dados);
+                    $id = $model_objetivosProjetos->insert($dados);
                 } else {
                     $id = $this->formDescritivo->getValue('id');
-                    $model_objetivosPrograma->update($dados, 'id=' . $id);
+                    $model_objetivosProjetos->update($dados, 'id=' . $id);
                 }
 
-                $objetivoPrograma = $model_objetivosPrograma->fetchRow('id=' . $id);
+                $objetivoProjeto = $model_objetivosProjetos->fetchRow('id=' . $id);
                 $returns = array();
-                $toolbar = $this->view->lineToolbar('programas', $objetivoPrograma);
+                $toolbar = $this->view->lineToolbar('projetos', $objetivoProjeto);
                 $returns['toolbar'] = $toolbar;
-                $returns['obj'] = $objetivoPrograma->toArray();
+                $returns['obj'] = $objetivoProjeto->toArray();
                 $return = Zend_Json_Encoder::encode($returns);
             } else {
                 $this->formDescritivo->populate($formData);
@@ -188,7 +208,22 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
         
         $this->_helper->viewRenderer->setNoRender(true);
         echo $return;
-        
     }
 
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

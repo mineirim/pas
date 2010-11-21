@@ -3,9 +3,7 @@
 	<table cellpadding="0" cellspacing="0" >
 		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
 					 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
-		<tr>
-                    <td colspan="2"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
-		</tr>
+
 		<?php
 			if($this->nivel=='Projeto')
 				echo $this->partial('plano/cabecalho.phtml',

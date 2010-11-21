@@ -3,14 +3,14 @@ require_once ('Zend/Form.php');
 /**
  * @author Marcone Costa
  */
-class Programacao_Form_Programa extends Zend_Form {
+class Programacao_Form_Projeto extends Zend_Form {
 	/**
 	 * @var Zend_Form_SubForm subform
 	 */
 	public $subform;
     public function __construct($options = null) {
         parent::__construct($options = null);
-		$this->subform = new Zend_Form_SubForm('programa');
+		$this->subform = new Zend_Form_SubForm('projeto');
 		$this->setName('frmprograma');
         $translate = Zend_Registry::get('translate');
         $this->setTranslator($translate);
@@ -40,15 +40,24 @@ class Programacao_Form_Programa extends Zend_Form {
                 ->addFilter('StringTrim')
                 ->setAttrib('rows', 4)
                 ->setAttrib('cols', 70);
+                
+
+        $this->subform->addElements(array($id, $descricao, $menu, $interfaces, $this->getResponsaveis()));
+
+		$this->subform->addElement('hidden','programa_id');
+		$this->subform->addElement('hidden','projeto_id');
+		$this->subform->addDisplayGroup(array('id', 'programa_id','projeto_id'),'ident');        
+        
+        
+        $this->addSubForm($this->subform, 'projeto');
 
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setAttrib('id', 'submitbutton')
                 ->setAttrib('class', 'by-ajax');
         $close = new Zend_Form_Element_Button('cancelar');
         $close->setAttrib('class', 'dialog-form-close')
-              ->setDecorators(array('ViewHelper', 'Errors'));
-        $this->subform->addElements(array($id, $descricao, $menu, $interfaces, $this->getResponsaveis()));
-        $this->addSubForm($this->subform, 'programa');
+              ->setDecorators(array('ViewHelper', 'Errors'));        
+        
         $this->addElements(array($submit, $close));
     }
 

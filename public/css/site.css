@@ -636,7 +636,7 @@ td {
 
 /* FORMUL�RIO */
 form 	{	
-    font-family: "Trebuchet MS", Verdana, Arial;
+    font-family:  Verdana, Arial;
     font-size: 11px;
     text-align: left;
     margin: 0px;
@@ -644,43 +644,30 @@ form 	{
     color: #918c8c;
 }
 
-input 
+input, button 
 {	
-    font-size:11px;
+    font-size:1em;
     vertical-align:middle;
-    color: #635e5e;
-}
-
-Xinput 
-{	
-    font-size:11px;
-
-    vertical-align:middle;
-    height:	20px;
-    border-top: 2px solid #d8d3d3;
-    border-right: 1px solid #d8d3d3;
-    border-bottom: 1px solid #c9c4c4;
-    border-left: 2px solid #c9c4c4;
-    background-color:#FFFFFF;
+    /*color: #635e5e;*/
 }
 
 textarea 
 {	
-    font-family: XVerdana, Arial, Helvetica, sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
     color: #333333;
 }
 
 option 
 {	
-    font-family: XVerdana, Arial, Helvetica, sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 10px;
     color: #333333;
 }
 
 select 
 {	
-    font-family: XVerdana, Arial, Helvetica, sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 10px;
     color: #333333;
 }

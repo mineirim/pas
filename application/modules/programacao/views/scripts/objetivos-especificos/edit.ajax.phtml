@@ -1,0 +1,73 @@
+
+<div id="formtabs">
+	<ul>
+		<li><a href="#tabs-0" >Objetivo Específico</a></li>
+		<li><a href="#tabs-1">Parcerias</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('action'=>'save'));?>?format=json' 
+			method="post">
+			<input type="hidden" id="dependents" value="1,2"/>
+			<div style='display:none'>
+			<?php echo $this->form->objetivoespecifico->getDisplayGroup('ident') ?>
+			</div>
+			<table width="100%" border="0">
+			<tr><td>
+			<?php echo $this->form->objetivoespecifico->descricao;?>
+			</td></tr>
+			<tr><td>
+			<?php echo $this->form->objetivoespecifico->menu;?>
+			</td></tr>
+			<tr><td>
+			<?php echo $this->form->objetivoespecifico->recursos;?>
+			</td></tr>
+			<tr><td>
+			<?php echo $this->form->objetivoespecifico->cronograma;?>
+			</td></tr>
+			<tr><td>
+			<?php echo $this->form->submit;?>
+			<?php echo $this->form->cancelar;?>
+			</td></tr>
+			</table>
+		</form>
+
+	</div>
+
+
+	<div id="tabs-1" style="overflow: hidden">
+		
+		<form id='frmparcerias' enctype='<?php echo $this->formDescritivo->getEnctype();?>'
+			action='<?php echo $this->url(array('action'=>'addparceria'));?>?format=json' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->formDescritivo->id ?>
+			<input type=hidden name='objetivo_especifico_id' value='<?php if(isset($this->objetivo_especifico)) echo $this->objetivo_especifico->id;?>'>
+			</div>
+			<fieldset>
+				<div style='clear:both'>
+				<?php echo $this->formDescritivo->descricao;?>
+				</div>
+			<?php echo $this->formDescritivo->submit;?>
+			</fieldset>			
+		</form>	
+		<br>
+		<table width="100%" id="tbparcerias" class='ui-widget ui-widget-panel'>
+			<tr>
+				<th width="5%"></th>
+				<th>Parceria</th>
+			</tr>
+	<?php  
+		if(isset($this->objetivo_especifico)):
+			foreach($this->objetivo_especifico->findModel_Parcerias() as $parceria){
+				if($parceria->situacao_id==2) continue;
+	?>
+			<tr class='lst'>
+				<td><?php echo $this->lineToolbar('objetivo-especifico',$parceria)?></td>
+				<td><?php echo $parceria->descricao;?></td>
+			</tr>
+			<?php }
+		endif;?>
+		</table>
+	</div>
+</div>

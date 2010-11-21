@@ -2,7 +2,7 @@
 $this->campo_id = isset($this->campo_id) ? $this->campo_id : strtolower($this->nome).'_id'; 
 $href = $this->url(array('controller'=>'instrumentos',
                         'action'=>strtolower($this->acao) ,
-                        $this->campo_id=>$this->objeto->id));
+                        $this->campo_id=>$this->objeto->id),null,true);
 $this->label = isset($this->label) ? $this->label : $this->nome;
 ?>
         <tr style="border-bottom: thin solid black"  >
@@ -27,7 +27,7 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
                         <?php endforeach; ?>
                         </td>
                     </tr>
-                    <tr style="border-bottom: thin solid black"  c>
+                    <tr style="border-bottom: thin solid black" >
                         <td ><div class="subtitulos-descreve-niveis">INTERFACES:</div></td>
                         <td style='padding-left:15px'>
                             <div class="texto-descreve-niveis"><?php echo $this->objeto->interfaces?></div>

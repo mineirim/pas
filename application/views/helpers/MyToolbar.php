@@ -47,7 +47,7 @@ class Zend_View_Helper_MyToolbar {
 		
 		
 		if($this->_id && !$this->acl->has('admin') && ($this->_controller=='programas' || $this->_controller=='projetos')){
-			
+			$objs = new stdClass();
 			eval('$objs = new Model_'.ucfirst($this->_controller).'();');
 			
 			
@@ -89,7 +89,7 @@ class Zend_View_Helper_MyToolbar {
 		
 		
 		if($this->_controller=='programas'){
-			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'create','module'=>'programacao' ))."'
+			$toolbar .= "<a href='".$this->view->url(array('controller'=>'projetos','action'=>'create','module'=>'programacao' ),null,true)."'
 					title='Adicionar Projeto' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Projeto</span>Adicionar Projeto</a>";
@@ -101,7 +101,7 @@ class Zend_View_Helper_MyToolbar {
 					<span class='ui-icon ui-icon-plus'>Adicionar Objetivo</span>Adicionar Objetivo</a>";
 			$toolbar .= "<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'create', 'module'=>'programacao', 'projeto_id'=>$this->_id ))."'
 					title='Adicionar Subprojeto' 
-					class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-plus'>Adicionar Subprojeto</span>Adicionar Subprojeto</a>";
 		}elseif($this->_controller=='objetivos-especificos'){
 
@@ -140,7 +140,7 @@ class Zend_View_Helper_MyToolbar {
 		$width = 55;
 		if($this->_controller=='metas'){
 			$width = 80;
-			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id))."'
+			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id),null,true)."'
 						class='my-button ajax-form-load '
 						title='Configurar meta para relatório trimestral'>
 						<span class='ui-icon ui-icon-calendar '></span>
@@ -149,19 +149,19 @@ class Zend_View_Helper_MyToolbar {
 		
 		$toolbar = "
 		<div style='width:".$width."px;'>
-		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit', 'module'=>'programacao', 'id'=>$this->_id))."'
+		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'edit', 'module'=>'programacao', 'id'=>$this->_id),null,true)."'
 					class='my-button ajax-form-load'
 					title='Editar' 
 					
 					>
 					<span class='ui-icon ui-icon-pencil '></span>
 					</a>
-		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','module'=>'programacao', 'id'=>$this->_id))."'
+		<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'delete','module'=>'programacao', 'id'=>$this->_id),null,true)."'
 		class='my-button ajax-form-load'
 		title='Excluir' >
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>
-                <a href='".$this->view->url(array('controller'=>'relatorios','action'=>'relatorioplano','module'=>'relatorios', 'programa_id'=>$this->_id))."'
+                <a href='".$this->view->url(array('controller'=>'relatorios','action'=>'relatorioplano','module'=>'relatorios', 'programa_id'=>$this->_id),null,true)."'
 		class='my-button '
 		title='Excluir' >
 		<span class='ui-icon ui-icon-print '></span>
