@@ -1,0 +1,31 @@
+<div id="formtabs">
+	<ul>
+		<li><a href="#tabs-0" >Metas</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('action'=>'save'));?>?format=json' 
+			method="post">
+			
+			<?php echo $this->form->meta->id ?>
+			<?php echo $this->form->meta->objetivo_especifico_id;?>
+			<table>
+			<tr>
+				<td>
+					<?php echo $this->form->meta->descricao;?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php
+						echo $this->form->submit;
+						echo $this->form->cancelar;
+					?>
+				</td>
+			</tr>					
+			</table>
+		</form>
+		
+	</div>
+</div>
+

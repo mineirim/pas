@@ -233,6 +233,12 @@
               <actionMethod actionName="get"/>
               <actionMethod actionName="edit"/>
               <actionMethod actionName="save"/>
+              <actionMethod actionName="addindicador"/>
+              <actionMethod actionName="settrimestral"/>
+              <actionMethod actionName="gettrimestre"/>
+              <actionMethod actionName="salvartrimestre"/>
+              <actionMethod actionName="preencherelatorio"/>
+              <actionMethod actionName="procurartrimestre"/>
             </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
@@ -337,6 +343,24 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Metas">
                 <viewScriptFile forActionName="save"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Metas">
+                <viewScriptFile forActionName="addindicador"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Metas">
+                <viewScriptFile forActionName="settrimestral"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Metas">
+                <viewScriptFile forActionName="gettrimestre"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Metas">
+                <viewScriptFile forActionName="salvartrimestre"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Metas">
+                <viewScriptFile forActionName="preencherelatorio"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Metas">
+                <viewScriptFile forActionName="procurartrimestre"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
