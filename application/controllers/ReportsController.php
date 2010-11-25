@@ -50,6 +50,7 @@ class ReportsController extends Zend_Controller_Action
  			//$select_projetos = $model_programas->select();
  			$model_projetos = new Model_Projetos();
  			$select_projetos = $model_projetos->select();
+ 			$select_projetos->order('ordem');
             $this->view->projeto_ids = $projeto_ids;
             
             
@@ -65,6 +66,7 @@ class ReportsController extends Zend_Controller_Action
  			
  			$this->view->objetivo_especifico_ids=$objetivo_especifico_ids;
 			$select_objetivos = $model_programas->select();
+			$select_objetivos->order('ordem');
             $this->view->select_objetivos = $select_objetivos; 			
 
             $results = $db->fetchAll("SELECT DISTINCT meta_id id FROM $schema.metas_trimestres WHERE trimestre=?", $trimestre);
@@ -75,7 +77,9 @@ class ReportsController extends Zend_Controller_Action
  			}
  			
 			$select_metas = $model_programas->select();
+			$select_metas->order('id');
             $this->view->select_metas = $select_metas;
+            
             $this->view->meta_ids = $meta_ids;
             
             $select_trimestre = $model_programas->select();

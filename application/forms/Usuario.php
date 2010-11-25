@@ -24,15 +24,12 @@ class Form_Usuario extends Zend_Form
 			->setDecorators(array( 'ViewHelper', 'Errors', 'Label'))
 			->addValidator('NotEmpty');
 		$email = new Zend_Form_Element_Text('email');
-		$email_validate = new Zend_Validate_EmailAddress();
-		$email_validate->setDomainCheck(false)->setValidateMx(false);	
 		$email->setLabel('E-mail')
 			->setRequired(true)
 			->setAttrib('size',50)
 			->removeDecorator('DtDdWrapper')
 			->addFilter('StripTags')
 			->addFilter('StringTrim')
-			->addValidator($email_validate )
 			->addValidator('NotEmpty');
 		$email->setDecorators(array( 'ViewHelper', 'Errors', 'Label'));
 		$submit = new Zend_Form_Element_Submit('submit');
