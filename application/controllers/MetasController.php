@@ -33,6 +33,7 @@ class MetasController extends Zend_Controller_Action
     }
     private function makeForm($t){
     	$form = new Zend_Form('trimestral');
+    	$form->setName('frmpreencherelatorio');
     	$id = new Zend_Form_Element_Hidden('id');
     	$meta_id = new Zend_Form_Element_Hidden('meta_id');
     	
@@ -167,12 +168,9 @@ class MetasController extends Zend_Controller_Action
 					if(! in_array($trimestre,$this->_getParam('trimestres_ids'))){
 						$meta_trimestre = $model_metas_trimestres->fetchRow($where);
 						if($meta_trimestre){
-							$meta_trimestre->situacao_id=2;
-							$meta_trimestre->save();
-							
+							$model_metas_trimestres->update(array('situacao_id'=>2), $where);
 						}
 					}else{
-						
 						$meta_trimestre = $model_metas_trimestres->fetchRow($where);
 						if(!$meta_trimestre){
 							$data = array('meta_id'=>$meta_id,
@@ -184,8 +182,7 @@ class MetasController extends Zend_Controller_Action
 							
 							$model_metas_trimestres->insert($data);
 						}else{
-							$meta_trimestre->situacao_id=1;
-							$meta_trimestre->save();
+							$model_metas_trimestres->update(array('situacao_id'=>1), $where);
 						}
 					}
 					

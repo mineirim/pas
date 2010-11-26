@@ -1,11 +1,33 @@
 
 $(document).ready(function(){
-		
+
+	$('#trimestre').live('change',function(){
+		parametros = $(this).parents('form').serialize();
+		$.ajax({
+			url: baseUrl+'/metas/procurartrimestre',
+			data:parametros,
+			type: "POST",
+            success:function(dados){
+			if (typeof(dados) === "object"){
+        		  $("#id").val(dados.id);
+        		  $("#meta_id").val(dados.meta_id);
+        		  $("#percentual").val(dados.percentual);
+        		  $("#avaliacao_descritiva").val(dados.avaliacao_descritiva);
+        		  $("#slider").slider("value",dados.percentual);
+        		  
+         	   }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+         	   
+         	   alert('Não encontrado')
+         	   
+         	   }
+			});
+		});		
+	
+	
 	tree = new MyTree();
 	tree.create_json();
-
-	
-		
 
 		$(function() {
 			
@@ -155,11 +177,7 @@ $(document).ready(function(){
 			        });
 		});
 
-
 });
-
-
-
 
 function showDescritivo(data,result,obj){
 	if(data.toolbar != undefined){

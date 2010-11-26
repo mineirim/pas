@@ -215,6 +215,8 @@
 									<?php 
 									foreach ($operacoes as $operacao)
 									{
+										if($operacao->situacao_id==2)
+											continue;
 										$atividades = $operacao->findModel_Atividades();
 									?>
 										<tr >
@@ -224,6 +226,9 @@
 											<?php
 											$ix = 0;
 											foreach ($atividades as $atividade){
+												if($atividade->situacao_id==2)
+													continue;
+													
 												if(($atividade->conclusao_data)){
 													$dataconclusao = new Zend_Date($atividade->conclusao_data);
 													$dataconclusao = $dataconclusao->get(Zend_Date::DATE_SHORT);
