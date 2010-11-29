@@ -55,6 +55,8 @@ td{
 	margin: 5px;
 	padding: 0;
 	overflow:   auto;
+	width: 100%;
+	max-width: 100%;
 }
 #topo{
 	margin: 0;

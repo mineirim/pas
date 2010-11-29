@@ -14,13 +14,10 @@ $(document).ready(function(){
         		  $("#percentual").val(dados.percentual);
         		  $("#avaliacao_descritiva").val(dados.avaliacao_descritiva);
         		  $("#slider").slider("value",dados.percentual);
-        		  
          	   }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
-         	   
          	   alert('Não encontrado')
-         	   
          	   }
 			});
 		});		
@@ -283,6 +280,7 @@ function MyTree(){
             );
     };
     this.create_json = function(){
+    	$("#menu_tree").html('<h4>Carregando menu...</h4>');
         $.getJSON(baseUrl+'/treemenu', function(data){
             $("#menu_tree").jstree({
                 "correct_state" : true,

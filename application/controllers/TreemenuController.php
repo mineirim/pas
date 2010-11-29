@@ -40,7 +40,7 @@ class TreemenuController extends Zend_Controller_Action
                     "state" => "closed",
                     "data" => array(
                         "title" => "Plano",
-                        "attr" => array("href" => $this->_helper->url('index', 'plano'))
+                        "attr" => array("href" => $this->_helper->url('programas', 'plano'))
                     ),
                     "children" => $this->getArray(array('root'))
                 ),
@@ -111,9 +111,10 @@ class TreemenuController extends Zend_Controller_Action
                 foreach ($objetos as $objeto) {
                     $url = $this->_helper->url('objetivos-especificos', 'plano', 'default', array('objetivo_especifico_id' => $objeto->id));
                     $parent = array("attr" => array("id" => "objetivo-" . $objeto->id . "-json"), 'data' => array('title' => $objeto->menu, 'attr' => array('href' => $url)), 'state' => 'closed');
+                    /**
                     $path = array('meta', $objeto->id, 'json');
                     $child = $this->getArray($path);
-                    $parent['children'] = $child;
+                    $parent['children'] = $child; */
                     $menus[] = $parent;
                 }
             }

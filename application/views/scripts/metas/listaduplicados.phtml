@@ -1,0 +1,47 @@
+<form id='excluirduplicados' method="post" 
+	action="<?php echo $this->url(array('listaduplicados')); ?>">
+<table id='tb-duplicados' class='ui-widget ui-widget-content'>
+<caption><span style='font-size:1.4em'>
+		Marque somente as avaliações corretas para o trimestre
+		</span>
+</caption>
+  <tr>
+    <th></th>
+  </tr>
+  <?php foreach ($this->metas as $meta) :
+  	$where = "trimestre in (SELECT trimestre FROM $this->schema.metas_trimestres 
+  					WHERE meta_id= $meta->id and trimestre between 1 and 4
+					GROUP BY  trimestre 
+					HAVING count(*)>1
+					ORDER BY trimestre) and meta_id=".$meta->id;
+  	$metas_trimestres = $this->model_metas_trimestre->fetchAll($where,'trimestre');
+  ?>
+  <tr class='ui-state-hover'>
+    <td><span style='font-size:1.2em'><b>Meta: </b><?php echo $meta->descricao;?></span></td>
+  </tr>
+  <tr>
+    <td>
+    	<table class='bordasimples' style='margin-left:30px;'>
+    	<?php foreach ($metas_trimestres as $meta_trimestre) : ?>
+    		<tr>
+    			<td width="18px">
+    				<input type="radio"
+    						name="meta_<?php echo $meta->id?>" 
+    						value="<?php echo $meta_trimestre->id?>">
+    			</td>
+    			<td width="80px" >
+    				<?php echo $meta_trimestre->trimestre?>º Trimestre
+    			</td>
+    			<td >
+    				<?php echo $meta_trimestre->avaliacao_descritiva?>
+    			</td>
+    		</tr>
+    	<?php endforeach;?>
+    	
+    	</table>
+    </td>
+  </tr>
+  <?php endforeach;?>
+</table>
+<input type="submit" value="Salvar selecionados">
+</form>

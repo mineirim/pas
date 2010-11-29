@@ -83,18 +83,16 @@ class MetasController extends Zend_Controller_Action
     		$meta_id = $this->_getParam('meta_id');
     		$meta_trimestre=$model_metas_trimestres->fetchRow("situacao_id=1 and trimestre= $trimestre_atual and meta_id=$meta_id",'trimestre');
     		if(!$meta_trimestre){
-    			
-    			$meta_trimestre=$model_metas_trimestres->fetchAll("situacao_id=1 and meta_id=$meta_id",'trimestre')->current();
+    			$meta_trimestre=$model_metas_trimestres->fetchAll("situacao_id=1 and (trimestre between 1 and 4) and meta_id=$meta_id",'trimestre')->current();
     		}
     		
     	}
-    	$metas_trimestres =  $model_metas_trimestres->fetchAll('situacao_id=1 and meta_id='.$meta_id, 'trimestre');
+    	$metas_trimestres =  $model_metas_trimestres->fetchAll('situacao_id=1 and (trimestre between 1 and 4) and meta_id='.$meta_id, 'trimestre');
     	foreach ($metas_trimestres as $t){
     		$trimestres[]=$t->trimestre;
     	}
     	$form =$this->makeForm($trimestres); 
     	if($meta_trimestre){
-    		
     		$form->populate($meta_trimestre->toArray());
     	}
     	$this->view->form = $form;
@@ -447,6 +445,45 @@ class MetasController extends Zend_Controller_Action
 		
 	}
 
-	
+	public function listaduplicadosAction()
+	{
+		$delete_query ="delete from poa2010.metas_trimestres where id 
+		in(select id from (
+		select x.id,x.meta_id,x.trimestre,percentual,avaliacao_descritiva from poa2010.metas_trimestres x
+			inner join (
+		select meta_id,trimestre from poa2010.metas_trimestres
+		GROUP BY  meta_id,trimestre 
+		HAVING count(*)>1
+		ORDER BY meta_id,trimestre) y on x.meta_id = y.meta_id and y.trimestre = x.trimestre
+		where avaliacao_descritiva is null or (trim(avaliacao_descritiva)='' and percentual=0)
+		ORDER BY x.meta_id,x.trimestre
+		) d)";
+		$model_metas_trimestre = new Model_MetasTrimestres();	
+		
+		if($this->getRequest ()->isPost ()){
+    		$formData = $this->getRequest()->getPost();
+    		foreach ($formData as $meta => $meta_trimestre_id) {
+    			$arr = split('_', $meta);
+    			$dados = array('trimestre'=>0);
+    			$where = "meta_id=".$arr[1]." and not id=$meta_trimestre_id";
+    			$model_metas_trimestre->update($dados, $where);
+    		}
+		}
+		
+		$this->view->select = $model_metas_trimestre->select();
+		$this->view->model_metas_trimestre = $model_metas_trimestre;
+		$model_metas = new Model_Metas();
+		$schema = Zend_Registry::get('schema');
+		$this->view->schema = $schema;
+        $where = "id in (SELECT meta_id FROM $schema.metas_trimestres
+        			WHERE trimestre between 1 and 4
+					GROUP BY  meta_id, trimestre 
+					HAVING count(*)>1
+					ORDER BY meta_id)";
+        $metas = $model_metas->fetchAll($where, 'id');
+        $this->view->metas = $metas;
+        
+        
+	}	
 }
 
