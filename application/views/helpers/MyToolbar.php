@@ -116,7 +116,7 @@ class Zend_View_Helper_MyToolbar {
 					title='Vincular Indicadores' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
 					<span class='ui-icon ui-icon-pencil'>Preencher relatório</span>Indicadores</a>";
-			$url = $this->view->url(array('controller'=>'metas','action'=>'preencherelatorio'));
+			$url = $this->view->url(array('controller'=>'metas','action'=>'preencherelatorio',  'module'=>'programacao'));
 			$toolbar .= "<a href='$url'
 					title='Preencher relatório trimestral' 
 					class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
@@ -137,7 +137,7 @@ class Zend_View_Helper_MyToolbar {
 	private function getLineBar(){
 		$trimestral='';
 		
-		$width = 55;
+		$width = 65;
 		if($this->_controller=='metas'){
 			$width = 80;
 			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id),null,true)."'

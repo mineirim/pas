@@ -478,7 +478,7 @@ function MyTree(){
             "plugins" : [ "themes", "json_data", "cookies" ]
             });
         });
-    }
+    };
     this.create = function(){
     	$("#menu_tree").jstree({
     		"correct_state" : true,
@@ -535,7 +535,7 @@ function MyTree(){
             "plugins" : [ "themes", "json_data", "cookies" ]
 
     	});
-    }
+    };
 
 
 }

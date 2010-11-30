@@ -1,0 +1,21 @@
+<div id="formtabs">
+	<ul>
+		<li><a href="#tabs-0" >Configurar relatório trimestral</a></li>
+	</ul>
+	<div id="tabs-0" style="overflow: hidden">
+		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
+			action='<?php echo $this->url(array('controller'=>'metas', 'action'=>'settrimestral','params'=>array('format'=>'html')));?>' 
+			method="post">
+			<div style='display:none'>
+			<?php echo $this->form->meta_id;?>
+			
+			</div>
+			<fieldset>
+			<?php echo $this->form->trimestres_ids;?>
+			</fieldset><br></br>
+			<input type="submit" class="by-ajax" name="submit" value="Salvar">
+		</form>
+		
+	</div>
+</div>
+

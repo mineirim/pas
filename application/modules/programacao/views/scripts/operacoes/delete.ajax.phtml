@@ -1,0 +1,15 @@
+<h2>Confirmar exclusão</h2>
+
+<h3><?php echo $this->operacao->descricao;?></h3>
+<form id='<?php echo $this->form->getId();?>'
+              enctype='<?php echo $this->form->getEnctype();?>'
+              action='<?php echo $this->url(array('action' => 'delete'));?>?format=json'
+              method="post">
+<?php echo $this->form->id;?>
+    <table>
+        <tr>
+            <td><?php echo $this->form->submit; ?></td>
+            <td><?php echo $this->form->dialog_close; ?></td>
+        </tr>
+    </table>
+</form>
