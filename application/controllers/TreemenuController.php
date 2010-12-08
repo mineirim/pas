@@ -109,7 +109,7 @@ class TreemenuController extends Zend_Controller_Action {
                 $model = new Model_ObjetivosEspecificos();
                 $objetos = $model->fetchAll("situacao_id=1 AND projeto_id =" . $arr_node[1], 'ordem');
                 foreach ($objetos as $objeto) {
-                    $url = $this->_helper->url('objetivos-especificos', 'instrumentos', 'default', array('objetivo_especifico_id' => $objeto->id));
+                    $url = $this->_helper->url('objetivo-especifico', 'instrumentos', 'default', array('objetivo_especifico_id' => $objeto->id));
                     $parent = array("attr" => array("id" => "objetivo-" . $objeto->id . "-json"), 'data' => array('title' => $objeto->menu, 'attr' => array('href' => $url)), 'state' => 'closed');
                     $path = array('meta', $objeto->id, 'json');
                     $child = $this->getArray($path);

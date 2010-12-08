@@ -1,7 +1,70 @@
 var controleGeral;
+var g;
 $(document).ready(function(){
     controleGeral = new ControleGeral();
     controleGeral.init();
+  $("#xxx").live('click',function(){
+    $.ajax({
+        type: 'GET',
+        url: '/instrumentos/gantt/meta_id/220?format=xml',
+        dataType: 'xml',
+        success: function(xml_list) {
+
+        },
+        complete : function(){
+
+        },
+        error : function(XMLHttpRequest, textStatus, errorThrown){
+            alert('erro')
+        }
+
+    });
+  })
+
+
+  // here's all the html code neccessary to display the chart object
+
+  // Future idea would be to allow XML file name to be passed in and chart tasks built from file.
+
+     g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
+        g.setShowRes(0); // Show/Hide Responsible (0/1)
+        // define a quantidade de caracteres que aparecerão na descrição
+        g.setMaxLengthDescription(50)
+        g.setShowDur(1); // Show/Hide Duration (0/1)
+        g.setShowComp(1); // Show/Hide % Complete(0/1)
+        
+        g.setDateInputFormat("dd/mm/yyyy");
+        g.setFormatArr("day","week","month");
+        g.setCaptionType('Resource');  // Set to Show Caption (None,Caption,Resource,Duration,Complete)
+
+        g.setShowStartDate(0); // Show/Hide Start Date(0/1)
+        g.setShowEndDate(0); // Show/Hide End Date(0/1)
+        g.setDateDisplayFormat('dd/mm/yyyy') // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
+
+      //var gr = new Graphics();
+
+      if( g ) {
+
+                JSGantt.parseXML('/instrumentos/gantt/meta_id/220?format=xml',g)
+                g.Draw();
+                g.DrawDependencies();
+
+      }else{
+
+        alert("not defined");
+
+      }
+
+
+
+
+
+
+
+
+
+
+
 });
 
 /**
@@ -93,7 +156,7 @@ function ControleGeral(){
             $('#formulario_ajax').dialog('open');
             return false;
         });
-        $('.dialog-form-close').live('click',function(){ $('#formulario_ajax').dialog('close'); })
+        $('.dialog-form-close').live('click',function(){$('#formulario_ajax').dialog('close');})
         $('a.ajax-form-load').live('click',
             function(event){
                 event.preventDefault();

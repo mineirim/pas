@@ -81,6 +81,7 @@
           <actionMethod actionName="meta"/>
           <actionMethod actionName="operacao"/>
           <actionMethod actionName="atividade"/>
+          <actionMethod actionName="gantt"/>
         </controllerFile>
         <controllerFile controllerName="Execucao">
           <actionMethod actionName="index"/>
@@ -546,6 +547,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Instrumentos">
             <viewScriptFile forActionName="atividade"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Instrumentos">
+            <viewScriptFile forActionName="gantt"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

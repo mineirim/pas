@@ -25,6 +25,7 @@ $this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.min.js'
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.cookie.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.jstree.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.contextmenu.js')
+                                ->addJavascriptFile ( $this->baseUrl () . '/js/jsgantt.js')
 				->addJavascriptFile ( $this->baseUrl () . '/js/myscripts.js' );
 
 echo $this->JQuery ();
@@ -43,6 +44,7 @@ if ( !$this->ckeditor ) {
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.tooltip.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jqModal.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.treeview.css' );?>
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jsgantt.css' );?>
 
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
@@ -119,7 +121,7 @@ echo $this->baseUrl ();
 			?>
 		</div>
 	</div>
-    <table width="100%">
+    <table width="100%" style="clear: both">
 	  <tr>
 	    <td style='min-width:200px;max-width:200px; min-height: 300px'>
                 <div style="margin-top: 5px; padding: 0;overflow:   hidden;">
