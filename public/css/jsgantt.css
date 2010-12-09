@@ -1,12 +1,10 @@
-
-// These are the class/styles used by various objects in GanttChart.  However, Firefox has problems deciphering class style when DIVs are embedded in other DIVs.
+/**
+These are the class/styles used by various objects in GanttChart.  However, Firefox has problems deciphering class style when DIVs are embedded in other DIVs.
 
 // GanttChart makes heavy use of embedded DIVS, thus the style are often embedded directly in the objects html.  If this could be resolved with Firefox, it would
 
 // make alot of the code look simpleer/cleaner without all the embedded styles
-
-
-
+*/
 ..gantt { font-family:tahoma, arial, verdana; font-size:10px;}
 
 ..gdatehead { BORDER-TOP: #efefef 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #efefef 1px solid; HEIGHT: 18px }
@@ -54,10 +52,36 @@ DIV.scroll2 { position:relative; PADDING-RIGHT: 0px; overflow:auto ;overflow-x:s
 
 
 
-.gdesk-task{
-    cursor: pointer;
+body {
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	font-size:10px;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+
+	margin: 0;
+	padding: 0;
+	color:#666666;
+
+      }
+
+.g-cell{
     font-size: 0.9em;
     font-weight: normal !important;
+}
+.g-cell-taskname{
+    cursor: pointer;
     max-width: 100px;
     overflow: hidden;
+}
+
+.g-cell-content{
+    WIDTH: 60px; HEIGHT: 20px; TEXT-ALIGN: center; BORDER-TOP: #efefef 1px solid; BORDER-LEFT: #efefef 1px solid;
+    text-align: center;
+}
+
+.g-cell-head{
+    BORDER-TOP: #efefef 1px solid; BORDER-LEFT: #efefef 1px solid;  HEIGHT: 19px;cursor: default;WIDTH: 60px;
+    text-align: center;
 }
