@@ -48,17 +48,17 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 
 	
 		<table cellpadding="0" cellspacing="0" class="tb-corpo">
-			<caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> ATIVIDADES</caption>
-			<thead class="ui-widget ui-widget-header ">
-                <tr class=" ui-state-hover">
-                        <td class="subtitulos-tabela" width="55%">Descrição</td>
-						<td  class="subtitulos-tabela" width="70px;">Data Início</td>
-						<td  class="subtitulos-tabela" width="100px;">Data Término</td>
-						<td  class="subtitulos-tabela" width="70px;">Valor</td>
-                        <td class="subtitulos-tabela" width="50px;"></td>
-                        <td width="4px"><?php echo $this->myToolbar('atividades','toptable');?></td>
-                </tr>
-            </thead>
+                    <caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> ATIVIDADES</caption>
+                    <thead class="ui-widget ui-widget-header ">
+                    <tr class=" ui-state-hover">
+                            <td class="subtitulos-tabela" width="55%">Descrição</td>
+                            <td  class="subtitulos-tabela" width="70px;">Data Início</td>
+                            <td  class="subtitulos-tabela" width="100px;">Data Término</td>
+                            <td  class="subtitulos-tabela" width="70px;">Peso</td>
+                            <td class="subtitulos-tabela" width="50px;"></td>
+                            <td width="4px"><?php echo $this->myToolbar('atividades','toptable');?></td>
+                    </tr>
+                    </thead>
 			<tbody class="ui-widget ">
 				<?php
 				$cycle=$this->cycle(array('','')); 

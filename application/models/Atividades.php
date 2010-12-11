@@ -11,7 +11,7 @@ require_once 'Zend/Db/Table/Abstract.php';
 
 class Model_Atividades extends App_DefaultModel {
 
-	
+	protected $_rowClass = "Model_Row_Atividade";
 	/**
 	 * The default table name 
 	 */
@@ -22,7 +22,8 @@ class Model_Atividades extends App_DefaultModel {
 	                     		'Operacoes' => array ( 'columns' => 'operacao_id', 
 	                     							  'refTableClass' => 'Model_Operacoes', 
 	                     							  'refColumns' => 'id' ) 							
-								);	
+								);
+									
 	public function update($dados, $where){
 		
 		$auth = Zend_Auth::getInstance();

@@ -1,5 +1,5 @@
-#Sat Oct 30 10:37:28 BRST 2010
+#Thu Dec 09 21:59:18 BRST 2010
 eclipse.preferences.version=1
-include_path=5;org.zend.php.framework.CONTAINER
+include_path=5;org.zend.php.framework.CONTAINER\u00051;/usr/local/zend/share/ZendFramework/library/ZendX
 phpVersion=php5
 use_asp_tags_as_php=false

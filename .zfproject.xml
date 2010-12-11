@@ -250,6 +250,15 @@
               <actionMethod actionName="edit"/>
               <actionMethod actionName="save"/>
             </controllerFile>
+            <controllerFile controllerName="Atividades">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="create"/>
+              <actionMethod actionName="update"/>
+              <actionMethod actionName="delete"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="edit"/>
+              <actionMethod actionName="save"/>
+            </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory/>
@@ -391,6 +400,27 @@
                 <viewScriptFile forActionName="edit"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Operacoes">
+                <viewScriptFile forActionName="save"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Atividades">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Atividades">
+                <viewScriptFile forActionName="create"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Atividades">
+                <viewScriptFile forActionName="update"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Atividades">
+                <viewScriptFile forActionName="delete"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Atividades">
+                <viewScriptFile forActionName="get"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Atividades">
+                <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Atividades">
                 <viewScriptFile forActionName="save"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
@@ -611,6 +641,7 @@
           <testApplicationControllerFile filesystemName="ObjetivosEspecificosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="MetasControllerTest.php"/>
           <testApplicationControllerFile filesystemName="OperacoesControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="AtividadesControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

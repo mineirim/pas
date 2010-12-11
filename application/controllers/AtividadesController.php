@@ -193,8 +193,6 @@ class AtividadesController extends Zend_Controller_Action {
 
     	$atividadeprazo = $atividadesprazo->fetchRow('atividade_id='.$atividade_id, 'id DESC');
     	if($atividadeprazo){
-	    		$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
-	    		$atividadeprazo->prazo_data = $prazo->toString('dd/MM/yyyy');
 	    		$atividadeprazo->motivopostergacao = '';
 	    		
 	    		$this->form->populate($atividadeprazo->toArray());
@@ -202,9 +200,6 @@ class AtividadesController extends Zend_Controller_Action {
 	    	$atividade = $atividades->fetchRow('id='.$atividade_id);
 	    	
 	    	if($atividade){
-	    		$prazo =  new Zend_Date($atividade->prazo_data,Zend_Date::ISO_8601);
-	    		$atividade->prazo_data = $prazo->toString('dd/MM/yyyy');
-	    		 
 	    		$this->form->populate($atividade->toArray());
 	    	}else{
 	    		$this->_redirect('error/naoexiste');

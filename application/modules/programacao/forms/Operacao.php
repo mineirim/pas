@@ -13,7 +13,6 @@ class Programacao_Form_Operacao extends Zend_Form
         $this->setTranslator($translate);
 		$this->subform = new Zend_Form_SubForm('operacao');
 		$this->setName('frmoperacao');
-        $this->setName($name);
 		$id = new Zend_Form_Element_Hidden('id');
 		$id->removeDecorator('label');
 		$meta_id = new Zend_Form_Element_Hidden('meta_id');
@@ -27,9 +26,6 @@ class Programacao_Form_Operacao extends Zend_Form
 			->addValidator('NotEmpty')
 			->setAttrib('rows',4);
 		
-		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setAttrib('id', 'submitbutton')
-				->setLabel('Salvar');
 		
 		$this->subform->addElements(array($id, $descricao, $meta_id));
 		$this->subform->addDisplayGroup(array('id', 'meta_id'),'ident');

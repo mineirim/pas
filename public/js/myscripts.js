@@ -34,7 +34,6 @@ function ControleGeral(){
         $(".datepick").datepicker({
             dateformat:"dd-mm-yy"
         });
-
         $('.tooltip').tooltip();
     }
     /**
@@ -85,6 +84,8 @@ function ControleGeral(){
 
                 });
                 enableTabs();
+                eventos_classes();
+
             }).dialog({
                 autoOpen: false,
                 title: this.title,
@@ -104,9 +105,9 @@ function ControleGeral(){
                 $('#formulario_ajax').load(this.href+'?format=html',function(){
                     $("#formtabs").tabs({
                         collapsible: true
-
                     });
                     enableTabs();
+                    eventos_classes();
                 }).dialog({
                     autoOpen: false,
                     title: this.title,
@@ -261,7 +262,17 @@ function ControleGeral(){
                 })
             })
         }
-    }
+    };
+    /**
+     * habilita o comportamento padrão para classes padronizadas
+     */
+    function eventos_classes(){
+        $(".datepick").datepicker(
+        		{dateformat:"dd-mm-yy"}
+        		);
+        $(".div_slider").slider();
+
+    };
 }
 
 
