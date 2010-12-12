@@ -90,6 +90,8 @@
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
         <modelFile modelName="Cargos"/>
+        <modelFile modelName="AtividadesHistorico"/>
+        <modelFile modelName="Andamento"/>
       </modelsDirectory>
       <modulesDirectory enabled="false">
         <moduleDirectory moduleName="relatorios">

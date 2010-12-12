@@ -342,8 +342,8 @@ class Programacao_MetasController extends Zend_Controller_Action {
 	}
 	
 	public function salvartrimestreAction() {
-		$model_metas_trimestres = new Model_MetasTrimestres();
-    	if ($this->getRequest ()->isPost ()){
+            $model_metas_trimestres = new Model_MetasTrimestres();
+            if ($this->getRequest ()->isPost ()){
     		$form =$this->makeForm(array(1,2,3,4));
     		$formData = $this->getRequest()->getPost();
 			if ($form->isValid($formData)) {

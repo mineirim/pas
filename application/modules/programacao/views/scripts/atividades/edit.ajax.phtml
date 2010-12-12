@@ -1,0 +1,55 @@
+<div id="formtabs">
+    <ul>
+        <li><a href="#tabs-0">Atividade</a></li>
+    </ul>
+    <div id="tabs-0" style="overflow: hidden">
+        <form id='<?php echo $this->form->getId(); ?>'
+              enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('action' => 'save')); ?>?format=json'
+              method="post">
+            <div style='display: none'>
+                <?php echo $this->form->id ?>
+                <?php echo $this->form->atividade->operacao_id ?>
+            </div>
+            <table width="100%" border="0">
+                <tr>
+                    <td>
+                        <?php
+                        echo $this->form->atividade->descricao;
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->historico->responsavel_id; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->atividade->peso; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->historico->data_inicio; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->historico->data_prazo; ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <?php
+                        echo $this->form->submit;
+                        echo $this->form->cancelar;
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+

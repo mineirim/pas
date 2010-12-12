@@ -133,60 +133,6 @@ div#menu1:hover .esconder{
 
 
 
-#menu1 ul {
-    list-style: none;
-    width: 180px;
-    margin: 0;
-    padding: 0;
-
-}
-
-#menu1 a, #menu1 h2 {
-    display: block;
-    border-width: 1px;
-    border-style: solid;
-    margin: 0;
-    padding: 2px 3px ;
-}
-
-#menu1 h2 {
-    color: #fff;
-    text-transform: uppercase;
-}
-
-#menu1 a {
-    color: #000;
-    text-decoration: none;
-}
-
-#menu1 a:hover {
-    color: #a00;
-}
-
-
-#menu1 li {
-    position: relative;
-    width:130px;
-    font-size: 1.05em !important;
-}
-
-#menu1 ul ul ul{
-    position: absolute;
-    top: 0;
-    left: 100%;
-    width: 100%;
-}
-
-div#menu1 ul ul ul,
-div#menu1 ul ul li:hover ul ul
-{display: none;}
-
-div#menu1 ul ul li:hover ul,
-div#menu1 ul ul ul li:hover ul
-{display: block;}
-
-
-
 /* Table */
 th {
     text-align: left;
@@ -211,38 +157,6 @@ form dd {
 
 form #submitbutton {
     margin-left: 100px;
-}
-
-
-
-/* ADAPTADO DO MONITORA*/
-.titulos-tabela {
-    background-color:#FFFFFF;
-    color:#444242;
-    font-weight:bold;
-    text-align:center;
-}
-
-
-
-
-/**
- * cria efeito de arredondamento 
-*/
-div.outer {
-    background:#CC8822 none repeat scroll 0 0;
-    float:left;
-    margin:15px;
-    padding:8px;
-    width:90%;
-}
-div.inner {
-    background:#fff none repeat scroll 0 0;
-    border:0 none;
-    margin:0;
-    padding:10px;
-
-
 }
 
 
@@ -315,10 +229,10 @@ button.fg-button { width:auto; overflow:visible; }
 }
 .even{
 
-    //background-color:  #F2F0FF;
+    /**background-color:  #F2F0FF;*/
 }
 .text-header{
-    font-size: 110%;
+    font-size: 1.1em;
     font-weight: bold;
 }
 
@@ -348,36 +262,8 @@ button.fg-button { width:auto; overflow:visible; }
     float:right;
 }
 
-.campo-login2
-{
 
-    text-align:left;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size:11px;
-    background-image:url(../images/fundo-tamanho-fixo.gif);
-    background-repeat:no-repeat;
-    margin-left:0px;
-    margin-right:0px;
-    margin-top:10px;
-    margin-bottom:0px;
-    padding: 12px 0px 0px 10px;
-    width:405px;
-    height:44px;
-    float:right;
 
-}	
-
-.campo-editar-niveis
-{
-    text-align:left;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size:11px;
-    border: #c41116 1px solid;
-    width:450px;
-    margin: 15px 10px 5px 5px;
-    padding: 7px;
-    float:left;
-}
 
 /* TEXTO */
 
@@ -454,7 +340,6 @@ button.fg-button { width:auto; overflow:visible; }
 
 .titulo-cinza2
 {
-    font-family:Arial, Helvetica, sans-serif;
     font-size:14px;
     text-align:left;
     font-weight:bold;
@@ -469,7 +354,6 @@ button.fg-button { width:auto; overflow:visible; }
 {
     font-weight:bold;
     text-align:left;
-    font-family:Arial, Helvetica, sans-serif;
     font-size: 1.2em;
     border-bottom:#f7c2c2 2px dotted;
     margin-bottom: 10px;
@@ -480,7 +364,6 @@ button.fg-button { width:auto; overflow:visible; }
 {
     font-weight:bold;
     text-align:left;
-    font-family:Arial, Helvetica, sans-serif;
     font-size: 1.1em;
     padding-left:3px;
     padding-bottom:5px;
@@ -493,88 +376,8 @@ p
     margin-top: 2px;
 }
 
-.texto{
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    text-align: left;
-    font-size: 11px;
-    color: #555252;
-    text-decoration: none;
-    margin-bottom: 0px;
-    line-height: 16px;
-    padding-left:8px;
-}
 
 
-.subtitulos-descreve-niveis
-{
-    font-weight:bold;
-    text-align:right;
-    vertical-align:top;
-    color: #615d5d;
-    font-family:Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    padding-left:7px;
-    padding-top:1px;
-}
-
-.texto-descreve-niveis
-{
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    text-align: left;
-    vertical-align:top;
-    font-size: 11px;
-    color: #555252;
-    margin-bottom: 0px;
-    line-height: 16px;
-    padding-left:5px;
-    padding-bottom: 4px;
-}
-
-.texto-tabela-com-seta
-{
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    text-align: left;
-    vertical-align:top;
-    font-size: 11px;
-    color: #555252;
-    margin-bottom: 6px;
-    margin-top:6px;
-    line-height: 14px;
-    padding-left:25px;
-    padding-right:15px;
-    padding-bottom: 3px;
-    background-image:url(../images/seta-vermelha.gif);
-    background-repeat:no-repeat;
-}
-
-.texto-tabela
-{
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    text-align: left;
-    vertical-align:top;
-    font-size: 11px;
-    color: #555252;
-    margin-bottom: 3px;
-    margin-top:3px;
-    line-height: 14px;
-    padding-left:5px;
-    padding-right:15px;
-    padding-bottom: 3px;
-
-    background-repeat:no-repeat;
-}
-
-.linha-abaixo-texto {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    padding: 0px;
-    border-bottom-width: 2px;
-    border-bottom-style: dotted;
-    border-bottom-color: #e3dfe1;
-}
 
 .endereco{
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -653,22 +456,16 @@ input, button
 
 textarea 
 {	
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 12px;
     color: #333333;
 }
 
 option 
 {	
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 10px;
     color: #333333;
 }
 
 select 
 {	
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 10px;
     color: #333333;
 }
 
@@ -831,4 +628,7 @@ table.tb-cabecalho{
     width: 100%;
     border-collapse: collapse;
     padding: 0;
+}
+.div_slider{
+    width: 100px;
 }

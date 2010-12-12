@@ -53,7 +53,8 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                     <tr class=" ui-state-hover">
                             <td class="subtitulos-tabela" width="55%">Descrição</td>
                             <td  class="subtitulos-tabela" width="70px;">Data Início</td>
-                            <td  class="subtitulos-tabela" width="100px;">Data Término</td>
+                            <td  class="subtitulos-tabela" width="100px;">Prazo</td>
+                            <td  class="subtitulos-tabela" width="100px;">Andamento</td>
                             <td  class="subtitulos-tabela" width="70px;">Peso</td>
                             <td class="subtitulos-tabela" width="50px;"></td>
                             <td width="4px"><?php echo $this->myToolbar('atividades','toptable');?></td>
@@ -65,40 +66,36 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 				foreach ($this->atividades as $atividade){?>
 				<tr class="<?php echo $cycle->next()?>">
 					<td>
-					<div class="texto-tabela-com-seta">
+					<div >
 						<a href=
 							'<?php echo $this->url ( array ('controller' => 'instrumentos', 'action' => 'atividade', 'atividade_id' => $atividade->id ));?>'>
 							<span class="ui-icon ui-icon-play" style="float:left"></span>
-                            <span class="descricao_item"><?php echo $atividade->descricao;?></span>
+                                                         <span class="descricao_item"><?php echo $atividade->descricao;?></span>
 						</a>
 					</div>
 					</td>
-					<td class="texto">
+					<td >
 						<?php 
-						$data =  new Zend_Date($atividade->inicio_data,Zend_Date::ISO_8601);
-						echo $data->toString('dd/MM/yyyy');
+						$this->select_historico->reset('where');
+						$this->select_historico->where('situacao_id=1');
+						$historicos =$atividade->findModel_AtividadesHistorico($this->select_historico);
+						$historico = $historicos->current();
+						echo $historico->data_inicio();
 						?>				
 					</td>
-					<td class="texto">
-						<?php 
-						$resultado = $this->atividadeprazo->fetchAll('atividade_id=' . $atividade->id, 'id ASC');
-						$prazo = '';
-						foreach($resultado as $atividadeprazo){ 
-							$prazo =  new Zend_Date($atividadeprazo->prazo_data,Zend_Date::ISO_8601);
-						}
-						if (!$prazo){
-							$prazo =  new Zend_Date($atividade->prazo_data,Zend_Date::ISO_8601);
-						}
-						echo $prazo->toString('dd/MM/yyyy');
-						?>				
+					<td >
+						<?php echo $historico->data_prazo();?>				
 					</td>
-					<td class="texto">
-						<?php echo $atividade->valor;?>
+					<td >
+						<?php echo $historico->findParentModel_Andamentos()->descricao;?>				
+					</td>
+					<td >
+						<?php echo $atividade->peso;?>
 					</td>
 					<td>
 						<div id="progbar-<?php echo $atividade->id;?>" style="height:10px; " class="execucao"></div>
 					</td>
-					<td class="texto">
+					<td >
 						<?php echo $this->myToolbar ( 'atividades' , 'line', $atividade->id  );?>
 					</td>
 				</tr>

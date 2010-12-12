@@ -18,8 +18,12 @@ class Model_AtividadesVinculadas extends App_DefaultModel {
 	
 	
 	protected $_name = 'atividades_vinculadas';
+	
 	protected $_referenceMap = array (
 	                     		'Atividades' => array ( 'columns' => 'atividade_id', 
+	                     							  'refTableClass' => 'Model_Atividades', 
+	                     							  'refColumns' => 'id' ),
+								'Referencias' => array ( 'columns' => 'depende_atividade_id', 
 	                     							  'refTableClass' => 'Model_Atividades', 
 	                     							  'refColumns' => 'id' )					
 								);	

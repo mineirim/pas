@@ -270,7 +270,20 @@ function ControleGeral(){
         $(".datepick").datepicker(
         		{dateformat:"dd-mm-yy"}
         		);
-        $(".div_slider").slider();
+
+        $(".div_slider").each(function(){
+            id = this.id.substr(3);
+            $(this).slider({
+                value:$("#"+id).val(),
+                min: 0,
+                max: 100,
+                step: 5,
+                slide: function(event, ui) {
+                        $("#"+id).val(ui.value);
+                }
+            })
+        })
+
 
     };
 }

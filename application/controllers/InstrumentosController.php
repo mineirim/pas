@@ -90,15 +90,16 @@ class InstrumentosController extends Zend_Controller_Action {
 	}
 
 	public function operacaoAction() {
-		$operacoes = new Model_Operacoes ();
-		$atividades = new Model_Atividades ();
-		$atividadesprazo = new Model_AtividadesPrazo ();
+		$model_operacoes = new Model_Operacoes ();
+		$model_atividades = new Model_Atividades ();
+		
+		$model_atividades_historico = new Model_AtividadesHistorico();
 		if ($this->_hasParam ( 'operacao_id' )) {
 			$operacao_id = $this->_getParam ( 'operacao_id', 0 );
-			$this->view->operacao = $operacoes->fetchRow ( 'id=' . $operacao_id, 'id' );
-			$this->view->atividades = $atividades->fetchAll ( 'operacao_id=' . $operacao_id . ' and situacao_id=1', 'id' );
-			$this->view->atividadeprazo = $atividadesprazo;
-
+			$this->view->operacao = $model_operacoes->fetchRow ( 'id=' . $operacao_id, 'id' );
+			$this->view->atividades = $model_atividades->fetchAll ( 'operacao_id=' . $operacao_id . ' and situacao_id=1', 'id' );
+			$this->view->select_historico = $model_atividades_historico->select();
+			$this->view->select_historico->where('situacao_id=1');
 			$this->view->meta = $this->view->operacao->findParentRow ( 'Model_Metas' );
 
 			$this->view->objetivo_especifico = $this->view->meta->findParentRow ( 'Model_ObjetivosEspecificos' );
@@ -113,32 +114,102 @@ class InstrumentosController extends Zend_Controller_Action {
 	}
 
 	public function atividadeAction() {
-		$operacoes = new Model_Operacoes ();
-		$atividades = new Model_Atividades ();
-		$atividadesprazo = new Model_AtividadesPrazo ();
-		$atividadesvinculadas = new Model_AtividadesVinculadas ();
+		$model_operacoes = new Model_Operacoes ();
+		$model_atividades = new Model_Atividades ();
+		$model_atividades_historico = new Model_AtividadesHistorico();
+		$model_atividadesvinculadas = new Model_AtividadesVinculadas ();
 		if ($this->_hasParam ( 'atividade_id' )) {
 			$atividade_id = $this->_getParam ( 'atividade_id', 0 );
-			$this->view->atividades = $atividades;
-			$this->view->atividade = $atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
-			$this->view->atividadeprazo = $atividadesprazo->fetchAll ( 'atividade_id=' . $atividade_id, 'id ASC' );
-			$this->view->atividadevinculada = $atividadesvinculadas->fetchAll ( 'atividade_id=' . $atividade_id, 'id ASC' );
-			$inicio = new Zend_Date ( $this->view->atividade->inicio_data, Zend_Date::ISO_8601 );
+			$this->view->atividade 			= $model_atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
+			$this->view->atividade_historico= $model_atividades_historico->fetchAll ( 'atividade_id=' . $atividade_id, 'id ASC' );
+			$this->view->atividadevinculada = $model_atividadesvinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade_id, 'id ASC' );
+			$situacao_atual = $model_atividades_historico->fetchRow ( 'situacao_id=1 and atividade_id=' . $atividade_id);
+			$this->view->situacao_atual		= $situacao_atual;
+			$this->view->operacao 			= $this->view->atividade->findParentRow ( 'Model_Operacoes' );
+			$this->view->meta 				= $this->view->operacao->findParentRow ( 'Model_Metas' );
+			$this->view->objetivo_especifico= $this->view->meta->findParentRow ( 'Model_ObjetivosEspecificos' );
+			$this->view->projeto 			= $this->view->objetivo_especifico->findParentRow ( 'Model_Projetos' );
+			$this->view->programa 			= $this->view->projeto->findParentRow ( 'Model_Programas' );
+			$this->view->nivel 				= 'Atividade';
+			$this->view->tableheader 		= 'Atividades';
+			$this->view->resource 			= "atividades";
 
-			$prazo = new Zend_Date ( $this->view->atividade->prazo_data, Zend_Date::ISO_8601 );
-
-			$this->view->atividade->inicio_data = $inicio->toString ( 'dd/MM/yyyy' );
-			$this->view->atividade->prazo_data = $prazo->toString ( 'dd/MM/yyyy' );
-
-			$this->view->operacao = $this->view->atividade->findParentRow ( 'Model_Operacoes' );
-			$this->view->meta = $this->view->operacao->findParentRow ( 'Model_Metas' );
-			$this->view->objetivo_especifico = $this->view->meta->findParentRow ( 'Model_ObjetivosEspecificos' );
-			$this->view->projeto = $this->view->objetivo_especifico->findParentRow ( 'Model_Projetos' );
-			$this->view->programa = $this->view->projeto->findParentRow ( 'Model_Programas' );
-			$this->view->nivel = 'Atividade';
-			$this->view->tableheader = 'Atividades';
-			$this->view->resource = "atividades";
-
+			$mysession = new Zend_Session_Namespace ( 'mysession' );
+			$acl = $mysession->acl;
+			$auth = Zend_Auth::getInstance();
+			if ($auth->hasIdentity ()) {
+				$role = $auth->getIdentity ()->username;
+			} else {
+				$role = 'guest';
+			}
+			$this->view->toolbar = "barr";
+			if (!$situacao_atual->data_conclusao){
+					// botão para concluir atividade
+				$resource = 'concluir';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+				
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+					$this->view->mybar = "<a href='".$this->view->url(array('controller'=>'atividades','action'=>'update', 'module'=>'programacao', 'id'=>$this->view->atividade->id))."'
+							title='Editar' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
+							<span class='ui-icon ui-icon-check'>Editar</span>Editar</a>";
+				}
+				
+			} else {
+				$resource = 'reativar';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+				
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+					$this->view->mybar =  "<a href='".$this->view->url(array('controller'=>'atividades','action'=>'update', 'module'=>'programacao', 'id'=>$this->view->atividade->id))."'
+							title='Reativar Atividade' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
+							<span class='ui-icon ui-icon-arrowreturnthick-1-e'>Reativar Atividade</span>Reativar</a>";
+				}
+			}
+			
+			/**	
+		// *** só é possível adicionar prazos quando a atividade ainda não foi concluida.
+			if (!$this->situacao_atual->data_conclusao){
+				?>
+				<tr>
+				<td colspan="2">
+				<?php 
+				// verificando se usuário pode adicionar prazo.
+				$resource = 'addprazo';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+					
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
+							title='Adicionar Prazo' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+							<span class='ui-icon ui-icon-plus'>Adicionar Prazo</span>Adicionar Prazo</a>";
+				} // if do acl.
+				?>
+				</td>
+				</tr>
+				<?php 
+			} // if
+			
+				// verificando se usuário pode adicionar vinculação.
+				$resource = 'addvinculacao';
+				if (! $acl->has ( $resource )) 
+					$resource = null;
+					
+				if($acl->isAllowed($role,$resource) ||
+						!$resource){ 
+						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id))."'
+							title='Adicionar Vinculação' 
+							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
+							<span class='ui-icon ui-icon-plus'>Adicionar Vinculação</span>Adicionar Vinculação</a>";
+				}
+						
+			*/
 		} else {
 
 			echo $this->dispatch ( 'programasAction' );
@@ -153,14 +224,21 @@ class InstrumentosController extends Zend_Controller_Action {
             //$this->_helper->viewRenderer->setNoRender(true);
             $meta_id = $this->_getParam('meta_id');
             $model_operacoes = new Model_Operacoes();
+            $model_atividades = new Model_Atividades();
+            $model_atividades_historico = new Model_AtividadesHistorico();
+            $model_atividades_vinculadas = new Model_AtividadesVinculadas();
+            
+            //$select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+            
+            
             $operacoes = $model_operacoes->fetchAll("meta_id=$meta_id and situacao_id=1");
             
             $xmlString = '<project>';
             $task = '';
             foreach ($operacoes as $operacao) {
-                
+                $opid = (int)$operacao->id +600000;
                 $task .= '<task>';
-                $task .= "<pID>$operacao->id</pID>";
+                $task .= "<pID>$opid</pID>";
                 $task .= "<pName>$operacao->descricao</pName>";
                 $task .= "<pStart> </pStart>";
                 $task .= "<pEnd> </pEnd>";
@@ -175,25 +253,48 @@ class InstrumentosController extends Zend_Controller_Action {
                 $task .= "<pDepend/>";
                 $task .= '</task>';
                 $lst='';
-                foreach ($operacao->findModel_Atividades() as $atividade){
-                    $data_inicio = new Zend_Date($atividade->inicio_data, Zend_Date::ISO_8601);
+                $select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+				$select_atividades->setIntegrityCheck(false)
+			       ->where('atividades.situacao_id = 1')
+			       ->join(Zend_Registry::get('schema').'.atividades_historico', 'atividades_historico.atividade_id = atividades.id', 'data_inicio')
+			       ->where('atividades_historico.situacao_id=1')
+			       ->order('atividades_historico.data_inicio');
+                 
+                foreach ($operacao->findModel_Atividades($select_atividades) as $atividade){
+                	if($atividade->situacao_id !==1)
+                		continue;
+					$select_historico = $model_atividades_historico->select();
+            		$select_vinculadas = $model_atividades_vinculadas->select();                		
+					$select_historico->reset('where');
+					$select_historico->where('situacao_id=1');
+                	$historico = $atividade->findModel_AtividadesHistorico($select_historico)->current();	
+                	
+                    $data_inicio = $historico->data_inicio();
+                    $data_final = $historico->data_prazo();
                     
-                    $data_final = new Zend_Date($atividade->prazo_data, Zend_Date::ISO_8601);
+                    $select_vinculadas->reset('where');
+                    $select_vinculadas->where('situacao_id=1');
+                    $vinculadas = $model_atividades_vinculadas->fetchAll('situacao_id=1 and atividade_id='.$atividade->id);
+                    $str_vinculadas =array();
+                    foreach ($vinculadas as $vinculo){
+                    	$str_vinculadas[] = $vinculo->depende_atividade_id;
+                    }
+                    $str_vinculadas = implode(',', $str_vinculadas);
                     
                     $task .= '<task>';
                     $task .= "<pID>$atividade->id</pID>";
-                    $task .= "<pName>$atividade->descricao </pName>";
+                    $task .= "<pName>$atividade->id - $atividade->descricao </pName>";
                     $task .= "<pStart>$data_inicio</pStart>";
                     $task .= "<pEnd>$data_final</pEnd>";
                     $task .= "<pColor>ff00ff</pColor>";
                     $task .= "<pLink>/xx</pLink>";
                     $task .= "<pMile>0</pMile>";
                     $task .= "<pRes/>";
-                    $task .= "<pComp>80</pComp>";
+                    $task .= "<pComp>$historico->percentual</pComp>";
                     $task .= "<pGroup>0</pGroup>";
-                    $task .= "<pParent>$operacao->id</pParent>";
+                    $task .= "<pParent>$opid</pParent>";
                     $task .= "<pOpen>1</pOpen>";
-                    $task .= "<pDepend></pDepend>";
+                    $task .= "<pDepend>$str_vinculadas</pDepend>";
                     $task .= '</task>';
                     
                 }

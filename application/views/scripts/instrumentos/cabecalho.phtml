@@ -6,7 +6,7 @@ $href = $this->url(array('controller'=>'instrumentos',
 $this->label = isset($this->label) ? $this->label : $this->nome;
 ?>
         <tr style="border-bottom: thin solid black"  >
-                <td class='text-header' width="60px"><div class="titulo-nivel2"><?php echo $this->label?></div></td>
+                <td class='text-header' width="60px"><div ><?php echo $this->label?></div></td>
                 <td style='padding-left:15px'>
                         <a href='<?php echo $href?>' style="float:left"> <?php echo $this->objeto->descricao?></a>
                 </td>
@@ -15,7 +15,7 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
          if($this->detalhar): //if-detalhar
                 if ((strtolower($this->nome) == "programa")||(strtolower($this->nome) == "projeto")): //programas e projetos ?>
                     <tr style="border-bottom: thin solid black" >
-                        <td class='text-header'  ><div class="subtitulos-descreve-niveis">INDICADORES </div></td>
+                        <td class='text-header'  ><div class="subtitulos-descreve-niveis">Indicadores </div></td>
                         <td  style='padding-left:15px'>
                         <?php
                             foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador):
@@ -27,28 +27,10 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
                         <?php endforeach; ?>
                         </td>
                     </tr>
-                    <tr style="border-bottom: thin solid black" >
-                        <td ><div class="subtitulos-descreve-niveis">INTERFACES:</div></td>
-                        <td style='padding-left:15px'>
-                            <div class="texto-descreve-niveis"><?php echo $this->objeto->interfaces?></div>
-                        </td>
-                    </tr>
     <?php      endif; // programas e projetos ?>
                 <?php
                 if (strtolower($this->nome)== "objetivo_especifico"): //if-objetivo-especifico
                         ?>
-                        <tr style="border-bottom: thin solid black" >
-                            <td class='text-header'  ><div class="subtitulos-descreve-niveis">ESTRATÉGIAS:</div></td>
-                            <td style='padding-left:15px'>
-                            <?php
-                                $select = $this->objeto->select();
-                                $select->order('id');
-                                $select->where('situacao_id=1');
-                                foreach ($this->objeto->findDependentRowset('Model_Estrategias',null,$select) as $estrategia):
-                                    echo '<li><div class="texto-descreve-niveis">' . $estrategia->descricao . '</div></li>';
-                                endforeach; ?>
-                            </td>
-                        </tr>
                         <tr  >
                             <td><div class="subtitulos-descreve-niveis">PARCERIAS:</div></td>
                             <td   style='padding-left:15px'>

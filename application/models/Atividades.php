@@ -18,10 +18,17 @@ class Model_Atividades extends App_DefaultModel {
 	
 	
 	protected $_name = 'atividades';
+	protected $_dependentTables = array('Model_AtividadesHistorico', 'Model_AtividadesVinculadas');
 	protected $_referenceMap = array (
 	                     		'Operacoes' => array ( 'columns' => 'operacao_id', 
 	                     							  'refTableClass' => 'Model_Operacoes', 
-	                     							  'refColumns' => 'id' ) 							
+	                     							  'refColumns' => 'id' ),
+								'Responsavel' => array ( 'columns' => 'responsavel_id', 
+	                     							  'refTableClass' => 'Model_Usuarios', 
+	                     							  'refColumns' => 'id' ),
+								'Situacao' => array ( 'columns' => 'situacao_id', 
+	                     							  'refTableClass' => 'Model_Situacoes', 
+	                     							  'refColumns' => 'id' )
 								);
 									
 	public function update($dados, $where){
