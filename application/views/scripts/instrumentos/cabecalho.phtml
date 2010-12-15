@@ -14,19 +14,6 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
         <?php
          if($this->detalhar): //if-detalhar
                 if ((strtolower($this->nome) == "programa")||(strtolower($this->nome) == "projeto")): //programas e projetos ?>
-                    <tr style="border-bottom: thin solid black" >
-                        <td class='text-header'  ><div class="subtitulos-descreve-niveis">Indicadores </div></td>
-                        <td  style='padding-left:15px'>
-                        <?php
-                            foreach($this->objeto->findManyToManyRowset('Model_Indicadores', 'Model_Indicadores'.$this->nome) as $indicador):
-                                if($indicador->situacao_id==2) continue; ?>
-                                <div class="texto-descreve-niveis">
-                                    <span class="ui-icon ui-icon-triangle-1-e" style="float:left"></span>
-                                    <span class="descricao_item"><?php echo $this->cabecalhoIndicador($indicador,strtolower($this->nome))?></span><br>
-                                </div>
-                        <?php endforeach; ?>
-                        </td>
-                    </tr>
     <?php      endif; // programas e projetos ?>
                 <?php
                 if (strtolower($this->nome)== "objetivo_especifico"): //if-objetivo-especifico

@@ -92,6 +92,9 @@
         <modelFile modelName="Cargos"/>
         <modelFile modelName="AtividadesHistorico"/>
         <modelFile modelName="Andamento"/>
+        <modelFile modelName="Parcerias"/>
+        <modelFile modelName="Parceiros"/>
+        <modelFile modelName="Interfaces"/>
       </modelsDirectory>
       <modulesDirectory enabled="false">
         <moduleDirectory moduleName="relatorios">

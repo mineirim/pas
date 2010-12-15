@@ -1,10 +1,4 @@
-CREATE TABLE andamentos
-(
-  id integer NOT NULL,
-  descricao character varying NOT NULL,
-  conceito character varying NOT NULL,
-  CONSTRAINT pk_andamento PRIMARY KEY (id)
-);
+
 CREATE TABLE setores
 (
   id serial NOT NULL,

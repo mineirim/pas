@@ -7,7 +7,6 @@
  * @version 
  */
 
-require_once 'Zend/Db/Table/Abstract.php';
 
 class Model_Parcerias extends App_DefaultModel {
 	/**
@@ -18,7 +17,11 @@ class Model_Parcerias extends App_DefaultModel {
 	protected $_referenceMap = array (
 	                     		'ObjetivosEspecificos' => array ( 'columns' => 'objetivo_especifico_id', 
 	                     							  'refTableClass' => 'Model_ObjetivosEspecificos', 
+	                     							  'refColumns' => 'id' ),
+								'Parceiros' => array ( 'columns' => 'parceiro_id', 
+	                     							  'refTableClass' => 'Model_Parceiros', 
 	                     							  'refColumns' => 'id' ) 							
+	
 								);	
 
 	public function update($dados, $where){
