@@ -26,7 +26,7 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
                                 $select->order('id');
                                 $select->where('situacao_id=1');
                                 foreach ($this->objeto->findDependentRowset('Model_Parcerias',null,$select) as $parceria):
-                                    echo '<li><div class="texto-descreve-niveis">' . $parceria->descricao .'</div></li>';
+                                    echo '<li><div class="texto-descreve-niveis">' . $parceria->findParentModel_Parceiros()->nome .'</div></li>';
                                 endforeach;?>
                             </td>
                         </tr>

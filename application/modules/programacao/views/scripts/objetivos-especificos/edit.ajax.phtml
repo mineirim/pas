@@ -43,6 +43,8 @@
 $(function(){
 	$.getScript('<?php echo $this->url(array('module'=>'programacao','controller'=>'parcerias','action'=>'index'),null,true);?>?format=js', function(r){
 	    parcerias = new Parcerias();
+	    parcerias.objetivo_especifico_id= <?php echo $this->form->objetivoespecifico->id->getValue(); ?>;
+
 	    parcerias.init();
 	    parcerias.createGrid();
 		});

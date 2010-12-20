@@ -116,6 +116,7 @@ function GridParcerias(gridtable,paginator,parametros){
 }
 
 function Parcerias(){
+    this.objetivo_especifico_id = '';
     this.init = function(){};
     this.createGrid = function(){
         grid = new GridParcerias('#tb-parcerias','#pg-parcerias');
@@ -180,6 +181,7 @@ function Parcerias(){
     
     this.formNew =  function(){
     	this.fn_acao('<?php echo $this->url(array("action"=>"create")); ?>?format=html');
+	this.fn_acao('<?php echo $this->url(array("action"=>"create")); ?>/objetivo_especifico_id/'+this.objetivo_especifico_id+'?format=html');
     };
     this.formEdit = function(id)
     {
