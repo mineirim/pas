@@ -1,0 +1,37 @@
+
+<table id="tb-parcerias"></table>
+<div id="pg-parcerias"></div>
+
+<div class="contextMenu" id="MenuParcerias" >
+    <ul class="cm-ul ui-widget">
+        <li id="add" >
+            <span style="float:left" class="ui-icon ui-icon-document"></span> Novo
+        </li>
+        <li style="" class="ui-widget-shadow ui-separator ui-state-hover"></li>
+        <li id="edit" >
+            <span style="float:left" class="ui-icon ui-icon-pencil"></span> Editar
+        </li>
+        <li id="delete">
+            <span style="float:left" class="ui-icon ui-icon-trash"></span>Apagar
+        </li>
+    </ul>
+</div>
+<div class="contextMenu" id="MenuParcerias-geral" >
+    <ul class="cm-ul ui-widget">
+        <li id="add" >
+            <span style="float:left" class="ui-icon ui-icon-document"></span> Novo
+        </li>
+    </ul>
+</div>
+<script type="text/javascript" >
+    
+$(function(){
+	$.getScript('<?php echo $this->url();?>?format=js', function(r){
+	    parcerias = new Parcerias();
+	    parcerias.init();
+	    parcerias.createGrid();
+		});
+	
+});
+</script>
+<br>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Projetos
+ * Parcerias
  *  
  * @author marcone
  * @version 
@@ -14,6 +14,7 @@ class Model_Parcerias extends App_DefaultModel {
 	 */
 	protected $_order = 'id';
 	protected $_name = 'parcerias';
+	protected $_dependentTables = array('Model_ParceriaTipos');
 	protected $_referenceMap = array (
 	                     		'ObjetivosEspecificos' => array ( 'columns' => 'objetivo_especifico_id', 
 	                     							  'refTableClass' => 'Model_ObjetivosEspecificos', 

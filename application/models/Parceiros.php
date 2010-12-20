@@ -7,8 +7,12 @@
  */
 class Model_Parceiros extends App_DefaultModel 
 {
-protected $_dependentTables = array('Model_Parcerias');
+	protected $_name = 'parceiros';
+	protected $_dependentTables = array('Model_Parcerias');
 	
-
+	public function init(){
+		parent::init();
+		$this->_schema = "public";
+	}		
 }
 

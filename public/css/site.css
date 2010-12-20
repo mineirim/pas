@@ -8,8 +8,7 @@ body {
 
     margin: 0;
     padding: 0;
-    color:#666666;
-
+    /*color:#666666;*/
 
 }
 .folder{
@@ -36,7 +35,7 @@ table{
     width:100%;
 }
 td{
-    border:none;
+    border: none;
 
 }
 
@@ -59,7 +58,7 @@ td{
     padding: 0;
     /**background-color: #ece9d8;*/
     height: 110px;
-    color: #666666;
+    /*color: #666666;*/
 }
 #topo-portal {
     height:25px;
@@ -251,9 +250,6 @@ button.fg-button { width:auto; overflow:visible; }
 {
 
     text-align:left;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size:11px;
-    Xbackground-color:#FFFFFF;
     margin-left:0px;
     margin-right:0px;
     margin-top:0px;
@@ -412,39 +408,20 @@ small
     color: #000000;
 }
 
-ul
-{
-    font-family: XVerdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
+.ul-grid{
+	margin: 0;
+  	padding-left: 1em;
 }
-
-ol
-{
-    font-family: XVerdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
-}
-
-li
-{
-    font-family: XVerdana, Arial, Helvetica, sans-serif;
-    font-size: 11px;
-    color: #000000;
-}
-
 td {
     vertical-align: top;
 }
 
 /* FORMUL�RIO */
 form 	{	
-    font-family:  Verdana, Arial;
-    font-size: 11px;
     text-align: left;
     margin: 0px;
     padding:0px;
-    color: #918c8c;
+    /*color: #918c8c;*/
 }
 
 input, button 
@@ -454,26 +431,11 @@ input, button
     /*color: #635e5e;*/
 }
 
-textarea 
-{	
-    color: #333333;
-}
-
-option 
-{	
-    color: #333333;
-}
-
-select 
-{	
-    color: #333333;
-}
 
 /* TABELAS */
 
 #caixa {
     text-align:center;
-    color:#333333;
     border-right: #e4e0e0 1px solid;
     border-left:  #e4e0e0 1px solid;
     border-bottom:#e4e0e0 1px solid;
@@ -601,6 +563,7 @@ td.tb-corner-botton-right{
     max-width:5px !important;
     background-image: url("../images/curva-inf-dir.jpg");
     min-height: 11px;
+	border: none;
 }
 table.tb-corpo{
     border: thin solid #dddddd;

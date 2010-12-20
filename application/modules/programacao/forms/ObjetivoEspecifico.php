@@ -54,15 +54,7 @@ class Programacao_Form_ObjetivoEspecifico extends Zend_Form
 			->setAttrib('cols',70)
 			->addErrorMessage('Recursos não pode ficar vazio');
 			
-		$cronograma = new Zend_Form_Element_Textarea('cronograma');
-		$cronograma->setLabel('Cronograma')
-			->addFilter('StripTags')
-			->addFilter('StringTrim')
-			->setAttrib('cols',70)
-			->setAttrib('rows',4);
-			
-		
-		$this->subform->addElements(array($id,$projeto_id, $descricao, $menu,$recursos, $cronograma));
+		$this->subform->addElements(array($id,$projeto_id, $descricao, $menu,$recursos));
 		$this->subform->addDisplayGroup(array('id', 'projeto_id'),'ident');
 		$this->addSubForm($this->subform, 'objetivoespecifico');
 		

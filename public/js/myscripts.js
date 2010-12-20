@@ -90,7 +90,7 @@ function ControleGeral(){
                 autoOpen: false,
                 title: this.title,
                 height: 450,
-                width: 600,
+                width: 720,
                 modal: true
             });
             $('#formulario_ajax').dialog('open');
@@ -112,7 +112,7 @@ function ControleGeral(){
                     autoOpen: false,
                     title: this.title,
                     height: 450,
-                    width: 600,
+                    width: 720,
                     modal: true
                 });
                 $('#formulario_ajax').dialog('open');
@@ -332,7 +332,7 @@ function updateId(responseXML,statusText,formulario){
 GridPadrao = {
     mtype           : 'GET',
     datatype        : 'json',
-    width           :  520,
+    width           :  665,
     height          : 230,
     rownumbers      : false,
     rowNum          :-1,
@@ -349,7 +349,7 @@ GridPadrao = {
 TreeGridPadrao = {
 	    mtype           : 'GET',
 	    datatype        : 'json',
-	    width           :  520,
+	    width           :  665,
 	    height          : 230,
             treeGridModel 	: 'adjacency',
             treeGrid      	: true,

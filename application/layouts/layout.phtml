@@ -1,6 +1,12 @@
 <?php echo $this->doctype ( 'XHTML1_TRANSITIONAL' );?>
 <html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+    	<style>
+	.ui-button { margin-left: -1px; }
+	.ui-button-icon-only .ui-button-text { padding: 0.35em; } 
+	.ui-autocomplete-input { margin: 0; padding: 0.48em 0 0.47em 0.45em; }
+	</style>
+
 <script type="text/javascript">
     var baseUrl = '<?php echo $this->baseUrl ()?>'
 </script>
@@ -10,13 +16,13 @@ $tema =	'custom-theme' ;
 $this->jQuery ()->enable ();
 
 if ($this->jQuery ()->isEnabled ()) {
-	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
-	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.8.6.custom.css' );
+	$this->jQuery ()->setLocalPath ( $this->baseUrl () . '/js/jquery-1.4.4.min.js' )->setUiLocalPath ( $this->baseUrl () . '/js/jquery-ui.js' )
+	->addStylesheet ( $this->baseUrl () . '/css/'.$tema.'/jquery-ui-1.8.7.custom.css' );
 }
 /**
  * ZendX_JQuery_View_Helper_JQuery_Container $this->JQuery()
  */
-$this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui.min.js' )
+$this->JQuery ()->addJavascriptFile ( $this->baseUrl () . '/js/jquery-ui-1.8.7.custom.min.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/jquery.bgiframe.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/ui.datepicker-pt-BR.js' )
 				->addJavascriptFile ( $this->baseUrl () . '/js/grid.locale-pt-br.js')				
@@ -86,6 +92,7 @@ font: bold 0.7em/1.4em arial, helvetica, sans-serif;
 echo $this->baseUrl ();
 ?>/css/nao-ie.css") all;
 </style>
+
 </head>
 <body>
 	<div id="topo" >
@@ -196,6 +203,7 @@ echo $this->baseUrl ();
           </tr>
 	</table>
 	<div id='formulario_ajax'></div>
+	
 </body>
 
 </html>

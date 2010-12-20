@@ -34,32 +34,23 @@ class Programacao_Form_Programa extends Zend_Form {
                 ->setAttrib('size', 20)
                 ->setAttrib('maxlength', 20);
 
-        $interfaces = new Zend_Form_Element_Textarea('interfaces');
-        $interfaces->setLabel('Interfaces')
-                ->addFilter('StripTags')
-                ->addFilter('StringTrim')
-                ->setAttrib('rows', 4)
-                ->setAttrib('cols', 70);
-
         $submit = new Zend_Form_Element_Submit('submit');
         $submit->setAttrib('id', 'submitbutton')
                 ->setAttrib('class', 'by-ajax');
         $close = new Zend_Form_Element_Button('cancelar');
         $close->setAttrib('class', 'dialog-form-close')
               ->setDecorators(array('ViewHelper', 'Errors'));
-        $this->subform->addElements(array($id, $descricao, $menu, $interfaces, $this->getResponsaveis()));
+        $this->subform->addElements(array($id, $descricao, $menu, $this->getSetores()));
         $this->addSubForm($this->subform, 'programa');
         $this->addElements(array($submit, $close));
     }
 
-    public function getResponsaveis() {
-
-
-        $usuarios = new Model_Usuarios();
-        $form = new Zend_Form_Element_Select('responsavel_id');
-        foreach ($usuarios->fetchAll('1=1', array('nome')) as $p)
-            $form->addMultiOptions(array($p->id => " " . $p->nome));
-        $form->setLabel("Responsável:")
+    public function getSetores() {
+        $setores = new Model_Setores();
+        $form = new Zend_Form_Element_Select('setor_id');
+        foreach ($setores->fetchAll('1=1', array('nome')) as $p)
+            $form->addMultiOptions(array($p->id => " " . $p->nome. "(". $p->sigla . ")"));
+        $form->setLabel("Setor Responsável:")
                 ->setRequired(true);
         return $form;
     }

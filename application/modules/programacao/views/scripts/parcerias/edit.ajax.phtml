@@ -1,0 +1,61 @@
+    <div class="formtabs" id='tab-parceria'>
+        <ul>
+                <li><a href="#tab-parceria" >Parceria</a></li>
+                <li><a href="#tab-new">Novo Parceiro</a></li>
+        </ul>
+        <div id="tab-parceria" style="overflow: hidden">
+	        <form id='formParceria'
+		        	enctype='<?php echo $this->form->getEnctype();?>'
+			        action='<?php echo $this->url(array('action'=>'save'));?>?format=json'
+			        method="post">
+	        	<div style='display:none'>]
+	        		<?php echo $this->form->parceria->ident ;?>
+	        		<?php echo $this->form->parceria->parceiro_id ;?>
+	        	</div>
+	        	<table>
+	        		<tr>
+	        		  <td>
+	        			<span style='font-size:1.3em'><b>Parceiro: </b><?php echo $this->parceiro->nome.' - '.$this->parceiro->sigla;?></span>
+	        		  </td>
+	        		</tr>
+	        		<tr>
+	        		  <td>
+	        		  
+	        		  	<fieldset>
+	        		  		<legend>Tipo de parceria</legend>
+	        		  		<div style='max-height:80px; height: 80px; overflow-y: scroll;'>
+	        		  		<?php echo $this->form->tipo_parceria->tipos_parcerias_ids ;?>
+	        		  		</div>
+	        		  	</fieldset>
+	        		  </td>
+	            	</tr>
+	            	<tr>
+	            		<td >
+	            			<?php echo $this->form->parceria->observacoes ;?>
+            			</td>
+            		</tr>
+	            	<tr>
+	            		<td >
+	            			<?php echo $this->form->submit;?>
+	            			<?php echo $this->form->cancelar;?>
+            			</td>
+            		</tr>
+
+	            </table>
+			</form>	            
+        </div>
+        <div id="tab-new" style="overflow: hidden">
+            <br>
+            
+            <br>
+            
+            <br>
+            
+            <br>
+            
+            <br>
+
+        </div>
+        
+    </div>
+

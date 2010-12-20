@@ -1,7 +1,6 @@
 <div id="formtabs">
     <ul>
         <li><a href="#tabs-0">Projeto</a></li>
-        <li><a href="#tabs-1">Objetivos</a></li>
     </ul>
     <div id="tabs-0" style="overflow: hidden">
         <form id='<?php echo $this->form->getId();?>'
@@ -26,12 +25,7 @@
                 </tr>
                 <tr>
                     <td>
-						<?php echo $this->form->projeto->interfaces; ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-						<?php echo $this->form->projeto->responsavel_id; ?>
+						<?php echo $this->form->projeto->setor_id; ?>
                     </td>
                 </tr>
                 <tr>
@@ -43,43 +37,5 @@
             </table>
         </form>
     </div>
-    <div id="tabs-1" style="overflow: hidden">
-        <form id='frmobjetivos'
-              enctype='<?php echo $this->formDescritivo->getEnctype(); ?>'
-              action='<?php echo $this->url(array('action' => 'addobjetivo')); ?>?format=json'
-              method="post">
-                <div style='display: none'>
-					<?php echo $this->formDescritivo->id ?>
-                	<input type=hidden name="projeto_id" class="sync-parent-id" value='<?php if(isset($this->projeto->id)) echo $this->projeto->id ?>'>
-                </div>
-                <fieldset>
-                    <div style='clear:both'>
-						<?php echo $this->formDescritivo->descricao; ?>
-                    </div>
-					<?php echo $this->formDescritivo->submit; ?>
-            </fieldset>
-        </form>
-        <table width="100%" id="tbobjetivos" class="tb-corpo">
-        	<thead class="ui-widget ui-widget-header ">
-	            <tr>
-	                <th></th>
-	                <th>Objetivos</th>
-	            </tr>
-            </thead>
-			<tbody class="ui-widget">            
-<?php
-                    $cycle = $this->cycle(array('', ''));
-                    if(isset($this->projeto)):
-	                    foreach ($this->projeto->findModel_ObjetivosProjeto() as $objetivo) :
-	?>
-	                        <tr class='lst <?php echo $cycle->next() ?>'>
-	                            <td><?php echo $this->lineToolbar('projetos', $objetivo) ?></td>
-	                            <td><?php echo $objetivo->descricao; ?></td>
-	                        </tr>
-			<?php   
-						endforeach;
-					endif;?>
-			</tbody>
-       </table>
-            </div>
+
     </div>
