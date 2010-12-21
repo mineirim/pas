@@ -15,15 +15,28 @@ class Programacao_Form_Projeto extends Zend_Form {
         $translate = Zend_Registry::get('translate');
         $this->setTranslator($translate);
         $id = new Zend_Form_Element_Hidden('id');
-
-        $descricao = new Zend_Form_Element_Textarea('descricao');
-        $descricao->setLabel('Descrição')
+		
+        $nome = new Zend_Form_Element_Text('nome');
+        
+        $nome->setLabel('Nome do Projeto')
                 ->setRequired(true)
                 ->addFilter('StripTags')
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
-                ->setAttrib('rows', 4)
-                ->setAttrib('cols', 70);
+                ->setAttrib('size', 70)
+                ->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formtext.phtml')))
+                    );
+        $descritivo = new Zend_Form_Element_Textarea('descritivo');
+        $descritivo->setLabel('Descrição do Projeto')
+                ->addFilter('StripTags')
+                ->addFilter('StringTrim')
+                ->setAttrib('rows', 6)
+                ->setAttrib('cols', 70)
+                ->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formtext.phtml')))
+                    );
+                
 
         $menu = new Zend_Form_Element_Text('menu');
         $menu->setLabel('Descrição no menu')
@@ -32,11 +45,14 @@ class Programacao_Form_Projeto extends Zend_Form {
                 ->setRequired(true)
                 ->addValidator('NotEmpty')
                 ->setAttrib('size', 20)
-                ->setAttrib('maxlength', 20);
+                ->setAttrib('maxlength', 20)
+                ->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formtext.phtml')))
+                    );;
 
                 
 
-        $this->subform->addElements(array($id, $descricao, $menu,  $this->getSetores()));
+        $this->subform->addElements(array($id,$nome, $descritivo, $menu,  $this->getSetores()));
 
 		$this->subform->addElement('hidden','programa_id');
 		$this->subform->addElement('hidden','projeto_id');
@@ -60,7 +76,10 @@ class Programacao_Form_Projeto extends Zend_Form {
         foreach ($setores->fetchAll('1=1', array('nome')) as $p)
             $form->addMultiOptions(array($p->id => " " . $p->nome. "(". $p->sigla . ")"));
         $form->setLabel("Setor Responsável:")
-                ->setRequired(true);
+                ->setRequired(true)
+                ->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formselect.phtml')))
+                    );;
         return $form;
     }
     

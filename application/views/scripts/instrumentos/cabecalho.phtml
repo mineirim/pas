@@ -8,7 +8,7 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
         <tr style="border-bottom: thin solid black"  >
                 <td class='text-header' width="60px"><div ><?php echo $this->label?></div></td>
                 <td style='padding-left:15px'>
-                        <a href='<?php echo $href?>' style="float:left"> <?php echo $this->objeto->descricao?></a>
+                        <a href='<?php echo $href?>' style="float:left"> <?php echo isset($this->objeto->nome)?$this->objeto->nome:$this->objeto->descricao;?></a>
                 </td>
         </tr>
         <?php
