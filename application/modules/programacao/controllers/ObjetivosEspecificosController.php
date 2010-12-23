@@ -6,7 +6,14 @@ class Programacao_ObjetivosEspecificosController extends Zend_Controller_Action 
 		$ajaxContext = $this->_helper->ajaxContext;
 		$ajaxContext->addContext ( 'js', array ('suffix' => 'js' ) );
 		$ajaxContext->setAutoJsonSerialization ( false );
-		$ajaxContext->addActionContext ( 'index', array ('json', 'xml', 'js' ) )->addActionContext ( 'create', array ('html', 'json', 'xml' ) )->addActionContext ( 'update', array ('html', 'json', 'xml' ) )->addActionContext ( 'delete', array ('html', 'json', 'xml' ) )->addActionContext ( 'get', array ('html', 'json', 'xml' ) )->addActionContext ( 'save', array ('html', 'json', 'xml' ) )->addActionContext ( 'addparceria', array ('html', 'json', 'xml' ) )->initContext ();
+		$ajaxContext->addActionContext ( 'index', array ('json', 'xml', 'js' ) )
+					->addActionContext ( 'create', array ('html', 'json', 'xml' ) )
+					->addActionContext ( 'update', array ('html', 'json', 'xml' ) )
+					->addActionContext ( 'delete', array ('html', 'json', 'xml' ) )
+					->addActionContext ( 'get', array ('html', 'json', 'xml' ) )
+					->addActionContext ( 'save', array ('html', 'json', 'xml' ) )
+					->addActionContext ( 'addparceria', array ('html', 'json', 'xml' ) )
+					->initContext ();
 		if ($this->_request->isXmlHttpRequest ())
 			$this->_helper->layout ()->disableLayout ();
 		

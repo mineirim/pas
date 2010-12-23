@@ -14,14 +14,17 @@ class Programacao_ParceriasController extends Zend_Controller_Action
                 ->addActionContext('delete', array('html', 'json', 'xml'))
                 ->addActionContext('get', array('html', 'json', 'xml'))
                 ->addActionContext('get2grid', array('html', 'json', 'xml'))
+                ->addActionContext('save', array('html', 'json', 'xml'))
                 ->initContext();
         if ($this->_request->isXmlHttpRequest()) {
             $this->_helper->layout()->disableLayout();
         }
+        $this->view->frmParceiro = new Programacao_Form_Parceiro();
     }
 
     public function indexAction()
     {
+        
     }
 
     public function createAction()

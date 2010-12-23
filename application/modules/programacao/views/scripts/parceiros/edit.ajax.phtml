@@ -1,0 +1,40 @@
+<div id="formtabs" >
+    <ul>
+        <li><a href="#tabs-0" >Parceiro</a></li>
+    </ul>
+    <div id="tabs-0" style="overflow: hidden">
+        <form id='<?php echo $this->form->getId(); ?>' enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('module'=>'programacao', 'controller'=>'parceiros', 'action' => 'save')); ?>?format=json'
+              method="post">
+            <div style='display:none'>
+                <?php echo $this->form->parceiro->id ?>
+            </div>
+            <table width="100%" border="0">
+                <tr>
+                    <td>
+                        <?php echo $this->form->parceiro->nome; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->parceiro->sigla; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->parceiro->observacoes; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php
+                        echo $this->form->submit;
+                        echo $this->form->cancelar;
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+

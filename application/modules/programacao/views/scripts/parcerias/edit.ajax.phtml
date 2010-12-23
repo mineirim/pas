@@ -1,61 +1,83 @@
-    <div class="formtabs" id='tab-parceria'>
-        <ul>
-                <li><a href="#tab-parceria" >Parceria</a></li>
-                <li><a href="#tab-new">Novo Parceiro</a></li>
-        </ul>
-        <div id="tab-parceria" style="overflow: hidden">
-	        <form id='formParceria'
-		        	enctype='<?php echo $this->form->getEnctype();?>'
-			        action='<?php echo $this->url(array('action'=>'save'));?>?format=json'
-			        method="post">
-	        	<div style='display:none'>]
-	        		<?php echo $this->form->parceria->ident ;?>
-	        		<?php echo $this->form->parceria->parceiro_id ;?>
-	        	</div>
-	        	<table>
-	        		<tr>
-	        		  <td>
-	        			<span style='font-size:1.3em'><b>Parceiro: </b><?php echo $this->parceiro->nome.' - '.$this->parceiro->sigla;?></span>
-	        		  </td>
-	        		</tr>
-	        		<tr>
-	        		  <td>
-	        		  
-	        		  	<fieldset>
-	        		  		<legend>Tipo de parceria</legend>
-	        		  		<div style='max-height:80px; height: 80px; overflow-y: scroll;'>
-	        		  		<?php echo $this->form->tipo_parceria->tipos_parcerias_ids ;?>
-	        		  		</div>
-	        		  	</fieldset>
-	        		  </td>
-	            	</tr>
-	            	<tr>
-	            		<td >
-	            			<?php echo $this->form->parceria->observacoes ;?>
-            			</td>
-            		</tr>
-	            	<tr>
-	            		<td >
-	            			<?php echo $this->form->submit;?>
-	            			<?php echo $this->form->cancelar;?>
-            			</td>
-            		</tr>
+<div class="formtabs" id='tab-parceria'>
+    <ul>
+        <li><a href="#tab-parceria" >Parceria</a></li>
+        <li><a href="#tab-new">Novo Parceiro</a></li>
+    </ul>
+    <div id="tab-parceria" style="overflow: hidden">
+        <form id='formParceria'
+              enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('action' => 'save')); ?>?format=json'
+              method="post">
+            <div style='display:none'>]
+                <?php echo $this->form->parceria->ident; ?>
+                <?php echo $this->form->parceria->parceiro_id; ?>
+            </div>
+            <table>
+                <tr>
+                    <td>
+                        <span style='font-size:1.3em'><b>Parceiro: </b><?php echo $this->parceiro->nome . ' - ' . $this->parceiro->sigla; ?></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
 
-	            </table>
-			</form>	            
-        </div>
-        <div id="tab-new" style="overflow: hidden">
-            <br>
-            
-            <br>
-            
-            <br>
-            
-            <br>
-            
-            <br>
+                        <fieldset>
+                            <legend>Tipo de parceria</legend>
+                            <div style='max-height:80px; height: 80px; overflow-y: scroll;'>
+                                <?php echo $this->form->tipo_parceria->tipos_parcerias_ids; ?>
+                            </div>
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        <?php echo $this->form->parceria->observacoes; ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >
+                        <?php echo $this->form->submit; ?>
+                        <?php echo $this->form->cancelar; ?>
+                    </td>
+                </tr>
 
-        </div>
-        
+            </table>
+        </form>
     </div>
+    <div id="tab-new" style="overflow: hidden">
+        <form id='formParceiro' enctype='<?php echo $this->frmParceiro->getEnctype(); ?>'
+              action='<?php echo $this->url(array('module'=>'programacao', 'controller'=>'parceiros', 'action' => 'save')); ?>?format=json'
+              method="post">
+            <div style='display:none'>
+                <?php echo $this->frmParceiro->id; ?>
+            </div>
+            <table width="100%" border="0">
+                <tr>
+                    <td>
+                        <?php echo $this->frmParceiro->parceiro->nome; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->frmParceiro->parceiro->sigla; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->frmParceiro->parceiro->observacoes; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php
+                        echo $this->frmParceiro->submit;
+                        echo $this->frmParceiro->cancelar;
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</div>
 

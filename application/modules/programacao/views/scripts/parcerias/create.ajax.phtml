@@ -45,15 +45,38 @@
 			</form>	            
         </div>
         <div id="tab-new" style="overflow: hidden">
-            <br>
-            
-            <br>
-            
-            <br>
-            
-            <br>
-            
-            <br>
+	        <form id='formParceiro' enctype='<?php echo $this->frmParceiro->getEnctype(); ?>'
+	              action='<?php echo $this->url(array('module'=>'programacao', 'controller'=>'parceiros', 'action' => 'save')); ?>?format=json'
+	              method="post">
+	            <div style='display:none'>
+	                <?php echo $this->frmParceiro->id; ?>
+	            </div>
+	            <table width="100%" border="0">
+	                <tr>
+	                    <td>
+	                        <?php echo $this->frmParceiro->parceiro->nome; ?>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <?php echo $this->frmParceiro->parceiro->sigla; ?>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <?php echo $this->frmParceiro->parceiro->observacoes; ?>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                        <?php
+	                        echo $this->frmParceiro->submit;
+	                        echo $this->frmParceiro->cancelar;
+	                        ?>
+	                    </td>
+	                </tr>
+	            </table>
+	        </form>
 
         </div>
         
