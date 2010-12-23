@@ -3,9 +3,9 @@
         <li><a href="#tabs-0">Programa</a></li>
     </ul>
     <div id="tabs-0" style="overflow: hidden">
-        <form id='<?php echo $this->form->getId();?>'
-              enctype='<?php echo $this->form->getEnctype();?>'
-              action='<?php echo $this->url(array('controller' => 'programas', 'action' => 'save'));?>?format=json'
+        <form id='<?php echo $this->form->getId(); ?>'
+              enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('controller' => 'programas', 'action' => 'save')); ?>?format=json'
               method="post">
             <div style='display: none'>
                 <?php echo $this->form->programa->id ?>
@@ -13,28 +13,28 @@
             <table width="100%" border="0">
                 <tr>
                     <td>
-						<?php echo $this->form->programa->nome; ?>
+                        <?php echo $this->form->programa->nome; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-						<?php echo $this->form->programa->menu; ?>
+                        <?php echo $this->form->programa->menu; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-						<?php echo $this->form->programa->descritivo; ?>
+                        <?php echo $this->form->programa->descritivo; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-						<?php echo $this->form->programa->setor_id; ?>
+                        <?php echo $this->form->programa->setor_id; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <?php echo $this->form->submit; ?>
-                        <?php echo $this->form->cancelar;?>
+                        <?php echo $this->form->cancelar; ?>
                     </td>
                 </tr>
             </table>

@@ -1,53 +1,64 @@
 
 <div id="formtabs">
-	<ul>
-		<li><a href="#tabs-0" >Objetivo Específico</a></li>
-		<li><a href="#tabs-1">Parcerias</a></li>
-	</ul>
-	<div id="tabs-0" style="overflow: hidden">
-		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
-			action='<?php echo $this->url(array('action'=>'save'));?>?format=json' 
-			method="post">
-			<input type="hidden" id="dependents" value="1,2"/>
-			<div style='display:none'>
-			<?php echo $this->form->objetivoespecifico->getDisplayGroup('ident') ?>
-			</div>
-			<table width="100%" border="0">
-			<tr><td>
-			<?php echo $this->form->objetivoespecifico->descricao;?>
-			</td></tr>
-			<tr><td>
-			<?php echo $this->form->objetivoespecifico->menu;?>
-			</td></tr>
-			<tr><td>
-			<?php echo $this->form->objetivoespecifico->recursos;?>
-			</td></tr>
-			<tr><td>
-			<?php echo $this->form->submit;?>
-			<?php echo $this->form->cancelar;?>
-			</td></tr>
-			</table>
-		</form>
+    <ul>
+        <li><a href="#tabs-0" >Objetivo Específico</a></li>
+        <li><a href="#tabs-1">Parcerias</a></li>
+    </ul>
+    <div id="tabs-0" style="overflow: hidden">
+        <form id='<?php echo $this->form->getId(); ?>' enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('action' => 'save')); ?>?format=json'
+              method="post">
+            <input type="hidden" id="dependents" value="1,2"/>
+            <div style='display:none'>
+                <?php echo $this->form->objetivoespecifico->getDisplayGroup('ident') ?>
+            </div>
+            <table width="100%" border="0">
+                <tr>
+                    <td>
+                        <?php echo $this->form->objetivoespecifico->descricao; ?>
+                    </td></tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->objetivoespecifico->menu; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->objetivoespecifico->recursos; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->objetivoespecifico->setor_id; ?>
+                    </td>
+                </tr>
+                <tr><td>
+                        <?php echo $this->form->submit; ?>
+                        <?php echo $this->form->cancelar; ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
 
-	</div>
+    </div>
 
 
-	<div id="tabs-1" style="overflow: hidden">
-		<table id="tb-parcerias"></table>
-		<div id="pg-parcerias"></div>
-	</div>
+    <div id="tabs-1" style="overflow: hidden">
+        <table id="tb-parcerias"></table>
+        <div id="pg-parcerias"></div>
+    </div>
 </div>
 
 <script type="text/javascript" >
     
-$(function(){
-	$.getScript('<?php echo $this->url(array('module'=>'programacao','controller'=>'parcerias','action'=>'index'),null,true);?>?format=js', function(r){
-	    parcerias = new Parcerias();
-	    parcerias.objetivo_especifico_id= <?php echo $this->form->objetivoespecifico->id->getValue(); ?>;
+    $(function(){
+        $.getScript('<?php echo $this->url(array('module' => 'programacao', 'controller' => 'parcerias', 'action' => 'index'), null, true); ?>?format=js', function(r){
+            parcerias = new Parcerias();
+            parcerias.objetivo_especifico_id= <?php echo $this->form->objetivoespecifico->id->getValue(); ?>;
 
-	    parcerias.init();
-	    parcerias.createGrid();
-		});
+            parcerias.init();
+            parcerias.createGrid();
+        });
 	
-});
+    });
 </script>

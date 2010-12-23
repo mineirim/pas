@@ -1,30 +1,36 @@
-<div id="formtabs" >
-	<ul>
-		<li><a href="#tabs-0" >Operação</a></li>
-	</ul>
-	<div id="tabs-0" style="overflow: hidden">
-		<form id='<?php echo $this->form->getId() ;?>' enctype='<?php echo $this->form->getEnctype();?>'
-			action='<?php echo $this->url(array('action'=>'save'));?>?format=json' 
-			method="post">
-			<div style='display:none'>
-			<?php echo $this->form->operacao->ident ?>
-			</div>
-			<table width="100%" border="0">
-				<tr>
-					<td>
-						<?php echo $this->form->operacao->descricao; ?>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<?php
-							echo $this->form->submit;
-							echo $this->form->cancelar;
-						?>
-					</td>
-				</tr>
-			</table>
-		</form>
-	</div>
+<div id="formtabs">
+    <ul>
+        <li><a href="#tabs-0" >Operação</a></li>
+    </ul>
+    <div id="tabs-0" style="overflow: hidden">
+        <form id='<?php echo $this->form->getId(); ?>' enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('action' => 'save')); ?>?format=json'
+              method="post">
+            <div style='display:none'>
+                <?php echo $this->form->operacao->ident ?>
+            </div>
+            <table width="100%" border="0">
+                <tr>
+                    <td>
+                        <?php echo $this->form->operacao->descricao; ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <?php echo $this->form->operacao->setor_id; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php
+                        echo $this->form->submit;
+                        echo $this->form->cancelar;
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
 </div>
 
