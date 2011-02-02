@@ -1,5 +1,4 @@
 <?php
-
 class Programacao_ParceirosController extends Zend_Controller_Action {
 
     public function init() {

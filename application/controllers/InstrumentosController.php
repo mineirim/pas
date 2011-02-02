@@ -121,7 +121,7 @@ class InstrumentosController extends Zend_Controller_Action {
 			$this->view->atividade 			= $model_atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
 			$this->view->atividade_historico= $model_atividades_historico->fetchAll ( 'atividade_id=' . $atividade_id, 'id ASC' );
 			$this->view->atividadevinculada = $model_atividadesvinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade_id, 'id ASC' );
-			$situacao_atual = $model_atividades_historico->fetchRow ( 'situacao_id=1 and atividade_id=' . $atividade_id);
+			$situacao_atual = $model_atividades_historico->fetchCurrentRow($atividade_id);
 			$this->view->situacao_atual		= $situacao_atual;
 			$this->view->operacao 			= $this->view->atividade->findParentRow ( 'Model_Operacoes' );
 			$this->view->meta 				= $this->view->operacao->findParentRow ( 'Model_Metas' );
@@ -141,33 +141,18 @@ class InstrumentosController extends Zend_Controller_Action {
 				$role = 'guest';
 			}
 			$this->view->toolbar = "barr";
-			if (!$situacao_atual->data_conclusao){
-					// botão para concluir atividade
-				$resource = 'concluir';
-				if (! $acl->has ( $resource )) 
-					$resource = null;
-				
-				if($acl->isAllowed($role,$resource) ||
-						!$resource){ 
-					$this->view->mybar = "<a href='".$this->view->url(array('controller'=>'atividades','action'=>'update', 'module'=>'programacao', 'id'=>$this->view->atividade->id))."'
-							title='Editar' 
-							class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
-							<span class='ui-icon ui-icon-check'>Editar</span>Editar</a>";
-				}
-				
-			} else {
-				$resource = 'reativar';
-				if (! $acl->has ( $resource )) 
-					$resource = null;
-				
-				if($acl->isAllowed($role,$resource) ||
-						!$resource){ 
-					$this->view->mybar =  "<a href='".$this->view->url(array('controller'=>'atividades','action'=>'update', 'module'=>'programacao', 'id'=>$this->view->atividade->id))."'
-							title='Reativar Atividade' 
-							class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
-							<span class='ui-icon ui-icon-arrowreturnthick-1-e'>Reativar Atividade</span>Reativar</a>";
-				}
-			}
+                        $resource = 'concluir';
+                        if (! $acl->has ( $resource ))
+                                $resource = null;
+
+                        if($acl->isAllowed($role,$resource) ||
+                                        !$resource){
+                                $this->view->mybar = "<a href='".$this->view->url(array('controller'=>'atividades','action'=>'update', 'module'=>'programacao', 'id'=>$this->view->atividade->id))."'
+                                                title='Editar'
+                                                class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
+                                                <span class='ui-icon ui-icon-check'>Editar</span>Editar</a>";
+                        }
+
 			
 			/**	
 		// *** só é possível adicionar prazos quando a atividade ainda não foi concluida.

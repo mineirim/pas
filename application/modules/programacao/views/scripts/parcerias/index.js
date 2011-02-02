@@ -130,7 +130,7 @@ function Parcerias(){
         divparceria.load(myurl,
                 function()
                 {
-                     $(".formtabs").tabs({
+                     $(".make-tabs").tabs({
                         collapsible: true
                         });
    

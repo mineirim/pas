@@ -29,11 +29,12 @@ function ControleGeral(){
     };
     this.criaTabs = function()
     {
-        $("#formtabs").tabs({collapsible: true});
+        $("#formtabs").tabs({collapsible: false});
         enableTabs();
         $(".datepick").datepicker({
             dateformat:"dd-mm-yy"
         });
+
         $('.tooltip').tooltip();
     }
     /**
@@ -56,6 +57,29 @@ function ControleGeral(){
                 }
             }
         });
+        $(".make-tabs").each(function(){
+            if(!$(this).hasClass('ui-tabs')){
+                $(this).tabs({collapsible: false});
+            }
+
+            $(this).find("form").each( function(){
+                dep = $(this).children('input#dependents');
+                if(dep.length>0){
+                    tabs = dep[0].value.split(',')
+                    id = this.elements['id'].value
+                    if(id==""){
+                        for(i=0; i<tabs.length ;i++){
+                            tabs[i]=parseInt(tabs[i])
+                        }
+                        $("#formtabs").tabs('option', 'disabled', tabs);
+                    }else{
+                        $("#formtabs").tabs('option', 'disabled', []);
+                    }
+                }
+            });
+
+
+        })
     }
     /**
      *habilita a função de autoload de código javascript para tags especificadas

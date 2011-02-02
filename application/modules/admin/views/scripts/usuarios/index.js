@@ -166,8 +166,8 @@ function Usuarios(){
         $('#formulario_ajax').load("<?php echo $this->url(array('action'=>''));?>"+acao+"/id/"+id,
                 function()
                 {
-                     $(".formtabs").tabs({
-                        collapsible: true
+                     $(".make-tabs").tabs({
+                        collapsible: false
                         });
                 }
         ).dialog({

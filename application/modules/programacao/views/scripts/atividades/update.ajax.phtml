@@ -1,1 +1,64 @@
-<?php echo $this->form;
+<div class="make-tabs">
+    <ul>
+        <li><a href="#tabs-0">Atividade</a></li>
+    </ul>
+    <div id="tabs-0" style="overflow: hidden">
+        <form id='<?php echo $this->form->getId(); ?>'
+              enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('action' => 'update')); ?>?format=json'
+              method="post">
+            <?php echo $this->form->historico->atividade_id;?>
+            <?php echo $this->form->historico->responsavel_id;?>
+            ok - a data de início só poderá ser alterada se o andamento não estiver iniciado<br>
+            o prazo só poderá ser alterado se o percentual estiver abaixo de 100<br>
+            se existirem atividades dependentes, os novos prazos deverão ser pactuados com o responsavel<br>
+            quando chegar a 100% exigir data de conclusão e alterar a situação para concluída<br>
+            quando alterar a situação para concluida, alterar o percentual para 100% e exigir data de conclusão<br>
+
+            se o percentual estiver em 100 e sofrer alterações, solicitar justificativa e apagar a data de conclusão
+            
+            <table>
+                <tr>
+                    <td>
+                        <?php echo $this->form->historico->data_inicio;?>
+                    </td>
+                    <td>
+                        <?php echo $this->form->historico->data_prazo;?>
+                    </td>
+                    <td>
+                        <?php echo $this->form->historico->percentual;?>
+                        <?php echo $this->form->historico->data_conclusao;?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <?php echo $this->form->historico->andamento_id;?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <?php echo $this->form->historico->avaliacao;?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                     <?php
+                        echo $this->form->submit;
+                        echo $this->form->cancelar;
+                        ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        
+    </div>
+</div>
+
+<script>
+    $(function(){
+       if($("#andamento_id").val()==6){
+           $("#divpercentual").slider({ disabled: true });
+       }
+    });
+    
+</script>

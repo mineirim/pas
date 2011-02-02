@@ -5,7 +5,7 @@ function Programas(){
                $('#formulario_ajax').html('Aguarde...');
 
                 $('#formulario_ajax').load(href+'?format=html',function(){
-                    $("#formtabs").tabs({
+                    $(".make-tabs").tabs({
                         collapsible: true
 
                     });

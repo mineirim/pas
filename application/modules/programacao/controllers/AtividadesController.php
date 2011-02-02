@@ -45,16 +45,48 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
 	 * Utilizado para atualizações de data e andamento da atividade
 	 */
     public function updateAction() {
-        $form = new Programacao_Form_AtividadeAcompanhamento();
+        
         $model_atividadesHistorico = new Model_AtividadesHistorico();
         $model_atividadesVinculadas= new Model_AtividadesVinculadas();
         if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            $this->form = new Programacao_Form_AtividadeAcompanhamento($this->_request->getPost('atividade_id'));
+            if ($this->form->isValid($formData)) {
+                try {
+                    $dados = $this->form->getValue('historico');
+                    $andamento_id = $this->form->getValue('andamento_id');
+                    $model_atividadesHistorico = new Model_AtividadesHistorico();
+                    $newid = $model_atividadesHistorico->insert($dados);
 
+                    $atividade_historico = $model_atividadesHistorico->fetchRow('id=' . $newid);
+                    $this->view->response = array('dados' => $atividade_historico->toArray(),
+                                                'notice' => 'Dados atualizados com sucesso',
+                                                'descricao' => $atividade_historico->findParentRow('Model_Andamentos')->descricao,
+                                                'keepOpened' => true, 'refreshPage' => true);
+                } catch (Exception $e) {
+                    $this->getResponse()->setHttpResponseCode(501);
+                    $this->view->response = array('notice' => 'Erro ao gravar dados',
+                        'errormessage' => $e->getMessage());
+                }
+            } else {
+                $this->getResponse()->setHttpResponseCode(501);
+                $this->view->response = array('notice' => 'Erro ao gravar dados',
+                    'errormessage' => 'Formulário com dados inválidos',
+                    'errors' => $this->form->getErrors());
+            }
+            $this->render('save');
         }else{
         	$atividade_id = $this->_getParam('atividade_id');
-                $atividadeHistorico = $model_atividadesHistorico->fetchRow('situacao_id=1 and atividade_id='.$atividade_id);
-                $form->populate($atividadeHistorico->toArray());
-                $this->view->form = $form;
+                $atividadeHistorico = $model_atividadesHistorico->fetchCurrentRow($atividade_id);
+                if($atividadeHistorico){
+                    $form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
+                    $form->populate($atividadeHistorico->toArray());
+                    $this->view->form = $form;
+                }  else {
+                    $this->view->errorMessage = "Atividade não encontrada";
+                    $this->render('erro');
+                }
+                
         }
     }
 

@@ -46,10 +46,11 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 </table>
 <div style="height: 5px;width: 100%"></div>
 
-<div id="formtabs">
+<div class="make-tabs">
     <ul>
         <li><a href="#tabs-0">Lista</a></li>
         <li><a href="#tabs-1">Gantt</a></li>
+        <li><a href="#tabs-2">Indicadores</a></li>
     </ul>
     
     <div id="tabs-0" style="overflow: hidden">
@@ -92,6 +93,9 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
     </div>
     <div id="tabs-1" style="overflow: hidden">
         <div style="position:relative" class="gantt" id="GanttChartDIV"></div>
+    </div>
+    <div id="tabs-2" style="overflow: hidden">
+        Indicadores vinculados à meta
     </div>
 </div>
 

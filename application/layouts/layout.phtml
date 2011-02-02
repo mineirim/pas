@@ -51,6 +51,7 @@ if ( !$this->ckeditor ) {
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jqModal.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jquery.treeview.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/jsgantt.css' );?>
+    
 
 
 <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl();?>/css/print.css" media="print" />
@@ -112,11 +113,8 @@ echo $this->baseUrl ();
 	</div>
     <table width="100%" style="clear: both">
 	  <tr>
-	    <td style='min-width:200px;max-width:200px; min-height: 300px'>
-                <div style="margin-top: 5px; padding: 0;overflow:   hidden;">
-                <h3></h3>
-                    <div style="height: 100%">
-                        <!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
+	    <td style='min-width:200px;max-width:200px; min-height: 300px;width: 200px;'>
+                <div style="overflow:   hidden;height: 100%; width: 100%">
                         <table class="borda-arredondada">
                           <tr class="top">
                               <td class="tb-corner tb-corner-top-left" width="5px">
@@ -127,11 +125,10 @@ echo $this->baseUrl ();
                                </td>
                           </tr>
                           <tr class="tb-corner-side">
-                               <td class="tb-corner-side-left-menu titulos-miolo" colspan="2" height="400px" >
-                                    <div id='menu_tree' style="overflow-x: hidden;min-height: 280px; margin-top: 10px">
+                               <td class="tb-corner-side-left-menu titulos-miolo" colspan="2" height="400px" style="min-width: 170px;width: 180px" >
+                                   <div id='menu_tree' style="overflow-x: hidden;min-height: 280px; margin-top: 10px">
                                     </div>
                                </td>
-                        <!--FIM DA TABELA COM BORDAS ARREDONDADAS-->
                               <td class="tb-corner-side-right" ></td>
                           </tr>
                           <tr>
@@ -142,15 +139,10 @@ echo $this->baseUrl ();
                               <td class="tb-corner-botton-right"></td>
                           </tr>
                         </table>
-                    </div>
-
                 </div>
             </td>
             <td style='min-width:580px;width:90%'>
-                <div id="corpo" class="ui-widget ui-corner-all" style="float: left;width: 100%">
-                    <h3><?php echo $this->escape ( $this->title );?></h3>
-                    <div style="height: 100%">
-                        <!--INICIO DA TABELA COM BORDA ARREDONDADAS-->
+                <div id="corpo" style="width: 100%;height: 100%">
                         <table class="borda-arredondada">
                           <tr class="top">
                               <td class="tb-corner tb-corner-top-left" width="5px">
@@ -169,7 +161,6 @@ echo $this->baseUrl ();
                                     echo $this->layout ()->content;
                                     ?>
                                </td>
-                        <!--FIM DA TABELA COM BORDAS ARREDONDADAS-->
                               <td class="tb-corner-side-right" ></td>
                           </tr>
                           <tr>
@@ -180,13 +171,11 @@ echo $this->baseUrl ();
                               <td class="tb-corner-botton-right"></td>
                           </tr>
                         </table>
-                    </div>
                 </div>
             </td>
           </tr>
 	</table>
 	<div id='formulario_ajax'></div>
-	
 </body>
 
 </html>
