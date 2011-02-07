@@ -1,31 +1,58 @@
-<form id='<?php echo $this->form->getId() ;?>'
-        enctype='<?php echo $this->form->getEnctype();?>'
-        action='<?php echo $this->url(array('action'=>'create'));?>?format=json'
-        method="post">
+<form id='<?php echo $this->form->getId(); ?>'
+      enctype='<?php echo $this->form->getEnctype(); ?>'
+      action='<?php echo $this->url(array('action' => 'create')); ?>?format=json'
+      method="post">
     <div class="make-tabs" style="height:100%">
         <ul>
-                <li><a href="#tab-cadastro" >Cadastro</a></li>
-                <li><a href="#tab-permissao">Permissões</a></li>
+            <li><a href="#tab-cadastro" >Cadastro</a></li>
+            <li><a href="#tab-permissao">Permissões</a></li>
         </ul>
         <div id="tab-cadastro" style="overflow: hidden">
-            
-            <?php echo $this->form->usuario->username ;?>
-            <br>
-            <?php echo $this->form->usuario->password ;?>
-            <br>
-            <?php echo $this->form->usuario->nome; ?>
-            <br>
-            <?php echo $this->form->usuario->email; ?>
-            <br>
+            <table>
+                <tr>
+                    <td>
+                        <?php echo $this->form->usuario->username; ?>
+                        <br></td>
+                </tr><tr>
+                    <td>
+                        <?php echo $this->form->usuario->password; ?>
+                        <br></td>
+                </tr><tr>
+                    <td>
+                        <?php echo $this->form->usuario->nome; ?>
+                        <br></td>
+                </tr><tr>
+                    <td>
+                        <?php echo $this->form->usuario->email; ?>
+                        <br></td>
+                </tr><tr>
+                    <td>
+                        <?php echo $this->form->cargo->cargo_id; ?>
+                        <br></td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->setor->setor_id; ?>
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->setor->data_entrada; ?>
+                        <br>
+                    </td>
+                </tr>
+            </table>
+
         </div>
         <div id="tab-permissao" style="overflow: hidden">
             <br>
             <fieldset>
                 <legend>Grupos</legend>
                 <?php echo $this->form->grupos; ?>
-            </fieldset>
+                    </fieldset>
 
-        </div>
+                </div>
         <?php echo $this->form->submit; ?>
     </div>
 </form>

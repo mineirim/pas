@@ -23,19 +23,50 @@ ALTER TABLE setores OWNER TO postgres;
 
 
 
+drop table cargo_usuarios;
+drop table cargos;
 CREATE TABLE cargos
 (
   id serial NOT NULL,
   nome character varying(60) NOT NULL,
   descricao character varying(255),
+  situacao_id integer DEFAULT 1,
   created_at timestamp without time zone,
   updated_at timestamp without time zone,
-  CONSTRAINT cargos_pkey PRIMARY KEY (id)
+  CONSTRAINT cargos_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_situacaox FOREIGN KEY (situacao_id)
+      REFERENCES situacoes (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+;
+
+
+
+CREATE TABLE cargo_usuarios
+(
+  id serial NOT NULL,
+  cargo_id integer,
+  usuario_id integer,
+  data_inicio date NOT NULL,
+  data_final date,
+  observacoes character varying,
+  situacao_id integer default 1,
+  created_at timestamp without time zone,
+  updated_at timestamp without time zone,
+  CONSTRAINT cargo_usuarios_pkey PRIMARY KEY (id),
+  CONSTRAINT cargos_usuarios_usuario_id FOREIGN KEY (usuario_id)
+      REFERENCES usuarios (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_situacao FOREIGN KEY (situacao_id)
+      REFERENCES situacoes (id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_usuario_cargos_cargo_id FOREIGN KEY (cargo_id)
+      REFERENCES cargos (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE cargos OWNER TO postgres;
 
 CREATE TABLE setor_usuarios
 (
@@ -45,7 +76,7 @@ CREATE TABLE setor_usuarios
   data_entrada date NOT NULL,
   data_saida date,
   observacoes character varying,
-  situacao_id integer,
+  situacao_id integer default 1,
   created_at timestamp without time zone,
   updated_at timestamp without time zone,
   CONSTRAINT lotacao_usuarios_pkey PRIMARY KEY (id),
@@ -89,31 +120,3 @@ WITH (
   OIDS=FALSE
 );
 
-
-
-
-CREATE TABLE cargo_usuarios
-(
-  id serial NOT NULL,
-  cargo_id integer,
-  usuario_id integer,
-  data_inicio date NOT NULL,
-  data_final date,
-  observacoes character varying,
-  situacao_id integer,
-  created_at timestamp without time zone,
-  updated_at timestamp without time zone,
-  CONSTRAINT cargo_usuarios_pkey PRIMARY KEY (id),
-  CONSTRAINT cargos_usuarios_usuario_id FOREIGN KEY (usuario_id)
-      REFERENCES usuarios (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT fk_situacao FOREIGN KEY (situacao_id)
-      REFERENCES situacoes (id) MATCH SIMPLE
-      ON UPDATE RESTRICT ON DELETE RESTRICT,
-  CONSTRAINT fk_usuario_cargos_cargo_id FOREIGN KEY (cargo_id)
-      REFERENCES cargos (id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
-)
-WITH (
-  OIDS=FALSE
-);

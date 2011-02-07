@@ -1,0 +1,17 @@
+<div class="element<?php if($this->element->hasErrors()): ?> errors<?php endif; ?>">
+ 	<div style='clear:both; font-weight: bold; color: #000000;'>
+    	<?= $this->formLabel($this->element->getName(), $this->element->getLabel()) ?>
+ 	</div>
+    <?= $this->{$this->element->helper}($this->element->getName(), $this->element->getValue(), $this->element->getAttribs(), $this->element->getMultiOptions()) ?>
+ 
+    <?php if( $this->element->hasErrors() ): ?>
+ 
+        <div class="messages">
+ 
+            <?= $this->formErrors($this->element->getMessages()) ?>
+ 
+        </div>
+ 
+    <?php endif; ?>
+ 
+</div>

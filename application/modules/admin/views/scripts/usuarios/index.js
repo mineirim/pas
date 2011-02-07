@@ -169,12 +169,15 @@ function Usuarios(){
                      $(".make-tabs").tabs({
                         collapsible: false
                         });
+                    $(".datepick").datepicker(
+                    {dateformat:"dd-mm-yy"}
+                    );
                 }
         ).dialog({
             autoOpen: false,
             title: "Controle de Usuários",
-            height: 340,
-            width: 550,
+            height: 400,
+            width: 665,
             modal: true,
             close: function(ev, ui)
                     {

@@ -37,7 +37,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
     public function addAction() {
         $this->view->title = "Adicionar usuário";
         $this->view->headTitle($this->view->title, 'PREPEND');
-        $form = new Form_Usuario(null,'new');
+        $form = new Admin_Form_Usuario(null,'new');
         $form->submit->setLabel('Adicionar');
         $this->view->form = $form;
         
@@ -46,7 +46,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
  * @todo definir senha padrão para saudesp
  */
     public function createAction() {
-        $form = new Form_Usuario(null,'new');
+        $form = new Admin_Form_Usuario(null,'new');
         if ($this->getRequest()->isPost()) {
             $model_usuarios = new Model_Usuarios();
             $formData = $this->getRequest()->getPost();
@@ -55,6 +55,18 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                 $grupos = $form->getValue('grupos');
                 try{
                     $id = $model_usuarios->addUsuario($dados, $grupos);
+
+                    $model_setor_usuarios = new Model_SetorUsuarios();
+                    $setor_usuario = $form->getValue('setor');
+                    $setor_usuario['usuario_id']=$id;
+                    $model_setor_usuarios->insert($setor_usuario);
+
+                    $model_cargo_usuarios = new Model_CargoUsuarios();
+                    $cargo_usuario = $form->getValue('cargo');
+                    $cargo_usuario['usuario_id']=$id;
+                    $model_cargo_usuarios->insert($cargo_usuario);
+
+                    
                     $usuario = $model_usuarios->fetchRow('id=' . $id);
                     $this->view->response = array('dados' => $usuario->toArray(),
                         'notice' => 'Usuário inserido com sucesso',
@@ -83,7 +95,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
         }
     }
     public function updateAction() {
-        $form = new Form_Usuario();
+        $form = new Admin_Form_Usuario();
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
@@ -93,6 +105,17 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                 try {
                     $usuarios = new Model_Usuarios();
                     $usuarios->updateUsuario($dados, $grupos, 'id=' . $id);
+
+                    $model_setor_usuarios = new Model_SetorUsuarios();
+                    $setor_usuario = $form->getValue('setor');
+                    $setor_usuario['usuario_id']=$id;
+                    
+                    $model_setor_usuarios->insert($setor_usuario);
+                    
+                    $model_cargo_usuarios = new Model_CargoUsuarios();
+                    $cargo_usuario = $form->getValue('cargo');
+                    $cargo_usuario['usuario_id']=$id;
+                    $model_cargo_usuarios->insert($cargo_usuario);
                     $usuario = $usuarios->fetchRow('id=' . $id);
                     $this->view->response = array('dados' => $usuario->toArray(),
                         'notice' => 'Dados atualizados com sucesso',
@@ -125,7 +148,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
     public function editAction() {
         $this->view->title = "Editar usuário";
         $this->view->headTitle($this->view->title, 'PREPEND');
-        $form = new Form_Usuario();
+        $form = new Admin_Form_Usuario();
         $form->submit->setLabel('Salvar');
         $this->view->form = $form;
 
@@ -137,8 +160,21 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                 $valores [] = $p->grupo_id;
 
             $form->getElement('grupos')->setValue($valores);
+
             $model_usuarios = new Model_Usuarios();
+            
             $form->populate($model_usuarios->getUsuario($id));
+
+            $model_setor_usuarios = new Model_SetorUsuarios();
+            $setor = $model_setor_usuarios->fetchCurrentSetor($id);
+            if($setor)
+                $form->getSubForm('setor')->populate($setor->toArray());
+
+            $model_cargo_usuarios = new Model_CargoUsuarios();
+            $cargo = $model_cargo_usuarios->fetchCurrentCargo($id);
+            if($cargo)
+                $form->getSubForm('cargo')->populate($cargo->toArray());
+
         } else {
             $this->view->response = array('notice' => 'Usuário não localizado',
                 'errormessage' => "Informe um código de usuário para editar");
@@ -294,7 +330,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
         if ($this->_getParam('_search') == "true") {
             $filtros = Zend_Json::decode($this->_getParam('filters'), Zend_Json::TYPE_OBJECT);
             foreach ($filtros->rules as $regra) {
-                $where .= " " . $filtros->groupOp . " " . $regra->field . " like '%" . $regra->data . "%'";
+                $where .= " " . $filtros->groupOp . " " . $regra->field . " ilike '%" . $regra->data . "%'";
             }
         }
 

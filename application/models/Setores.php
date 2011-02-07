@@ -16,7 +16,7 @@ class Model_Setores extends App_DefaultModel {
 	
 	protected $_name = 'setores';
 	protected $_primary='id';
-	protected $_dependentTables = array('Model_Setores');
+	protected $_dependentTables = array('Model_Setores', 'Model_SetorUsuarios');
 	protected $_referenceMap = array (
 								'Setores' => array ( 'columns' => 'setor_id', 
 	                     							  'refTableClass' => 'Model_Setores', 

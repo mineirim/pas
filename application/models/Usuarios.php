@@ -2,7 +2,7 @@
 class Model_Usuarios extends App_DefaultModel
 {
 	protected $_name = 'public.usuarios';
-	protected $_dependentTables = array('Model_UsuariosGrupos','Model_Atividades' );
+	protected $_dependentTables = array('Model_UsuariosGrupos','Model_Atividades', 'Model_CargoUsuarios','Model_SetorUsuarios' );
 	private $password_md5;
 	private $salt;
 	protected $_rowClass = "Model_Row_Usuario";

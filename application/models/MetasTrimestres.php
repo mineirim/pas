@@ -3,7 +3,7 @@
 /**
  * MetasPrograma
  *  
- * @author PS00051
+ * @author Marcone Costa
  * @version 
  */
 
@@ -16,8 +16,8 @@ class Model_MetasTrimestres extends App_DefaultModel {
 	protected $_name = 'metas_trimestres';
 	protected $_referenceMap = array (
 	                     		'Metas' => array ( 'columns' => 'meta_id', 
-	                     							  'refTableClass' => 'Model_Metas', 
-	                     							  'refColumns' => 'id' ));	
+                                                          'refTableClass' => 'Model_Metas',
+                                                          'refColumns' => 'id' ));
 	
 	public function update($dados, $where){
 		$auth = Zend_Auth::getInstance();
