@@ -1,17 +1,17 @@
 <?php
 class App_Myacl extends Zend_Acl {
-	
+	protected $_context = array ();
 	private $_user = "guest";
 	private $_grupos = array();
 	private $_paginas;
 	public function __construct(Zend_Auth $auth) {
 		
 		
+		$assert = new App_Acl_Assert_Controllers();
 		/**
 		 * verifica se existe usuário autenticado e aplica as regras
 		 */
 		if($auth->getIdentity()){
-			
 			$users = new Model_Usuarios();
 			$this->_user = $users->fetchRow("id=".$auth->getIdentity()->id);
 			
@@ -81,7 +81,7 @@ class App_Myacl extends Zend_Acl {
 			
 			
 			$ac = strlen($pagina->acao)>0? $pagina->acao:null;
-			$this->allow ( $userrole, $pg, $ac);
+			$this->allow ( $userrole, $pg, $ac, $assert);
 			
 		
 			/**
@@ -99,14 +99,30 @@ class App_Myacl extends Zend_Acl {
 			$funcoes = $stmt->fetchAll();
 			foreach ($funcoes as $funcao){
 				$ac=strlen($funcao->funcao)>1 ? $funcao->funcao : null;
-				$this->allow ( $userrole, $pg, $ac);
-					
+				$this->allow ( $userrole, $pg, $ac, $assert);
 			}
 			
 			
 		}
 		
 	}
+	
+	public function setContextArray($context = array()) {
+		$this->_context = $context;
+	}
+	public function getContextArray() {
+		return $this->_context;
+	}
+	public function setContextValue($key, $value = null) {
+		$this->_context [$key] = $value;
+	}
+	public function getContextValue($key) {
+		if (isset ( $this->_context [$key] )) {
+			return $this->_context [$key];
+		} else {
+			throw new Zend_Acl_Exception ( 'Context value [' . $key . '] not set' );
+		}
+	}	
 	
 }
 

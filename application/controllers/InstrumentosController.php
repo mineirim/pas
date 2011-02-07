@@ -140,12 +140,30 @@ class InstrumentosController extends Zend_Controller_Action {
 			} else {
 				$role = 'guest';
 			}
+			
+			
+			$model_atividadesHistorico = new Model_AtividadesHistorico();
+        	$atividade_id = $this->_getParam('atividade_id');
+                $atividadeHistorico = $model_atividadesHistorico->fetchCurrentRow($atividade_id);
+                if($atividadeHistorico){
+                    $form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
+                    $form->populate($atividadeHistorico->toArray());
+                    $this->view->form = $form;
+                }  else {
+                    $this->view->errorMessage = "Atividade não encontrada";
+                    $this->render('erro');
+                }
+                			
+			
+			
+			
+//			$this->view->form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
 			$this->view->toolbar = "barr";
                         $resource = 'concluir';
                         if (! $acl->has ( $resource ))
                                 $resource = null;
 
-                        if($acl->isAllowed($role,$resource) ||
+                        if($acl->isAllowed($role,$resource,'edit') ||
                                         !$resource){
                                 $this->view->mybar = "<a href='".$this->view->url(array('controller'=>'atividades','action'=>'update', 'module'=>'programacao', 'id'=>$this->view->atividade->id))."'
                                                 title='Editar'

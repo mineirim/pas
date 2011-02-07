@@ -49,76 +49,73 @@
         <li><a href="#tabs-1" >Histórico</a></li>
         <li><a href="#tabs-2" >Dependências</a></li>
     </ul>
-    <div id="tabs-0" style="overflow: hidden" >
-        <table >
-            <tr>
-                <td colspan="2">
-<?php echo $this->mybar; ?>
-                </td>
-            </tr>
 
-            <tr >
-                <td>
-                    <span style="font-weight: bold"> Atividade:</span><br>
-                    <?php echo $this->atividade->id . " - " . $this->atividade->descricao ?>
-                </td>
-            </tr>
-            <tr >
-                <td>
-                    <span style="font-weight: bold">Responsável:</span>
-                    <?php echo $this->situacao_atual->findParentModel_Usuarios()->nome ?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table>
-                        <tr>
-                            <td>
-                                <span style="font-weight: bold">Data de Início:</span><br>
-                                <?php echo $this->situacao_atual->data_inicio() ?>
-                            </td>
-                            <td>
-                                <span style="font-weight: bold">Prazo:</span><br>
-                                <?php echo $this->situacao_atual->data_prazo(); ?>
-                            </td>
-                                <?php if ($this->situacao_atual->data_conclusao) {?>
-                                    
-                                    <td>
-                                        <span style="font-weight: bold">Conclusão:</span><br>
-                                        <?php echo $this->situacao_atual->data_conclusao(); ?>
-                                    </td>
-                                <?php } // if?>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td >
-                    <span style="font-size: 1.2em; font-weight: bold;">Situação Atual </span>
+     <div id="tabs-0" style="overflow: hidden">
+      <?php //echo $this->mybar; ?>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    
-                    <div id="pb-percentual" style="width: 200px;height: 16px">
-                        <span style="position:absolute; margin-left:10px; margin-top:2px; text-align: center;width: 200px">
-                            <?php echo $this->situacao_atual->percentual; ?>%
-                        </span>
-                    </div>
-                    <?php echo $this->situacao_atual->findParentModel_Andamentos()->descricao; ?>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span style="font-weight: bold">Descritivo da situação atual</span><br>
-                        <?php echo nl2br($this->situacao_atual->avaliacao); ?>
-                </td>
+      
+        <form id='<?php echo $this->form->getId(); ?>'
+              enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array('action' => 'update', 
+				'module' => 'programacao',
+				'controller' => 'atividades'));?>?format=json'
+              
+              method="post">
+            <?php echo $this->form->historico->atividade_id;?>
+            <?php echo $this->form->historico->responsavel_id;?>
+         <!--   ok - a data de início só poderá ser alterada se o andamento não estiver iniciado<br>
+            o prazo só poderá ser alterado se o percentual estiver abaixo de 100<br>
+            se existirem atividades dependentes, os novos prazos deverão ser pactuados com o responsavel<br>
+            quando chegar a 100% exigir data de conclusão e alterar a situação para concluída<br>
+            quando alterar a situação para concluida, alterar o percentual para 100% e exigir data de conclusão<br>
+
+            se o percentual estiver em 100 e sofrer alterações, solicitar justificativa e apagar a data de conclusão
+             --> 
+            <table style="width: 50%; clear: both;" border="2">
+            	<tr><td colspan="2">         <span style="font-weight: bold"> Atividade:</span><br>
+                    <?php echo $this->atividade->id . " - " . $this->atividade->descricao ?></td></tr>
+                <tr>
+                	
+                    <td>
+                        <?php echo $this->form->historico->data_inicio;?>
+                    </td>
+                    <td>
+                        <?php echo $this->form->historico->data_prazo;?>
+                    </td>
+                </tr>
+                <tr>
+                	<td colspan="2">                       
+                		<?php echo $this->form->historico->percentual;?>
+                	</td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->historico->andamento_id;?>
+                    </td>
+                	<td>
+                        <?php echo $this->form->historico->data_conclusao;?>
+					</td>                    
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->form->historico->avaliacao;?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                     <?php
+                        echo $this->form->submit;
+                        ?>
+                    </td>
                 </tr>
             </table>
-
-        </div>
-
+        </form>
+        
+    </div>
+ 
+ 
+ 
         <div id="tabs-1" style="overflow: hidden">
             <table border="2" width="50%">
                 <tr>
@@ -133,7 +130,7 @@
             ?>
                     <tr>
                         <td>
-<?php echo $atividade_historico->data_prazo(); ?>
+				<?php echo $atividade_historico->data_prazo(); ?>
                 </td>
                 <td><?php echo $atividade_historico->avaliacao; ?></td>
                     </tr>
@@ -196,18 +193,46 @@
     </div>
 
 </div>
+
 <script type="text/javascript">
     $(function(){
         atividade = new Atividade();
         atividade.init();
-    })
+        controleGeral.eventos_classes();
+        
+   })
+    
 
     function Atividade(){
         this.init = function(){
-            this.percentual();
-        }
-        this.percentual = function(){
-            $("#pb-percentual").progressbar({value: <?php echo $this->situacao_atual->percentual?$this->situacao_atual->percentual:0; ?> })
-        }
+            this.conclusao();
+        };
+
+        this.conclusao = function (){
+        	$("#divpercentual").slider({
+     		  		 change: function(event, ui) {
+	      					id = this.id.substr(3);
+	    					$("#"+id).val(ui.value);
+         		   			if (parseInt(ui.value) == 100)
+         		   			{
+             		   			$("#andamento_id").val(6);
+             		   			$("#data_conclusao").focus();
+         		   			}
+             		   			
+						 }
+     		});
+    		$('#andamento_id').change( function() {
+        			var valor = parseInt($(this).val());
+					if (valor == 6) {
+						$("#divpercentual").slider({ value: 100 });
+						$("#data_conclusao").focus();
+					} else if (valor == 6){
+						$("#data_conclusao").focus();
+					}
+    		});
+    		
+        };
+		
+        
     }
 </script>

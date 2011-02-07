@@ -12,6 +12,7 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                 ->addActionContext('delete', array('html', 'json', 'xml'))
                 ->addActionContext('get', array('html', 'json', 'xml'))
                 ->addActionContext('save', array('html', 'json', 'xml'))
+                ->addActionContext('mudapeso', array('html', 'json', 'xml'))
                 ->initContext();
         if ($this->_request->isXmlHttpRequest())
             $this->_helper->layout()->disableLayout();
@@ -219,5 +220,40 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
         }
     }
 
+    
+    /**
+     * 
+     * usada para gravar peso diretamente da tela de operacao
+     */
+    
+    public function mudapesoAction() {
+		
+		$model_atividades = new Model_Atividades ();
+		if ($this->getRequest ()->isPost ()) {
+			try {
+				$dados = array ('peso' => $this->_getParam ( 'peso' ) );
+				$id = $this->_getParam ( 'id' );
+
+				$model_atividades->update ( $dados, 'id = ' . $id );
+				
+				$atividade = $model_atividades->fetchRow ( 'id = ' . $id );
+				
+				$this->view->response = array ('dados' => $atividade->toArray (), 
+											   'notice' => 'Dados atualizados com sucesso', 
+											   'descricao' => $atividade->descricao, 
+											   'keepOpened' => true, 
+											   'refreshPage' => true );
+			} catch ( Exception $e ) {
+				$this->getResponse ()->setHttpResponseCode ( 501 );
+				$this->view->response = array ('notice' => 'Erro ao gravar dados', 'errormessage' => $e->getMessage () );
+			}
+		} else {
+			$this->getResponse ()->setHttpResponseCode ( 501 );
+			$this->view->response = array ('notice' => 'Erro ao gravar dados', 'errormessage' => 'Formulário com dados inválidos', 'errors' => $this->form->getErrors () );
+		}
+	
+	}
+    
+    
 }
 

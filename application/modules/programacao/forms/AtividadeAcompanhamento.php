@@ -19,12 +19,19 @@ class Programacao_Form_AtividadeAcompanhamento extends Zend_Form {
         $translate = Zend_Registry::get('translate');
         $this->setTranslator($translate);
         $this->setName('frmatividade');
+        
 
         $this->frmHistorico = new Zend_Form_SubForm('frmHistorico');
         $this->frmVinculo = new Zend_Form_SubForm('frmVinculo');
 
         $atividade_id = new Zend_Form_Element_Hidden('atividade_id');
+        $atividade_id->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formtext.phtml')))
+                    );
         $responsavel_id = new Zend_Form_Element_Hidden('responsavel_id');
+        $atividade_id->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formtext.phtml')))
+                    );
 
         $dateValidator = new Zend_Validate_Date();
 
@@ -64,7 +71,10 @@ class Programacao_Form_AtividadeAcompanhamento extends Zend_Form {
 
         $andamento_id = new Zend_Form_Element_Select('andamento_id');
         $andamento_id->setLabel('Andamento')
-                ->setRequired(true);
+                ->setRequired(true)
+                ->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formselect.phtml')))
+                    );
 
         $avaliacao = new Zend_Form_Element_Textarea('avaliacao');
         $avaliacao->setLabel('Avaliação do andamento')
@@ -73,7 +83,10 @@ class Programacao_Form_AtividadeAcompanhamento extends Zend_Form {
                 ->addFilter('StringTrim')
                 ->addValidator('NotEmpty')
                 ->setAttrib('rows', 4)
-                ->setAttrib('cols', 60);
+                ->setAttrib('cols', 60)
+                ->setDecorators(
+                        array(array('ViewScript', array('viewScript' => '_formtext.phtml')))
+                    );
 
         $percentual = new Zend_Form_Element_Text('percentual');
     	$percentual->setAttrib('size',2)

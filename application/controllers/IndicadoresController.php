@@ -20,6 +20,7 @@ class IndicadoresController extends Zend_Controller_Action
     public function init()
     {
         $ajaxContext = $this->_helper->ajaxContext;
+        $ajaxContext->addContext('js', array('suffix' => 'js'));        
         $ajaxContext->addActionContext('localizar', 'json')
                 	->addActionContext('add',array('json','xml'))
                 	->addActionContext('addObjetivo',array('json','xml'))

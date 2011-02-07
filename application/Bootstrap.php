@@ -115,6 +115,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
 
       }
      */
+    
+	public function _initAclAssertRules() {
+		$auth = Zend_Auth::getInstance ();
+		$mysession = new Zend_Session_Namespace ( 'mysession' );
+		if ($auth->hasIdentity() && !isset($mysession->aclAssetRules)) {
+			$aclAssetRules = new Model_AclAssertRules($auth);
+			$mysession->aclAssetRules = $aclAssetRules;
+		}
+		$aclAssetRules = $mysession->aclAssetRules;
+		Zend_Registry::set('aclAssetRules',$aclAssetRules);
+	
+		
+		
+	}    
 
     protected function _initMenu() {
 

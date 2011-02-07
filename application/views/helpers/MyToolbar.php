@@ -60,7 +60,6 @@ class Zend_View_Helper_MyToolbar {
 			}
 		}				
 			
-		
 		if($this->acl->isAllowed($this->role,$resource,'editar') ||
 					!$resource ){ 
 

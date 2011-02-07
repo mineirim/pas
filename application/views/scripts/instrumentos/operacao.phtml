@@ -89,8 +89,8 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 					<td >
 						<?php echo $historico->findParentModel_Andamentos()->descricao;?>				
 					</td>
-					<td >
-						<?php echo $atividade->peso;?>
+					<td nowrap="nowrap">
+						<?php echo $this->mudaPeso('atividades' , $atividade->id, $atividade->peso );?>						
 					</td>
 					<td>
 						<div id="progbar-<?php echo $atividade->id;?>" style="height:10px; " class="execucao"></div>
@@ -103,4 +103,69 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 				}?>
 			</tbody>
 		</table>
+		<div id="mensagem-peso"></div>
+
+		
+	<script>
+	$(function() {
+		$( ".slider-peso" ).slider({ animate: true });
+		$(".slider-peso").each(function(){
+			var input = $(this).children('input');
+			var peso =  input.val();
+			var atividade_id = input.attr("id");
+			$(this).slider({value: peso,
+							change: function( event, ui ) {
+								gravaPeso(ui.value, atividade_id)
+								verificaPesos();
+								},
+							slide: function( event, ui ) {
+									$("#"+atividade_id).val(ui.value);
+								}
+			});
+			verificaPesos();
+										
+		});
+
+	});
+
+	function verificaPesos(){
+		var soma = parseInt(0);
+		$(".slider-peso").each(function(){
+			var input = $(this).children('input');
+			var peso =  input.val();		
+			soma = soma + parseInt(peso);
+			$mensagem = (parseInt(soma) > parseInt(100))?"A soma dos pesos é maior do que 100":"";
+			$("#mensagem-peso").html($mensagem);
+		});
+
+	}
+	function gravaPeso(peso, id){
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo $this->url(array('action' => 'mudapeso', 
+				'module' => 'programacao',
+				'controller' => 'atividades')); ?>?format=json",
+			      data: ({id   : id,
+			      	      peso : peso}),
+            success: function(data, status,xhr){
+                //Mensageiro.onSuccess(data);
+            } ,
+            complete:function(XMLHttpRequest, textStatus){
+                if(textStatus=='success'){
+                   // Mensageiro.onComplete(XMLHttpRequest)
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+            }
+
+        });
+        return false;
+
+	}
 	
+	</script>
+
+		
+		

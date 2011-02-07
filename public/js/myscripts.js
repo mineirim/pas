@@ -19,6 +19,10 @@ function ControleGeral(){
         this.cliques();
         this.percentual_execucao();
     };
+    
+    this.eventos_classes = function(){
+    	eventos_classes();
+    }
 
     this.criaMenuTree = function()
     {
@@ -143,7 +147,7 @@ function ControleGeral(){
                 return false;
             }
         );
-        // responsável por enviar formulários com através do clique do botão com a classe 'by-ajax'
+        // responsável por enviar formulários através do clique do botão com a classe 'by-ajax'
         $("input.by-ajax").live('click',function(e){
         	frm = $(this).parents('form');
             url=$(this).parents('form').attr('action');
@@ -324,7 +328,7 @@ function showResponse(responseText, statusText,formulario)
         options = {
             params : 'format=xml',
             success: updateId
-        }
+        };
         //formulario.ajaxSubmit(options)
         formulario.submit();
     }

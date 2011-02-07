@@ -1,0 +1,18 @@
+<div class="element<?php if($this->element->hasErrors()): ?> errors<?php endif; ?>" style="clear:both">
+    <div style='clear:both; font-weight: bold; color: #000000;'>
+        <?php echo $this->formLabel($this->element->getName(), $this->element->getLabel()) ?>
+    </div>
+    <div id='div<?php echo $this->element->getName()?>' class="div_slider"></div>
+    <?= $this->{$this->element->helper}($this->element->getName(), $this->element->getValue(), $this->element->getAttribs()) ?>
+
+    <?php if( $this->element->hasErrors() ): ?>
+
+        <div class="messages">
+
+            <?= $this->formErrors($this->element->getMessages()) ?>
+
+        </div>
+
+    <?php endif; ?>
+
+</div>
