@@ -1,3 +1,25 @@
+<?php 
+		$mysession = new Zend_Session_Namespace ( 'mysession' );
+		$acl = $mysession->acl;
+		$auth = Zend_Auth::getInstance ();
+		if ($auth->hasIdentity ()) {
+			$role = $auth->getIdentity ()->username;
+		} else {
+			$role = 'guest';
+		}
+		$resource = 'programacao:atividades';
+		
+		if (! $acl->has ( $resource ))
+			$resource = null;
+		
+		$this->res = $resource;
+		
+		if ($role == 'guest' && ! $acl->hasRole ( 'guest' ))
+			$acl->addRole ( 'guest' );
+
+?>
+
+
 
 <table class="tb-cabecalho">
     <?php echo $this->partial('instrumentos/cabecalho.phtml',
@@ -51,66 +73,11 @@
     </ul>
 
      <div id="tabs-0" style="overflow: hidden">
-      <?php //echo $this->mybar; ?>
-
+      <?php // var_dump($this->form->historico); ?>
       
-        <form id='<?php echo $this->form->getId(); ?>'
-              enctype='<?php echo $this->form->getEnctype(); ?>'
-              action='<?php echo $this->url(array('action' => 'update', 
-				'module' => 'programacao',
-				'controller' => 'atividades'));?>?format=json'
-              
-              method="post">
-            <?php echo $this->form->historico->atividade_id;?>
-            <?php echo $this->form->historico->responsavel_id;?>
-         <!--   ok - a data de início só poderá ser alterada se o andamento não estiver iniciado<br>
-            o prazo só poderá ser alterado se o percentual estiver abaixo de 100<br>
-            se existirem atividades dependentes, os novos prazos deverão ser pactuados com o responsavel<br>
-            quando chegar a 100% exigir data de conclusão e alterar a situação para concluída<br>
-            quando alterar a situação para concluida, alterar o percentual para 100% e exigir data de conclusão<br>
+      
 
-            se o percentual estiver em 100 e sofrer alterações, solicitar justificativa e apagar a data de conclusão
-             --> 
-            <table style="width: 50%; clear: both;" border="2">
-            	<tr><td colspan="2">         <span style="font-weight: bold"> Atividade:</span><br>
-                    <?php echo $this->atividade->id . " - " . $this->atividade->descricao ?></td></tr>
-                <tr>
-                	
-                    <td>
-                        <?php echo $this->form->historico->data_inicio;?>
-                    </td>
-                    <td>
-                        <?php echo $this->form->historico->data_prazo;?>
-                    </td>
-                </tr>
-                <tr>
-                	<td colspan="2">                       
-                		<?php echo $this->form->historico->percentual;?>
-                	</td>
-
-                </tr>
-                <tr>
-                    <td>
-                        <?php echo $this->form->historico->andamento_id;?>
-                    </td>
-                	<td>
-                        <?php echo $this->form->historico->data_conclusao;?>
-					</td>                    
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <?php echo $this->form->historico->avaliacao;?>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                     <?php
-                        echo $this->form->submit;
-                        ?>
-                    </td>
-                </tr>
-            </table>
-        </form>
+	<?php echo $this->Atividades('programacao:atividades',$this->form);?>      
         
     </div>
  
@@ -141,6 +108,21 @@
         </div>
 
         <div id="tabs-2" style="overflow: hidden">
+        	<div style="display: inline-table; margin-bottom: 1em;">
+        	
+        	
+        	
+			<?php 
+			// *** só é possível adicionar vinculações quando a atividade ainda não foi concluida.
+                if(!$this->situacao_atual->data_conclusao) {
+			 
+					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id, 'module'=>'programacao'))."'
+									title='Novo' 
+									class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
+									<span class='ui-icon ui-icon-plus'>Adicionar Vinculação</span>Adicionar Vinculo</a>";
+							
+			}?>							        
+			</div>
             <table border="2">
                 <tr>
                     <td colspan="2"><b>VINCULAÇÕES</b></td>
@@ -156,7 +138,7 @@
             ?>
                     <tr>
                         <td><a title='<?php echo $atividadesvinculadas->depende_atividade_id . " - " . $vinculacao->descricao; ?>' href='<?php echo $this->url(array('controller' => 'instrumentos', 'action' => 'atividade', 'atividade_id' => $atividadesvinculadas->depende_atividade_id)); ?>'><?php echo $atividadesvinculadas->depende_atividade_id; ?></a></td>
-                        <td><?php echo $atividadesvinculadas->observacoes; ?></td>
+                        <td><?php echo $atividadesvinculadas->justificativa; ?></td>
                         <td>
                     <?php
                     // verificando se usuário pode excluir prazo.
@@ -167,26 +149,16 @@
                     if ($acl->isAllowed($role, $resource) ||
                             !$resource) {
 
-                        echo "<a href='" . $this->url(array('controller' => 'atividades', 'action' => 'deletevinculacao', 'id' => $atividadesvinculadas->id)) . "'
+                        echo "<a href='" . $this->url(array('controller' => 'atividades', 'action' => 'deletevinculacao', 'id' => $atividadesvinculadas->id, 'module' => 'programacao')) . "'
 								title='Excluir Vinculação' 
-								class='my-button ui-state-default ui-corner-all'>
+								class='my-button ui-state-default ui-corner-all ajax-form-load'>
 								<span class='ui-icon ui-icon-trash'>Excluir Vinculação</span></a>";
                     } // if do acl.
                     ?>
                 </td>
             </tr>
             <?php
-                } // foreach
-                // *** só é possível adicionar vinculações quando a atividade ainda não foi concluida.
-                if (!$this->situacao_atual->data_conclusao) {
-            ?>
-                    <tr>
-                        <td colspan="2">
-                    <?php ?>
-                </td>
-            </tr>
-            <?php
-                } // if
+                }; // foreach
             ?>
         </table>
 

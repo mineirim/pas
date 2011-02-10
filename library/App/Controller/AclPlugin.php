@@ -32,15 +32,15 @@ class App_Controller_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$controller = $request->controller;
 		$action = $request->action;
 		$module = $request->module;
-		$resource = $controller;
+		$resource = ($module == 'default')?
+					 $controller:
+					 $module.":".$controller;
 		$params = $request->getParams ();
-		
 		$this->_acl->setContextArray($params);
-
 		
-		if (! $this->_acl->has ( $module.':'.$resource )) {
+		if (! $this->_acl->has ( $resource )) {
 			$resource = null;
-		} elseif (! $this->_acl->isAllowed ( $role, $module.':'.$resource, $action )) {
+		} elseif (! $this->_acl->isAllowed ( $role, $resource, $action )) {
 			if (! $this->_auth->hasIdentity ()) {
 				/**
 				 * armazena o destino original
@@ -65,7 +65,6 @@ class App_Controller_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$request->setModuleName ( $module );
 		$request->setControllerName ( $controller );
 		$request->setActionName ( $action );
-	
 	}
 
 	

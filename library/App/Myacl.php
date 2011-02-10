@@ -11,6 +11,8 @@ class App_Myacl extends Zend_Acl {
 		/**
 		 * verifica se existe usuário autenticado e aplica as regras
 		 */
+		
+		
 		if($auth->getIdentity()){
 			$users = new Model_Usuarios();
 			$this->_user = $users->fetchRow("id=".$auth->getIdentity()->id);
@@ -58,9 +60,6 @@ class App_Myacl extends Zend_Acl {
 			
 		
 		
-		
-		
-		
 		$select = $db->select()->distinct();
 		
 		$select->from(array('gp'=> 'grupos_permissoes'), array('pagina_id'))
@@ -73,7 +72,6 @@ class App_Myacl extends Zend_Acl {
 	    
 	    $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
 		$paginas = $stmt->fetchAll();
-		
 		
 		foreach($paginas as $pagina){
 			
@@ -123,6 +121,14 @@ class App_Myacl extends Zend_Acl {
 			throw new Zend_Acl_Exception ( 'Context value [' . $key . '] not set' );
 		}
 	}	
+	
+	public function issetContextValue($key) {
+		if (isset ( $this->_context [$key] )) {
+			return true;
+		} else {
+			return false;
+		}
+	}		
 	
 }
 

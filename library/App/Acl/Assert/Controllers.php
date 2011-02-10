@@ -42,6 +42,7 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 		}
 		
 		
+	
 		// if role is publisher, he can always modify a post
 		
 
@@ -53,14 +54,15 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 		 * se é administrador pode tudo 
 		 */
 
+		
 		$this->_auth = Zend_Auth::getInstance ();
-		$this->_acl = Zend_Registry::get ( 'acl' );
+		$this->_acl = $acl;
 		$this->_aclassertrules = Zend_Registry::get ( 'aclAssetRules' );
 		
 		if (! $this->_auth->hasIdentity ()) {
 			return false;
 		}
-		return $this->verificaPermissoes();
+		return $this->verificaPermissoes($resource);
 	}
 	/**
 	 * 
@@ -74,32 +76,23 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 	 * 6 - atividade
 	 */
 	
-	public function verificaPermissoes() 
+	public function verificaPermissoes($resource = NULL) 
 	{
-		$controller = $this->_acl->getContextValue('action');
-		$return = false;
-		switch ($controller) {
-			case 'programa' :
-				$return = $this->verificaPermissao(null,'programa');
-				break;
-			case 'projeto' :
-				$return = $this->verificaPermissao(null,'projeto');
-				break;
-			case 'objetivo-especifico' :
-				$return = $this->verificaPermissao(null,'objetivo-especifico');
-				break;				
-			case 'meta' :
-				$return = $this->verificaPermissao(null,'meta');
-				break;				
-			case 'operacao' :
-				$return = $this->verificaPermissao(null,'operacao');
-				break;
-			case 'atividade' :
-				$return = $this->verificaAtividade();
-				break;				
-			default :
+		if ($this->_acl->getContextValue('controller') == 'instrumentos') {
+			$resource = $this->_acl->getContextValue('action');
+			if ($resource == 'index'):
 				return false;
-				break;
+			else:
+				$id = $this->_acl->getContextValue(str_replace('-','_',$resource).'_id');
+				if ($resource == 'atividade'):
+					$return = $this->verificaAtividade($id,$resource);
+				else:
+					$return = $this->verificaPermissao($id,$resource);	
+				endif;
+			
+			endif;
+		} else {
+			$return =  true;
 		}
 		return $return;
 	}
@@ -110,7 +103,7 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 	 */
 	
 	public function verificaPermissao($id=null, $contexto) {
-		$nivel_id = (!$id)?$this->_acl->getContextValue(str_replace('-','_',$contexto).'_id'):$id;
+		$nivel_id = $id;
 		$modelo = $this->_contextos[$contexto]['modelo'];
 		eval("\$niveis = new Model_$modelo();");
 		$nivel = $niveis->fetchRow("id =  $nivel_id");
@@ -123,6 +116,7 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 		}
 
 		if ($contexto !== 'meta'){
+		
 			if ($this->_aclassertrules->_chefe)
 				if (isset($this->_aclassertrules->_chefe[$nivel->setor_id]) && $this->_aclassertrules->_chefe[$nivel->setor_id] == $this->_auth->getIdentity()->id)
 					return true;
@@ -145,21 +139,22 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 	
 	
 	/**
-	 * verifica se é dono da Atividade
+	 * Verifica se é dono da Atividade
 	 * @return boolean
 	 */	
 	public function verificaAtividade($id=null) {
-		$atividade_id = (!$id)?$this->_acl->getContextValue('atividade_id'):$id;
-		$atividades = new Model_Atividades();
-		$atividade = $atividades->fetchRow("id =  $atividade");
-		$atividadeHistorico = $atividade->findDependentRowset( 'Model_AtividadesHistorico' );
-		echo "passou aki";exit;
-		if ($atividadeHistorico->responsavel_id == $this->_auth->getIdentity()->id)
+
+		$atividade = new Model_AtividadesHistorico();
+		$atividadeHistorico = $atividade->fetchCurrentRow ( $id);
+		return true;
+		if (!$atividadeHistorico)
+			return false;
+		if ($atividadeHistorico->id == $this->_auth->getIdentity()->id)
 			return true;
 		else
 			return false;		
 	}	
-	
+
 
 
 }

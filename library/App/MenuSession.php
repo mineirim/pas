@@ -62,7 +62,7 @@ class App_MenuSession {
 							'title' => 'Plano',
 							'module' => 'default',
 							'controller' => 'instrumentos',
-							'action' => 'programas',
+							'action' => 'index',
 							'class'=>'bt-menu-tree'
 						);
 					

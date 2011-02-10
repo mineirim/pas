@@ -39,7 +39,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 
         <tr style="border-bottom: thin solid black" class="odd">
              <td colspan="2">
-             <?php echo $this->myToolbar('metas','top',$this->meta->id);?>
+             <?php echo $this->myToolbar('programacao:metas','top',$this->meta->id);?>
              </td>
         </tr>
 
@@ -62,7 +62,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                     <tr class=" ui-state-hover">
                             <td class="subtitulos-tabela">Descrição</td>
                             <td class="subtitulos-tabela" width="50px;"></td>
-                            <td width="4px"><?php echo $this->myToolbar('operacoes','toptable');?></td>
+                            <td width="4px"><?php echo $this->myToolbar('programacao:operacoes','toptable');?></td>
                     </tr>
                 </thead>
                 <tbody class="ui-widget">
@@ -82,7 +82,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                                 <div id="progbar-<?php echo $operacao->id;?>" style="height:10px; " class="execucao"></div>
                             </td>
                             <td class="texto">
-                                <?php echo $this->myToolbar ( 'operacoes' , 'line', $operacao->id  );?>
+                                <?php echo $this->myToolbar ( 'programacao:operacoes' , 'line', $operacao->id  );?>
                             </td>
                     </tr>
                     <?php

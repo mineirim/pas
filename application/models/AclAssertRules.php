@@ -76,6 +76,7 @@ class Model_AclAssertRules extends Zend_Db_Table_Abstract {
 				$stmt = $this->_db->query ( $select );
 				$stmt->setFetchMode ( Zend_Db::FETCH_OBJ );
 				$chefia = $stmt->fetch ();
+				$aux = array();
 				if ($chefia) {
 					if ($chefia->usuario_id == $this->_auth->getIdentity ()->id)
 						$this->_chefe = array($setor=> $chefia->usuario_id);

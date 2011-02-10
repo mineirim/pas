@@ -52,11 +52,12 @@ class Zend_View_Helper_MudaPeso {
 		if($this->acl->isAllowed($this->role,$resource,'editar') ||
 					!$resource ){ 
 
-			$barrapeso = "<div class=\"slider-peso\">
-							<input type=\"text\" value=\"$peso\" id=\"$id\"/>
-						</div>";
+						
+			$barrapeso = "<div class=\"slider-peso\" style=\"clear:both;\"></div>
+						<input type=\"text\" value=\"$peso\" id=\"$id\"/ style=\"width:100%;\" class=\"text ui-widget-content ui-corner-all\">";
 						
 		}
+		
 		return $barrapeso;
 	}
 }

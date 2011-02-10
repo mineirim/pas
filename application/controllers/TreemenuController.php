@@ -15,11 +15,11 @@ class TreemenuController extends Zend_Controller_Action {
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
         $menus = array();
+        $acl = new Zend_Session_Namespace( 'mysession' );
         $mysession = new Zend_Session_Namespace('menu');
         
-        if (!isset($mysession->treemenu)) {
-
-            $mysession->treemenu = array(array('data' => 'Administração', 'state' => 'closed',
+        $admin = ($acl->acl->has('admin'))?
+        		array('data' => 'Administração', 'state' => 'closed',
                     "attr" => array("id" => "li-admin"),
                     "children" => array(
                         array('data' => array('title' => "Alterar Senha",
@@ -27,14 +27,23 @@ class TreemenuController extends Zend_Controller_Action {
                         )),
                         array('data' => array('title' => "Usuários",
                             "attr" => array("href" => $this->_helper->url('index', 'usuarios','admin')))),
-                        array('data' => array('title' => "Grupos",
-                            "attr" => array("href" => $this->_helper->url('index', 'grupos','admin')))),
+                  //      array('data' => array('title' => "Grupos",
+                  //          "attr" => array("href" => $this->_helper->url('index', 'grupos','admin')))),
                         array('data' => array('title' => "Cargos",
                             "attr" => array("href" => $this->_helper->url('index', 'cargos','admin')))),
                         array('data' => array('title' => "Setores",
                             "attr" => array("href" => $this->_helper->url('index', 'setores','admin'))))
                     )
-                ),
+                    
+                )
+                :array();        
+                
+        
+        
+        if (!isset($mysession->treemenu)) {
+        	
+            $mysession->treemenu = array(
+            	$admin,
                 array(
                     "attr" => array("id" => "plano-root"),
                     "state" => "closed",
@@ -59,8 +68,10 @@ class TreemenuController extends Zend_Controller_Action {
                     )
                 )
             );
+            
         }
-
+        
+        
         echo $this->_helper->json($mysession->treemenu);
     }
 

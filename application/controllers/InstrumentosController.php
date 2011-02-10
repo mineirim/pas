@@ -118,6 +118,7 @@ class InstrumentosController extends Zend_Controller_Action {
 		$model_atividadesvinculadas = new Model_AtividadesVinculadas ();
 		if ($this->_hasParam ( 'atividade_id' )) {
 			$atividade_id = $this->_getParam ( 'atividade_id', 0 );
+			$this->view->atividades			= $model_atividades;
 			$this->view->atividade 			= $model_atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
 			$this->view->atividade_historico= $model_atividades_historico->fetchAll ( 'atividade_id=' . $atividade_id, 'id ASC' );
 			$this->view->atividadevinculada = $model_atividadesvinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade_id, 'id ASC' );
@@ -132,7 +133,7 @@ class InstrumentosController extends Zend_Controller_Action {
 			$this->view->tableheader 		= 'Atividades';
 			$this->view->resource 			= "atividades";
 
-			$mysession = new Zend_Session_Namespace ( 'mysession' );
+/*		$mysession = new Zend_Session_Namespace ( 'mysession' );
 			$acl = $mysession->acl;
 			$auth = Zend_Auth::getInstance();
 			if ($auth->hasIdentity ()) {
@@ -141,24 +142,23 @@ class InstrumentosController extends Zend_Controller_Action {
 				$role = 'guest';
 			}
 			
-			
+*/
 			$model_atividadesHistorico = new Model_AtividadesHistorico();
-        	$atividade_id = $this->_getParam('atividade_id');
-                $atividadeHistorico = $model_atividadesHistorico->fetchCurrentRow($atividade_id);
-                if($atividadeHistorico){
-                    $form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
-                    $form->populate($atividadeHistorico->toArray());
-                    $this->view->form = $form;
-                }  else {
-                    $this->view->errorMessage = "Atividade não encontrada";
-                    $this->render('erro');
-                }
+            $atividadeHistorico = $model_atividadesHistorico->fetchCurrentRow($atividade_id);
+            if($atividadeHistorico){
+	            $form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
+	            $form->populate($atividadeHistorico->toArray());
+	            $this->view->form = $form;
+            }  else {
+	            $this->view->errorMessage = "Atividade não encontrada";
+	            $this->render('erro');
+            }
                 			
 			
 			
 			
 //			$this->view->form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
-			$this->view->toolbar = "barr";
+/*			$this->view->toolbar = "barr";
                         $resource = 'concluir';
                         if (! $acl->has ( $resource ))
                                 $resource = null;
@@ -171,7 +171,7 @@ class InstrumentosController extends Zend_Controller_Action {
                                                 <span class='ui-icon ui-icon-check'>Editar</span>Editar</a>";
                         }
 
-			
+	*/		
 			/**	
 		// *** só é possível adicionar prazos quando a atividade ainda não foi concluida.
 			if (!$this->situacao_atual->data_conclusao){

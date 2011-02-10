@@ -10,7 +10,10 @@ class Programacao_Form_Delete extends Zend_Form
             $id = new Zend_Form_Element_Hidden('id');
 
             $submit = new Zend_Form_Element_Submit('submit');
-            $submit->setAttrib('class', 'by-ajax')->setLabel('Confirmar')->setAttrib('id', 'submitbutton');
+            $submit->setAttrib('class', 'by-ajax')
+            	   ->setLabel('Confirmar')
+            	   ->setAttrib('id', 'submitbutton');
+            	   
             $close = new Zend_Form_Element_Button('dialog_close');
             $close->setAttrib('class', 'dialog-form-close')
                     ->setLabel('Cancelar')

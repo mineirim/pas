@@ -11,7 +11,7 @@ require_once 'Zend/View/Interface.php';
  * 
  * @uses viewHelper Zend_View_Helper
  */
-class Zend_View_Helper_MyToolbar {
+class Zend_View_Helper_MyToolbar{
 	
 	/**
 	 * @var Zend_View_Interface 
@@ -25,18 +25,24 @@ class Zend_View_Helper_MyToolbar {
 	 * @return String $toolbar
 	 */
 	public function myToolbar($controller='programas', $type='top', $id = false) {
-		$this->_controller = $controller;
+		$this->_controller = substr($controller,strpos($controller, ":")+1);
 		$this->_id = $id;
 		$toolbar = ""; 
 		$mysession = new Zend_Session_Namespace ( 'mysession' );
 		$this->acl = $mysession->acl;
 		$auth = Zend_Auth::getInstance();
+		
+		if ($id) 
+			$this->acl->setContextValue('id', $id);
+		
+		
 		if ($auth->hasIdentity ()) {
 			$this->role = $auth->getIdentity ()->username;
 		} else {
 			$this->role = 'guest';
 		}
 		$resource = $controller;
+		
 		if (! $this->acl->has ( $resource )) 
 			$resource = null;
 		
@@ -59,7 +65,8 @@ class Zend_View_Helper_MyToolbar {
                             }
 			}
 		}				
-			
+
+		$a = new Zend_Acl();
 		if($this->acl->isAllowed($this->role,$resource,'editar') ||
 					!$resource ){ 
 
@@ -69,7 +76,10 @@ class Zend_View_Helper_MyToolbar {
 			}
 			elseif($type=='toptable')
 			{
-				$toolbar = $this->getTopTableBar();
+//				if($this->acl->isAllowed($this->role,$resource,'create') ||
+	//								!$resource ){ 				
+					$toolbar = $this->getTopTableBar();
+		//							}
 			}
 			else{
 				$toolbar= $this->getLineBar();

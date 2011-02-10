@@ -30,7 +30,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                         <tr class=" ui-state-hover">
                                 <th  class="subtitulos-tabela">Projetos</th>
                                 <th  class="subtitulos-tabela" width="50px"></th>
-                                <th><?php echo $this->myToolbar('projetos','toptable');?></th>
+                                <th><?php echo $this->myToolbar('programacao:projetos','toptable');?></th>
                         </tr>
                 </thead>
                 <tbody class="ui-widget ">
@@ -50,7 +50,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                                 <div id="progbar-<?php echo $projeto->id;?>" style="height:10px; " class="execucao"></div>
                             </td>
                             <td class="texto"  width="4%">
-                                    <?php echo $this->myToolbar ( 'projetos' , 'line', $projeto->id  );?>
+                                    <?php echo $this->myToolbar ( 'programacao:projetos' , 'line', $projeto->id  );?>
                             </td>
                         <?php
                         }?>
@@ -65,7 +65,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                 <tr class=" ui-state-hover">
                     <th class="subtitulos-tabela" >Objetivos</th>
                     <th class="subtitulos-tabela" width="50px"></th>
-                    <th width="40px"><?php echo $this->myToolbar('objetivos-especificos','toptable');?></th>
+                    <th width="40px"><?php echo $this->myToolbar('programacao:objetivos-especificos','toptable');?></th>
                 </tr>
             </thead>
             <tbody class="ui-widget ">
@@ -85,7 +85,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                         <div id="progbar-<?php echo $objetivos_especificos->id;?>" style="height:10px; " class="execucao"></div>
                     </td>
                     <td class="texto"  width="4%">
-                        <?php echo $this->myToolbar ( 'objetivos-especificos' , 'line', $objetivos_especificos->id  );?>
+                        <?php echo $this->myToolbar ( 'programacao:objetivos-especificos' , 'line', $objetivos_especificos->id  );?>
                     </td>
 
                 </tr>

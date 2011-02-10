@@ -12,7 +12,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="">';
             <td class="subtitulos-tabela"> 
                 Programas</td>
             <td nowrap="nowrap"  colspan="2" >
-                <?php echo $this->myToolbar('programas', 'toptable'); ?>
+                <?php echo $this->myToolbar('programacao:programas', 'toptable'); ?>
             </td>
         </tr>
     </thead>
@@ -35,7 +35,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="">';
                 </td>
                 <td style="padding: 0">
                 <?php
-                    echo $this->myToolbar('programas', 'line', $programa->id);
+                    echo $this->myToolbar('programacao:programas', 'line', $programa->id);
                 ?>
                 </td >
 

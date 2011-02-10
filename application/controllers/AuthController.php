@@ -76,6 +76,8 @@ class AuthController extends Zend_Controller_Action {
 				
 				
 				$acl = new App_Myacl(Zend_Auth::getInstance());
+				$menu = new Zend_Session_Namespace('menu');
+				$menu->__unset('treemenu');
 				
 				$mysession = new Zend_Session_Namespace('mysession');
 				$mysession->acl =$acl;

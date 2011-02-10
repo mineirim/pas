@@ -18,7 +18,8 @@ class Model_Atividades extends App_DefaultModel {
 	
 	
 	protected $_name = 'atividades';
-	protected $_dependentTables = array('Model_AtividadesHistorico', 'Model_AtividadesVinculadas');
+	protected $_dependentTables = array('Model_AtividadesHistorico', 
+										'Model_AtividadesVinculadas');
 	protected $_referenceMap = array (
 	                     		'Operacoes' => array ( 'columns' => 'operacao_id', 
 	                     							  'refTableClass' => 'Model_Operacoes', 
@@ -45,10 +46,8 @@ class Model_Atividades extends App_DefaultModel {
 		
 		$auth = Zend_Auth::getInstance();
 		$dados['inclusao_usuario_id']= $auth->getIdentity()->id;
-		$dados['alteracao_usuario_id']= $auth->getIdentity()->id;
+		$dados['inclusao_data']= date('Y/m/d h:i:s', time());
 
-	
-		
 		return parent::insert($dados);
 	}
 	
