@@ -38,6 +38,9 @@ class App_Controller_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$params = $request->getParams ();
 		$this->_acl->setContextArray($params);
 		
+		//var_dump($resource, $role, $action);exit;
+		
+		
 		if (! $this->_acl->has ( $resource )) {
 			$resource = null;
 		} elseif (! $this->_acl->isAllowed ( $role, $resource, $action )) {

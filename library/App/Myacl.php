@@ -36,7 +36,15 @@ class App_Myacl extends Zend_Acl {
 			$this->_grupos[]=$grupo->id;
 		}
 			
-			
+
+	/**
+	 * adiciona na sessão os grupos aos quais o usuario pertence
+	 * 
+	 */
+		
+		$mysession = new Zend_Session_Namespace ( 'mysession' );
+		$mysession->__set('grupos', $this->_grupos);
+		
 
 	/**
 	 * 

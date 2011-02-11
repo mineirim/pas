@@ -20,7 +20,7 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
                         ?>
                         <tr  >
                             <td><div class="subtitulos-descreve-niveis">PARCERIAS:</div></td>
-                            <td   style='padding-left:15px'>
+                            <td style='padding-left:15px'>
                                 <?php
                                 $select = $this->objeto->select();
                                 $select->order('id');
@@ -31,11 +31,12 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
                             </td>
                         </tr>
          <?php endif; // objetivo específico
-                if(strtolower($this->nome) == "projeto"): //mostra barra
+         
+                if(strtolower($this->nome) == "projeto" && !count($this->projetos) && !count($this->objetivos_especificos)): //mostra barra
                ?>
                  <tr style="border-bottom: thin solid black" class="ui-state-default">
                      <td colspan="2">
-                     <?php echo $this->myToolbar(strtolower($this->nome).'s','top',$this->objeto->id);?>
+                     <?php echo $this->myToolbar('programacao:'.strtolower($this->nome).'s','top',$this->objeto->id);?>
                      </td>
                  </tr>
  <?php

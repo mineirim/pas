@@ -24,19 +24,21 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 <div style="height: 5px;width: 100%"></div>
 <div>
 <?php if(count($this->projetos)):?>
+
         <table cellpadding="0" cellspacing="0" class="tb-corpo">
-            <caption style="font-size: 1.2em" class="ui-widget ui-widget-header">PROJETOS DO PROGRAMA</caption>
+            <caption style="font-size: 1.2em" class="ui-widget ui-widget-header">PROJETOS</caption>
                 <thead class="ui-widget ui-widget-header ">
                         <tr class=" ui-state-hover">
-                                <th  class="subtitulos-tabela">Projetos</th>
+                                <th  class="subtitulos-tabela"></th>
                                 <th  class="subtitulos-tabela" width="50px"></th>
                                 <th><?php echo $this->myToolbar('programacao:projetos','toptable');?></th>
                         </tr>
                 </thead>
+
                 <tbody class="ui-widget ">
                         <?php
                         $cycle=$this->cycle(array('',''));
-                        foreach ($this->projetos as $projeto){?>
+                        foreach ($this->projetos as $projeto):?>
                         <tr class="<?php echo $cycle->next()?>" >
                             <td>
                                 <div>
@@ -52,12 +54,14 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                             <td class="texto"  width="4%">
                                     <?php echo $this->myToolbar ( 'programacao:projetos' , 'line', $projeto->id  );?>
                             </td>
-                        <?php
-                        }?>
+                        <?php endforeach;?>
                 </tbody>
         </table>
+   
+<?php endif; //isset projetos?>                     
+        
 <?php
-    endif; //isset projetos
+    
     if(count($this->objetivos_especificos)): //if objetivo especifico?>
         <table cellpadding="0" cellspacing="0" class="tb-corpo">
             <caption style="font-size: 1.2em" class="ui-widget ui-widget-header">OBJETIVOS ESPECÍFICOS DO PROJETO</caption>

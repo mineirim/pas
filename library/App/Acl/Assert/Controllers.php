@@ -12,6 +12,8 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 	public $_acl;
 	public $_auth;
 	public $_aclassertrules;
+	public $_grupos;
+	public $_gruposPrograma = array(1,10);
 	public $_contextos = array ('programa' => array('modelo'=>'Programas', 'parent'=>null),
 								'projeto' => array('modelo'=>'Projetos', 'parent'=>'programa'),
 								'objetivo-especifico' => array('modelo'=>'ObjetivosEspecificos','parent'=>'projeto'),
@@ -29,8 +31,6 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 							Zend_Acl_Resource_Interface $resource = null, 
 							$privilege = null) {
 		
-		//echo ' == Checking the assertion ==' . PHP_EOL; // only here for the purposes of article
-		
 		
 
 		if (! $user instanceof Zend_Acl_Role_Interface) {
@@ -43,8 +43,6 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 		
 		
 	
-		// if role is publisher, he can always modify a post
-		
 
 		/**
 		 * coisas que influenciam nas permissões do usuário
@@ -54,6 +52,9 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 		 * se é administrador pode tudo 
 		 */
 
+		$mysession = new Zend_Session_Namespace ( 'mysession' );
+		$this->_grupos = $mysession->__get('grupos');
+		
 		
 		$this->_auth = Zend_Auth::getInstance ();
 		$this->_acl = $acl;
@@ -80,9 +81,13 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 	{
 		if ($this->_acl->getContextValue('controller') == 'instrumentos') {
 			$resource = $this->_acl->getContextValue('action');
-			if ($resource == 'index'):
-				return false;
-			else:
+			if ($resource == 'index'){
+				foreach ($this->_grupos as $grupo) {
+					if (in_array($grupo, $this->_gruposPrograma))
+						return true;
+				} 
+				return  false;
+			} else {
 				$id = $this->_acl->getContextValue(str_replace('-','_',$resource).'_id');
 				if ($resource == 'atividade'):
 					$return = $this->verificaAtividade($id,$resource);
@@ -90,9 +95,9 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 					$return = $this->verificaPermissao($id,$resource);	
 				endif;
 			
-			endif;
+			};
 		} else {
-			$return =  true;
+			return  true;
 		}
 		return $return;
 	}
@@ -126,13 +131,7 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 				return true;
 			else
 				return false;
-		} else {
-			if ($nivel->inclusao_usuario_id  == $this->_auth->getIdentity()->id)
-				return true;
-			else
-				return false;
-				
-		}						
+		} 					
 			
 	}
 
@@ -146,10 +145,9 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 
 		$atividade = new Model_AtividadesHistorico();
 		$atividadeHistorico = $atividade->fetchCurrentRow ( $id);
-		return true;
 		if (!$atividadeHistorico)
 			return false;
-		if ($atividadeHistorico->id == $this->_auth->getIdentity()->id)
+		if ($atividadeHistorico->responsavel_id == $this->_auth->getIdentity()->id)
 			return true;
 		else
 			return false;		
