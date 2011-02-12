@@ -68,16 +68,18 @@ class ExecucaoController extends Zend_Controller_Action
                 	$my_json->$ix = $resultado;
                 }
         } else {
-            foreach ($objetos as $objeto) {
-                $id=$objeto->id;
-                if ($nivel == 6){
-                        $pesodenominador = 100; // operação sempre terá denominador 100
-                } else {
-                        $pesodenominador = $atividades->calculovalor($nivel, $id, 2);
+            if($objetos){
+                foreach ($objetos as $objeto) {
+                    $id=$objeto->id;
+                    if ($nivel == 6){
+                            $pesodenominador = 100; // operação sempre terá denominador 100
+                    } else {
+                            $pesodenominador = $atividades->calculovalor($nivel, $id, 2);
+                    }
+                    $pesototal = $atividades->calculovalor($nivel, $id, 1);
+                    $ix = $objeto->id;
+                    $my_json->$ix = $pesodenominador>0?($pesototal/$pesodenominador)*100:0;
                 }
-                $pesototal = $atividades->calculovalor($nivel, $id, 1);
-                $ix = $objeto->id;
-                $my_json->$ix = $pesodenominador>0?($pesototal/$pesodenominador)*100:0;
             }
         }
         echo $this->_helper->_json($my_json);

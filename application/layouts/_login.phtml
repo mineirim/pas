@@ -1,0 +1,40 @@
+<div class="ui-slider ui-state-hover" style="text-align: center;padding-bottom: 10px;padding-top: 10px">
+<?php
+$auth = Zend_Auth::getInstance();
+
+if ($auth->hasIdentity ()) :
+	$user = Zend_Auth::getInstance()->getIdentity();
+?>
+<?php echo $user->nome;?> <br>
+<span style="font-weight: normal">
+<a href="<?php echo $this->url(array('module'=>'admin', 'controller'=>'usuarios','action'=>'changepassword'));?> " class="by-ajax">Alterar senha</a>
+ | 
+<a href="<?php echo $this->url(array('module'=>'default', 'controller'=>'auth','action'=>'logout'));?> ">Sair</a>
+</span>
+<?php else: ?>
+<form action="<?php echo $this->url(array('controller'=>'auth', 'action'=>'login'));?>" method="post">
+    <table>
+        <tr>
+            <td>
+                <label for='username' style="font-weight: normal">Usuário</label>
+            </td>
+            <td>
+                <input type="text" name="username" size="13" />
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for='password' style="font-weight: normal">Senha</label>
+            </td>
+            <td>
+                <input type="password" name="password"  size="13"/>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" name="submit" value="Entrar" />
+</form>  
+  
+  
+<?php endif; ?>
+</div>

@@ -13,6 +13,15 @@ error_reporting(E_ALL);
 require_once 'Zend/Controller/Action.php';
 
 class AuthController extends Zend_Controller_Action {
+        public function init() {
+        $ajaxContext = $this->_helper->ajaxContext;
+        $ajaxContext->addContext('js', array('suffix' => 'js'));
+        $ajaxContext->setAutoJsonSerialization(false);
+        $ajaxContext->addActionContext('refresh', array('html', 'json', 'xml'))
+                ->initContext();
+        if ($this->_request->isXmlHttpRequest())
+            $this->_helper->layout()->disableLayout();
+        }
 	/**
 	 * The default action - show the home page
 	 */
@@ -114,7 +123,16 @@ class AuthController extends Zend_Controller_Action {
 		$this->getResponse ()->setBody ( $mensagem );
 		
 	}
-
+	public function refreshAction(){
+		$acl = new App_Myacl(Zend_Auth::getInstance());
+		$menu = new Zend_Session_Namespace('menu');
+		$menu->__unset('treemenu');
+		unset($menu->navigation);
+		$menu->navigation = App_MenuSession::getNavigation();
+		$mysession = new Zend_Session_Namespace('mysession');
+		$mysession->acl =$acl;	
+			
+	}
 	function logoutAction() {
 		Zend_Registry::_unsetInstance ();
 		Zend_Auth::getInstance ()->clearIdentity ();

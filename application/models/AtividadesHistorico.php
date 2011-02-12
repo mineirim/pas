@@ -36,8 +36,10 @@ class Model_AtividadesHistorico extends App_DefaultModel {
         $auth = Zend_Auth::getInstance();
         $dados['inclusao_usuario_id']= $auth->getIdentity()->id;
         $dados['alteracao_usuario_id']= $auth->getIdentity()->id;
-        if($dados['data_conclusao']=='')
-            unset($dados['data_conclusao']);
+        if(isset($dados['data_conclusao'])){
+            if($dados['data_conclusao']=='')
+                unset($dados['data_conclusao']);
+        }
         $tmp = $this->fetchRow('situacao_id=1 and atividade_id='.$dados['atividade_id']);
         try{
             if($tmp){

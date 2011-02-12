@@ -129,7 +129,8 @@ class Programacao_OperacoesController extends Zend_Controller_Action {
                     $this->view->response = array('dados' => $operacao->toArray(),
                         'notice' => 'Dados atualizados com sucesso',
                         'descricao' => $operacao->descricao,
-                        'keepOpened' => true, 'refreshPage' => true);
+                        'keepOpened' => false,
+                        'refreshPermissions'=>true, 'refreshPage' => true);
                     if (isset($newid)) {
                         $this->view->response ['newid'] = $newid;
                     }

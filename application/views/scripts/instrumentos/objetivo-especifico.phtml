@@ -23,7 +23,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
             <td class="espacador" colspan="2" style="padding-left: 30px">
                 <table class="espacador-table">
                     <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->objetivo_especifico,
-                                                                                                'label'=>'Objetivo Específico', 'nome'=>'objetivo_especifico', 'campo_id'=>'objetivo_especifico_id', 'acao'=>'objetivo-especifico', 'detalhar'=>($this->nivel=='ObjetivoEspecifico')));?>
+                                                                                                'label'=>'Objetivo', 'nome'=>'objetivo_especifico', 'campo_id'=>'objetivo_especifico_id', 'acao'=>'objetivo-especifico', 'detalhar'=>($this->nivel=='ObjetivoEspecifico')));?>
                 </table>
             </td>
         </tr>
@@ -37,7 +37,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                 <caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> METAS</caption>
                 <thead class="ui-widget ui-widget-header ">
                     <tr class=" ui-state-hover">
-                        <td  class="subtitulos-tabela">Descrição</td>
+                        <td  class="subtitulos-tabela" style="min-width: 70%"></td>
                         <td  class="subtitulos-tabela" width="70px"></td>
                         <td width="4%"><?php echo $this->myToolbar('programacao:metas','toptable');?></td>
                     </tr>

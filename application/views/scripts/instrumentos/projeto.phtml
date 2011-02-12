@@ -1,144 +1,106 @@
-<div class="ui-overlay ui-corner-all">
-	<?php // echo $this->planoNavegacao($this->programa) ;?>
-	<table cellpadding="0" cellspacing="0" >
-		<?php echo $this->partial('plano/cabecalho.phtml',array('objeto'=>$this->programa,
-					 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>($this->nivel=='Programa')));?>
+<?php
+/**
+ * campo usado para cálculo assincrono do progresso
+ */
+echo '<input type="hidden" id="progresso" name="progresso" value="'.$this->nivel_id.'">';
+echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->parent_id.'">';
+?>
+<table cellpadding="0" cellspacing="0" class="tb-cabecalho">
+        <?php echo $this->partial('instrumentos/cabecalho.phtml',array('objeto'=>$this->programa,
+                                 'nome'=>'Programa', 'acao'=>'Programa', 'detalhar'=>false));?>
+        <?php
+            $has_subprojetos = count($this->projetos);
+            $has_objetivos = count($this->objetivos_especificos);
+            $display_topbar = ($has_subprojetos || $has_objetivos || $this->projeto->projeto_id)? false:true;
+            if($this->nivel=='Projeto') :
+            ?>
+        <tr><td class="espacador" colspan="2">
+                <table class="espacador-table">
+            <?php echo $this->partial('instrumentos/cabecalho.phtml',
+                                    array('objeto'=>$this->projeto,
+                                         'nome'=>'Projeto', 'acao'=>'Projeto',
+                                         'detalhar'=>true, 'display_topbar'=>$display_topbar));?>
+                </table>
+            </td>
+        </tr>
+            <?php endif;?>
+</table>
+<div style="height: 5px;width: 100%"></div>
+<div>
+<?php if($has_subprojetos):?>
 
-		<?php
-			if($this->nivel=='Projeto')
-				echo $this->partial('plano/cabecalho.phtml',
-                                                    array('objeto'=>$this->projeto,
-							 'nome'=>'Projeto', 'acao'=>'Projeto', 'detalhar'=>true));
-		?>
-	</table>
-	<?php if(count($this->projetos)){?>
-	<div>
-		<table width="98%" cellpadding="0" cellspacing="0" >
-			<thead class="ui-widget removedui-widget-header">
-				<tr class=" ui-state-hover">
-				<td></td>
-				<td colspan="3">
-				<div class="titulos-tabela ui-state-hover"><?php echo strtoupper($this->tableheader);?></div>
-				</td>
-				</tr>
+        <table cellpadding="0" cellspacing="0" class="tb-corpo">
+            <caption style="font-size: 1.2em" class="ui-widget ui-widget-header">PROJETOS</caption>
+                <thead class="ui-widget ui-widget-header ">
+                        <tr class=" ui-state-hover">
+                                <th  class="subtitulos-tabela"></th>
+                                <th  class="subtitulos-tabela" width="50px"></th>
+                                <th><?php echo $this->myToolbar('programacao:projetos','toptable');?></th>
+                        </tr>
+                </thead>
 
-				<tr class=" ui-state-hover">
-					<td><?php echo $this->myToolbar('programacao:projetos','toptable');?></td>
-					<td  class="subtitulos-tabela">Descrição</td>
-					<td  class="subtitulos-tabela" width="70px">Realiz.</td>
-					<td align="center"  width="40px"><img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif"></td>
-				</tr>
-				 <tr>
-			       <td></td>
-			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
-			       </tr>
+                <tbody class="ui-widget ">
+                        <?php
+                        $cycle=$this->cycle(array('',''));
+                        foreach ($this->projetos as $projeto):?>
+                        <tr class="<?php echo $cycle->next()?>" >
+                            <td>
+                                <div>
+                                    <a href='<?php echo $this->url ( array ('action' => 'projeto', 'projeto_id' => $projeto->id ) );?>'>
+                                        <span class="ui-icon ui-icon-play" style="float:left"></span>
+                                        <span class="descricao_item"><?php echo $projeto->nome;?></span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td align="center">
+                                <div id="progbar-<?php echo $projeto->id;?>" style="height:10px; " class="execucao"></div>
+                            </td>
+                            <td class="texto"  width="4%">
+                                    <?php echo $this->myToolbar ( 'programacao:projetos' , 'line', $projeto->id  );?>
+                            </td>
+                        <?php endforeach;?>
+                </tbody>
+        </table>
 
-			</thead>
-			<tbody class="ui-widget ui-widget-content ">
-				<?php
-				$cycle=$this->cycle(array('',''));
-				foreach ($this->projetos as $projeto){?>
-				<tr class="<?php echo $cycle->next()?>" >
-					<td class="texto"  width="4%">
-						<?php echo $this->myToolbar ( 'programacao:projetos' , 'line', $projeto->id  );?>
-					</td>
-					<td>
-					<div class="texto-tabela-com-seta">
-						<a href=
-							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'projeto', 'projeto_id' => $projeto->id ) );?>'>
-							<?php echo $projeto->nome;?>
-						</a>
-					</div>
-					</td>
-					<td align="center">
-						<?php
-						if (!$projeto->projeto_id){
-							echo $this->lineProgressbar ( 2, $projeto->id  ); // Projetos
-						} else {
-							echo $this->lineProgressbar ( 3, $projeto->id  ); // Sub Projetos
-						}
+<?php endif; //isset projetos?>
 
-						?>
-					</td>
-					<td  align="center">
-						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'projeto_id' => $projeto->id ) );?>">
-							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
-						</a>
-					</td>
-				</tr>
-				   <tr>
-				   <td></td>
-			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
-			       </tr>
+<?php
 
-				<?php
-				}?>
-			</tbody>
-		</table>
+    if($has_objetivos || $this->projeto->projeto_id): //if objetivo especifico?>
+        <table cellpadding="0" cellspacing="0" class="tb-corpo">
+            <caption style="font-size: 1.2em" class="ui-widget ui-widget-header">OBJETIVOS</caption>
+            <thead class="ui-widget ui-widget-header">
+                <tr class=" ui-state-hover">
+                    <th class="subtitulos-tabela" style="width:50%" ></th>
+                    <th class="subtitulos-tabela" width="50px"></th>
+                    <th width="40px"><?php echo $this->myToolbar('programacao:objetivos-especificos','toptable');?></th>
+                </tr>
+            </thead>
+            <tbody class="ui-widget ">
+                <?php
+                $cycle=$this->cycle(array('',''));
+                foreach ($this->objetivos_especificos as $objetivos_especificos): //objetivos_especificos?>
+                <tr class="<?php echo $cycle->next()?>">
+                    <td>
+                        <div >
+                            <a href='<?php echo $this->url ( array ( 'action' => 'objetivo-especifico', 'objetivo_especifico_id' => $objetivos_especificos->id ) );?>'>
+                                    <span class="ui-icon ui-icon-play" style="float:left"></span>
+                                    <span class="descricao_item"><?php echo $objetivos_especificos->descricao;?></span>
+                            </a>
+                        </div>
+                    </td>
+                    <td align="center">
+                        <div id="progbar-<?php echo $objetivos_especificos->id;?>" style="height:10px; " class="execucao"></div>
+                    </td>
+                    <td class="texto"  width="4%">
+                        <?php echo $this->myToolbar ( 'programacao:objetivos-especificos' , 'line', $objetivos_especificos->id  );?>
+                    </td>
 
-
-	</div>
-	<?php }?>
-
-	<?php if(count($this->objetivos_especificos)){?>
-	<div id="tabela" >
-
-		<table width="100%" cellpadding="0" cellspacing="0">
-			<thead class="ui-widget removedui-widget-header">
-				<tr class=" ui-state-hover">
-				<td></td>
-				<td colspan="3">
-				<div class="titulos-tabela ui-state-hover">OBJETIVOS ESPECÍFICOS</div>
-				</td>
-				</tr>
-				<tr class=" ui-state-hover">
-					<td width="40px"><?php echo $this->myToolbar('programacao:objetivos-especificos','toptable');?></td>
-					<td class="subtitulos-tabela" >Descrição</td>
-					<td class="subtitulos-tabela" width="70px">Realiz.</td>
-					<td class="subtitulos-tabela"  style="text-align:center" width="40px"><img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif"></td>
-				</tr>
-				   <tr>
-				   <td></td>
-			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
-			       </tr>
-
-			</thead>
-			<tbody class="ui-widget ui-widget-content ">
-				<?php
-				$cycle=$this->cycle(array('ui-state-default','ui-state-active'));
-				foreach ($this->objetivos_especificos as $objetivos_especificos){?>
-				<tr class="<?php echo $cycle->next()?>">
-					<td class="texto"  width="4%">
-						<?php echo $this->myToolbar ( 'programacao:objetivos-especificos' , 'line', $objetivos_especificos->id  );?>
-					</td>
-					<td>
-					<div class="texto-tabela-com-seta">
-						<a href=
-							'<?php echo $this->url ( array ('controller' => 'plano', 'action' => 'objetivos-especificos', 'objetivo_especifico_id' => $objetivos_especificos->id ) );?>'>
-							<?php echo $objetivos_especificos->descricao;?>
-						</a>
-					</div>
-					</td>
-					<td align="center">
-						<?php echo $this->lineProgressbar ( 4, $objetivos_especificos->id  ); // Objetivos Específicos ?>
-					</td>
-					<td align="center">
-						<a href="<?php echo $this->url ( array ('controller' => 'relatorios', 'action' => 'relatorioplano', 'objetivo_especifico_id' => $objetivos_especificos->id ) );?>">
-							<img alt="" src="<?php echo $this->baseUrl (); ?>/images/impressora-miolo.gif" border="0">
-						</a>
-					</td>
-				</tr>
-				   <tr>
-				   <td></td>
-			       <td colspan="3"><div class="linha-abaixo-texto"><img src="<?php echo $this->baseUrl (); ?>/images/1x1.gif" /></div></td>
-			       </tr>
-
-				<?php
-				}?>
-			</tbody>
-		</table>
-
-	</div>
-	<?php }?>
+                </tr>
+                <?php endforeach; //objetivos_especificos?>
+            </tbody>
+        </table>
+<?php endif; //isset($this->objetivos_especificos)?>
 
 </div>
+

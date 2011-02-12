@@ -31,8 +31,8 @@ $this->label = isset($this->label) ? $this->label : $this->nome;
                             </td>
                         </tr>
          <?php endif; // objetivo específico
-         
-                if(strtolower($this->nome) == "projeto" && !count($this->projetos) && !count($this->objetivos_especificos)): //mostra barra
+            
+                if(strtolower($this->nome) == "projeto" && $this->display_topbar ): //mostra barra
                ?>
                  <tr style="border-bottom: thin solid black" class="ui-state-default">
                      <td colspan="2">

@@ -67,11 +67,11 @@ class Model_Atividades extends App_DefaultModel {
 	 * 2 = denominador (soma dos valores de todas as atividades)
 	 */
 	public function calculovalor($nivel, $id, $tipo){
-		$sc = "poa2010"; // schema
+		$sc = $this->_schema = Zend_Registry::get('schema'); // schema
 
 		$select = $this->select()
 					->setIntegrityCheck(false)
-					->from(array("a" => "$sc.atividades"), array("SUM(valor) as total"));
+					->from(array("a" => "$sc.atividades"), array("SUM(peso) as total"));
 		if ($tipo == 2){			
 			$select->where("a.operacao_id = o.id and a.situacao_id = 1"); // denominador
 		} else {

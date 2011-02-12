@@ -1,10 +1,8 @@
 <?php
 
-class Programacao_ProjetosController extends Zend_Controller_Action
-{
+class Programacao_ProjetosController extends Zend_Controller_Action {
 
-    public function init()
-    {
+    public function init() {
         $ajaxContext = $this->_helper->ajaxContext;
         $ajaxContext->addContext('js', array('suffix' => 'js'));
         $ajaxContext->setAutoJsonSerialization(false);
@@ -31,48 +29,43 @@ class Programacao_ProjetosController extends Zend_Controller_Action
         $this->view->formDescritivo = $this->formDescritivo;
     }
 
-    public function indexAction()
-    {
+    public function indexAction() {
         // action body
     }
 
-    public function createAction()
-    {
-		$programa_id = $this->_getParam ( 'programa_id' );
-		$projeto_id = $this->_getParam ( 'projeto_id' );
-		
-		if(!$programa_id && $projeto_id){
-			$model_projetos = new Model_Projetos ( );
-			$projeto = $model_projetos->fetchRow('id='.$projeto_id);
-			$programa_id = $projeto->programa_id;
-		}
-    	
+    public function createAction() {
+        $programa_id = $this->_getParam('programa_id');
+        $projeto_id = $this->_getParam('projeto_id');
+
+        if (!$programa_id && $projeto_id) {
+            $model_projetos = new Model_Projetos ( );
+            $projeto = $model_projetos->fetchRow('id=' . $projeto_id);
+            $programa_id = $projeto->programa_id;
+        }
+
         if ($this->getRequest()->isPost()) {
             $this->saveAction();
             $this->render('save');
         } else {
-        	if ($programa_id) 
-			{
-				$this->form->projeto->programa_id->setValue($programa_id);
-				$this->form->projeto->projeto_id->setValue( $projeto_id);
-	            $this->form->submit->setLabel('Salvar');
-	            $this->view->form = $this->form;
-	            $this->render('edit');
-			}else {
-				$this->_helper->viewRenderer->setNoRender(true);
-				echo "<h1>Esperado informar o código do programa";
-			}
+            if ($programa_id) {
+                $this->form->projeto->programa_id->setValue($programa_id);
+                $this->form->projeto->projeto_id->setValue($projeto_id);
+                $this->form->submit->setLabel('Salvar');
+                $this->view->form = $this->form;
+                $this->render('edit');
+            } else {
+                $this->_helper->viewRenderer->setNoRender(true);
+                echo "<h1>Esperado informar o código do programa";
+            }
         }
     }
 
-    public function updateAction()
-    {
+    public function updateAction() {
         $this->saveAction();
         $this->render('save');
     }
 
-    public function deleteAction()
-    {
+    public function deleteAction() {
         $form = new Programacao_Form_Delete();
         $model_projetos = new Model_Projetos();
         if ($this->getRequest()->isPost()) {
@@ -106,13 +99,11 @@ class Programacao_ProjetosController extends Zend_Controller_Action
         }
     }
 
-    public function getAction()
-    {
+    public function getAction() {
         // action body
     }
 
-    public function editAction()
-    {
+    public function editAction() {
         $id = $this->_getParam('id');
         if ($id > 0) {
             $this->form->submit->setLabel('Salvar');
@@ -133,18 +124,17 @@ class Programacao_ProjetosController extends Zend_Controller_Action
         }
     }
 
-    public function saveAction()
-    {
-    	if ($this->getRequest()->isPost()) {
+    public function saveAction() {
+        if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($this->form->isValid($formData)) {
                 try {
                     $dados = $this->form->getValue('projeto');
                     unset($dados['id']);
-                    if ($dados['projeto_id']=="")
-                    	unset($dados['projeto_id']);
+                    if ($dados['projeto_id'] == "")
+                        unset($dados['projeto_id']);
                     $id = $this->form->projeto->getValue('id');
-                    
+
                     $model_projetos = new Model_Projetos ( );
                     if ($id == '') {
                         $id = $model_projetos->insert($dados);
@@ -157,29 +147,29 @@ class Programacao_ProjetosController extends Zend_Controller_Action
                     $this->view->response = array('dados' => $projeto->toArray(),
                         'notice' => 'Dados atualizados com sucesso',
                         'descricao' => $projeto->menu,
-                        'keepOpened' => true,
+                        'keepOpened' => false,
+                        'refreshPermissions'=>true,
                         'refreshPage' => true
                     );
-                    if(isset($newid)){
-                    	$this->view->response['newid']=$newid; 
+                    if (isset($newid)) {
+                        $this->view->response['newid'] = $newid;
                     }
                 } catch (Exception $e) {
                     $this->getResponse()->setHttpResponseCode(501);
-                    $this->view->response = array('notice' => 'Erro ao gravar dados', 
-                    								'errormessage' => $e->getMessage());
+                    $this->view->response = array('notice' => 'Erro ao gravar dados',
+                        'errormessage' => $e->getMessage());
                 }
             } else {
                 $this->getResponse()->setHttpResponseCode(501);
                 $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Formulário com dados inválidos',
-                    'errors' => $this->form->processAjax($formData) );
+                    'errors' => $this->form->processAjax($formData));
             }
         } else {
             $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => 'Método esperado: POST');
         }
     }
 
-    public function addobjetivoAction()
-    {
+    public function addobjetivoAction() {
         if ($this->getRequest()->isPost()) {
             $this->formDescritivo->descricao->addValidator(new Zend_Validate_StringLength(0, 500));
             $formData = $this->getRequest()->getPost();
@@ -205,25 +195,10 @@ class Programacao_ProjetosController extends Zend_Controller_Action
                 $return = $this->formDescritivo->processAjax($this->_request->getPost());
             }
         }
-        
+
         $this->_helper->viewRenderer->setNoRender(true);
         echo $return;
     }
 
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

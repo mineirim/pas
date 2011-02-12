@@ -182,86 +182,6 @@ function ControleGeral(){
             return false;
         });
 
-        $(".submit_descritivo").live('click',function(e)
-         {
-        	e.preventDefault()
-        	var frm = $(this).parents('form');
-        	url=$(this).parents('form').attr('action');
-            data = $(this).parents('form').serialize() ;
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: data,
-                success: function(data, status,xhr){
-                    if(data.toolbar != undefined){
-                        tabela = frm.attr('id');
-                        tabela = tabela.substr(3);
-                        $("#tb"+tabela).append("<tr class='lst'><td>"+data.toolbar+"</td><td>"+data.obj.descricao+"</td></tr>");
-                    	$("#"+frm.attr('id')+" #id").val("");
-                    	$("#"+frm.attr('id')+" #descricao").val("");
-                    }else{
-                        /**
-                		 * enquanto ajusta todos os scriptis de add
-                		 */
-                        if (data.descricao != undefined){
-                            tabela = frm.attr('id');
-                            tabela = tabela.substr(3);
-                            $("#tb"+tabela).append("<tr class='lst'><td></td><td>"+data.descricao+"</td></tr>");
-                        	$("#"+frm.attr('id')+" #id").val("");
-                        	$("#"+frm.attr('id')+" #descricao").val("");
-                        }
-                    }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown){
-                    Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
-                }
-            });
-
-        });
-        $(".editdescription").live('click',function(e)
-            {
-                e.preventDefault();
-                e.stopPropagation();
-
-                self = $(this)
-                tpobjeto = this.id.split('-')[1]
-
-                if(tpobjeto.substr(tpobjeto.length-1,1)!='s')
-                {
-                	tpobjeto = tpobjeto + 's'
-                }
-                $.getJSON(this.href,
-                    function(data){
-                		self.parents('tr.lst').remove()
-                        $('#frm'+tpobjeto+' #id').val(data.id)
-                        $('#frm'+tpobjeto+' #descricao').val(data.descricao)
-                        if(data.tipo_indicador_id != undefined )
-                            $("#tipo_indicador_id-"+data.tipo_indicador_id).attr('checked','checked')
-                    });
-        });
-
-        $(".deletedescription").live('click',function(e)
-        {
-            e.preventDefault();
-            $this = $(this)
-            tpobjeto = this.id.split('-')[1]
-            if(tpobjeto.substr(tpobjeto.length-1,1)!='s')
-            {
-                tpobjeto = tpobjeto + 's'
-            }
-            $.getJSON(this.href,
-                function(data){
-                    $this.parents('tr.lst').remove();
-                });
-        });
-        $("#categoria.alterar-categoria").live('change',function(e){
-            url = $("#url_categoria").val()+'/categoria_id/'+$(this).val();
-            $.getJSON(url,
-                function(data){
-                    alert ("Indicador Atualizado:  "+data.categoria)
-
-                });
-        });
 
         /**
          *efeito de highlight em tabela
@@ -313,45 +233,7 @@ function ControleGeral(){
         })
 
 
-    };
-}
-
-
-
-
-
-function showResponse(responseText, statusText,formulario)
-{
-    $('.form-errors').remove();
-    if (responseText == true)
-    {
-        options = {
-            params : 'format=xml',
-            success: updateId
-        };
-        //formulario.ajaxSubmit(options)
-        formulario.submit();
     }
-    else 
-    {
-        for (campo in responseText) {
-            $('#'+campo).after('<ul id="'+campo+'_errors" class="form-errors"></ul>');
-            for (mensagem in responseText[campo]) {
-                $('#'+campo+'_errors').append('<li>'+responseText[campo][mensagem]+'</li>');
-            }
-        }
-    }
-}
-
-function updateId(responseXML,statusText,formulario){
-	
-    id = $('id', responseXML).text();
-    formulario[0].id.value=id
-    enableTabs();
-    tabs =$('#formtabs').tabs();
-    selected = tabs.tabs('option', 'selected'); 
-    $('#formtabs').tabs('select', selected+1);
-    
 }
 
 
@@ -375,32 +257,32 @@ GridPadrao = {
 };
 
 TreeGridPadrao = {
-	    mtype           : 'GET',
-	    datatype        : 'json',
-	    width           :  665,
-	    height          : 230,
-            treeGridModel 	: 'adjacency',
-            treeGrid      	: true,
-            ExpandColClick	: false,
-            rowNum          :-1,
-            rowList         :[],
-            pginput         : false,
-            pgbuttons       : false,
-            viewrecords     : true,
-            toppager        : true,
-	    cloneToTop      : true,
-	    forceFit        : true,
-            jsonReader     : {
-                          repeatitems : false,
-                          id:"id",
-                          root:"rows"
-            },
-            treeReader : {
-                         level_field: "level",
-                         parent_id_field: "parent",
-                         leaf_field: "isLeaf",
-                         expanded_field: "expanded"
-            }
+    mtype           : 'GET',
+    datatype        : 'json',
+    width           :  665,
+    height          : 230,
+    treeGridModel 	: 'adjacency',
+    treeGrid      	: true,
+    ExpandColClick	: false,
+    rowNum          :-1,
+    rowList         :[],
+    pginput         : false,
+    pgbuttons       : false,
+    viewrecords     : true,
+    toppager        : true,
+    cloneToTop      : true,
+    forceFit        : true,
+    jsonReader     : {
+                  repeatitems : false,
+                  id:"id",
+                  root:"rows"
+    },
+    treeReader : {
+                 level_field: "level",
+                 parent_id_field: "parent",
+                 leaf_field: "isLeaf",
+                 expanded_field: "expanded"
+    }
 
 };
 
@@ -428,6 +310,21 @@ Mensageiro ={
         }
         $('#flash-m').html(obj.mensagem+'<br>'+obj.errors).fadeIn(1000);
         $('#flash-m').fadeOut(5000)
+
+        if(json.refreshPermissions){
+            $.ajax({
+                type: "POST",
+                url: baseUrl+'/auth/refresh',
+                success: function(data, status,xhr){
+                } ,
+                complete:function(XMLHttpRequest, textStatus){
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                    Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+                }
+
+            });
+        }
         /**
          *quando é feita alguma alteração no formulário, ele obrigatoriamente passa pelo onComplete
          *quando o retorno do json diz para dar refresh na pagina, ele adiciona uma funçao à caixa de diálogo

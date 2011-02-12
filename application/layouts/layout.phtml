@@ -106,9 +106,19 @@ echo $this->baseUrl ();
 		</div>
 
 		<div  style="float: left; width: 800px; font-size: 0.9em" >
-			<?php
-			echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
-			?>
+                    <table style="width: 100%">
+                        <tr>
+                            <td style="width: 30%">
+                                
+                            </td>
+                            <td>
+                                <?php
+                                echo $this->navigation ()->breadcrumbs ()->setMinDepth ( 0 )->setLinkLast ( true )->setSeparator ( " : " );
+                                ?>
+                            </td>
+                        </tr>
+
+                    </table>
 		</div>
 	</div>
     <table width="100%" style="clear: both">
@@ -126,6 +136,8 @@ echo $this->baseUrl ();
                           </tr>
                           <tr class="tb-corner-side">
                                <td class="tb-corner-side-left-menu titulos-miolo" colspan="2" height="400px" style="min-width: 170px;width: 180px" >
+                                   <?php echo $this->partial('_login.phtml')?>
+                                   <hr></hr>
                                    <div id='menu_tree' style="overflow-x: hidden;min-height: 280px; margin-top: 10px">
                                     </div>
                                </td>

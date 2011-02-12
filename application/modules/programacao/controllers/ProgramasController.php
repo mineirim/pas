@@ -138,7 +138,8 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
                     $this->view->response = array('dados' => $programa->toArray(),
                         'notice' => 'Dados atualizados com sucesso',
                         'descricao' => $programa->menu,
-                        'keepOpened' => true,
+                        'keepOpened' => false,
+                        'refreshPermissions'=>true,
                         'refreshPage' => true
                     );
                     if(isset($newid)){

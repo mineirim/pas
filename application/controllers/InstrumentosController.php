@@ -48,7 +48,6 @@ class InstrumentosController extends Zend_Controller_Action {
 		}
 		$this->view->parent_id = $projeto_id;
 		$this->view->nivel_id = 4;
-		$this->render ( 'programa' );
 	}
 	public function objetivoEspecificoAction() {
 		$metas = new Model_Metas ();
@@ -60,7 +59,7 @@ class InstrumentosController extends Zend_Controller_Action {
 			$this->view->projeto = $this->view->objetivo_especifico->findParentRow ( 'Model_Projetos' );
 			$this->view->programa = $this->view->projeto->findParentRow ( 'Model_Programas' );
 			$this->view->nivel = 'ObjetivoEspecifico';
-			$this->view->tableheader = 'Objetivos Especificos';
+			$this->view->tableheader = 'Objetivos';
 			$this->view->parent_id = $objetivo_especifico_id;
 			$this->view->nivel_id = 5;
 		} else
