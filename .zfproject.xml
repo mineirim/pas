@@ -86,6 +86,10 @@
         <controllerFile controllerName="Execucao">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Usuarios">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="get"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -660,6 +664,12 @@
           <viewControllerScriptsDirectory forControllerName="Instrumentos">
             <viewScriptFile forActionName="gantt"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuarios">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Usuarios">
+            <viewScriptFile forActionName="get"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -723,6 +733,7 @@
           <testApplicationControllerFile filesystemName="AtividadesControllerTest.php"/>
           <testApplicationControllerFile filesystemName="ParceriasControllerTest.php"/>
           <testApplicationControllerFile filesystemName="ParceirosControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="UsuariosControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

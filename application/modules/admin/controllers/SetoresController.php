@@ -27,8 +27,13 @@ class Admin_SetoresController extends Zend_Controller_Action {
         $id = $this->_getParam('id');
         $model_setores = new Model_Setores();
 
+        $chefia = array('usuario_id'=>$setor['chefia_id']);
+        unset($setor['chefia_id']);
+        $model_setor_chefia = new Model_SetorChefias();
         try {
             $setor['id'] = $model_setores->insert($setor);
+            $chefia['setor_id']= $setor['id'];
+            $model_setor_chefia->insert($chefia);
             $this->view->response = array('dados' => $setor,
                 'notice' => 'Dados inseridos com sucesso',
                 'descricao' => $setor ['nome']);
@@ -41,14 +46,19 @@ class Admin_SetoresController extends Zend_Controller_Action {
 
     public function updateAction() {
         $setor = $this->_getParam('setor');
+        $id = $this->_getParam('id');
         if ($setor['setor_id'] == '')
             unset($setor['setor_id']);
 
-        $id = $this->_getParam('id');
+        $chefia = array('usuario_id'=>$setor['chefia_id'], 'setor_id'=>$id);
+        unset($setor['chefia_id']);
+        
         $model_setor = new Model_Setores();
-
+        $model_setor_chefia = new Model_SetorChefias();
         try {
             $model_setor->update($setor, array('id=?' => $id));
+            $model_setor_chefia->insert($chefia);
+
             $this->view->response = array('dados' => $setor,
                 'notice' => 'Dados atualizados com sucesso',
                 'descricao' => $setor['nome']);
@@ -110,25 +120,61 @@ class Admin_SetoresController extends Zend_Controller_Action {
             $n_level = 0;
         }
 
+$db = Zend_Registry::get('db');
+$sql = "WITH RECURSIVE path(nome,sigla,descricao, path, parent, id, setor_id, chefia_id, lvl, leaf) AS (
+          SELECT nome,sigla,descricao,'/' , NULL  , setores.id, setores.setor_id, c.usuario_id as chefia_id,
+		0 as lvl ,
+		(select count(*) from setores s where s.setor_id=setores.id and situacao_id=1) as leaf
+          FROM setores left join setor_chefias c on c.setor_id=setores.id
+          WHERE setores.setor_id is null and (c.situacao_id=1 or c.situacao_id is null)
+		and setores.situacao_id=1
+          UNION
+          SELECT
+            fs.nome,fs.sigla,fs.descricao,
+            parentpath.path ||
+              CASE parentpath.path
+                WHEN '/' THEN ''
+                ELSE '/'
+              END || fs.nome,
+            parentpath.path, fs.id, fs.setor_id, c.usuario_id as chefia_id,  parentpath.lvl+1 as lvl,
+            (select count(*) from setores where setor_id=fs.id and situacao_id=1) as leaf
+          FROM setores fs inner join path as parentpath on fs.setor_id = parentpath.id
+           left join setor_chefias c on fs.id=c.setor_id
+          WHERE  c.situacao_id=1   or c.situacao_id is null
+		and fs.situacao_id=1
+          )
+        SELECT * FROM path order by path ";
+$setores = $db->query($sql);
+
 
         $response->page = 1;
         $response->total = 1;
         $response->records = count($setores);
+        $model_usuarios = new Model_Usuarios();
 
         foreach ($setores as $setor) {
+            $nome_chefia = '';
+            if($setor['chefia_id']){
+                $usuario = $model_usuarios->fetchRow('id='.$setor['chefia_id']);
+                $nome_chefia = $usuario->nome;
+            }
+
             /**
              * @todo implementar filtro para verificar no isleaf somente os setores com situacao_id =1
              */
-            $leaf = count($setor->findModel_Setores()) == 0;
-            $response->rows [] = array('id' => $setor->id,
-                'nome' => $setor->nome,
-                'sigla' => $setor->sigla,
-                'descricao' => $setor->descricao,
-                'setor_id' => $setor->setor_id,
-                'level' => $n_level,
+            $leaf = $setor['leaf']==0?true:false;//count($setor->findModel_Setores()) == 0;
+            $response->rows [] = array('id' => $setor['id'],
+                'nome' => $setor['nome'],
+                'sigla' => $setor['sigla'],
+                'descricao' => $setor['descricao'],
+                'chefia'    =>$nome_chefia,
+                'setor_id' => $setor['setor_id'],
+                'chefia_id' => $setor['chefia_id'],
+                'level' => isset( $setor['lvl'])? $setor['lvl']:0,
                 'isLeaf' => $leaf,
-                'parent' => $setor->setor_id,
-                'colapsed' => false
+                'parent' => $setor['setor_id'],
+                'colapsed' => false,
+                'expanded'  => true
             );
         }
 

@@ -5,7 +5,7 @@ function GridSetores(gridtable,paginator,parametros){
     this.paginator 		= paginator;
     this.parametros	 	= parametros;
     this.ExpandColumn  = "setor[nome]";
-    this.colNames=['id','Setor','Sigla','Descrição', 'Vínculo'];
+    this.colNames=['id','Setor','Sigla','Chefia','Selecione a chefia', 'Subordinado a:'];
     this.colModel=[
 				    {
 				        name:'setor[id]',
@@ -53,41 +53,45 @@ function GridSetores(gridtable,paginator,parametros){
 				        }
 				    },
 				    {
-				        name	:'setor[descricao]',
-				        index	:'descricao',
+				        name:'setor[chefia]',
+				        index:'chefia',
+				        editable:false,
+				        jsonmap : 'chefia'
+				    },				    {
+				        name	:'setor[chefia_id]',
+				        index	:'chefia_id',
 				        editable:true,
-				        jsonmap : 'descricao',
-				        edittype:"textarea",
-				        editoptions:{
-				            rows:"4",
-				            cols:"60"
-				        },
-				        formoptions:
-				        {
-				            label: "Descrição",
-				            elmprefix:"(*)"
-				        },
-				        editrules:{
-				            required:true
-				        }
+                                        hidden	: true,
+				        jsonmap : 'chefia_id',
+                                        edittype:"select",
+                                        editoptions:{
+                                                dataUrl:'<?php echo $this->url(array("module"=>"default", "controller"=>"usuarios", "action"=>"get")); ?>?format=html',
+                                                dataInit :  function(element)
+                                                {
+                                                        var gsr = $("#tb-setores").jqGrid('getGridParam','selrow');
+                                                        setTimeout(function() {$(element).val(parseInt(gsr,10));},1000);
+                                                }
+                                        },
+                                        formoptions:{ elmprefix:"&nbsp;&nbsp;&nbsp;&nbsp;" },
+                                        editrules	: {edithidden:true}
 				    },
 				    {
 				    	name	:'setor[setor_id]',
 				        index	:'setor_id',
 				        jsonmap : 'setor_id',
 				        hidden	: true,
-					    editable: true,
-						edittype:"select",
-						editoptions:{
-							dataUrl:'<?php echo $this->url(array("action"=>"get")); ?>?format=html',
-							dataInit :  function(element)
-							{
-								var gsr = $("#tb-setores").jqGrid('getGridParam','selrow');
-								setTimeout(function() {$(element).val(parseInt(gsr,10));},100);
-							}
-						},
-						formoptions:{ elmprefix:"&nbsp;&nbsp;&nbsp;&nbsp;" },
-						editrules	: {edithidden:true}
+					editable: true,
+                                        edittype:"select",
+                                        editoptions:{
+                                                dataUrl:'<?php echo $this->url(array("action"=>"get")); ?>?format=html',
+                                                dataInit :  function(element)
+                                                {
+                                                        var gsr = $("#tb-setores").jqGrid('getGridParam','selrow');
+                                                        setTimeout(function() {$(element).val(parseInt(gsr,10));},10000);
+                                                }
+                                        },
+                                        formoptions:{ elmprefix:"&nbsp;&nbsp;&nbsp;&nbsp;" },
+                                        editrules	: {edithidden:true}
 						
 				    }
 				    ];
@@ -187,8 +191,8 @@ function Setores(){
             reloadAfterSubmit: true,
             closeOnEscape    : true,
             recreateForm	 : true,
-            height           : 250,
-            width            : 530,
+            height           : 450,
+            width            : 720,
             afterComplete    :  function(response, postdata, formid)
 			{
 				Mensageiro.onComplete(response, postdata, formid);
@@ -222,8 +226,8 @@ function Setores(){
                     closeAfterEdit    : true,
                     reloadAfterSubmit : true,
                     closeOnEscape     : true,
-                    height            : 250,
-                    width             : 530,
+                    height            : 450,
+                    width             : 720,
                     afterComplete     : Mensageiro.onComplete,
                     errorTextFormat	  : function(response,b)
                     {

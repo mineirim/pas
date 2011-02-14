@@ -1,0 +1,6 @@
+<select>
+	<option value=''></option>
+	<?php foreach ($this->dados as $usuario) {
+		echo "<option value='$usuario->id'>$usuario->nome</option>";
+	}?>
+</select>
