@@ -68,8 +68,9 @@
 <div class="make-tabs" style="width: 98%; height:100%">
     <ul>
         <li><a href="#tabs-0" >Atividade</a></li>
-        <li><a href="#tabs-1" >Histórico</a></li>
-        <li><a href="#tabs-2" >Dependências</a></li>
+        <li><a href="#tabs-1" >Dependências</a></li>
+        <li><a href="#tabs-2" >Histórico</a></li>
+        
     </ul>
 
      <div id="tabs-0" style="overflow: hidden">
@@ -83,31 +84,9 @@
  
  
  
-        <div id="tabs-1" style="overflow: hidden">
-            <table border="2" width="50%">
-                <tr>
-                    <td colspan="2"><b>Histórico</b></td>
-                </tr>
-                <tr>
-                    <td><b>Data</b></td>
-                    <td><b>Avaliação/justificativa</b></td>
-                </tr>
-            <?php
-                foreach ($this->atividade_historico as $atividade_historico) {
-            ?>
-                    <tr>
-                        <td>
-				<?php echo $atividade_historico->data_prazo(); ?>
-                </td>
-                <td><?php echo $atividade_historico->avaliacao; ?></td>
-                    </tr>
-            <?php
-                } // foreach
-            ?>
-            </table>
-        </div>
 
-        <div id="tabs-2" style="overflow: hidden">
+
+        <div id="tabs-1" style="overflow: hidden">
         	<div style="display: inline-table; margin-bottom: 1em;">
         	
         	
@@ -123,6 +102,7 @@
 							
 			}?>							        
 			</div>
+			<div style="position:relative" class="gantt" id="GanttChartDIV"></div>			
             <table border="2">
                 <tr>
                     <td colspan="2"><b>VINCULAÇÕES</b></td>
@@ -163,7 +143,29 @@
         </table>
 
     </div>
-
+        <div id="tabs-2" style="overflow: hidden">
+            <table border="2" width="50%">
+                <tr>
+                    <td colspan="2"><b>Histórico</b></td>
+                </tr>
+                <tr>
+                    <td><b>Data</b></td>
+                    <td><b>Avaliação/justificativa</b></td>
+                </tr>
+            <?php
+                foreach ($this->atividade_historico as $atividade_historico) {
+            ?>
+                    <tr>
+                        <td>
+				<?php echo $atividade_historico->data_prazo(); ?>
+                </td>
+                <td><?php echo $atividade_historico->avaliacao; ?></td>
+                    </tr>
+            <?php
+                } // foreach
+            ?>
+            </table>
+        </div>
 </div>
 
 <script type="text/javascript">
@@ -207,4 +209,33 @@
 		
         
     }
+  // here's all the html code neccessary to display the chart object
+
+  // Future idea would be to allow XML file name to be passed in and chart tasks built from file.
+
+     g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
+        g.setShowRes(0); // Show/Hide Responsible (0/1)
+        // define a quantidade de caracteres que aparecerão na descrição
+        g.setMaxLengthDescription(50)
+        g.setShowDur(1); // Show/Hide Duration (0/1)
+        g.setShowComp(1); // Show/Hide % Complete(0/1)
+
+        g.setDateInputFormat("dd/mm/yyyy");
+        g.setFormatArr("day","week","month");
+        g.setCaptionType('None');  // Set to Show Caption (None,Caption,Resource,Duration,Complete)
+
+        g.setShowStartDate(0); // Show/Hide Start Date(0/1)
+        g.setShowEndDate(0); // Show/Hide End Date(0/1)
+        g.setDateDisplayFormat('dd/mm/yyyy') // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
+
+      //var gr = new Graphics();
+
+      if( g ) {
+                JSGantt.parseXML('<?php echo $this->url(array('action'=>'gantt'));?>?format=xml',g);
+                g.Draw();
+                g.DrawDependencies();
+      }else{
+        alert("not defined");
+      }
+
 </script>

@@ -108,13 +108,13 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 		
 	<script>
 	$(function() {
-		$( ".slider-peso" ).slider({ animate: true });
+		$( ".slider-peso" ).slider({ animate: true , step: 5});
 		$(".slider-peso").each(function(){
 			var input = $(this).nextAll('input');
 			var peso =  input.val();
 			var atividade_id = input.attr("id");
 			$(this).slider({value: peso,
-							change: function( event, ui ) {
+							    change: function( event, ui ) {
 								gravaPeso(ui.value, atividade_id)
 								verificaPesos();
 								},

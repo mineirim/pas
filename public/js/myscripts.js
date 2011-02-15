@@ -329,6 +329,24 @@ Mensageiro ={
          *quando é feita alguma alteração no formulário, ele obrigatoriamente passa pelo onComplete
          *quando o retorno do json diz para dar refresh na pagina, ele adiciona uma funçao à caixa de diálogo
          */
+        if(json.alert){
+        	
+        	 $( "<div title='Erro'></div>" )
+             .html(json.alert)
+             .dialog(
+             {
+                 modal: true,
+                 buttons:
+                 {
+                     Ok: function()
+                     {
+                         $( this ).dialog( "destroy" );
+                         $( this ).remove();
+                     }
+                 }
+             });
+        }
+        
         if(json.refreshPage){
             $('#formulario_ajax').dialog({close: function(ev, ui){
                     location.reload();}

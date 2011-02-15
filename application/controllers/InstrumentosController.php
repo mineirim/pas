@@ -6,6 +6,8 @@ class InstrumentosController extends Zend_Controller_Action {
             $ajaxContext->setAutoJsonSerialization(false);
             $ajaxContext->addActionContext('xxgantt', array('xml','html'))
                     ->initContext();
+            $ajaxContext->addActionContext('xxganttAtividadesVinculadas', array('xml','html'))
+                    ->initContext();
             if ($this->_request->isXmlHttpRequest ())
                     $this->_helper->layout ()->disableLayout ();
 	}
@@ -216,94 +218,170 @@ class InstrumentosController extends Zend_Controller_Action {
 
 		}
 	}
-	public function ganttAction()
-	{
-            $this->getResponse()
-                ->setHeader('Content-type', 'text/xml');
-            $this->_helper->layout ()->disableLayout ();
-            //$this->_helper->viewRenderer->setNoRender(true);
-            $meta_id = $this->_getParam('meta_id');
-            $model_operacoes = new Model_Operacoes();
-            $model_atividades = new Model_Atividades();
-            $model_atividades_historico = new Model_AtividadesHistorico();
-            $model_atividades_vinculadas = new Model_AtividadesVinculadas();
-            
-            //$select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
-            
-            
-            $operacoes = $model_operacoes->fetchAll("meta_id=$meta_id and situacao_id=1");
-            
-            $xmlString = '<project>';
-            $task = '';
-            foreach ($operacoes as $operacao) {
-                $opid = (int)$operacao->id +600000;
-                $task .= '<task>';
-                $task .= "<pID>$opid</pID>";
-                $task .= "<pName>$operacao->descricao</pName>";
-                $task .= "<pStart> </pStart>";
-                $task .= "<pEnd> </pEnd>";
-                $task .= "<pColor>0000ff</pColor>";
-                $task .= "<pLink>/xx</pLink>";
-                $task .= "<pMile>0</pMile>";
-                $task .= "<pRes>Setor Responsável</pRes>";
-                $task .= "<pComp>0</pComp>";
-                $task .= "<pGroup>1</pGroup>";
-                $task .= "<pParent>0</pParent>";
-                $task .= "<pOpen>1</pOpen>";
-                $task .= "<pDepend/>";
-                $task .= '</task>';
-                $lst='';
-                $select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
-				$select_atividades->setIntegrityCheck(false)
-			       ->where('atividades.situacao_id = 1')
-			       ->join(Zend_Registry::get('schema').'.atividades_historico', 'atividades_historico.atividade_id = atividades.id', 'data_inicio')
-			       ->where('atividades_historico.situacao_id=1')
-			       ->order('atividades_historico.data_inicio');
-                 
-                foreach ($operacao->findModel_Atividades($select_atividades) as $atividade){
-                	if($atividade->situacao_id !==1)
-                		continue;
-					$select_historico = $model_atividades_historico->select();
-            		$select_vinculadas = $model_atividades_vinculadas->select();                		
-					$select_historico->reset('where');
-					$select_historico->where('situacao_id=1');
-                	$historico = $atividade->findModel_AtividadesHistorico($select_historico)->current();	
-                	
-                    $data_inicio = $historico->data_inicio();
-                    $data_final = $historico->data_prazo();
-                    
-                    $select_vinculadas->reset('where');
-                    $select_vinculadas->where('situacao_id=1');
-                    $vinculadas = $model_atividades_vinculadas->fetchAll('situacao_id=1 and atividade_id='.$atividade->id);
-                    $str_vinculadas =array();
-                    foreach ($vinculadas as $vinculo){
-                    	$str_vinculadas[] = $vinculo->depende_atividade_id;
-                    }
-                    $str_vinculadas = implode(',', $str_vinculadas);
-                    
-                    $task .= '<task>';
-                    $task .= "<pID>$atividade->id</pID>";
-                    $task .= "<pName>$atividade->id - $atividade->descricao </pName>";
-                    $task .= "<pStart>$data_inicio</pStart>";
-                    $task .= "<pEnd>$data_final</pEnd>";
-                    $task .= "<pColor>ff00ff</pColor>";
-                    $task .= "<pLink>/xx</pLink>";
-                    $task .= "<pMile>0</pMile>";
-                    $task .= "<pRes/>";
-                    $task .= "<pComp>$historico->percentual</pComp>";
-                    $task .= "<pGroup>0</pGroup>";
-                    $task .= "<pParent>$opid</pParent>";
-                    $task .= "<pOpen>1</pOpen>";
-                    $task .= "<pDepend>$str_vinculadas</pDepend>";
-                    $task .= '</task>';
-                    
-                }
-            }
-            
-            $xmlString .= $task."</project>";
-            //echo trim("<project> <task> <pID>10</pID> <pName>WCF Changes</pName> <pStart></pStart> <pEnd></pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes></pRes> <pComp>0</pComp> <pGroup>1</pGroup> <pParent>0</pParent> <pOpen>1</pOpen> <pDepend /> </task> <task> <pID>20</pID> <pName>Move to WCF from remoting</pName> <pStart>8/11/2008</pStart> <pEnd>8/15/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Rich</pRes> <pComp>10</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend></pDepend> </task> <task> <pID>30</pID> <pName>add Auditing</pName> <pStart>8/19/2008</pStart> <pEnd>8/21/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Mal</pRes> <pComp>50</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend>20</pDepend> </task> </project>");
-            //$ret= "<project> <task> <pID>10</pID> <pName>WCF Changes</pName> <pStart></pStart> <pEnd></pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes></pRes> <pComp>0</pComp> <pGroup>1</pGroup> <pParent>0</pParent> <pOpen>1</pOpen> <pDepend /> </task> <task> <pID>20</pID> <pName>Move to WCF from remoting</pName> <pStart>8/11/2008</pStart> <pEnd>8/15/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Rich</pRes> <pComp>10</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend></pDepend> </task> <task> <pID>30</pID> <pName>add Auditing</pName> <pStart>8/19/2008</pStart> <pEnd>8/21/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Mal</pRes> <pComp>50</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend>20</pDepend> </task> </project>";
+	public function ganttAction() {
+		$atividade_id = $this->_getParam ( 'atividade_id ', 0 );
+		if (( int ) $atividade_id > 0) {
+			$this->getResponse ()->setHeader ( 'Content-type', 'text/xml' );
+			$this->_helper->layout ()->disableLayout ();
+			//$this->_helper->viewRenderer->setNoRender(true);
+			$model_atividades = new Model_Atividades ();
+			$model_atividades_historico = new Model_AtividadesHistorico ();
+			$model_atividades_vinculadas = new Model_AtividadesVinculadas ();
+			
+			//$select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+			
 
-            $this->view->myxml = trim($xmlString);
+			
+			$xmlString = '<project>';
+			$task = '';
+				$task .= '<task>';
+				$task .= "<pID>600000</pID>";
+				$task .= "<pName>teste</pName>";
+				$task .= "<pStart> </pStart>";
+				$task .= "<pEnd> </pEnd>";
+				$task .= "<pColor>0000ff</pColor>";
+				$task .= "<pLink>/xx</pLink>";
+				$task .= "<pMile>0</pMile>";
+				$task .= "<pRes>Setor Responsável</pRes>";
+				$task .= "<pComp>0</pComp>";
+				$task .= "<pGroup>1</pGroup>";
+				$task .= "<pParent>0</pParent>";
+				$task .= "<pOpen>1</pOpen>";
+				$task .= "<pDepend/>";
+				$task .= '</task>';
+				$lst = '';
+				$select_atividades = $model_atividades->select ( Zend_Db_Table::SELECT_WITH_FROM_PART );
+				$select_atividades->setIntegrityCheck ( false )
+								  ->where ( 'atividades.situacao_id = 1 and atividades.id = 15' )
+								  ->join ( Zend_Registry::get ( 'schema' ) . '.atividades_historico', 'atividades_historico.atividade_id = atividades.id', 'data_inicio' )
+								  ->where ( 'atividades_historico.situacao_id=1' )
+								  ->order ( 'atividades_historico.data_inicio' );
+				
+				foreach ( select_atividades  as $atividade ) {
+					if ($atividade->situacao_id !== 1)
+						continue;
+					$select_historico = $model_atividades_historico->select ();
+					$select_vinculadas = $model_atividades_vinculadas->select ();
+					$select_historico->reset ( 'where' );
+					$select_historico->where ( 'situacao_id=1' );
+					$historico = $atividade->findModel_AtividadesHistorico ( $select_historico )->current ();
+					
+					$data_inicio = $historico->data_inicio ();
+					$data_final = $historico->data_prazo ();
+					
+					$select_vinculadas->reset ( 'where' );
+					$select_vinculadas->where ( 'situacao_id=1' );
+					$vinculadas = $model_atividades_vinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade->id );
+					$str_vinculadas = array ();
+					foreach ( $vinculadas as $vinculo ) {
+						$str_vinculadas [] = $vinculo->depende_atividade_id;
+					}
+					$str_vinculadas = implode ( ',', $str_vinculadas );
+					
+					$task .= '<task>';
+					$task .= "<pID>$atividade->id</pID>";
+					$task .= "<pName>$atividade->id - $atividade->descricao </pName>";
+					$task .= "<pStart>$data_inicio</pStart>";
+					$task .= "<pEnd>$data_final</pEnd>";
+					$task .= "<pColor>ff00ff</pColor>";
+					$task .= "<pLink>/xx</pLink>";
+					$task .= "<pMile>0</pMile>";
+					$task .= "<pRes/>";
+					$task .= "<pComp>$historico->percentual</pComp>";
+					$task .= "<pGroup>0</pGroup>";
+					$task .= "<pParent>600000</pParent>";
+					$task .= "<pOpen>1</pOpen>";
+					$task .= "<pDepend>$str_vinculadas</pDepend>";
+					$task .= '</task>';
+				
+				}
+			
+			$xmlString .= $task . "</project>";
+		} else {
+			
+			$this->getResponse ()->setHeader ( 'Content-type', 'text/xml' );
+			$this->_helper->layout ()->disableLayout ();
+			//$this->_helper->viewRenderer->setNoRender(true);
+			$meta_id = $this->_getParam ( 'meta_id' );
+			$model_operacoes = new Model_Operacoes ();
+			$model_atividades = new Model_Atividades ();
+			$model_atividades_historico = new Model_AtividadesHistorico ();
+			$model_atividades_vinculadas = new Model_AtividadesVinculadas ();
+			
+			//$select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+			
+
+			$operacoes = $model_operacoes->fetchAll ( "meta_id=$meta_id and situacao_id=1" );
+			
+			$xmlString = '<project>';
+			$task = '';
+			foreach ( $operacoes as $operacao ) {
+				$opid = ( int ) $operacao->id + 600000;
+				$task .= '<task>';
+				$task .= "<pID>$opid</pID>";
+				$task .= "<pName>$operacao->descricao</pName>";
+				$task .= "<pStart> </pStart>";
+				$task .= "<pEnd> </pEnd>";
+				$task .= "<pColor>0000ff</pColor>";
+				$task .= "<pLink>/xx</pLink>";
+				$task .= "<pMile>0</pMile>";
+				$task .= "<pRes>Setor Responsável</pRes>";
+				$task .= "<pComp>0</pComp>";
+				$task .= "<pGroup>1</pGroup>";
+				$task .= "<pParent>0</pParent>";
+				$task .= "<pOpen>1</pOpen>";
+				$task .= "<pDepend/>";
+				$task .= '</task>';
+				$lst = '';
+				$select_atividades = $model_atividades->select ( Zend_Db_Table::SELECT_WITH_FROM_PART );
+				$select_atividades->setIntegrityCheck ( false )->where ( 'atividades.situacao_id = 1' )->join ( Zend_Registry::get ( 'schema' ) . '.atividades_historico', 'atividades_historico.atividade_id = atividades.id', 'data_inicio' )->where ( 'atividades_historico.situacao_id=1' )->order ( 'atividades_historico.data_inicio' );
+				
+				foreach ( $operacao->findModel_Atividades ( $select_atividades ) as $atividade ) {
+					if ($atividade->situacao_id !== 1)
+						continue;
+					$select_historico = $model_atividades_historico->select ();
+					$select_vinculadas = $model_atividades_vinculadas->select ();
+					$select_historico->reset ( 'where' );
+					$select_historico->where ( 'situacao_id=1' );
+					$historico = $atividade->findModel_AtividadesHistorico ( $select_historico )->current ();
+					
+					$data_inicio = $historico->data_inicio ();
+					$data_final = $historico->data_prazo ();
+					
+					$select_vinculadas->reset ( 'where' );
+					$select_vinculadas->where ( 'situacao_id=1' );
+					$vinculadas = $model_atividades_vinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade->id );
+					$str_vinculadas = array ();
+					foreach ( $vinculadas as $vinculo ) {
+						$str_vinculadas [] = $vinculo->depende_atividade_id;
+					}
+					$str_vinculadas = implode ( ',', $str_vinculadas );
+					
+					$task .= '<task>';
+					$task .= "<pID>$atividade->id</pID>";
+					$task .= "<pName>$atividade->id - $atividade->descricao </pName>";
+					$task .= "<pStart>$data_inicio</pStart>";
+					$task .= "<pEnd>$data_final</pEnd>";
+					$task .= "<pColor>ff00ff</pColor>";
+					$task .= "<pLink>/xx</pLink>";
+					$task .= "<pMile>0</pMile>";
+					$task .= "<pRes/>";
+					$task .= "<pComp>$historico->percentual</pComp>";
+					$task .= "<pGroup>0</pGroup>";
+					$task .= "<pParent>$opid</pParent>";
+					$task .= "<pOpen>1</pOpen>";
+					$task .= "<pDepend>$str_vinculadas</pDepend>";
+					$task .= '</task>';
+				
+				}
+			}
+			
+			$xmlString .= $task . "</project>";
+		
+		//echo trim("<project> <task> <pID>10</pID> <pName>WCF Changes</pName> <pStart></pStart> <pEnd></pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes></pRes> <pComp>0</pComp> <pGroup>1</pGroup> <pParent>0</pParent> <pOpen>1</pOpen> <pDepend /> </task> <task> <pID>20</pID> <pName>Move to WCF from remoting</pName> <pStart>8/11/2008</pStart> <pEnd>8/15/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Rich</pRes> <pComp>10</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend></pDepend> </task> <task> <pID>30</pID> <pName>add Auditing</pName> <pStart>8/19/2008</pStart> <pEnd>8/21/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Mal</pRes> <pComp>50</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend>20</pDepend> </task> </project>");
+		//$ret= "<project> <task> <pID>10</pID> <pName>WCF Changes</pName> <pStart></pStart> <pEnd></pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes></pRes> <pComp>0</pComp> <pGroup>1</pGroup> <pParent>0</pParent> <pOpen>1</pOpen> <pDepend /> </task> <task> <pID>20</pID> <pName>Move to WCF from remoting</pName> <pStart>8/11/2008</pStart> <pEnd>8/15/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Rich</pRes> <pComp>10</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend></pDepend> </task> <task> <pID>30</pID> <pName>add Auditing</pName> <pStart>8/19/2008</pStart> <pEnd>8/21/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Mal</pRes> <pComp>50</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend>20</pDepend> </task> </project>";
+		}
+		$this->view->myxml = trim ( $xmlString );
 	}
+
 }

@@ -41,8 +41,7 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 			throw new Exception ( __CLASS__ . '::' . __METHOD__ . ' expects the resource to be' . ' an instance of Zend_Controller_Action' );
 		}
 		
-		
-	
+
 
 		/**
 		 * coisas que influenciam nas permissões do usuário
@@ -112,6 +111,7 @@ class App_Acl_Assert_Controllers implements Zend_Acl_Assert_Interface {
 		$modelo = $this->_contextos[$contexto]['modelo'];
 		eval("\$niveis = new Model_$modelo();");
 		$nivel = $niveis->fetchRow("id =  $nivel_id");
+		
 		if ($contexto !== 'programa'){
 			$parentNome = $this->_contextos[$contexto]['parent'];
 			$parentModelo = $this->_contextos[$parentNome]['modelo'];

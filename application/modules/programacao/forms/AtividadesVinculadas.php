@@ -23,7 +23,8 @@ class Programacao_Form_AtividadesVinculadas extends Zend_Form
             foreach ($atividades as $atividade)
                 $depende_atividade_id->addMultiOption($atividade->id,$atividade->descricao);
              $depende_atividade_id->setDecorators(
-                        array(array('ViewScript', array('viewScript' => '_formselect.phtml'))));
+                        array(array('ViewScript', array('viewScript' => '_formselect.phtml'))))
+                        ->setAttrib('size', 59);
             
             
             

@@ -16,6 +16,7 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                 ->addActionContext('save', array('html', 'json', 'xml'))
                 ->addActionContext('mudapeso', array('html', 'json', 'xml'))
                 ->addActionContext('addvinculacao', array('html', 'json', 'xml'))
+                ->addActionContext('deletevinculacao', array('html', 'json', 'xml'))
                 ->initContext();
         if ($this->_request->isXmlHttpRequest())
             $this->_helper->layout()->disableLayout();
@@ -277,9 +278,9 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                     $atividadesVinculadas = $modelAtividadesVinculadas->fetchAll($where);
                     if ($atividadesVinculadas->valid()) {
                         $this->view->response = array(
-                            'notice' => 'Vínculo já existe!',
+                            'alert' => 'Vínculo já existe!',
                             'keepOpened' => true,
-                            'refreshPage' => true);
+                            'refreshPage' => false);
                         return false;
                     }
 
@@ -309,18 +310,15 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                     $modelAtividadesVinculadas = new Model_AtividadesVinculadas();
 
                     try {
-                        $newid = $modelAtividadesVinculadas->insert($dados);
-                        $this->view->response = array('dados' => $modelAtividadesVinculadas->find($newid)->current(),
+                        $modelAtividadesVinculadas->insert($dados);
+                        $this->view->response = array(
                             'notice' => 'Dados atualizados com sucesso',
-                            'keepOpened' => true,
+                            'keepOpened' => false,
                             'refreshPage' => true);
-                        if (isset($newid)) {
-                            $this->view->response ['newid'] = $newid;
-                        }
                     } catch (Zend_Db_Exception $e) {
                         $this->view->response = array('notice' => $e->getMessage(),
                             'keepOpened' => true,
-                            'refreshPage' => true);
+                            'refreshPage' => false);
                     }
                 } catch (Exception $e) {
                     $this->form->populate($formData);
@@ -343,13 +341,11 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($this->getRequest()->getPost())) {
                 $id = $form->getValue('id');
-                $this->view->response = array();
                 try {
                     $modelAtividadesVinculadas->update(array('situacao_id' => 2), 'id=' . $id);
                     $atividadesVinculadas = $modelAtividadesVinculadas->fetchRow('id=' . $id);
-                    $this->view->response = array('dados' => $atividadesVinculadas->toArray(),
+                    $this->view->response = array(
                         'notice' => 'Vínculo excluído com sucesso',
-                        'descricao' => 'Vínculo excluído com sucesso',
                         'keepOpened' => false,
                         'refreshPage' => true);
                 } catch (Exception $e) {
@@ -375,6 +371,7 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
             $this->view->form = $form;
         }
     }
-
+    
+    
 }
 
