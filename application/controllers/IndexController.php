@@ -15,9 +15,8 @@ class IndexController extends Zend_Controller_Action
     {
         $this->view->title = "POA 2010";
         
-        		$this->view->headTitle($this->view->title, 'PREPEND');
-	  $this->_redirect('/auth');
-        
+        $this->view->headTitle($this->view->title, 'PREPEND');
+	
 
     }
 

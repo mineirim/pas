@@ -75,9 +75,11 @@ class Admin_Form_Usuario extends ZendX_JQuery_Form {
          */
         
         $cargo_id = new Zend_Form_Element_Select('cargo_id');
-        $cargo_id->setLabel('Cargo');
+        $cargo_id->setLabel('Cargo')
+                ->setRequired(true)
+                ->addValidator('NotEmpty');
         $model_cargos = new Model_Cargos();
-        $cargo_id->addMultiOption(0,'Selecione o cargo');
+        $cargo_id->addMultiOption('','Selecione o cargo');
         foreach ($model_cargos->fetchAll('situacao_id=1') as $cargo)
         	$cargo_id->addMultiOption($cargo->id,$cargo->nome);
 		
@@ -94,17 +96,6 @@ class Admin_Form_Usuario extends ZendX_JQuery_Form {
         	$setor_id->addMultiOption($setor->id,$setor->nome.' - '.$setor->sigla);
 		
         $subformSetor->addElement($setor_id);	
-        $data_entrada = new Zend_Form_Element_Text('data_entrada');
-        $data_entrada->setLabel('Data de lotação no setor')
-                ->addFilter('StripTags')->addFilter('StringTrim')
-                ->addValidator($dateValidator)
-                ->setAttrib('class','datepick')
-                ->setAttrib('size', '12');
-        $subformSetor->addElement($data_entrada);
-
-        
-
-
         $this->addSubForm($subform, 'usuario');
         $this->addSubForm($subformCargo, 'cargo');
         $this->addSubForm($subformSetor, 'setor');
@@ -126,7 +117,7 @@ class Admin_Form_Usuario extends ZendX_JQuery_Form {
         $grupos = new Model_Grupos();
 
         $formGrupos = new Zend_Form_Element_MultiCheckbox('grupos');
-        foreach ($grupos->fetchAll($where) as $p)
+        foreach ($grupos->fetchAll($where,'id') as $p)
             $formGrupos->addMultiOptions(array($p->id => " " . $p->descricao));
         $formGrupos->setDecorators(array('ViewHelper', 'Errors'))
                 ->setRequired(true);

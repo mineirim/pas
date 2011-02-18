@@ -57,14 +57,14 @@ class TreemenuController extends Zend_Controller_Action {
                     "attr" => array("id" => "li-indicadores"),
                     "data" => array(
                         "title" => "Indicadores",
-                        "attr" => array("href" => "/public/indicadores")
+                        "attr" => array("href" =>  $this->_helper->url("index", "indicadores"))
                     )
                 ),
                 array(
                     "attr" => array("id" => "li-relatorios"),
                     "data" => array(
                         "title" => "Relatorios",
-                        "attr" => array("href" => "/public/relatorios")
+                        "attr" => array("href" => $this->_helper->url("index", "reports"))
                     )
                 )
             );

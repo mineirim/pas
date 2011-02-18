@@ -38,13 +38,13 @@ class Model_SetorUsuarios extends App_DefaultModel {
         $tmp = $this->fetchRow('situacao_id=1 and usuario_id='.$dados['usuario_id']);
         try{
             if($tmp){
-                $dados_update =array('situacao_id'=>3);
+                $dados_update =array('situacao_id'=>3, 'data_saida'=>new Zend_Date());
                 /**
                  * TODO exigir data de início, final e justificativa de lotação no setor anterior
                  */
                 parent::update($dados_update, 'id='.$tmp->id);
             }
-            
+            $dados['data_entrada']= new Zend_Date();
             $id = parent::insert($dados);
             $this->getAdapter()->commit();
             return $id;

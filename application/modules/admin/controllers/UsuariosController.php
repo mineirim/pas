@@ -70,6 +70,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                     $usuario = $model_usuarios->fetchRow('id=' . $id);
                     $this->view->response = array('dados' => $usuario->toArray(),
                         'notice' => 'Usuário inserido com sucesso',
+                        'alert' => 'Usuário inserido com sucesso',
                         'descricao' => $dados['nome']);
                 } catch (Exception $e) {
                     $this->getResponse()->setHttpResponseCode(501);
@@ -118,7 +119,8 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                     $model_cargo_usuarios->insert($cargo_usuario);
                     $usuario = $usuarios->fetchRow('id=' . $id);
                     $this->view->response = array('dados' => $usuario->toArray(),
-                        'notice' => 'Dados atualizados com sucesso',
+                        'notice'    => 'Dados atualizados com sucesso',
+                        'alert'     =>  'Usuário atualizado com sucesso',
                         'descricao' => $dados['nome']);
                 } catch (Exception $e) {
                     $this->getResponse()->setHttpResponseCode(501);
@@ -127,9 +129,23 @@ class Admin_UsuariosController extends Zend_Controller_Action {
                         'errormessage' => $e->getMessage());
                 }
             } else {
+                $erro='';
+                $arr_erros =$form->getErrors();
+                foreach ($arr_erros['usuario'] as $key=>$value) {
+                    if(count($value)>0)
+                        $erro.= "$key: $value[0]<br>";
+                }
+                foreach ($arr_erros['cargo'] as $key=>$value) {
+                    if(count($value)>0)
+                        $erro.= "$key: $value[0]<br>";
+                }
+                foreach ($arr_erros['setor'] as $key=>$value) {
+                    if(count($value)>0)
+                        $erro.= "$key: $value[0]<br>";
+                }
                 $this->getResponse()->setHttpResponseCode(501);
                 $this->view->response = array('notice' => 'Erro ao gravar dados',
-                    'errormessage' => $e->getMessage(),
+                    'errormessage' => $erro,
                     'errors' => $form->getErrors()
                 );
             }

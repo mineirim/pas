@@ -5,14 +5,12 @@ class IndicadoresController extends Zend_Controller_Action
 
     /**
      * @var Model_Indicadores $indicadores Model_Indicadores()
-     * 
      */
     private $indicadores = null;
 
     /**
      * @var Model_IndicadoresConfiguracoes $indicadores_configs
      * Model_IndicadoresConfiguracoes()
-     * 
      */
     private $indicadores_configs = null;
     private $arr_campos = array();

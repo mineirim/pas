@@ -68,7 +68,7 @@ class Model_AclAssertRules extends Zend_Db_Table_Abstract {
 	}
 	
 	public function setChefia($setores) {
-		
+		$aux = array();
 		if (is_array ( $setores )) {
 			foreach ( $setores as $setor ) {
 				$select = $this->_db->select ();

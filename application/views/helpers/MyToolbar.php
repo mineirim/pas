@@ -149,7 +149,7 @@ class Zend_View_Helper_MyToolbar{
 		$width = 65;
 		if($this->_controller=='metas'){
 			$width = 80;
-			$trimestral="<a href='".$this->view->url(array('controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id),null,true)."'
+			$trimestral="<a href='".$this->view->url(array('module'=>'programacao', 'controller'=>$this->_controller,'action'=>'settrimestral','meta_id'=>$this->_id),null,true)."'
 						class='my-button ajax-form-load '
 						title='Configurar meta para relatório trimestral'>
 						<span class='ui-icon ui-icon-calendar '></span>
@@ -172,7 +172,7 @@ class Zend_View_Helper_MyToolbar{
 		</a>
                 <a href='".$this->view->url(array('controller'=>'relatorios','action'=>'relatorioplano','module'=>'relatorios', 'programa_id'=>$this->_id),null,true)."'
 		class='my-button '
-		title='Excluir' >
+		title='Relatório' >
 		<span class='ui-icon ui-icon-print '></span>
 		</a>
 		$trimestral

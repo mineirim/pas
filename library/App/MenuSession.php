@@ -11,13 +11,6 @@ class App_MenuSession {
 					'class'=>'',
 					'pages' => array(
 									array(
-										'label' => 'Alterar senha',
-										'module' => 'admin',
-										'controller' => 'usuarios',
-										'action' => 'changepassword',
-										'class'=>'bt-menu-tree'
-									),
-									array(
 										'label' => 'Usuários',
 										'module' => 'admin',
 										'controller' => 'usuarios',
@@ -100,7 +93,7 @@ class App_MenuSession {
 								'label'=>$objetivo->menu,
 								'module'=>'default',
 								'controller' => 'instrumentos',
-								'action'=>'objetivos-especificos',
+								'action'=>'objetivo-especifico',
 								'params'=>array('objetivo_especifico_id'=>$objetivo->id),
 								'class'=>'bt-menu-tree'
 								);
