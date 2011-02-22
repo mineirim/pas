@@ -17,6 +17,7 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                 ->addActionContext('mudapeso', array('html', 'json', 'xml'))
                 ->addActionContext('addvinculacao', array('html', 'json', 'xml'))
                 ->addActionContext('deletevinculacao', array('html', 'json', 'xml'))
+                ->addActionContext('pacto', array('html', 'json', 'xml'))
                 ->initContext();
         if ($this->_request->isXmlHttpRequest())
             $this->_helper->layout()->disableLayout();
@@ -68,17 +69,33 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                     $this->view->response = array('dados' => $atividade_historico->toArray(),
                         'notice' => 'Dados atualizados com sucesso',
                         'descricao' => $atividade_historico->findParentRow('Model_Andamentos')->descricao,
-                        'keepOpened' => true, 'refreshPage' => true);
+                        'refreshPage' => true);
                 } catch (Exception $e) {
                     $this->getResponse()->setHttpResponseCode(501);
                     $this->view->response = array('notice' => 'Erro ao gravar dados',
                         'errormessage' => $e->getMessage());
                 }
             } else {
-                $this->getResponse()->setHttpResponseCode(501);
+            	$this->getResponse()->setHttpResponseCode(501);
+            	$erro = '';
+            	foreach ($this->form->getMessages('historico',true) as $key => $val)
+            	{
+            		$err="";
+            		foreach ($val as $k=>$v) {
+            			$err.="<br>$v";
+            		}
+            		$erro .= "$key : $err"; 
+            	}
+            	
+          	
+				$this->view->response = array('notice' => "Erro ao gravar dados",
+                'errormessage' => 'Dados inválidos',
+				'errors' => $erro);
+            	
+            	/*$this->getResponse()->setHttpResponseCode(501);
                 $this->view->response = array('notice' => 'Erro ao gravar dados',
                     'errormessage' => 'Formulário com dados inválidos',
-                    'errors' => $this->form->getErrors());
+                    'errors' => $this->form->getErrors());*/
             }
             $this->render('save');
         } else {
@@ -246,9 +263,6 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                     'descricao' => $atividade->descricao,
                     'keepOpened' => true,
                     'refreshPage' => true);
-                if (isset($newid)) {
-                    $this->view->response ['newid'] = $newid;
-                }
             } catch (Exception $e) {
                 $this->getResponse()->setHttpResponseCode(501);
                 $this->view->response = array('notice' => 'Erro ao gravar dados', 'errormessage' => $e->getMessage());
@@ -281,9 +295,25 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                             'alert' => 'Vínculo já existe!',
                             'keepOpened' => true,
                             'refreshPage' => false);
-                        return false;
+                        return;
                     }
-
+					/**
+					 * verifica se a Atividade é precedente
+					 */
+                    
+                    $modelAtividadesVinculadas = new Model_AtividadesVinculadas();
+                    $where = array('atividade_id=?' => $depende_atividade_id,
+                        'depende_atividade_id=?' => $atividade_id,
+                        'situacao_id=?' => 1);
+                    $atividadesVinculadas = $modelAtividadesVinculadas->fetchAll($where);
+                    if ($atividadesVinculadas->valid()) {
+                        $this->view->response = array(
+                            'alert' => 'Atividade é Precendete, vinculação não é possível!',
+                            'keepOpened' => true,
+                            'refreshPage' => false);
+                        return;
+                    }                    
+                    
 
 
                     /**
@@ -291,7 +321,7 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                      * 
                      */
                     $modelAtividadesHistorico = new Model_AtividadesHistorico();
-                    $atividadesHistorico = $modelAtividadesHistorico->fetchCurrentRow($atividade_id);
+                    $atividadesHistorico = $modelAtividadesHistorico->fetchCurrentRow($depende_atividade_id);
                     $responsavel_id = $atividadesHistorico->responsavel_id;
 
                     /**
@@ -309,21 +339,28 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                     );
                     $modelAtividadesVinculadas = new Model_AtividadesVinculadas();
 
-                    try {
                         $modelAtividadesVinculadas->insert($dados);
                         $this->view->response = array(
                             'notice' => 'Dados atualizados com sucesso',
                             'keepOpened' => false,
                             'refreshPage' => true);
-                    } catch (Zend_Db_Exception $e) {
+                    
+                } 
+            	catch (Zend_Db_Exception $e) {
                         $this->view->response = array('notice' => $e->getMessage(),
                             'keepOpened' => true,
                             'refreshPage' => false);
                     }
-                } catch (Exception $e) {
-                    $this->form->populate($formData);
+                catch (Exception $e) {
+                  // criar o exception padrão
                 }
+            } else {
+            	$this->getResponse()->setHttpResponseCode(501);
+                $this->view->response = array('notice' => 'Erro ao gravar dados',
+                    'errormessage' => 'Formulário com dados inválidos',
+                    'errors' => $this->form->getErrors());
             }
+            
         } else {
             if ($atividade_id) {
                 $this->form->getElement('atividade_id')->setValue($atividade_id);
@@ -343,10 +380,8 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
                 $id = $form->getValue('id');
                 try {
                     $modelAtividadesVinculadas->update(array('situacao_id' => 2), 'id=' . $id);
-                    $atividadesVinculadas = $modelAtividadesVinculadas->fetchRow('id=' . $id);
                     $this->view->response = array(
                         'notice' => 'Vínculo excluído com sucesso',
-                        'keepOpened' => false,
                         'refreshPage' => true);
                 } catch (Exception $e) {
                     $this->getResponse()->setHttpResponseCode(501);
@@ -372,6 +407,57 @@ class Programacao_AtividadesController extends Zend_Controller_Action {
         }
     }
     
-    
+	public function pactoAction() 
+	{
+		$id = $this->_getParam('id', 0);
+		$form = new Programacao_Form_AtividadesPacto();
+        $model_atividades_vinculadas = new Model_AtividadesVinculadas();
+        if ($this->getRequest()->isPost()) 
+        {
+        	$dados = $this->getRequest()->getPost();
+            if ($form->isValid($this->getRequest()->getPost()))
+            {	
+            	$dados = array( 'is_pactuado'	=> $this->_getParam('is_pactuado'),
+            					'observacoes'	=> $this->_getParam('observacoes'),
+            					'pacto_usuario_id' => Zend_Auth::getInstance()->getIdentity()->id);
+            	
+				try 
+				{
+					$model_atividades_vinculadas->update($dados,'id = '. $id);
+                    $this->view->response = array(
+                            'notice' => 'Dados atualizados com sucesso',
+                            'keepOpened' => false,
+                            'refreshPage' => true);
+					
+				} catch (Zend_Db_Exception $e) {
+					$this->getResponse()->setHttpResponseCode(501);
+                    $this->view->response = array('notice' => 'Erro ao gravar dados',
+                        'errormessage' => 'Dados inválidos',
+                        'errors' => $e->getErrors());					
+				}
+            } else {
+            	$this->getResponse()->setHttpResponseCode(501);
+            	$erro = '';
+            	
+            	foreach ($form->getMessages() as $key => $val)
+            	{
+            		$err="";
+            		foreach ($val as $k=>$v) {
+            			$err.="<br>$v";
+            		}
+            		$erro .= "$key : $err"; 
+            	}
+            	
+				$this->view->response = array('notice' => "Erro ao gravar dados",
+                'errormessage' => 'Dados inválidos',
+				'errors' => $erro);
+            }
+            
+        } else {
+        	$atividadesvinculadas = $model_atividades_vinculadas->find($id)->current();
+        	$form->populate($atividadesvinculadas->toArray());
+        	$this->view->form = $form;
+        }
+		
+	}    
 }
-

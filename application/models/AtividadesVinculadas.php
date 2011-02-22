@@ -17,7 +17,7 @@ class Model_AtividadesVinculadas extends App_DefaultModel {
 	 */
 	
 	
-	protected $_name = 'atividades_vinculadas';
+	protected $_name = 'pas2011.atividades_vinculadas';
 	
 	protected $_referenceMap = array (
 	                     		'Atividades' => array ( 'columns' => 'atividade_id', 

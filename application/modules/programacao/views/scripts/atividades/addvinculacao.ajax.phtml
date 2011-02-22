@@ -37,8 +37,12 @@
     </div>
     
     
-    	<script>
-
+<style>
+	.ui-button { margin-left: -1px; }
+	.ui-button-icon-only .ui-button-text { padding: 0.35em; } 
+	.ui-autocomplete-input { margin: 0; padding: 0.48em 0 0.47em 0.45em; width: 85%;}
+</style>
+<script>
 	(function( $ ) {
 		$.widget( "ui.combobox", {
 			_create: function() {
@@ -51,7 +55,7 @@
 					.val( value )
 					.autocomplete({
 						delay: 0,
-						minLength: 4,
+						minLength: 0,
 						source: function( request, response ) {
 							var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
 							response( select.children( "option" ).map(function() {
@@ -106,7 +110,7 @@
 
 				this.button = $( "<button type='button'>&nbsp;</button>" )
 					.attr( "tabIndex", -1 )
-					.attr( "title", "Mostra todas as Atividades" )
+					.attr( "title", "Show All Items" )
 					.insertAfter( input )
 					.button({
 						icons: {
@@ -141,5 +145,6 @@
 	$(function() {
 		$( "#depende_atividade_id" ).combobox();
 	});
-	</script>
+</script>
+
     

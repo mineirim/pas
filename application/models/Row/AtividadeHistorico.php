@@ -37,8 +37,10 @@ class Model_Row_AtividadeHistorico extends Zend_Db_Table_Row_Abstract {
     }
 
     public function data_conclusao() {
-        $dt = new Zend_Date($this->data_conclusao, Zend_Date::ISO_8601);
-        return $dt->get(Zend_Date::DATE_MEDIUM);
+    	if ($this->data_conclusao) {
+	        $dt = new Zend_Date($this->data_conclusao, Zend_Date::ISO_8601);
+	        return $dt->get(Zend_Date::DATE_MEDIUM);
+    	}
     }
 
 }
