@@ -1,40 +1,17 @@
-<?php 
-		$mysession = new Zend_Session_Namespace ( 'mysession' );
-		$acl = $mysession->acl;
-		$auth = Zend_Auth::getInstance ();
-		if ($auth->hasIdentity ()) {
-			$role = $auth->getIdentity ()->username;
-		} else {
-			$role = 'guest';
-		}
-		$resource = 'programacao:atividades';
-		
-		if (! $acl->has ( $resource ))
-			$resource = null;
-		
-		$this->res = $resource;
-		
-		if ($role == 'guest' && ! $acl->hasRole ( 'guest' ))
-			$acl->addRole ( 'guest' );
-
-?>
-
-
-
 <table class="tb-cabecalho">
     <?php echo $this->partial('instrumentos/cabecalho.phtml',
             array('objeto' => $this->programa, 'nome' => 'Programa', 'acao' => 'Programa', 'detalhar' => ($this->nivel == 'Programa'))); ?>
     <tr>
-        <td class="espacador" colspan="2">
-            <table class="espacador-table">
+		<td class="espacador" colspan="2">
+		<table class="espacador-table">
                 <?php echo $this->partial('instrumentos/cabecalho.phtml', array('objeto' => $this->projeto,
                     'nome' => 'Projeto', 'acao' => 'Projeto', 'detalhar' => ($this->nivel == 'Projeto'))); ?>
             </table>
-        </td>
-    </tr>
-    <tr>
-        <td class="espacador" colspan="2" style="padding-left: 30px">
-            <table class="espacador-table">
+		</td>
+	</tr>
+	<tr>
+		<td class="espacador" colspan="2" style="padding-left: 30px">
+		<table class="espacador-table">
                 <?php
                 echo $this->partial('instrumentos/cabecalho.phtml',
                         array('objeto' => $this->objetivo_especifico,
@@ -43,138 +20,186 @@
                             'campo_id' => 'objetivo_especifico_id'));
                 ?>
             </table>
-        </td>
-    </tr>
-    <tr>
-        <td class="espacador" colspan="2" style="padding-left: 45px">
-            <table class="espacador-table">
-<?php echo $this->partial('instrumentos/cabecalho.phtml', array('objeto' => $this->meta,
-                    'nome' => 'Meta', 'acao' => 'meta', 'detalhar' => false)); ?>
+		</td>
+	</tr>
+	<tr>
+		<td class="espacador" colspan="2" style="padding-left: 45px">
+		<table class="espacador-table">
+			<?php echo $this->partial('instrumentos/cabecalho.phtml', array('objeto' => $this->meta,
+			                    'nome' => 'Meta', 'acao' => 'meta', 'detalhar' => false)); ?>
             </table>
-        </td>
-    </tr>
-    <tr>
-        <td class="espacador" colspan="2" style="padding-left: 60px">
-            <table class="espacador-table">
-<?php echo $this->partial('instrumentos/cabecalho.phtml', array('objeto' => $this->operacao,
+		</td>
+	</tr>
+	<tr>
+		<td class="espacador" colspan="2" style="padding-left: 60px">
+		<table class="espacador-table">
+				<?php echo $this->partial('instrumentos/cabecalho.phtml', array('objeto' => $this->operacao,
                     'nome' => 'Operacao', 'label' => 'Operação', 'acao' => 'operacao', 'campo_id' => 'operacao_id', 'detalhar' => false)); ?>
             </table>
-        </td>
-    </tr>
+		</td>
+	</tr>
 </table>
 
 <br>
 
-<div class="make-tabs" style="width: 98%; height:100%">
-    <ul>
-        <li><a href="#tabs-0" >Atividade</a></li>
-        <li><a href="#tabs-1" >Dependências</a></li>
-        <li><a href="#tabs-2" >Histórico</a></li>
-        
-    </ul>
+<div class="make-tabs" style="width: 98%; height: 100%">
+	<ul>
+		<li><a href="#tabs-0">Atividade</a></li>
+		<li><a href="#tabs-1">Dependências</a></li>
+		<li><a href="#tabs-2">Histórico</a></li>
+	
+	</ul>
 
-     <div id="tabs-0" style="overflow: hidden">
-      <?php // var_dump($this->form->historico); ?>
-      
-      
-
-	<?php echo $this->Atividades('programacao:atividades',$this->form);?>      
-        
+	<div id="tabs-0" style="overflow: hidden;">
+		<?php if ($this->is_autorizado) :?>
+		<form 	id="<?php echo $this->form->getId();?>"
+				enctype="<?php echo $this->form->getEnctype();?>"
+				action="<?php echo $this->url(array('action' => 'update', 
+													'module' => 'programacao',
+													'controller' => 'atividades')).'?format=json';?>"
+				method="post">
+			<?php 	echo $this->form->historico->atividade_id;
+					echo $this->form->historico->responsavel_id;?>						
+			<table style="clear: both;" border="2">
+				<tr>
+					<td colspan="2"><span style="font-weight: bold;"> Atividade:</span>
+					<?php echo $this->atividade->id ." - ".$this->atividade->descricao;?>
+					</td>
+				</tr>	
+				<tr>
+					<td><?php echo $this->form->historico->data_inicio;?></td>
+					<td><?php echo $this->form->historico->data_prazo;?></td>
+				</tr>
+				<tr>
+					<td colspan="2"><?php echo $this->form->historico->percentual;?></td>
+				</tr>
+				<tr>
+					<td><?php echo $this->form->historico->andamento_id;?></td>
+					<td><?php echo $this->form->historico->data_conclusao;?></td>
+				</tr>
+				<tr>
+					<td colspan="2"><?php echo $this->form->historico->avaliacao;?></td>
+				</tr>
+				<tr>
+					<td colspan="2"><?php echo $this->form->submit;?></td>
+				</tr>
+			</table>
+		</form>
+		<?php else : ?> 
+			<?php $atividade_historico = $this->atividade_historico->current(); ?>
+		<table style="clear: both;" border="2">
+			<tr>
+				<td colspan="2"><span style="font-weight: bold;"> Atividade:</span>
+				<?php echo $this->atividade->id ." - ".$this->atividade->descricao;?>
+				</td>
+			</tr>	
+			<tr>
+				<td>
+					<b><?php echo $this->form->historico->data_inicio->getLabel();?></b><br>
+		            <?php echo $atividade_historico->data_inicio();?>
+		        </td>
+				<td>
+		           	<b><?php echo $this->form->historico->data_prazo->getLabel();?></b><br>
+		            <?php echo $atividade_historico->data_prazo();?>
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td colspan="2">
+	            	<b><?php echo $this->form->historico->percentual->getLabel();?></b><br>
+		            <?php echo $atividade_historico->percentual;?>
+		        </td>
+		    </tr>
+			<tr>
+				<td>
+	            	<b><?php echo $this->form->historico->andamento_id->getLabel();?></b><br>
+		            <?php echo $atividade_historico->findParentModel_Andamentos()->descricao?>
+		        </td>
+		        <td>
+	            	<b><?php echo $this->form->historico->data_conclusao->getLabel();?></b><br>
+		            <?php echo $atividade_historico->data_conclusao();?>
+				</td>                    
+		    </tr>
+		    <tr>
+		    	<td colspan="2">
+	            	<b><?php echo $this->form->historico->avaliacao->getLabel();?></b><br>
+		            <?php echo $atividade_historico->avaliacao;?>
+		        </td>
+		    </tr>
+		</table>
+		<?php endif;?>
     </div>
- 
- 
- 
-
-
-        <div id="tabs-1" style="overflow: hidden">
-        	<div style="display: inline-table; margin-bottom: 1em;">
-        	
-        	
-        	
-			<?php 
-			// *** só é possível adicionar vinculações quando a atividade ainda não foi concluida.
-                if(!$this->situacao_atual->data_conclusao) {
-			 
-					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id, 'module'=>'programacao'))."'
-									title='Novo' 
-									class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
-									<span class='ui-icon ui-icon-plus'>Adicionar Vinculação</span>Adicionar Vinculo</a>";
-							
-			}?>							        
-			</div>
-			<div style="position:relative" class="gantt" id="GanttChartDIV"></div>			
-            <table border="2">
-                <tr>
-                    <td colspan="2"><b>VINCULAÇÕES</b></td>
-                </tr>
-                <tr>
-                    <td><b>Atividade</b></td>
-                    <td><b>Observações</b></td>
-                    <td><b>&nbsp;</b></td>
-                </tr>
-            <?php
-                foreach ($this->atividadevinculada as $atividadesvinculadas) {
-                    $vinculacao = $this->atividades->fetchRow('id=' . $atividadesvinculadas->depende_atividade_id, 'id');
-            ?>
-                    <tr>
-                        <td><a title='<?php echo $atividadesvinculadas->depende_atividade_id . " - " . $vinculacao->descricao; ?>' href='<?php echo $this->url(array('controller' => 'instrumentos', 'action' => 'atividade', 'atividade_id' => $atividadesvinculadas->depende_atividade_id)); ?>'><?php echo $atividadesvinculadas->depende_atividade_id; ?></a></td>
-                        <td><?php echo $atividadesvinculadas->justificativa; ?></td>
-                        <td>
-                    <?php
-                    // verificando se usuário pode excluir prazo.
-                    $resource = 'deletevinculacao';
-                    if (!$acl->has($resource))
-                        $resource = null;
-
-                    if ($acl->isAllowed($role, $resource) ||
-                            !$resource) {
-
-                        echo "<a href='" . $this->url(array('controller' => 'atividades', 'action' => 'deletevinculacao', 'id' => $atividadesvinculadas->id, 'module' => 'programacao')) . "'
-								title='Excluir Vinculação' 
-								class='my-button ui-state-default ui-corner-all ajax-form-load'>
-								<span class='ui-icon ui-icon-trash'>Excluir Vinculação</span></a>";
-                    } // if do acl.
-                    ?>
+    <div id="tabs-1" style="overflow: hidden">
+    	<div style="display: inline-table; margin-bottom: 1em;">
+				<?php 
+				/**
+				 * só é possível adicionar vinculações quando a atividade ainda não foi concluida.
+				 */
+	                if(!$this->situacao_atual->data_conclusao && $this->is_autorizado) :?>
+						<a href="<?php echo $this->url(array(	'controller'=>'atividades',
+															'action'=>'addvinculacao', 
+															'id'=>$this->atividade->id, 
+															'module'=>'programacao'));?>"
+										title="Novo" 
+										class="fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load">
+										<span class='ui-icon ui-icon-plus'>Adicionar Vinculo</span>Adicionar Vinculo</a>
+								
+				<?php endif; ?>
+		</div>
+		<div style="position: relative" class="gantt" id="GanttChartDIV"></div>
+		<div style="position: relative; id="dependetes">
+		<?php if ($this->is_autorizado && $this->atividadesdependentes):
+					foreach ( $this->atividadesdependentes as $atividadedependente):
+						if (!$atividadedependente->is_pactuado && $atividadedependente->pacto_usuario_id == ""):?>
+						<h3>As seguintes atividades precisam ser pactuadas:</h3>
+						<table border="2" style="width: 30%; clear: both;">
+							<tr>
+								<td>
+									<?php echo $atividadedependente->findParentModel_Atividades()->descricao;?>
+								</td>
+								<td>
+									<a href="<?php echo $this->url(array('controller'=>'atividades','action'=>'pacto', 'module'=>'programacao', 'id'=>$atividadedependente->id),null,true);?>"
+												class="my-button ajax-form-load"
+												title="Editar">
+												<span class='ui-icon ui-icon-pencil '></span>
+ 									</a>								
+								</td>
+							</tr>
+						</table>					
+					<?php endif;?>
+		<?php 	endforeach;?>
+		<?php endif;?>		
+		
+		</div>
+		
+	</div>
+	<div id="tabs-2" style="overflow: hidden">
+		<table border="2" width="50%">
+			<tr>
+				<td colspan="2"><b>Histórico</b></td>
+			</tr>
+			<tr>
+				<td><b>Data</b></td>
+				<td><b>Avaliação/justificativa</b></td>
+			</tr>
+            <?php foreach ($this->atividade_historico as $atividade_historico) :?>
+            <tr>
+				<td>
+					<?php echo $atividade_historico->data_prazo(); ?>
                 </td>
-            </tr>
-            <?php
-                }; // foreach
-            ?>
+				<td><?php echo $atividade_historico->avaliacao; ?></td>
+			</tr>
+            <?php endforeach;?>
         </table>
+	</div>
 
-    </div>
-        <div id="tabs-2" style="overflow: hidden">
-            <table border="2" width="50%">
-                <tr>
-                    <td colspan="2"><b>Histórico</b></td>
-                </tr>
-                <tr>
-                    <td><b>Data</b></td>
-                    <td><b>Avaliação/justificativa</b></td>
-                </tr>
-            <?php
-                foreach ($this->atividade_historico as $atividade_historico) {
-            ?>
-                    <tr>
-                        <td>
-				<?php echo $atividade_historico->data_prazo(); ?>
-                </td>
-                <td><?php echo $atividade_historico->avaliacao; ?></td>
-                    </tr>
-            <?php
-                } // foreach
-            ?>
-            </table>
-        </div>
 </div>
-
 <script type="text/javascript">
     $(function(){
         atividade = new Atividade();
         atividade.init();
         controleGeral.eventos_classes();
         
-   })
+   });
     
 
     function Atividade(){
@@ -183,13 +208,20 @@
         };
 
         this.conclusao = function (){
+        	$('#data_conclusao').attr("disabled", true);
         	$("#divpercentual").slider({
      		  		 change: function(event, ui) {
+     		  		 		var valor = parseInt(ui.value);
 	      					id = this.id.substr(3);
-	    					$("#"+id).val(ui.value);
-         		   			if (parseInt(ui.value) == 100)
+	      					if ($("#andamento_id").val() == 2 && valor > 0)
+	      					{
+	      						$("#andamento_id").val(3);
+	      					}
+	    					$("#"+id).val(valor);
+         		   			if (valor == 100)
          		   			{
              		   			$("#andamento_id").val(6);
+             		   			$('#data_conclusao').attr("disabled", false);
              		   			$("#data_conclusao").focus();
          		   			}
              		   			
@@ -199,8 +231,10 @@
         			var valor = parseInt($(this).val());
 					if (valor == 6) {
 						$("#divpercentual").slider({ value: 100 });
+						$('#data_conclusao').attr("disabled", false);
 						$("#data_conclusao").focus();
 					} else if (valor == 6){
+						$('#data_conclusao').attr("disabled", false);
 						$("#data_conclusao").focus();
 					}
     		});
@@ -213,10 +247,10 @@
 
   // Future idea would be to allow XML file name to be passed in and chart tasks built from file.
 
-     g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
+     g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'week');
         g.setShowRes(0); // Show/Hide Responsible (0/1)
         // define a quantidade de caracteres que aparecerão na descrição
-        g.setMaxLengthDescription(50)
+        g.setMaxLengthDescription(50);
         g.setShowDur(1); // Show/Hide Duration (0/1)
         g.setShowComp(1); // Show/Hide % Complete(0/1)
 
@@ -226,7 +260,7 @@
 
         g.setShowStartDate(0); // Show/Hide Start Date(0/1)
         g.setShowEndDate(0); // Show/Hide End Date(0/1)
-        g.setDateDisplayFormat('dd/mm/yyyy') // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
+        g.setDateDisplayFormat('dd/mm/yyyy'); // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
 
       //var gr = new Graphics();
 

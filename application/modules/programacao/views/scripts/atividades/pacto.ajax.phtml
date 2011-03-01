@@ -1,0 +1,40 @@
+<div class="make-tabs">
+    <ul>
+        <li><a href="#tabs-0">Pacto</a></li>
+    </ul>
+    <div id="tabs-0" style="overflow: hidden">
+        <form id='<?php echo $this->form->getId();?>'
+              enctype='<?php echo $this->form->getEnctype();?>'
+              action='<?php echo $this->url(array('action' => 'pacto'));?>?format=json'
+              method="post">
+              <?php echo $this->form->id; ?>
+            <div style='display:none'>
+			</div>
+            <table width="100%" border="0">
+                <tr>
+                    <td>
+						<?php echo $this->form->justificativa;?>
+                    </td>
+                </tr>            
+                <tr>
+                    <td>
+						<?php echo $this->form->is_pactuado;?>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>
+						<?php echo $this->form->observacoes; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $this->form->submit; ?>
+                        <?php echo $this->form->cancelar; ?>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    </div>

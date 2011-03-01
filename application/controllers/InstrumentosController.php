@@ -6,8 +6,6 @@ class InstrumentosController extends Zend_Controller_Action {
             $ajaxContext->setAutoJsonSerialization(false);
             $ajaxContext->addActionContext('xxgantt', array('xml','html'))
                     ->initContext();
-            $ajaxContext->addActionContext('xxganttAtividadesVinculadas', array('xml','html'))
-                    ->initContext();
             if ($this->_request->isXmlHttpRequest ())
                     $this->_helper->layout ()->disableLayout ();
 	}
@@ -113,16 +111,44 @@ class InstrumentosController extends Zend_Controller_Action {
 	}
 
 	public function atividadeAction() {
+		
 		$model_operacoes = new Model_Operacoes ();
 		$model_atividades = new Model_Atividades ();
 		$model_atividades_historico = new Model_AtividadesHistorico();
 		$model_atividadesvinculadas = new Model_AtividadesVinculadas ();
 		if ($this->_hasParam ( 'atividade_id' )) {
+			
+			
+		/**
+		 * Busca Permissão de Edição na página de atividade  
+		 *  
+		 */		
+			$mysession = new Zend_Session_Namespace ( 'mysession' );
+			$this->acl = $mysession->acl;
+			$this->view->acl = $this->acl;
+			$auth = Zend_Auth::getInstance ();
+			if ($auth->hasIdentity ()) {
+				$this->role = $auth->getIdentity ()->username;
+			} else {
+				$this->role = 'guest';
+			}
+			$resource = 'programacao:atividades';
+			
+			if (! $this->acl->has ( $resource ))
+				$resource = null;
+	
+			if ($this->role == 'guest' && ! $this->acl->hasRole ( 'guest' ))
+				$this->acl->addRole ( 'guest' );
+				
+			$this->view->is_autorizado = ($this->acl->isAllowed ( $this->role, $resource, 'editar' )|| ! $resource)?true: false;
+				
+			
+			
 			$atividade_id = $this->_getParam ( 'atividade_id', 0 );
 			$this->view->atividades			= $model_atividades;
 			$this->view->atividade 			= $model_atividades->fetchRow ( 'id=' . $atividade_id, 'id' );
-			$this->view->atividade_historico= $model_atividades_historico->fetchAll ( 'atividade_id=' . $atividade_id, 'id ASC' );
 			$this->view->atividadevinculada = $model_atividadesvinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade_id, 'id ASC' );
+			$this->view->atividadesdependentes = $model_atividadesvinculadas->fetchAll ( 'situacao_id=1 and depende_atividade_id=' . $atividade_id, 'id ASC' );			
 			$situacao_atual = $model_atividades_historico->fetchCurrentRow($atividade_id);
 			$this->view->situacao_atual		= $situacao_atual;
 			$this->view->operacao 			= $this->view->atividade->findParentRow ( 'Model_Operacoes' );
@@ -133,93 +159,42 @@ class InstrumentosController extends Zend_Controller_Action {
 			$this->view->nivel 				= 'Atividade';
 			$this->view->tableheader 		= 'Atividades';
 			$this->view->resource 			= "atividades";
-
-/*		$mysession = new Zend_Session_Namespace ( 'mysession' );
-			$acl = $mysession->acl;
-			$auth = Zend_Auth::getInstance();
-			if ($auth->hasIdentity ()) {
-				$role = $auth->getIdentity ()->username;
-			} else {
-				$role = 'guest';
-			}
 			
-*/
+			
 			$model_atividadesHistorico = new Model_AtividadesHistorico();
             $atividadeHistorico = $model_atividadesHistorico->fetchCurrentRow($atividade_id);
-            if($atividadeHistorico){
+            if($atividadeHistorico)
+            {
+            	if ($this->view->is_autorizado && $atividadeHistorico->andamento_id == 1)
+            	{
+            		
+            		$dados = $atividadeHistorico->toArray();
+            		unset($dados['id']);
+            		$dados['andamento_id'] = 2;
+            		$dados['avaliacao'] = 'Lida por: '.$this->role;
+            		$model_atividadesHistorico->insert($dados);
+            		$atividadeHistorico = $model_atividadesHistorico->fetchCurrentRow($atividade_id);
+            	}
+            	
 	            $form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
 	            $form->populate($atividadeHistorico->toArray());
+	            $form->historico->avaliacao->setValue('');
 	            $this->view->form = $form;
             }  else {
 	            $this->view->errorMessage = "Atividade não encontrada";
 	            $this->render('erro');
             }
-                			
-			
-			
-			
-//			$this->view->form = new Programacao_Form_AtividadeAcompanhamento($atividade_id);
-/*			$this->view->toolbar = "barr";
-                        $resource = 'concluir';
-                        if (! $acl->has ( $resource ))
-                                $resource = null;
-
-                        if($acl->isAllowed($role,$resource,'edit') ||
-                                        !$resource){
-                                $this->view->mybar = "<a href='".$this->view->url(array('controller'=>'atividades','action'=>'update', 'module'=>'programacao', 'id'=>$this->view->atividade->id))."'
-                                                title='Editar'
-                                                class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
-                                                <span class='ui-icon ui-icon-check'>Editar</span>Editar</a>";
-                        }
-
-	*/		
-			/**	
-		// *** só é possível adicionar prazos quando a atividade ainda não foi concluida.
-			if (!$this->situacao_atual->data_conclusao){
-				?>
-				<tr>
-				<td colspan="2">
-				<?php 
-				// verificando se usuário pode adicionar prazo.
-				$resource = 'addprazo';
-				if (! $acl->has ( $resource )) 
-					$resource = null;
-					
-				if($acl->isAllowed($role,$resource) ||
-						!$resource){ 
-					echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addprazo', 'id'=>$this->atividade->id))."'
-							title='Adicionar Prazo' 
-							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-							<span class='ui-icon ui-icon-plus'>Adicionar Prazo</span>Adicionar Prazo</a>";
-				} // if do acl.
-				?>
-				</td>
-				</tr>
-				<?php 
-			} // if
-			
-				// verificando se usuário pode adicionar vinculação.
-				$resource = 'addvinculacao';
-				if (! $acl->has ( $resource )) 
-					$resource = null;
-					
-				if($acl->isAllowed($role,$resource) ||
-						!$resource){ 
-						echo "<a href='".$this->url(array('controller'=>'atividades','action'=>'addvinculacao', 'id'=>$this->atividade->id))."'
-							title='Adicionar Vinculação' 
-							class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-							<span class='ui-icon ui-icon-plus'>Adicionar Vinculação</span>Adicionar Vinculação</a>";
-				}
-						
-			*/
+			$this->view->atividade_historico= $model_atividades_historico->fetchAll ( 'atividade_id=' . $atividade_id, 'id ASC' );
+            
 		} else {
 
-			echo $this->dispatch ( 'programasAction' );
+			echo $this->dispatch ( 'programaAction' );
 
 		}
 	}
 	public function ganttAction() {
-		$atividade_id = $this->_getParam ( 'atividade_id ', 0 );
+		$atividade_id = $this->_getParam('atividade_id', 0 );
+		
 		if (( int ) $atividade_id > 0) {
 			$this->getResponse ()->setHeader ( 'Content-type', 'text/xml' );
 			$this->_helper->layout ()->disableLayout ();
@@ -227,157 +202,189 @@ class InstrumentosController extends Zend_Controller_Action {
 			$model_atividades = new Model_Atividades ();
 			$model_atividades_historico = new Model_AtividadesHistorico ();
 			$model_atividades_vinculadas = new Model_AtividadesVinculadas ();
-			
-			//$select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
-			
-
-			
 			$xmlString = '<project>';
 			$task = '';
-				$task .= '<task>';
-				$task .= "<pID>600000</pID>";
-				$task .= "<pName>teste</pName>";
-				$task .= "<pStart> </pStart>";
-				$task .= "<pEnd> </pEnd>";
-				$task .= "<pColor>0000ff</pColor>";
-				$task .= "<pLink>/xx</pLink>";
-				$task .= "<pMile>0</pMile>";
-				$task .= "<pRes>Setor Responsável</pRes>";
-				$task .= "<pComp>0</pComp>";
-				$task .= "<pGroup>1</pGroup>";
-				$task .= "<pParent>0</pParent>";
-				$task .= "<pOpen>1</pOpen>";
-				$task .= "<pDepend/>";
-				$task .= '</task>';
-				$lst = '';
-				$select_atividades = $model_atividades->select ( Zend_Db_Table::SELECT_WITH_FROM_PART );
-				$select_atividades->setIntegrityCheck ( false )
-								  ->where ( 'atividades.situacao_id = 1 and atividades.id = 15' )
-								  ->join ( Zend_Registry::get ( 'schema' ) . '.atividades_historico', 'atividades_historico.atividade_id = atividades.id', 'data_inicio' )
-								  ->where ( 'atividades_historico.situacao_id=1' )
-								  ->order ( 'atividades_historico.data_inicio' );
-				
-				foreach ( select_atividades  as $atividade ) {
-					if ($atividade->situacao_id !== 1)
-						continue;
-					$select_historico = $model_atividades_historico->select ();
-					$select_vinculadas = $model_atividades_vinculadas->select ();
-					$select_historico->reset ( 'where' );
-					$select_historico->where ( 'situacao_id=1' );
-					$historico = $atividade->findModel_AtividadesHistorico ( $select_historico )->current ();
-					
+			
+			
+			/*
+			 * Buscar atividades precedentes da atividade em questão
+			 */			
+			$str_vinculadas =array();
+			$precedentes = $model_atividades_vinculadas->fetchAll('atividade_id = '.$atividade_id.' and situacao_id = 1');
+			if ($precedentes) :
+				$ativ_precedede = '';
+				foreach ($precedentes as $precedente) :
+					$atividade = $model_atividades->find($precedente->depende_atividade_id)->current();
+					$historico = $model_atividades_historico->fetchAll('atividade_id = '.$precedente->depende_atividade_id. ' and situacao_id = 1')
+															->current();
 					$data_inicio = $historico->data_inicio ();
 					$data_final = $historico->data_prazo ();
+					$ativ_precedede .= '<task>';
+					$ativ_precedede .= "<pID>$atividade->id</pID>";
+					$ativ_precedede .= "<pName>$atividade->id - $atividade->descricao </pName>";
+					$ativ_precedede .= "<pStart>$data_inicio</pStart>";
+					$ativ_precedede .= "<pEnd>$data_final</pEnd>";
+					$ativ_precedede .= "<pColor>ff00ff</pColor>";
+					//$task .= "<pLink>". $this->view->url(array('controller' => 'atividades', 'action' => 'deletevinculacao', 'id' => $vinculo->id, 'module' => 'programacao'))."</pLink>";
+					$ativ_precedede .= "<pMile>0</pMile>";
+					$ativ_precedede .= "<pRes/>";
+					$ativ_precedede .= "<pComp>$historico->percentual</pComp>";
+					$ativ_precedede .= "<pGroup>0</pGroup>";
 					
-					$select_vinculadas->reset ( 'where' );
-					$select_vinculadas->where ( 'situacao_id=1' );
-					$vinculadas = $model_atividades_vinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade->id );
-					$str_vinculadas = array ();
-					foreach ( $vinculadas as $vinculo ) {
-						$str_vinculadas [] = $vinculo->depende_atividade_id;
-					}
-					$str_vinculadas = implode ( ',', $str_vinculadas );
+					$ativ_precedede .= "<pOpen>1</pOpen>";
+					$ativ_precedede .= '</task>';
+					$str_vinculadas[] = $atividade->id;	
+				endforeach;
+			endif;
+			
+			
 					
-					$task .= '<task>';
-					$task .= "<pID>$atividade->id</pID>";
-					$task .= "<pName>$atividade->id - $atividade->descricao </pName>";
-					$task .= "<pStart>$data_inicio</pStart>";
-					$task .= "<pEnd>$data_final</pEnd>";
-					$task .= "<pColor>ff00ff</pColor>";
-					$task .= "<pLink>/xx</pLink>";
-					$task .= "<pMile>0</pMile>";
-					$task .= "<pRes/>";
-					$task .= "<pComp>$historico->percentual</pComp>";
-					$task .= "<pGroup>0</pGroup>";
-					$task .= "<pParent>600000</pParent>";
-					$task .= "<pOpen>1</pOpen>";
-					$task .= "<pDepend>$str_vinculadas</pDepend>";
-					$task .= '</task>';
-				
-				}
+			/*
+			 * Buscar atividades dependentes da atividade em questão
+			 */			
+			
+			$dependentes = $model_atividades_vinculadas->fetchAll('depende_atividade_id = '.$atividade_id.' and situacao_id = 1');
+			if ($dependentes) :
+				$ativ_depende = '';
+				foreach ($dependentes as $dependente) :
+					$atividade = $model_atividades->find($dependente->atividade_id)->current();
+					$historico = $model_atividades_historico->fetchAll('atividade_id = '.$dependente->atividade_id. ' and situacao_id = 1')
+															->current();
+					$data_inicio = $historico->data_inicio ();
+					$data_final = $historico->data_prazo ();
+					$ativ_depende .= '<task>';
+					$ativ_depende .= "<pID>$atividade->id</pID>";
+					$ativ_depende .= "<pName>$atividade->id - $atividade->descricao </pName>";
+					$ativ_depende .= "<pStart>$data_inicio</pStart>";
+					$ativ_depende .= "<pEnd>$data_final</pEnd>";
+					$ativ_depende .= "<pColor>ff00ff</pColor>";
+					//$task .= "<pLink>". $this->view->url(array('controller' => 'atividades', 'action' => 'deletevinculacao', 'id' => $vinculo->id, 'module' => 'programacao'))."</pLink>";
+					$ativ_depende .= "<pMile>0</pMile>";
+					$ativ_depende .= "<pRes/>";
+					$ativ_depende .= "<pComp>$historico->percentual</pComp>";
+					$ativ_depende .= "<pGroup>0</pGroup>";
+					$ativ_depende .= "<pDepend>$atividade_id</pDepend>";
+					$ativ_depende .= "<pOpen>1</pOpen>";
+					$ativ_depende .= '</task>';
+									
+				endforeach;
+			endif;					
+
+			
+			/*
+			 * Buscar atividade 
+			 */			
+					$ativ = '';
+					$str_vinculadas = implode(',', $str_vinculadas);
+					$atividade = $model_atividades->find($atividade_id)->current();
+					$historico = $model_atividades_historico->fetchAll('atividade_id = '.$atividade_id. 'and situacao_id = 1')
+															->current();
+					$data_inicio = $historico->data_inicio ();
+					$data_final = $historico->data_prazo ();
+					$ativ .= '<task>';
+					$ativ .= "<pID>$atividade->id</pID>";
+					$ativ .= "<pName>$atividade->id - $atividade->descricao </pName>";
+					$ativ .= "<pStart>$data_inicio</pStart>";
+					$ativ .= "<pEnd>$data_final</pEnd>";
+					$ativ .= "<pColor>0000ff</pColor>";
+					//$task .= "<pLink>". $this->view->url(array('controller' => 'atividades', 'action' => 'deletevinculacao', 'id' => $vinculo->id, 'module' => 'programacao'))."</pLink>";
+					$ativ .= "<pMile>0</pMile>";
+					$ativ .= "<pRes/>";
+					$ativ .= "<pComp>$historico->percentual</pComp>";
+					$ativ .= "<pDepend>$str_vinculadas</pDepend>";
+					$ativ .= "<pGroup>0</pGroup>";
+					$ativ .= "<pOpen>1</pOpen>";
+					$ativ .= '</task>';				
+			
+			
+			$task .= $ativ_precedede.$ativ.$ativ_depende;
 			
 			$xmlString .= $task . "</project>";
 		} else {
 			
-			$this->getResponse ()->setHeader ( 'Content-type', 'text/xml' );
-			$this->_helper->layout ()->disableLayout ();
-			//$this->_helper->viewRenderer->setNoRender(true);
-			$meta_id = $this->_getParam ( 'meta_id' );
-			$model_operacoes = new Model_Operacoes ();
-			$model_atividades = new Model_Atividades ();
-			$model_atividades_historico = new Model_AtividadesHistorico ();
-			$model_atividades_vinculadas = new Model_AtividadesVinculadas ();
-			
-			//$select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
-			
-
-			$operacoes = $model_operacoes->fetchAll ( "meta_id=$meta_id and situacao_id=1" );
-			
-			$xmlString = '<project>';
-			$task = '';
-			foreach ( $operacoes as $operacao ) {
-				$opid = ( int ) $operacao->id + 600000;
-				$task .= '<task>';
-				$task .= "<pID>$opid</pID>";
-				$task .= "<pName>$operacao->descricao</pName>";
-				$task .= "<pStart> </pStart>";
-				$task .= "<pEnd> </pEnd>";
-				$task .= "<pColor>0000ff</pColor>";
-				$task .= "<pLink>/xx</pLink>";
-				$task .= "<pMile>0</pMile>";
-				$task .= "<pRes>Setor Responsável</pRes>";
-				$task .= "<pComp>0</pComp>";
-				$task .= "<pGroup>1</pGroup>";
-				$task .= "<pParent>0</pParent>";
-				$task .= "<pOpen>1</pOpen>";
-				$task .= "<pDepend/>";
-				$task .= '</task>';
-				$lst = '';
-				$select_atividades = $model_atividades->select ( Zend_Db_Table::SELECT_WITH_FROM_PART );
-				$select_atividades->setIntegrityCheck ( false )->where ( 'atividades.situacao_id = 1' )->join ( Zend_Registry::get ( 'schema' ) . '.atividades_historico', 'atividades_historico.atividade_id = atividades.id', 'data_inicio' )->where ( 'atividades_historico.situacao_id=1' )->order ( 'atividades_historico.data_inicio' );
-				
-				foreach ( $operacao->findModel_Atividades ( $select_atividades ) as $atividade ) {
-					if ($atividade->situacao_id !== 1)
-						continue;
-					$select_historico = $model_atividades_historico->select ();
-					$select_vinculadas = $model_atividades_vinculadas->select ();
-					$select_historico->reset ( 'where' );
-					$select_historico->where ( 'situacao_id=1' );
-					$historico = $atividade->findModel_AtividadesHistorico ( $select_historico )->current ();
-					
-					$data_inicio = $historico->data_inicio ();
-					$data_final = $historico->data_prazo ();
-					
-					$select_vinculadas->reset ( 'where' );
-					$select_vinculadas->where ( 'situacao_id=1' );
-					$vinculadas = $model_atividades_vinculadas->fetchAll ( 'situacao_id=1 and atividade_id=' . $atividade->id );
-					$str_vinculadas = array ();
-					foreach ( $vinculadas as $vinculo ) {
-						$str_vinculadas [] = $vinculo->depende_atividade_id;
-					}
-					$str_vinculadas = implode ( ',', $str_vinculadas );
-					
-					$task .= '<task>';
-					$task .= "<pID>$atividade->id</pID>";
-					$task .= "<pName>$atividade->id - $atividade->descricao </pName>";
-					$task .= "<pStart>$data_inicio</pStart>";
-					$task .= "<pEnd>$data_final</pEnd>";
-					$task .= "<pColor>ff00ff</pColor>";
-					$task .= "<pLink>/xx</pLink>";
-					$task .= "<pMile>0</pMile>";
-					$task .= "<pRes/>";
-					$task .= "<pComp>$historico->percentual</pComp>";
-					$task .= "<pGroup>0</pGroup>";
-					$task .= "<pParent>$opid</pParent>";
-					$task .= "<pOpen>1</pOpen>";
-					$task .= "<pDepend>$str_vinculadas</pDepend>";
-					$task .= '</task>';
-				
-				}
-			}
-			
-			$xmlString .= $task . "</project>";
-		
+            $this->getResponse()
+                ->setHeader('Content-type', 'text/xml');
+            $this->_helper->layout ()->disableLayout ();
+            //$this->_helper->viewRenderer->setNoRender(true);
+            $meta_id = $this->_getParam('meta_id');
+            $model_operacoes = new Model_Operacoes();
+            $model_atividades = new Model_Atividades();
+            $model_atividades_historico = new Model_AtividadesHistorico();
+            $model_atividades_vinculadas = new Model_AtividadesVinculadas();
+            
+            //$select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+            
+            
+            $operacoes = $model_operacoes->fetchAll("meta_id=$meta_id and situacao_id=1");
+            
+            $xmlString = '<project>';
+            $task = '';
+            foreach ($operacoes as $operacao) {
+                $opid = (int)$operacao->id +600000;
+                $task .= '<task>';
+                $task .= "<pID>$opid</pID>";
+                $task .= "<pName>$operacao->descricao</pName>";
+                $task .= "<pStart> </pStart>";
+                $task .= "<pEnd> </pEnd>";
+                $task .= "<pColor>0000ff</pColor>";
+                $task .= "<pLink>/xx</pLink>";
+                $task .= "<pMile>0</pMile>";
+                $task .= "<pRes>Setor Responsável</pRes>";
+                $task .= "<pComp>0</pComp>";
+                $task .= "<pGroup>1</pGroup>";
+                $task .= "<pParent>0</pParent>";
+                $task .= "<pOpen>1</pOpen>";
+                $task .= "<pDepend/>";
+                $task .= '</task>';
+                $lst='';
+                $select_atividades = $model_atividades->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
+				$select_atividades->setIntegrityCheck(false)
+			       ->where('atividades.situacao_id = 1')
+			       ->join(Zend_Registry::get('schema').'.atividades_historico', 'atividades_historico.atividade_id = atividades.id', 'data_inicio')
+			       ->where('atividades_historico.situacao_id=1')
+			       ->order('atividades_historico.data_inicio');
+                 
+                foreach ($operacao->findModel_Atividades($select_atividades) as $atividade){
+                	if($atividade->situacao_id !==1)
+                		continue;
+					$select_historico = $model_atividades_historico->select();
+            		$select_vinculadas = $model_atividades_vinculadas->select();                		
+					$select_historico->reset('where');
+					$select_historico->where('situacao_id=1');
+                	$historico = $atividade->findModel_AtividadesHistorico($select_historico)->current();	
+                	
+                    $data_inicio = $historico->data_inicio();
+                    $data_final = $historico->data_prazo();
+                    
+                    $select_vinculadas->reset('where');
+                    $select_vinculadas->where('situacao_id=1');
+                    $vinculadas = $model_atividades_vinculadas->fetchAll('situacao_id=1 and atividade_id='.$atividade->id);
+                    $str_vinculadas =array();
+                    foreach ($vinculadas as $vinculo){
+                    	$str_vinculadas[] = $vinculo->depende_atividade_id;
+                    }
+                    $str_vinculadas = implode(',', $str_vinculadas);
+                    
+                    $task .= '<task>';
+                    $task .= "<pID>$atividade->id</pID>";
+                    $task .= "<pName>$atividade->id - $atividade->descricao </pName>";
+                    $task .= "<pStart>$data_inicio</pStart>";
+                    $task .= "<pEnd>$data_final</pEnd>";
+                    $task .= "<pColor>ff00ff</pColor>";
+                    $task .= "<pLink>/xx</pLink>";
+                    $task .= "<pMile>0</pMile>";
+                    $task .= "<pRes/>";
+                    $task .= "<pComp>$historico->percentual</pComp>";
+                    $task .= "<pGroup>0</pGroup>";
+                    $task .= "<pParent>$opid</pParent>";
+                    $task .= "<pOpen>1</pOpen>";
+                    $task .= "<pDepend>$str_vinculadas</pDepend>";
+                    $task .= '</task>';
+                    
+                }
+            }
+            
+            $xmlString .= $task."</project>";		
 		//echo trim("<project> <task> <pID>10</pID> <pName>WCF Changes</pName> <pStart></pStart> <pEnd></pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes></pRes> <pComp>0</pComp> <pGroup>1</pGroup> <pParent>0</pParent> <pOpen>1</pOpen> <pDepend /> </task> <task> <pID>20</pID> <pName>Move to WCF from remoting</pName> <pStart>8/11/2008</pStart> <pEnd>8/15/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Rich</pRes> <pComp>10</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend></pDepend> </task> <task> <pID>30</pID> <pName>add Auditing</pName> <pStart>8/19/2008</pStart> <pEnd>8/21/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Mal</pRes> <pComp>50</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend>20</pDepend> </task> </project>");
 		//$ret= "<project> <task> <pID>10</pID> <pName>WCF Changes</pName> <pStart></pStart> <pEnd></pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes></pRes> <pComp>0</pComp> <pGroup>1</pGroup> <pParent>0</pParent> <pOpen>1</pOpen> <pDepend /> </task> <task> <pID>20</pID> <pName>Move to WCF from remoting</pName> <pStart>8/11/2008</pStart> <pEnd>8/15/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Rich</pRes> <pComp>10</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend></pDepend> </task> <task> <pID>30</pID> <pName>add Auditing</pName> <pStart>8/19/2008</pStart> <pEnd>8/21/2008</pEnd> <pColor>0000ff</pColor> <pLink></pLink> <pMile>0</pMile> <pRes>Mal</pRes> <pComp>50</pComp> <pGroup>0</pGroup> <pParent>10</pParent> <pOpen>1</pOpen> <pDepend>20</pDepend> </task> </project>";
 		}

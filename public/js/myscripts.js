@@ -381,10 +381,9 @@ Mensageiro ={
             /**
              * TODO implementar recursividade dos erros
              *
-            success = false;
-            message += jQuery().serialize(json.errors)+ '<br/>';
-            obj.errors += message
-            */
+             */
+        	
+            obj.errors += json.errors;
         }
         $( "<div title='Erro'></div>" )
             .html(obj.mensagem+'<br>'+obj.errors)
