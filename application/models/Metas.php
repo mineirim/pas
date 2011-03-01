@@ -19,7 +19,7 @@ class Model_Metas extends App_DefaultModel {
 	                     							  'refTableClass' => 'Model_ObjetivosEspecificos', 
 	                     							  'refColumns' => 'id' )
 								);	
- 	protected $_dependentTables = array('Model_Operacoes');
+ 	protected $_dependentTables = array('Model_Operacoes', 'Model_IndicadoresMeta');
  	
 	public function update($dados, $where){
 		$auth = Zend_Auth::getInstance();

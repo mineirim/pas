@@ -67,9 +67,8 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                 </thead>
                 <tbody class="ui-widget">
                     <?php
-                    $cycle=$this->cycle(array('',''));
                     foreach ($this->operacoes as $operacao){?>
-                    <tr class="<?php echo $cycle->next()?>">
+                    <tr >
                             <td>
                                 <div >
                                     <a href='<?php echo $this->url ( array ('action' => 'operacao', 'operacao_id' => $operacao->id ) );?>'>
@@ -95,8 +94,52 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
         <div style="position:relative" class="gantt" id="GanttChartDIV"></div>
     </div>
     <div id="tabs-2" style="overflow: hidden">
-        Indicadores vinculados à meta
-    </div>
+        
+
+        
+            <table cellpadding="0" cellspacing="0"  class="tb-corpo">
+                <caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> Indicadores</caption>
+                <thead class="ui-widget ui-widget-header ">
+                    <tr class=" ui-state-hover">
+                            <td class="subtitulos-tabela">Descrição</td>
+                            <td style="width:6em">
+                                <div class="fg-toolbar ui-widget ui-widget-header ui-corner-all ui-helper-clearfix" style="padding-right: 0.1em">
+                                <div class="fg-buttonset ui-helper-clearfix" style="padding-right: 0em; width:100%">
+                                    <a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'create','module'=>'programacao','meta_id'=>$this->meta->id ),null,true)?>'
+                                        title='Novo Indicador' 
+                                        class='fg-button ui-state-default fg-button-icon-left ui-corner-all ajax-form-load'>
+                                        <span class='ui-icon ui-icon-plus'>Novo Indicador</span>Novo Indicador</a>
+                                </div>
+                                </div>
+                            </td>
+                    </tr>
+                </thead>
+                <tbody class="ui-widget">
+            <?php
+            $indicadores = $this->meta->findModel_IndicadoresMeta();
+            foreach ($indicadores as $indicadormeta) {
+                $indicador = $indicadormeta->findParentModel_Indicadores();
+                ?>
+                    <tr >
+                            <td>
+                                <div >
+                                    <a href='<?php echo $this->url ( array ('action' => 'show', 'controller' => 'indicadores', 'module'=>'default' ) );?>'>
+                                        <span class="ui-icon ui-icon-play" style="float:left"></span>
+                                        <span class="xdescricao_item"><?php echo $indicador->descricao;?></span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="texto">
+                                <?php echo $this->indicadoresToolbar($indicador) ?>
+                            </td>
+                    </tr>
+            <?php
+            }
+            ?>
+                </tbody>
+            </table>
+        </div>
+
 </div>
 
 <script type="text/javascript" >

@@ -346,7 +346,9 @@ Mensageiro ={
                  }
              });
         }
-        
+        if(json.nextTab){
+            $("#formulario_ajax > .make-tabs").tabs({ selected: json.nextTab });
+        }
         if(json.refreshPage){
             $('#formulario_ajax').dialog({close: function(ev, ui){
                     location.reload();}

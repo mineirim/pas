@@ -160,36 +160,5 @@ class Programacao_ProgramasController extends Zend_Controller_Action {
         }
     }
 
-    public function addobjetivoAction() {
-        if ($this->getRequest()->isPost()) {
-            $this->formDescritivo->descricao->addValidator(new Zend_Validate_StringLength(0, 500));
-            $formData = $this->getRequest()->getPost();
-            if ($this->formDescritivo->isValid($formData)) {
-                $dados = $this->formDescritivo->getDados();
-                $dados['programa_id'] = $this->formDescritivo->getValue('programa_id');
-                $model_objetivosPrograma = new Model_ObjetivosPrograma();
-                if ($this->formDescritivo->getValue('id') == '') {
-                    $id = $model_objetivosPrograma->insert($dados);
-                } else {
-                    $id = $this->formDescritivo->getValue('id');
-                    $model_objetivosPrograma->update($dados, 'id=' . $id);
-                }
-
-                $objetivoPrograma = $model_objetivosPrograma->fetchRow('id=' . $id);
-                $returns = array();
-                $toolbar = $this->view->lineToolbar('programas', $objetivoPrograma);
-                $returns['toolbar'] = $toolbar;
-                $returns['obj'] = $objetivoPrograma->toArray();
-                $return = Zend_Json_Encoder::encode($returns);
-            } else {
-                $this->formDescritivo->populate($formData);
-                $return = $this->formDescritivo->processAjax($this->_request->getPost());
-            }
-        }
-        
-        $this->_helper->viewRenderer->setNoRender(true);
-        echo $return;
-        
-    }
 
 }

@@ -1,0 +1,25 @@
+
+<div class="make-tabs">
+    <ul>
+        <li><a href="#tabs-0" >Indicador</a></li>
+        <li><a href="#tabs-1">Configurações</a></li>
+    </ul>
+    <div id="tabs-0" style="overflow: hidden">
+        <form id='<?php echo $this->form->getId(); ?>'
+          enctype='<?php echo $this->form->getEnctype(); ?>'
+          action='<?php echo $this->url(array('controller' => 'indicadores', 'action' => 'save')); ?>?format=json'
+          method="post">
+            <div style='display: none'>
+                <input type="hidden" name="meta_id" value="<?php echo $this->meta_id; ?>" >
+            </div>
+            <?php echo $this->form->indicador;?>
+            <?php echo $this->form->submit; ?>
+            <?php echo $this->form->cancelar; ?>
+        </form>
+    </div>
+    <div id="tabs-1" style="overflow: hidden">
+        configuração
+        
+
+    </div>
+</div>

@@ -16,13 +16,13 @@ class Model_IndicadoresMeta extends App_DefaultModel {
 	protected $_name = 'indicadores_meta';
 
 	protected $_referenceMap = array (
-	                     		'Programa' => array ( 'columns' => 'meta_id', 
-	                     							  'refTableClass' => 'Model_Metas', 
-	                     							  'refColumns' => 'id' ),
-								'Indicador' => array('columns' => 'indicador_id', 
-	                     							  'refTableClass' => 'Model_Indicadores', 
-	                     							  'refColumns' => 'id' ,
-	                     							  'onDelete' => self::CASCADE)
-								);	
+	                     		'Meta' => array ( 'columns' => 'meta_id',
+                                                          'refTableClass' => 'Model_Metas',
+                                                          'refColumns' => 'id' ),
+                                        'Indicador' => array('columns' => 'indicador_id',
+                                                          'refTableClass' => 'Model_Indicadores',
+                                                          'refColumns' => 'id' ,
+                                                          'onDelete' => self::CASCADE)
+                                        );
 	
 }

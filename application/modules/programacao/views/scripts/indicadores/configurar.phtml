@@ -1,0 +1,98 @@
+<div style="border: thin solid black;overflow:auto; padding:10px;">
+		<form enctype='<?php echo $this->form->getEnctype();?>' 
+			action='<?php echo $this->url(array('controller'=>'indicadores', 'action'=>'configurar'));?>' 
+			method="post">
+			
+			
+			<div style='display:none'>
+			
+			<?php echo $this->form->id;?>
+			<?php echo $this->form->indicador_id;?>
+			</div>
+			<table width="100%">
+				<tr>
+					<td width="60%">
+						<?php echo $this->form->tipo_periodo_id;?>
+					</td>
+					<td>
+						<?php echo $this->form->base;?>
+	            	</td>
+				</tr>
+				<tr style="padding:10px" >
+					<td>
+			            <fieldset style='clear: both;'>
+			            <legend>Campos para preenchimento</legend>
+			                <br></br>
+			            <?php echo $this->form->campos;?>
+						</fieldset>
+					</td>
+					<td>
+			            <fieldset style='clear: both;'>
+			                <legend>Data inicial de preenchimento do indicador</legend>
+			            <?php echo $this->form->mes;?> / <?php echo $this->form->ano;?> 
+			            </fieldset>
+	            	</td>
+				</tr>
+	            <tr>
+					<td colspan="2">
+				<?php echo $this->form->submit;?>
+	            	</td>
+				</tr>
+	            
+			</table>
+		</form>
+</div>
+<table id='tbconfiguracoes'>
+	<tr >
+		<td></td>
+		<td style='font-weight: bold'>Tipo</td>
+		<td style='font-weight: bold'>Base</td>
+	</tr>
+	<?php
+	$cycle=$this->cycle(array('ui-state-hover','ui-state-active'));  
+	foreach($this->indicador->findDependentRowset('Model_IndicadoresConfiguracoes') as $ic){?>
+		<tr class="lst <?php echo $cycle->next()?>'">
+			<td>
+			<a href='<?php echo $this->url(array('controller'=>'changestatus','action'=>'delete', 'model'=>'Model_IndicadoresConfiguracoes', 'id'=>$ic->id))?>'
+					class='my-button ui-state-default ui-corner-all deletedescription'
+					title='Excluir' 
+					id='delete-configuracoes-<?php echo $ic->id?>'
+					>
+					<span class='ui-icon ui-icon-trash '></span>
+				</a>
+			</td>
+			<td>
+				<?php echo $ic->findParentRow('Model_TiposPeriodos')->descricao;?>
+			</td>
+			<td>
+				<?php echo $ic->base;?>
+			</td>
+			
+		</tr>
+	<?php }?>
+</table>
+
+<br/>
+<a href='<?php echo $this->baseUrl().$this->urlback; ?>'> Voltar</a>
+<br/>
+
+
+<script>
+if($("#base").val()==1){
+	$("#campos-nd").attr('disabled','disabled');
+	$("#campos-r").attr('checked','checked')
+}
+	
+$("#base").change(function(e)
+		{
+	
+			obj = $(this)
+			if(obj.val()==1){
+				$("#campos-r").attr('checked','checked')
+				$("#campos-nd").attr('disabled','disabled')
+			}else{
+				$("#campos-nd").removeAttr('disabled')
+			}
+			
+		});	
+</script>
