@@ -1,4 +1,6 @@
 <?php
+include_once APPLICATION_PATH.'/models/Usuarios.php';
+include_once APPLICATION_PATH.'/models/UsuariosGrupos.php';
 
 class Admin_UsuariosController extends Zend_Controller_Action {
 
@@ -9,6 +11,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
         $ajaxContext->setAutoJsonSerialization(false);
         $ajaxContext->addActionContext('index', array('json', 'xml', 'js'))
                 ->addActionContext('add', array('html', 'json', 'xml'))
+                ->addActionContext('edit', array('html', 'json', 'xml'))
                 ->addActionContext('create', array('html', 'json', 'xml'))
                 ->addActionContext('update', array('html', 'json', 'xml'))
                 ->addActionContext('delete', array('html', 'json', 'xml'))
@@ -194,7 +197,7 @@ class Admin_UsuariosController extends Zend_Controller_Action {
         } else {
             $this->view->response = array('notice' => 'Usuário não localizado',
                 'errormessage' => "Informe um código de usuário para editar");
-            $this->restoreAction("erro.phtml");
+            $this->render("erro.phtml");
         }
     }
 

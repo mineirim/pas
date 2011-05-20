@@ -111,6 +111,10 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="create"/>
             </controllerFile>
+            <controllerFile controllerName="Impressora">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="programas"/>
+            </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory/>
@@ -118,6 +122,12 @@
             <viewScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Impressora">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Impressora">
+                <viewScriptFile forActionName="programas"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -769,6 +779,7 @@
           <testApplicationControllerFile filesystemName="ParceirosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="UsuariosControllerTest.php"/>
           <testApplicationControllerFile filesystemName="IndicadoresControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="ImpressoraControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

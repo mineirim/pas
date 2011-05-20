@@ -13,6 +13,7 @@ class Model_ObjetivosEspecificos extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
+        protected $_rowClass = "Model_Row_Objetivo";
 	protected $_name = 'objetivos_especificos';
 	protected $_dependentTables = array('Model_Metas',
 										'Model_Estrategias', 
