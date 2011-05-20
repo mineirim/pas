@@ -1,0 +1,153 @@
+<?php foreach ($this->programas as $programa) { ?>
+    <div class='borda-externa'>
+        <div class='interno titulo' style='height: 15mm'>
+            <h3>PROGRAMAÇÃO ANUAL DE SAÚDE - PAS 2011, SES SP</h3>
+        </div>
+        <div class='separador'></div>
+        <div class='interno' >
+            <table width="100%">
+                <tr >
+                    <th class='ui-state-default'>
+    			PROGRAMA:
+                    </th>
+                </tr>
+                <tr >
+                    <td>
+                    <?php echo nl2br($programa->descritivo); ?>
+
+                </td>
+            </tr>
+            <tr >
+                <td colspan="2" class='separador'>
+
+                </td>
+            </tr>
+        </table>
+        <div class='separador' style='border-bottom-style: solid;'></div>
+
+    </div>
+    <?php
+        $num_projeto = 0;
+        foreach ($programa->projetos as $projeto) {
+            $num_projeto++;
+    ?>
+            <div class='interno' <?php if ($num_projeto > 1)
+                    echo "style='page-break-before:always'"; ?> >
+                <table width="100%">
+                    <tr >
+                        <th class='ui-state-default'>
+                                PROJETO:
+                        </th>
+                    </tr>
+                    <tr >
+                        <td>
+                            <?php echo nl2br($projeto->descritivo) ?>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td colspan="2" class='separador'>
+
+                        </td>
+                    </tr>
+                </table>
+                <div class='separador' style='border-bottom-style: solid;'></div>
+            </div>
+    <?php
+            foreach ($projeto->objetivos as $objetivo_especifico) {
+?>
+                <div class='interno'>
+                    <table width="100%">
+                        <tr >
+                            <th  class='sub ui-state-default'>
+                                    Objetivo:
+                            </th>
+                        </tr>
+                        <tr >
+                            <td  class='sub'>
+                                <?php echo nl2br($objetivo_especifico->descricao); ?>
+                                <br/>
+                            </td>
+                        </tr>
+                        <tr >
+                            <th  class='sub ui-state-default'>
+                                Recursos:
+                            </th>
+                        </tr>
+                        <tr >
+                            <td  class='sub'>
+                                <?php echo nl2br($objetivo_especifico->recursos) ?>
+                                <br/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+    <?php
+                foreach ($objetivo_especifico->metas as $meta) {
+                    $operacoes = $meta->findModel_Operacoes();
+        ?>
+
+                    <div class='separador' style='border-bottom-style: solid;'></div>
+                    <div class='interno'>
+                        <table width="100%">
+                            <tr >
+                                <th  class='sub ui-state-default'>
+                                    <div style='float:left'>Meta:</div>
+                                </th>
+                            </tr>
+                            <tr >
+                                <td  class='sub'>
+                    <?php echo $meta->descricao ?>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td  class='sub'>
+                                    <table class='subtabela'  width="100%">
+                                        <tr >
+                                            <th  class='sub ui-state-default'>
+                											Operação:
+                                            </th>
+                                            <th  class='sub ui-state-default'>
+                											Atividade
+                                            </th>
+                                            <th  class='sub ui-state-default'>
+                											Data Conclusão
+                                            </th>
+                                        </tr>
+                        <?php
+                                    foreach ($operacoes as $operacao) {
+                                        $atividades = $operacao->findModel_Atividades();
+                        ?>
+                                        <tr >
+                                            <td  class='sub' rowspan="<?php echo count($atividades) ?>">
+<?php echo $operacao->descricao ?>
+                                            </td>
+<?php
+                                        $ix = 0;
+                                        foreach ($atividades as $atividade) {
+                                            $dataconclusao = "";
+                                            if ($ix != 0)
+                                                echo "<tr >"
+?>
+                                                <td  class='sub'>
+<?php echo nl2br($atividade->descricao); ?>
+                                                </td>
+                                                <td  class='sub'>
+<?php echo $dataconclusao; ?>
+                                            </td>
+                                        </tr>
+<?php
+                                                $ix++;
+                                            } ?>
+                        <?php } ?>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+<?php }//foreach da meta ?>
+    <?php }//foreach do objetivo?>
+    <?php } //foreach do projeto?>
+                        </div>
+<?php } ?>

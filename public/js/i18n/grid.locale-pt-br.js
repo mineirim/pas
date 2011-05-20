@@ -9,7 +9,7 @@
 **/
 $.jgrid = {
 	defaults : {
-		recordtext: "Ver {0} - {1} of {2}",
+		recordtext: "Ver {0} - {1} de {2}",
 	    emptyrecords: "Nenhum registro para visualizar",
 		loadtext: "Carregando...",
 		pgtext : "Página {0} de {1}"
@@ -68,7 +68,7 @@ $.jgrid = {
 	    searchtext: " ",
 	    searchtitle: "Procurar registros",
 	    refreshtext: "",
-	    refreshtitle: "Recarrgando Tabela",
+	    refreshtitle: "Recarregando Tabela",
 	    alertcap: "Aviso",
 	    alerttext: "Por favor, selecione um registro",
 		viewtext: "",

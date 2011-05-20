@@ -13,6 +13,7 @@ class Model_Projetos extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
+        protected $_rowClass = "Model_Row_Projeto";
 	protected $_name = 'projetos';
 	protected $_dependentTables = array('Model_Projetos','Model_ObjetivosProjeto', 'Model_MetasProjeto', 'Model_IndicadoresProjeto');
 	protected $_referenceMap = array (

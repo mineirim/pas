@@ -1,4 +1,5 @@
 <?php
+include_once APPLICATION_PATH.'/models/Ajudas.php';
 class App_Controller_AjudaPlugin extends Zend_Controller_Plugin_Abstract {
 	
 	public function __construct() {

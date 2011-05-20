@@ -12,7 +12,7 @@ if ($auth->hasIdentity ()) :
 <a href="<?php echo $this->url(array('module'=>'default', 'controller'=>'auth','action'=>'logout'));?> ">Sair</a>
 </span>
 <?php else: ?>
-<form action="<?php echo $this->url(array('controller'=>'auth', 'action'=>'login'));?>" method="post">
+<form action="<?php echo $this->url(array('controller'=>'auth', 'action'=>'login', 'module'=>'default'));?>" method="post">
     <table>
         <tr>
             <td>

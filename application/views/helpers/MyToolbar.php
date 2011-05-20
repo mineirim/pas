@@ -170,7 +170,7 @@ class Zend_View_Helper_MyToolbar{
 		title='Excluir' >
 		<span class='ui-icon ui-icon-trash '></span>
 		</a>
-                <a href='".$this->view->url(array('controller'=>'relatorios','action'=>'relatorioplano','module'=>'relatorios', 'programa_id'=>$this->_id),null,true)."'
+                <a href='".$this->view->url(array('controller'=>'impressora','action'=>$this->_controller,'module'=>'relatorios', 'id'=>$this->_id),null,true)."'
 		class='my-button '
 		title='Relatório' >
 		<span class='ui-icon ui-icon-print '></span>

@@ -13,6 +13,7 @@ class Model_Programas extends App_DefaultModel {
 	/**
 	 * The default table name 
 	 */
+    	protected $_rowClass = "Model_Row_Programa";
 	protected $_name = 'programas';
 	protected $_dependentTables = array('Model_Projetos', 'Model_ObjetivosPrograma', 'Model_MetasPrograma', 'Model_IndicadoresPrograma');
 	

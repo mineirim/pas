@@ -15,7 +15,7 @@ UsuariosGrid = function(){
     //this.toolbar		= [true,"top"];
     this.toppager		= true;
     this.cloneToTop		= true;
-    this.colNames=['id', 'Nome','E-mail', 'login','Ações '];
+    this.colNames=['id', 'Nome','E-mail', 'Login','Ações '];
     this.colModel=[
     {
         name:'id',
@@ -124,12 +124,12 @@ UsuariosGrid = function(){
 
         if(this.id=='excluidos'){
             bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix fn_action">'
-            bar =bar+'<a href="#" id="restore_'+rowid+'" rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-refresh"></span></a></div>'
+            bar =bar+'<a href="#" id="restore_'+rowid+'" rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all" alt="Reativar usuário"><span class="ui-icon ui-icon-refresh"></span></a></div>'
         }else{
             bar = '<div class="fg-toolbar fg-buttonset ui-widget-content ui-corner-all  ui-helper-clearfix fn_action" style="white-space:nowrap;width:100%">'
-            bar =bar+ '<a href="#" id="edit_'+rowid+'"   rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-pencil"></span></a>'
-            bar =bar+ '<a href="#" id="reset_'+rowid+'"  rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span></a>'
-            bar =bar+ '<a href="#" id="delete_'+rowid+'" rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all"><span class="ui-icon ui-icon-trash"></span></a></div>'
+            bar =bar+ '<a href="#" id="edit_'+rowid+'"   rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all" alt="Editar"><span class="ui-icon ui-icon-pencil"></span></a>'
+            bar =bar+ '<a href="#" id="reset_'+rowid+'"  rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all" alt="Resetar senha"><span class="ui-icon ui-icon-arrowrefresh-1-e"></span></a>'
+            bar =bar+ '<a href="#" id="delete_'+rowid+'" rel="nofollow" style="margin:0" class="fg-button ui-state-default ui-corner-all" alt="Inativar"><span class="ui-icon ui-icon-trash"></span></a></div>'
         }
         $(this).jqGrid('setRowData',rowid,{
             act:bar
