@@ -119,13 +119,27 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
             $indicadores = $this->meta->findModel_IndicadoresMeta();
             foreach ($indicadores as $indicadormeta) {
                 $indicador = $indicadormeta->findParentModel_Indicadores();
+                $descricao = $indicador->descricao;
+                if ($indicador->tipo_indicador_id == 2){
+                    $indicadores_qualitativos = new Model_IndicadoresQualitativos();
+                    $indicador_qualitativo = $indicadores_qualitativos->fetchRow("indicador_id = $indicador->id");
+                    if ($indicador_qualitativo) {
+                        $opcoes_qualititivos = new Model_OpcoesQualitativos();
+                        $opcao_qualitativo = $opcoes_qualititivos->find($indicador_qualitativo->opcao_qualitativo_id)->current();
+                        $posicao = $opcao_qualitativo->descricao;
+                        $descricao .= ' ('.$posicao.')';
+                    }
+                }
+                
                 ?>
                     <tr >
                             <td>
                                 <div >
-                                    <a href='<?php echo $this->url ( array ('action' => 'show', 'controller' => 'indicadores', 'module'=>'default' ) );?>'>
+                                    <a href='<?php echo $this->url ( array ('action' => 'show', 'controller' => 'indicador', 'module'=>'default', 'id' => $indicador->id) );?>'
+                                    class="ajax-form-load">
                                         <span class="ui-icon ui-icon-play" style="float:left"></span>
-                                        <span class="xdescricao_item"><?php echo $indicador->descricao;?></span>
+                                        
+                                        <span class="ajax-form-load"><?php echo $descricao;?></span>
                                     </a>
                                 </div>
                             </td>

@@ -1,0 +1,73 @@
+<h3>Indicador: <b><?php echo $this->indicador->descricao?></b></h3>
+<br>
+<div>
+    
+    
+    
+        <form id='<?php echo $this->form->getId(); ?>'
+              enctype='<?php echo $this->form->getEnctype(); ?>'
+              action='<?php echo $this->url(array(  'action' => 'saveresultadosquali', 
+                                                    'module' => 'programacao',
+                                                    'controller' => 'indicadores'),null, true); ?>?format=json'
+              method="post">
+            <?php echo $this->form->id->renderViewHelper(); ?>
+            <?php echo $this->form->indicador_id->renderViewHelper(); ?>
+            <table width="100%">
+                <tr>
+                    <td><?php echo $this->form->opcao_qualitativo_id; ?></td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td><?php echo $this->form->submit->renderViewHelper(); ?>
+                        <?php echo $this->form->cancelar->renderViewHelper(); ?></td>
+                </tr>
+                
+            </table>   
+            
+            
+        </form>
+</div>
+ 
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        if (indicadorQuali == undefined){
+            var IndicadorQualitativo = function (){
+                this.init = function(){
+                    $('.dialog-form-quali-close').live('click',function(){$('#frm_ajax').dialog('close');})
+
+                    $(".submit_indicadorqualitati").live('click',{},function(e){
+                        e.preventDefault();
+                        frm = $(this).parents('form');
+                        url=$(this).parents('form').attr('action');
+                        clicked = $(this).attr("name") + "=" + $(this).val();
+                        data = $(this).parents('form').serialize() + "&" + clicked;
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: data,
+                            dataType:	'json',
+                            cache: false,
+                            success: function(data) {
+                            },
+                            complete:function(XMLHttpRequest, textStatus){
+                                if(textStatus=='success'){
+                                    Mensageiro.onComplete(XMLHttpRequest);
+                                }
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown){
+                                Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+                            }
+					
+                        });
+                        return false;
+                    });                                
+                };
+            };		
+            indicadorQuali = new IndicadorQualitativo();
+            indicadorQuali.init();
+        };
+    });
+
+</script>

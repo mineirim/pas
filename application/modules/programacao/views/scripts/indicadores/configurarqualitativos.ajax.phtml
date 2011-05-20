@@ -1,0 +1,50 @@
+<div style="border: thin solid black;overflow:auto; padding:10px;">
+    <form enctype='<?php echo $this->frmconfigquali->getEnctype(); ?>' 
+          action='<?php echo $this->url(array('controller' => 'indicadores', 
+                                              'action' => 'configurarqualitativos',
+                                              'module' => 'programacao')); ?>?format=json' 
+          method="post">
+        <div style='display:none'>
+
+            <?php echo $this->frmconfigquali->id; ?>
+            <?php echo $this->frmconfigquali->indicador_id; ?>
+        </div>
+
+        <?php echo $this->frmconfigquali->descricao; ?>
+
+        <br></br>
+        <?php echo $this->frmconfigquali->submit; ?>
+
+        <br/>
+    </form>
+</div>
+<br/>
+<br/>
+<table  id='tbcategorias'>
+    <tr>
+        <td></td>
+        <td>Categorias</td>
+    </tr>
+    <?php if (isset($this->indicador)) :
+        foreach ($this->indicador->findDependentRowset('Model_OpcoesQualitativos') as $ic) : ?>
+        <tr class="lst">
+            <td>
+                <a href='<?php echo $this->url(array('controller' => 'indicadores', 
+                                                     'action' => 'deletecategoria', 
+                                                     'module' => 'programacao',
+                                                     'id' => $ic->id)) ?>'
+                   class='my-button ui-state-default ui-corner-all deletedescription'
+                   title='Excluir'
+                   id='delete-categorias-<?php echo $ic->id ?>'
+                   >
+                    <span class='ui-icon ui-icon-trash '></span>
+                </a>
+            </td>
+            <td>
+                <?php echo $ic->descricao; ?>
+            </td>
+
+        </tr>
+    <?php endforeach;
+        endif;?>
+</table>

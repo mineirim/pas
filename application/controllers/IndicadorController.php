@@ -13,6 +13,8 @@ class IndicadorController extends Zend_Controller_Action {
      * 
      */
     private $indicadores_configs = null;
+    
+    
 
     public function init() {
         $this->indicadores = new Model_Indicadores ( );
@@ -25,6 +27,8 @@ class IndicadorController extends Zend_Controller_Action {
     public function indexAction() {
         // action body
     }
+    
+    
 
     public function showAction() {
         $id = $this->_getParam('id');
@@ -33,8 +37,12 @@ class IndicadorController extends Zend_Controller_Action {
             $this->_redirect('/error/notfound/msg/' . $msg);
         }
         $this->view->indicador = $this->indicadores->find($id)->current();
-        $this->view->indicadores_configs = $this->view->indicador->findDependentRowset('Model_IndicadoresConfiguracoes');
-        $this->view->arr_campos = $this->arr_campos;
+        if ($this->view->indicador->tipo_indicador_id == 1) {
+            $this->view->indicadores_configs = $this->view->indicador->findDependentRowset('Model_IndicadoresConfiguracoes');
+            $this->view->arr_campos = $this->arr_campos;
+        } elseif ($this->view->indicador->tipo_indicador_id == 2) {
+            $this->view->indicadores_qualitativos = $this->view->indicador->findDependentRowset('Model_IndicadoresQualitativos')->current();
+        }
     }
 
     public function graficoAction() {

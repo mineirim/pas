@@ -1,0 +1,51 @@
+<h2>Confirmar exclusão</h2>
+
+<h3>Deseja realmente excluir a configuração <?php echo $this->indicadoresconfiguracoes->id;?>?</h3>
+<form id='<?php echo $this->form->getId();?>'
+              enctype='<?php echo $this->form->getEnctype();?>'
+              action='<?php echo $this->url(array('action' => 'deleteconfiguracao'));?>?format=json'
+              method="post">
+<?php echo $this->form->id;?>
+    <table>
+        <tr>
+            <td><?php echo $this->form->submit; ?></td>
+            <td><?php echo $this->form->dialog_close; ?></td>
+        </tr>
+    </table>
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+	if (delindicadorConf == undefined){
+
+		var DeleteIndicadorConfig = function (){
+			this.init = function(){
+					$(".dialog-close").live('click',function(){$("#frmexcluir_ajax").dialog('close');});
+					$(".submit_excluir").live('click',function(e){
+						frm = $(this).parents('form');
+						url=$(this).parents('form').attr('action');
+						clicked = $(this).attr("name") + "=" + $(this).val();
+						data = $(this).parents('form').serialize() + "&" + clicked;
+						$.ajax({
+							type: "POST",
+							url: url,
+							data: data,
+							dataType:	'json',
+							success: function(data) {
+								$("#delete-configuracoes-"+data.dados.id).parents('tr.lst').remove();
+								$("#frmexcluir_ajax").dialog('close');
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown){
+								Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+							}
+						
+						});
+						return false;
+					});
+			};
+		};		
+		delindicadorConf = new DeleteIndicadorConfig();
+		delindicadorConf.init();
+	};
+});
+	
+</script>

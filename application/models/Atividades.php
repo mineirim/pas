@@ -75,7 +75,7 @@ class Model_Atividades extends App_DefaultModel {
 		if ($tipo == 2){			
 			$select->where("a.operacao_id = o.id and a.situacao_id = 1"); // denominador
 		} else {
-			$select->where("a.operacao_id = o.id and a.situacao_id = 1 and a.conclusao_data is not null"); // numerador
+			$select->where("a.operacao_id = o.id and a.situacao_id = 1");// and a.conclusao_data is not null"); // numerador
 		}
 					
 		// Operação

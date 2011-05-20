@@ -1,6 +1,6 @@
 <?php
 
-class Form_Indicador extends Zend_Form_SubForm
+class Form_Indicador extends Zend_Form
 {
 	public function __construct($options = null )
 	{

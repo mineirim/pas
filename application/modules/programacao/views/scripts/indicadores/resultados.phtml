@@ -31,7 +31,8 @@ var lastsel;
             width: 900,
             height: 240,
             rownumbers: true,
-            url:'<?php echo $this->baseUrl() ?>/indicadores/localizar/indicador_configuracao_id/<?php echo $this->indicador_configuracao_id;?>',
+            url:'<?php echo $this->baseUrl() ?>/programacao/indicadores/localizar/indicador_configuracao_id/<?php echo $this->indicador_configuracao_id;?>',
+                    
             datatype: 'json',
             mtype: 'POST',
             
@@ -52,7 +53,7 @@ var lastsel;
 			            gridview: true,
 			            hidegrid: false,
 			            caption: 'Indicadores',
-	                	editurl:'<?php echo $this->baseUrl() ?>/indicadores/salvar/indicador_configuracao_id/<?php echo $this->indicador_configuracao_id;?>',
+	                	editurl:'<?php echo $this->baseUrl() ?>/programacao/indicadores/saveresultado/indicador_configuracao_id/<?php echo $this->indicador_configuracao_id;?>',
 	                	forceFit : true
 
 			});

@@ -1,11 +1,10 @@
-
 <div class="ui-overlay ui-corner-all" style="width: 680px;">
 	<h3><?php echo $this->indicador->descricao;?> 
 	</h3>
 	
 	<?php
-	 
-	foreach($this->indicadores_configs as $config){
+	 if ($this->indicador->tipo_indicador_id == 1) :
+	foreach($this->indicadores_configs as $config):
 		$periodo = $config->findParentRow('Model_TiposPeriodos');
 		$resultados = $config->findDependentRowset('Model_IndicadoresResultados');
 		$campos = explode(',',$config->campos);
@@ -70,14 +69,13 @@
 			$resource = null;
 
 		if($acl->isAllowed($role,$resource,'editar') ||	!$resource)
-		{		
-	?>
-		<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'edit', 
-						'id'=>$this->indicador->id,'indicador_configuracao_id'=>$config->id));?>'
-						title='Editar valores' 
-						class='fg-button ui-state-default fg-button-icon-left ui-corner-all'>
-						<span class='ui-icon ui-icon-pencil'>Editar</span>Editar
-		</a>
+		{?>
+                    <a href='<?php echo $this->url(array('controller'=>'indicadores', 'action'=>'resultados', 'module'=>'programacao',
+                                                    'id'=>$this->indicador->id,'indicador_configuracao_id'=>$config->id));?>'
+                                                    title='Editar valores'
+                                                    class='fg-button ui-state-default fg-button-icon-left ui-corner-all editdescription'>
+                                                    <span class='ui-icon ui-icon-pencil'>Editar</span>Editar
+                    </a>
 		<?php }?>
 	</div>
 	<br/>
@@ -85,14 +83,87 @@
         	
 	<br/>
 	<hr/>
-	<?php }?>
+	<?php endforeach;
+        
+        elseif($this->indicador->tipo_indicador_id == 2):?>
+	<div style='clear:both'>
 	
-	<a href="javascript:window.history.go(-1)">Voltar</a>
+	<?php
+		$acl = Zend_Registry::get('acl');
+		$auth = Zend_Auth::getInstance();
+		
+		if ($auth->hasIdentity ()) {
+			$role = $auth->getIdentity ()->username;
+		} else {
+			$role = 'guest';
+		}
+		$resource = 'indicadores';
+		if (! $acl->has ( $resource )) 
+			$resource = null;
+
+		if($acl->isAllowed($role,$resource,'editar') ||	!$resource)
+		{		
+                    if ($this->indicadores_qualitativos):
+                        $opcoes_qualititivos = new Model_OpcoesQualitativos();
+                        $opcao_qualitativo = $opcoes_qualititivos->find($this->indicadores_qualitativos->opcao_qualitativo_id)->current();
+                    ?>
+                    <h3>Situação Atual: <?php echo $opcao_qualitativo->descricao;?></h3>
+                    
+                <a href='"+ editUrl+ "' class='my-button ui-state-default ui-corner-all editindicadorconfig' title='Editar' id='edit-configuracoes-"+data.dados.id+"'><span class='ui-icon ui-icon-pencil'></span></a>                    
+                    
+                    
+                    <?php else:?>
+			
+		<a href='<?php echo $this->url(array('controller'=>'indicadores','action'=>'saveresultadosquali', 'module' => 'programacao',
+						'indicador_id'=>$this->indicador->id),null, true);?>'
+						title='Editar valores' 
+						class='fg-button ui-state-default fg-button-icon-left ui-corner-all editdescription'>
+						<span class='ui-icon ui-icon-pencil'>Editar</span>Editar
+		</a>
+                    <?php endif;?>
+		
+		<?php }?>
+	</div>               
+                
+            
+            
+        <?php endif;?>
+	
 	
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if (indicadorEdit == undefined){
+		var IndicadorEdit = function (){
+			this.init = function(){
+				$(".editdescription").live('click',function(e){
+					e.preventDefault();
+					$this = $(this);
+				    var diveditar = $('<div id="frmedit_ajax"></div>')
+				    	.appendTo('body')
+				    	.load(this.href).dialog({
+					        autoOpen: false,
+					        title: 	"Editar",
+					        height: 500,
+					        width: 	850,
+					        modal: 	true,
+					        close: 	function(ev, ui){
+					        		diveditar.remove();
+					        		}
+					    });
+				    diveditar.dialog('open');
+				});
+			};
+		};
+		indicadorEdit = new IndicadorEdit();
+		indicadorEdit.init();
+	};
+});
+</script>
 
 
-
+	
+	
 	
 	
 	

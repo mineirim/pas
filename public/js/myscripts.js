@@ -1,8 +1,15 @@
 var controleGeral;
 var g;
+var indicadorConf;
+var delindicadorConf;
+var delindicadorCategoria;
+var indicadorEdit;
+var indicadorQuali;
+var lastsel; 
 $(document).ready(function(){
     controleGeral = new ControleGeral();
     controleGeral.init();
+
 
 });
 
@@ -11,7 +18,15 @@ $(document).ready(function(){
  *ex: quando clicar num botão com a classe tal, executar tal evento
  **/
 function ControleGeral(){
-
+	
+	
+	
+	
+	
+	this.enableTabs = function ()
+	{
+		enableTabs();
+	};
     this.init =  function()
     {
         this.criaMenuTree();
@@ -65,7 +80,7 @@ function ControleGeral(){
             if(!$(this).hasClass('ui-tabs')){
                 $(this).tabs({collapsible: false});
             }
-
+            mktab = $(this);
             $(this).find("form").each( function(){
                 dep = $(this).children('input#dependents');
                 if(dep.length>0){
@@ -75,9 +90,9 @@ function ControleGeral(){
                         for(i=0; i<tabs.length ;i++){
                             tabs[i]=parseInt(tabs[i])
                         }
-                        $("#formtabs").tabs('option', 'disabled', tabs);
+                        mktab.tabs('option', 'disabled', tabs);
                     }else{
-                        $("#formtabs").tabs('option', 'disabled', []);
+                    	mktab.tabs('option', 'disabled', []);
                     }
                 }
             });
@@ -105,7 +120,6 @@ function ControleGeral(){
         $('button.ajax-form-load').live('click',function(event){
             event.preventDefault();
             $('#formulario_ajax').html('Aguarde...');
-
             $('#formulario_ajax').load(this.value+'?format=html',function(){
                 $("#formtabs").tabs({
                     collapsible: true
@@ -558,3 +572,5 @@ String.prototype.capitalize = function(){
         return a.charAt(0).toUpperCase() + a.slice(1).toLowerCase();
     });
 };
+
+

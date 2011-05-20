@@ -1,25 +1,190 @@
-
-<div class="make-tabs">
+<div class="make-tabs" id="indicadorconfig">
     <ul>
-        <li><a href="#tabs-0" >Indicador</a></li>
-        <li><a href="#tabs-1">Configurações</a></li>
+        <li><a href="#tabs-0">Indicador</a></li>
+        <li><a href="#tabs-1">Configuração</a></li>
     </ul>
     <div id="tabs-0" style="overflow: hidden">
-        <form id='<?php echo $this->form->getId(); ?>'
-          enctype='<?php echo $this->form->getEnctype(); ?>'
-          action='<?php echo $this->url(array('controller' => 'indicadores', 'action' => 'save')); ?>?format=json'
-          method="post">
-            <div style='display: none'>
-                <input type="hidden" name="meta_id" value="<?php echo $this->meta_id; ?>" >
-            </div>
-            <?php echo $this->form->indicador;?>
-            <?php echo $this->form->submit; ?>
-            <?php echo $this->form->cancelar; ?>
+        <form id='<?php echo $this->frmindicador->getId(); ?>'
+              enctype='<?php echo $this->frmindicador->getEnctype(); ?>'
+              action='<?php echo $this->url(array('action' => 'save')); ?>?format=json'
+              method="post">
+                  <?php echo $this->frmindicador->id->renderViewHelper(); ?>
+            <input type="hidden" name="meta_id" value="<?php echo $this->meta_id; ?>"> 
+            <input type="hidden" id="dependents" value="1">
+            <table width="100%">
+                <tr>
+                    <td><?php echo $this->frmindicador->descricao; ?></td>
+                </tr>
+                <tr>
+                    <td><?php echo $this->frmindicador->tipo_indicador_id; ?></td>
+                </tr>
+            </table>   
+            <?php echo $this->frmindicador->submit; ?>
+            <?php echo $this->frmindicador->cancelar; ?>
         </form>
     </div>
     <div id="tabs-1" style="overflow: hidden">
-        configuração
-        
+        <?php  if (isset($this->indicador)) :
+                    if ($this->indicador->tipo_indicador_id == 1) :
+                        include('configurar.phtml');
+                    elseif ($this->indicador->tipo_indicador_id == 2):
+                        include('configurarqualitativos.phtml');
+                    endif;
+               endif;
+        ?>
 
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        if (indicadorConf == undefined){
+            var IndicadorConfig = function (){
+                this.init = function(){
+                    $("#salvarindicador").live('click',function(e){
+                        e.preventDefault();
+                        frm = $(this).parents('form');
+                        url=$(this).parents('form').attr('action');
+                        clicked = $(this).attr("name") + "=" + $(this).val();
+                        data = $(this).parents('form').serialize() + "&" + clicked;
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: data,
+                            success: function(data, status,xhr){
+                                if(data.newid){
+                                    if (data.dados.tipo_indicador_id == 1)
+                                        $('#indicadorconfig > #tabs-1').load(baseUrl + '/programacao/indicadores/configurar/indicador_id/' + data.dados.id);
+                                    else 
+                                        if(data.dados.tipo_indicador_id == 2)
+                                            $('#indicadorconfig > #tabs-1').load(baseUrl + '/programacao/indicadores/configurarqualitativos/indicador_id/' + data.dados.id);
+                                    $('#'+frm.attr('id')+' #id').val(data.newid);
+                                    $("#indicador_id").val(data.newid);
+                                    $('.sync-parent-id').each(function(){ 
+                                        $(this).val(data.newid);
+                                    });
+                                    controleGeral.enableTabs();
+                                }
+                                Mensageiro.onSuccess(data);
+                            } ,
+                            complete:function(XMLHttpRequest, textStatus){
+                                if(textStatus=='success'){
+                                    Mensageiro.onComplete(XMLHttpRequest);
+                                }
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown){
+                                Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+                            }
+
+                        });
+                        return false;
+                    });
+                    $(".editindicadorconfig").live('click',{},function(e){
+                        e.preventDefault();
+                        $this = $(this);
+                        $.getJSON($(this).attr("href"),function(data){
+                            $('#frmconfiguracoes').find('#id').val(data.id);
+                            $('#frmconfiguracoes').find('#indicador_id').val(data.indicador_id);
+                            $('#frmconfiguracoes').find('#tipo_periodo_id').val(data.tipo_periodo_id);
+                            $('#frmconfiguracoes').find('#base').val(data.base);
+                            $("[name^=campos]").each(function() {
+                                if ($(this).val() == data.campos) {
+                                    $(this).attr('checked', true);
+                                }
+                            });
+                            $('#frmconfiguracoes').find('#mes').val(data.inicio_preenchimento.toString().substr(4,2));
+                            $('#frmconfiguracoes').find('#ano').val(data.inicio_preenchimento.toString().substr(0,4));
+                            $(".submit_descritivo").val('Salvar');
+                            $this.parents('tr.lst').remove();			       	 
+                        });
+                    });
+                    $(".deletedescription").live('click',function(e){
+                        e.preventDefault();
+                        $this = $(this);
+                        var divexcluir = $('<div id="frmexcluir_ajax"></div>').appendTo('body')
+                        .load(this.href).dialog({
+                            autoOpen: false,
+                            title: 	"Exclusão Permanente",
+                            height: 420,
+                            width: 	570,
+                            modal: 	true,
+                            close: 	function(ev, ui){
+                                divexcluir.remove();
+                            }
+                        });
+                        divexcluir.dialog('open');
+					
+                    });
+                    $(".submit_descritivo").live('click',{},function(e){
+                        e.preventDefault();
+                        frm = $(this).parents('form');
+                        url=$(this).parents('form').attr('action');
+                        clicked = $(this).attr("name") + "=" + $(this).val();
+                        data = $(this).parents('form').serialize() + "&" + clicked;
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: data,
+                            dataType:	'json',
+                            cache: false,
+                            success: function(data) {
+                                editUrl = baseUrl + '/programacao/indicadores/configurar/id/' + data.dados.id + '?format=json'; 
+                                deleteUrl = baseUrl + '/programacao/indicadores/deleteconfiguracao/id/' + data.dados.id;
+                                editar = "<a href='"+ editUrl+ "' class='my-button ui-state-default ui-corner-all editindicadorconfig' title='Editar' id='edit-configuracoes-"+data.dados.id+"'><span class='ui-icon ui-icon-pencil'></span></a>";
+                                deletar = "<a href='"+ deleteUrl+ "' class='my-button ui-state-default ui-corner-all deletedescription' title='Excluir' id='deldete-configuracoes-"+data.dados.id+"'><span class='ui-icon ui-icon-trash'></span></a>";
+                                frm.get(0).reset();
+                                $("#indicador_id").val(data.dados.indicador_id);
+                                $("#tbconfiguracoes").append("<tr class='lst'><td>"+editar+"</td><td>"+deletar+"</td><td>"+data.descricao+"</td><td>"+data.dados.base+"</td></tr>");
+                                $(".submit_descritivo").val('Adicionar');						
+                            },
+                            complete:function(XMLHttpRequest, textStatus){
+                                if(textStatus=='success'){
+                                    Mensageiro.onComplete(XMLHttpRequest);
+                                }
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown){
+                                Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+                            }
+					
+                        });
+                        return false;
+                    });
+                    $(".submit_qualitativo").live('click',{},function(e){
+                        e.preventDefault();
+                        frm = $(this).parents('form');
+                        url=$(this).parents('form').attr('action');
+                        clicked = $(this).attr("name") + "=" + $(this).val();
+                        data = $(this).parents('form').serialize() + "&" + clicked;
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: data,
+                            dataType:	'json',
+                            cache: false,
+                            success: function(data) {
+                                deleteUrl = baseUrl + '/programacao/indicadores/deletecategoria/id/' + data.dados.id;
+                                deletar = "<a href='"+ deleteUrl+ "' class='my-button ui-state-default ui-corner-all deletedescription' title='Excluir' id='delete-categorias-"+data.dados.id+"'><span class='ui-icon ui-icon-trash'></span></a>";
+                                frm.get(0).reset();
+                                $("#tbcategorias").append("<tr class='lst'><td>"+deletar+"</td><td>"+data.dados.descricao+"</td></tr>");
+                                $(".submit_qualitativo").val('Adicionar');						
+                            },
+                            complete:function(XMLHttpRequest, textStatus){
+                                if(textStatus=='success'){
+                                    Mensageiro.onComplete(XMLHttpRequest);
+                                }
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown){
+                                Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+                            }
+					
+                        });
+                        return false;
+                    });                                
+                };
+            };		
+            indicadorConf = new IndicadorConfig();
+            indicadorConf.init();
+        };
+    });
+
+</script>

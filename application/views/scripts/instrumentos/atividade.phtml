@@ -145,12 +145,13 @@
 								
 				<?php endif; ?>
 		</div>
-		<div style="position: relative" class="gantt" id="GanttChartDIV"></div>
-		<div style="position: relative; id="dependetes">
-		<?php if ($this->is_autorizado && $this->atividadesdependentes):
-					foreach ( $this->atividadesdependentes as $atividadedependente):
+		<div style="position: relative;" class="gantt" id="GanttChartDIV"></div>
+		<div style="position: relative;">
+		<?php if ($this->is_autorizado && $this->atividadesdependentes):?>
+					
+					<?php foreach ( $this->atividadesdependentes as $atividadedependente):
 						if (!$atividadedependente->is_pactuado && $atividadedependente->pacto_usuario_id == ""):?>
-						<h3>As seguintes atividades precisam ser pactuadas:</h3>
+						<h3>As seguintes atividades precisam ser pactuadas:</h3>	
 						<table border="2" style="width: 30%; clear: both;">
 							<tr>
 								<td>
@@ -172,7 +173,7 @@
 		</div>
 		
 	</div>
-	<div id="tabs-2" style="overflow: hidden">
+	<div id="tabs-2">
 		<table border="2" width="50%">
 			<tr>
 				<td colspan="2"><b>Histórico</b></td>

@@ -1,1 +1,64 @@
-<br /><br /><center>View script for controller <b>Indicadores</b> and script/action name <b>get</b></center>
+<script type="text/javascript">
+
+
+$(function(){
+    indicador = new Indicador();
+    Indicador.init();
+    
+});
+
+    
+function Indicador(){
+	this.init = function(){
+		this.carregaconfig();
+	};
+  	 this.carregaconfig = function (){
+		$(".by-elan").live('click',function(e){
+	    frm = $(this).parents('form');
+	    url=$(this).parents('form').attr('action');
+	    clicked = $(this).attr("name") + "=" + $(this).val();
+	    data = $(this).parents('form').serialize() + "&" + clicked;
+	    $.ajax({
+	    		type: "POST",
+	            url: url,
+	            data: data,
+	            success: function(data, status,xhr){
+	                		if(data.newid){
+	                			$('#'+frm.attr('id')+' #id').val(data.newid);
+	                			$('.sync-parent-id').each(function(){ 
+	                				$(this).val(data.newid)
+	                			});
+	                			enableTabs();
+	                		}
+	                    	Mensageiro.onSuccess(data);
+	                	} ,
+	            complete: function(XMLHttpRequest, textStatus){
+	                    	if(textStatus=='success'){
+	                        	Mensageiro.onComplete(XMLHttpRequest)
+	                    	}
+	                	},
+	            error: function(XMLHttpRequest, textStatus, errorThrown){
+	                    	Mensageiro.onError(XMLHttpRequest,textStatus,errorThrown);
+	                }
+	     });
+	     	return false;
+	});
+	if($("#base").val()==1){
+		$("#campos-nd").attr('disabled','disabled');
+		$("#campos-r").attr('checked','checked')
+	}
+	$("#base").change(function(e){
+		obj = $(this)
+		if(obj.val()==1){
+			$("#campos-r").attr('checked','checked')
+			$("#campos-nd").attr('disabled','disabled')
+		}else{
+			$("#campos-nd").removeAttr('disabled')
+		}
+	}
+					
+}
+</script>
+
+
+

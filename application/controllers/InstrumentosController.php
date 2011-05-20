@@ -89,12 +89,19 @@ class InstrumentosController extends Zend_Controller_Action {
 	public function operacaoAction() {
 		$model_operacoes = new Model_Operacoes ();
 		$model_atividades = new Model_Atividades ();
-		
 		$model_atividades_historico = new Model_AtividadesHistorico();
+		$model_atividadesvinculadas = new Model_AtividadesVinculadas();
+		
 		if ($this->_hasParam ( 'operacao_id' )) {
 			$operacao_id = $this->_getParam ( 'operacao_id', 0 );
 			$this->view->operacao = $model_operacoes->fetchRow ( 'id=' . $operacao_id, 'id' );
 			$this->view->atividades = $model_atividades->fetchAll ( 'operacao_id=' . $operacao_id . ' and situacao_id=1', 'id' );
+			
+			foreach ($this->view->atividades as $atividade) {
+				;
+			}
+			
+			
 			$this->view->select_historico = $model_atividades_historico->select();
 			$this->view->select_historico->where('situacao_id=1');
 			$this->view->meta = $this->view->operacao->findParentRow ( 'Model_Metas' );

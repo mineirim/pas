@@ -300,6 +300,9 @@
               <actionMethod actionName="edit"/>
               <actionMethod actionName="save"/>
               <actionMethod actionName="autocomplete"/>
+              <actionMethod actionName="deleteconfiguracao"/>
+              <actionMethod actionName="resultados"/>
+              <actionMethod actionName="localizar"/>
             </controllerFile>
           </controllersDirectory>
           <layoutsDirectory enabled="false"/>
@@ -540,6 +543,9 @@
               <viewControllerScriptsDirectory forControllerName="Indicadores">
                 <viewScriptFile forActionName="autocomplete"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Indicadores">
+                <viewScriptFile forActionName="localizar"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -703,6 +709,12 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Usuarios">
             <viewScriptFile forActionName="get"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Indicadores">
+            <viewScriptFile forActionName="deleteconfiguracao"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Indicadores">
+            <viewScriptFile forActionName="resultados"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>

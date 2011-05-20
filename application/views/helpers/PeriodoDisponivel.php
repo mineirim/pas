@@ -36,7 +36,13 @@ class Zend_View_Helper_PeriodoDisponivel {
 			
 			$anos_disponiveis [date ( "Y", $dt_inicial )] = date ( "Y", $dt_inicial );
 			$meses_disponiveis [date ( "Ym", $dt_inicial )] = date ( "m/Y", $dt_inicial );
-			$dt_inicial = strtotime ( "+1 month", $dt_inicial );
+                        if ($tipo == 1) {
+                            $dt_inicial = strtotime ( "+1 month", $dt_inicial );
+                        } elseif($tipo == 3){
+                            $dt_inicial = strtotime ( "+3 month", $dt_inicial );
+                        } elseif($tipo == 4){
+                            $dt_inicial = strtotime ( "+6 month", $dt_inicial );
+                        }
 		}
 
 		
@@ -44,7 +50,7 @@ class Zend_View_Helper_PeriodoDisponivel {
 		if($tipo==2){
 			foreach ($anos_disponiveis as $k=>$v)
 				$ret.="$k:$v;";
-		}elseif ($tipo==1){
+                }else {//}elseif ($tipo==1){
 			foreach ($meses_disponiveis as $k=>$v)
 				$ret.="$k:$v;";
 		}

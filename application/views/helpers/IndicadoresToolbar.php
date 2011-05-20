@@ -23,7 +23,7 @@ class Zend_View_Helper_IndicadoresToolbar {
 	/**
 	 *  
 	 */
-	public function indicadoresToolbar( Zend_Db_Table_Row_Abstract  $obj)
+	public function indicadoresToolbar( Zend_Db_Table_Row_Abstract  $obj, $controller='programas', $type='top', $id = false)
 	{
 		
 		$this->_indicador = $obj;
@@ -53,29 +53,40 @@ class Zend_View_Helper_IndicadoresToolbar {
 			$resource = null;
 			
 		$toolbar = "<div style='width:80px;'>
-						<a href='". $this->view->url(array('controller'=>'indicador','action'=>'show','id'=>$this->_indicador->id))."'
-						class='my-button ui-state-default ui-corner-all '
-						title='Visualizar'>
-						<span class='ui-icon ui-icon-info'></span>
+						<a href='". $this->view->url(array(	'controller'=>'indicadores',
+															'action'=>'edit', 
+															'module'=>'programacao',
+															'id'=>$this->_indicador->id))."'
+						class='my-button ui-state-default ui-corner-all ajax-form-load'
+						title='Editar'>
+						<span class='ui-icon ui-icon-pencil ajax-form-load'></span>
 					</a>";
 		
-			
+		
 		if($acl->isAllowed($role,$resource,'editar') ||	!$resource)
 		{
-			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores','action'=>$acao,
-							'indicador_id'=>$this->_indicador->id))."'
-							class='my-button ui-state-default ui-corner-all '
+			/**
+			 * removido por não haver mais necessidade, pois a configuração está junto com a edição
+			 */
+			/*$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores',
+															'action'=>'configurar',
+															'module'=>'programacao',
+															'id'=>$this->_indicador->id))."'
+							class='my-button ui-state-default ui-corner-all  ajax-form-load'
 							title='Configurar'	>
 							<span class='ui-icon ui-icon-wrench '></span>
-						 </a>";
-			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores','action'=>'delete',
-							'indicador_id'=>$this->_indicador->id))."'
-							class='my-button ui-state-default ui-corner-all '
+						 </a>";*/
+			
+			$toolbar .=  "<a href='".$this->view->url(array('controller'=>'indicadores',
+															'action'=>'delete', 
+															'module'=>'programacao',
+															'id'=>$this->_indicador->id))."'
+							class='my-button ui-state-default ui-corner-all ajax-form-load'
 							title='Exclusão permanente'	>
-							<span class='ui-icon ui-icon-circle-close '></span>
+							<span class='ui-icon ui-icon-trash'></span>
 						 </a>";
 		}
-		$toolbar .="</div";
+		$toolbar .="</div>";
 		return $toolbar; 
 	}
 

@@ -51,11 +51,12 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                     <caption style="font-size: 1.2em" class="ui-widget ui-widget-header"> ATIVIDADES</caption>
                     <thead class="ui-widget ui-widget-header ">
                     <tr class=" ui-state-hover">
-                            <td class="subtitulos-tabela" width="55%">Descrição</td>
-                            <td  class="subtitulos-tabela" width="70px;">Data Início</td>
-                            <td  class="subtitulos-tabela" width="100px;">Prazo</td>
-                            <td  class="subtitulos-tabela" width="100px;">Andamento</td>
-                            <td  class="subtitulos-tabela" width="70px;">Peso</td>
+                            <td class="subtitulos-tabela" width="40%">Descrição</td>
+                            <td class="subtitulos-tabela" width="15px">Dependencias</td>
+                            <td class="subtitulos-tabela" width="70px;">Data Início</td>
+                            <td class="subtitulos-tabela" width="100px;">Prazo</td>
+                            <td class="subtitulos-tabela" width="100px;">Andamento</td>
+                            <td class="subtitulos-tabela" width="70px;">Peso</td>
                             <td class="subtitulos-tabela" width="50px;"></td>
                             <td width="4px"><?php echo $this->myToolbar('programacao:atividades','toptable');?></td>
                     </tr>
@@ -73,6 +74,21 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
                                                          <span class="descricao_item"><?php echo $atividade->descricao;?></span>
 						</a>
 					</div>
+					</td>
+					<td align="center">
+						<?php 
+
+							$model_atividadesvinculadas = new Model_AtividadesVinculadas();
+							$atividadesvinculadas = $model_atividadesvinculadas->fetchAll ( 'situacao_id=1 and depende_atividade_id=' . $atividade->id, 'id ASC' );
+							if ($atividadesvinculadas->valid() && 
+								!$atividadesvinculadas->current()->is_pactuado && 
+								$atividadesvinculadas->current()->pacto_usuario_id == ""):?>
+						<a href=
+							'<?php echo $this->url ( array ('controller' => 'instrumentos', 'action' => 'atividade', 'atividade_id' => $atividade->id ));?>'>
+							<span class="ui-icon ui-icon-alert" 
+								 style='background-image: url("<?php echo $this->baseUrl();?>/images/ui-icons_f82d20_256x240.png");'></span>
+						</a>	
+						<?php endif; ?>
 					</td>
 					<td >
 						<?php 
@@ -103,7 +119,7 @@ echo '<input type="hidden" id="parent_id" name="parent_id" value="'.$this->paren
 				}?>
 			</tbody>
 		</table>
-		<div id="mensagem-peso"></div>
+		<div id="mensagem-peso" style="width: 100%; text-align: right;"></div>
 
 		
 	<script>

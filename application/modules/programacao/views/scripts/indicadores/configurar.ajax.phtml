@@ -1,0 +1,98 @@
+<div style="border: thin solid black; overflow: auto; padding: 10px;">
+    <form id='<?php echo $this->frmconfiguracao->getId(); ?>'
+          enctype='<?php echo $this->frmconfiguracao->getEnctype(); ?>'
+          action='<?php
+echo $this->url(array('controller' => 'indicadores',
+    'action' => 'configurar',
+    'module' => 'programacao'));
+?>?format=json'
+          method="post">
+<?php echo $this->frmconfiguracao->id->renderViewHelper(); ?>
+<?php echo $this->frmconfiguracao->indicador_id->renderViewHelper(); ?>
+        <table width="100%">
+            <tr>
+                <td width="60%"><?php echo $this->frmconfiguracao->tipo_periodo_id; ?></td>
+                <td><?php echo $this->frmconfiguracao->base; ?></td>
+            </tr>
+            <tr style="padding: 10px">
+                <td>
+                    <fieldset style='clear: both;'>
+                        <legend>Campos para preenchimento</legend>
+                        <br></br>
+                            <?php echo $this->frmconfiguracao->campos; ?>
+                    </fieldset>
+                </td>
+                <td>
+                    <fieldset style='clear: both;'><legend>Data inicial de preenchimento do indicador</legend>
+                           <?php echo $this->frmconfiguracao->mes; ?> / <?php echo $this->frmconfiguracao->ano; ?> 
+                    </fieldset>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><?php echo $this->frmconfiguracao->submit; ?></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<table id='tbconfiguracoes'>
+    <tr>
+        <td></td>
+        <td></td>
+        <td style='font-weight: bold'>Tipo</td>
+        <td style='font-weight: bold'>Base</td>
+    </tr>
+<?php if (isset($this->indicador)) :
+    foreach ($this->indicador->findDependentRowset('Model_IndicadoresConfiguracoes') as $ic) : ?>
+            <tr class="lst">
+                <td><a href='<?php
+                        echo $this->url(array('module' => 'programacao',
+                            'controller' => 'indicadores',
+                            'action' => 'configurar',
+                            'id' => $ic->id))
+                        ?>?format=json'
+                       class='editindicadorconfig my-button ui-state-default ui-corner-all'
+                       title='Editar' id='edit-configuracoes-<?php echo $ic->id ?>'>
+                        <span class='ui-icon ui-icon-pencil'></span>
+                    </a>
+                </td>
+                <td><a href='<?php
+                        echo $this->url(array('module' => 'programacao',
+                            'controller' => 'indicadores',
+                            'action' => 'deleteconfiguracao',
+                            'id' => $ic->id))
+                        ?>?format=html'
+                       class='my-button ui-state-default ui-corner-all deletedescription'
+                       title='Excluir' id='delete-configuracoes-<?php echo $ic->id ?>'>
+                        <span class='ui-icon ui-icon-trash'></span>
+                    </a>
+                </td>
+                <td><?php echo $ic->findParentRow('Model_TiposPeriodos')->descricao; ?></td>
+                <td><?php echo $ic->base; ?></td>
+            </tr>
+    <?php endforeach;
+        endif; ?>
+</table>
+
+<br/>
+<br/>
+
+
+<script>
+    if($("#base").val()==1){
+        $("#campos-nd").attr('disabled','disabled');
+        $("#campos-r").attr('checked','checked')
+    }
+	
+    $("#base").change(function(e)
+    {
+	
+        obj = $(this)
+        if(obj.val()==1){
+            $("#campos-r").attr('checked','checked')
+            $("#campos-nd").attr('disabled','disabled')
+        }else{
+            $("#campos-nd").removeAttr('disabled')
+        }
+			
+    });	
+</script>

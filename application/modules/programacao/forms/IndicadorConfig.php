@@ -1,11 +1,15 @@
 <?php
 
-class Programacao_Form_IndicadorConfig extends Zend_Form_SubForm {
+class Programacao_Form_IndicadorConfig extends Zend_Form {
 
     public function __construct($options = null) {
         parent::__construct($options);
+
         $translate = Zend_Registry::get('translate');
         $this->setTranslator($translate);
+        
+        $this->setName('frmconfiguracoes'); 
+        
         $id = new Zend_Form_Element_Hidden('id');
         $id->removeDecorator('label');
 
@@ -58,6 +62,8 @@ class Programacao_Form_IndicadorConfig extends Zend_Form_SubForm {
 
 
         $this->addElements(array($id, $indicador_id, $base, $campos, $mes, $ano, $tipo_periodo_id, $submit));
+
+	       
     }
 
 }
